@@ -1,11 +1,37 @@
 source 'http://rubygems.org'
+source 'http://gemcutter.org'
 
 gem 'rails', '3.0.4'
+
+gem 'mongoid', '2.0.0.rc.6'
+gem 'bson_ext' 
+
+gem 'devise', '~> 1.2.rc', :git => 'git://github.com/plataformatec/devise.git'
+gem 'devise_invitable', '~> 0.4.rc2', :git => 'git://github.com/scambra/devise_invitable.git'
+
+gem 'haml'
+gem 'haml-rails'
+
+gem 'carrierwave'
+gem 'mini_magick'
+
+group :development do
+  gem 'nifty-generators'
+end
+
+group :development, :test do
+  gem 'rspec'
+  gem 'rspec-rails'
+  gem 'ZenTest'
+  gem 'autotest'
+  gem 'autotest-rails'
+  gem 'spork', '~> 0.9.0.rc'
+end
+
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
 
 # Use unicorn as the web server
 # gem 'unicorn'

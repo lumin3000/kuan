@@ -1,4 +1,16 @@
+# System
+.DS_Store
+
+# Editors
+*.sw[op]
+*~
+
+# Everything else
 .bundle
 db/*.sqlite3
-log/*.log
-tmp/
+log/*
+*.log
+tmp/**/*
+tmp/*
+doc/api
+doc/app
