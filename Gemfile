@@ -6,9 +6,6 @@ gem 'rails', '3.0.4'
 gem 'mongoid', '2.0.0.rc.6'
 gem 'bson_ext' 
 
-gem 'devise', '~> 1.2.rc', :git => 'git://github.com/plataformatec/devise.git'
-gem 'devise_invitable', '~> 0.4.rc2', :git => 'git://github.com/scambra/devise_invitable.git'
-
 gem 'haml'
 gem 'haml-rails'
 
