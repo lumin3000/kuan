@@ -23,6 +23,7 @@ group :development, :test do
   gem 'autotest'
   gem 'autotest-rails'
   gem 'spork', '~> 0.9.0.rc'
+  gem 'webrat'
 end
 
 
