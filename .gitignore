@@ -15,3 +15,5 @@ tmp/*
 doc/api
 doc/app
 .autotest
+
+/Gemfile.lock
