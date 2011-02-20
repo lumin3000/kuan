@@ -1,4 +1,6 @@
 Kuan::Application.routes.draw do
+  get "site/public_timeline"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
