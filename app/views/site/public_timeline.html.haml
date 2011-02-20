@@ -1,2 +1,3 @@
 %h1 Site#public_timeline
-%p Find me in app/views/site/public_timeline.html.haml
+- @posts.each do |p|
+  = render_post(p)
