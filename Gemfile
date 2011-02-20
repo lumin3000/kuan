@@ -21,6 +21,9 @@ group :development, :test do
   gem 'webrat'
 end
 
+group :test do
+  gem 'factory_girl_rails'
+end
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

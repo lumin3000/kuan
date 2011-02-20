@@ -1,0 +1,4 @@
+%h1 Home
+%div
+  - flash.each do |k, v|
+    %div{:class => "flash_#{k}"}= v
