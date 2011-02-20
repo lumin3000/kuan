@@ -1,0 +1,5 @@
+= form_tag("/posts", :method => :post, :remote => true)
+= hidden_field_tag "_type", @post._type
+= render partial: sub_template, object: @post,
+  as: :post
+= submit_tag
