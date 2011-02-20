@@ -18,6 +18,23 @@ class PostsController < ApplicationController
   end
 
   def edit
-    
+    @post = Post.find(params[:id])
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    respond_to do |format|
+      if @post.update_attributes(params)
+        format.js
+      else
+        render :action => 'edit'
+      end
+    end
+  end
+  
+  def destroy
+    @post = Post.find(params[:id])
+    @post.destroy
+    redirect_to posts_url, :notice => "Successfully destroyed post."
   end
 end

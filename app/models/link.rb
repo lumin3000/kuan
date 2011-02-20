@@ -3,5 +3,5 @@ class Link < Post
   field :title
   field :content
   
-  field :url, :title, :content
+  attr_accessible :url, :title, :content
 end
