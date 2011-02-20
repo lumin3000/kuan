@@ -7,5 +7,11 @@ describe Tweet do
     it "should have content `fooo`" do
       subject.content.should == "fooo"
     end
+
+    it "could be fetched by parent class after saved" do
+      subject.save!
+      posts = Post.find :all
+      posts.to_ary.should include(subject)
+    end
   end
 end
