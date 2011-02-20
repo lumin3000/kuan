@@ -13,6 +13,7 @@ module ApplicationHelper
         f
       end
     end
+  end
 
   def render_form(p)
     _type = p._type
