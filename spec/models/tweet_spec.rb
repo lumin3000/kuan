@@ -12,6 +12,7 @@ describe Tweet do
       subject.save!
       posts = Post.find :all
       posts.to_ary.should include(subject)
+      subject.should be_kind_of Mongoid::Timestamps
     end
   end
 end
