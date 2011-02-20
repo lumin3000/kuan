@@ -4,7 +4,9 @@
     %title
       = content_for?(:title) ? yield(:title) : "-"
     = stylesheet_link_tag :all
-    = javascript_include_tag "mootools-core", "rails"
+    - js 'rails', 'mootools-core'
+    - @js.uniq!.reverse!.each do |f|
+      = javascript_include_tag f
     = csrf_meta_tag
     = yield :head
   %body

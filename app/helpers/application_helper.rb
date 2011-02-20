@@ -5,4 +5,13 @@ module ApplicationHelper
     render partial: "posts/post", object: p,
       locals: { sub_template: template }
   end
+
+  def js(*files)
+    @js = [] if @js.nil?
+    files.each do |f|
+      @js << capture do
+        f
+      end
+    end
+  end
 end
