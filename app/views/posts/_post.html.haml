@@ -1,3 +1,4 @@
-=render partial: sub_template, object: post
-=post.created_at
+= render partial: sub_template, object: post
+= post.created_at
+= link_to "edit", edit_post_path(post)
 %br
