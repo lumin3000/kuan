@@ -1,6 +1,5 @@
 GEM
   remote: http://rubygems.org/
-  remote: http://gemcutter.org/
   specs:
     ZenTest (4.5.0)
     abstract (1.0.0)
@@ -65,7 +64,7 @@ GEM
       mongo (~> 1.2)
       tzinfo (~> 0.3.22)
       will_paginate (~> 3.0.pre)
-    nifty-generators (0.4.5)
+    nokogiri (1.4.4)
     polyglot (0.3.1)
     rack (1.2.1)
     rack-mount (0.6.13)
@@ -105,6 +104,10 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.24)
+    webrat (0.7.3)
+      nokogiri (>= 1.2.0)
+      rack (>= 1.0)
+      rack-test (>= 0.5.3)
     will_paginate (3.0.pre2)
 
 PLATFORMS
@@ -120,8 +123,8 @@ DEPENDENCIES
   haml-rails
   mini_magick
   mongoid (= 2.0.0.rc.6)
-  nifty-generators
   rails (= 3.0.4)
   rspec
   rspec-rails
   spork (~> 0.9.0.rc)
+  webrat

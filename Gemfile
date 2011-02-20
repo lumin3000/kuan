@@ -1,5 +1,4 @@
 source 'http://rubygems.org'
-source 'http://gemcutter.org'
 
 gem 'rails', '3.0.4'
 
@@ -11,10 +10,6 @@ gem 'haml-rails'
 
 gem 'carrierwave'
 gem 'mini_magick'
-
-group :development do
-  gem 'nifty-generators'
-end
 
 group :development, :test do
   gem 'rspec'
