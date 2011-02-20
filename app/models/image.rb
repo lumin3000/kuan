@@ -16,7 +16,7 @@ class Image
     grid = Mongo::Grid.new(image.db)
     original_path = "image/#{image._id.to_s}/o.jpg"
 
-    id = grid.put(File.open(file),
+    id = grid.put(file,
                   filename: original_path,
                   content_type: "image/jpg",
                   )

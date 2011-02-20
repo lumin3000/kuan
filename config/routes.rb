@@ -4,6 +4,7 @@ Kuan::Application.routes.draw do
   resources :posts
   match "/posts/new/:type" => "posts#new"
 
+  resources :images
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
