@@ -8,6 +8,8 @@ class Image
   field :large
   field :original
 
+  Versions = [:original]
+
   def self.create_from_original(file, desc = nil)
     image = Image.new()
     image.description = desc
@@ -21,5 +23,14 @@ class Image
     image.original = id
     image.save
     image
+  end
+
+  def url_for(version = :original)
+    if Image::Versions.include? version
+      id = self.send version
+      "/gridfs/#{id}"
+    else
+      nil
+    end
   end
 end
