@@ -13,7 +13,7 @@ describe Image, "create_from_original" do
       grid = Mongo::Grid.new Image.db
       f = grid.get subject.original
       f.should_not be_nil
-      f.content_type.should == 'image/jpg'
+      f.content_type.should == 'image/jpeg'
     end
   end
 end

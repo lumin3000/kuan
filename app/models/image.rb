@@ -1,5 +1,4 @@
 require 'mini_magick'
-require 'pp'
 
 class Image
   include Mongoid::Document
@@ -18,7 +17,6 @@ class Image
 
     id = grid.put(file,
                   filename: original_path,
-                  content_type: "image/jpg",
                   )
     image.original = id
     image.save
