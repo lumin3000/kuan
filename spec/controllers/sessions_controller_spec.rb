@@ -23,6 +23,11 @@ describe SessionsController do
       end
 
       it "should have a flash.now message when email error" do
+        post :create, :session => @attr
+        flash.now[:email_error].should_not be_blank
+      end
+
+      it "should have a flash.now message when password error" do
         post :create, :session => @attr.merge(:email => @user.email)
         flash.now[:email_error].should be_blank
         flash.now[:password_error].should_not be_blank

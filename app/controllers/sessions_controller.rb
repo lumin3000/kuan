@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       case error
       when :email
         flash.now[:email_error] = "此邮箱地址还未注册，请重新输入"
-      when
+      when :password
         flash.now[:password_error] = "密码错误，请重新输入"
       end
       return render 'new'
