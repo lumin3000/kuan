@@ -3,7 +3,7 @@
 %ul
   - post.photos.each do |p|
     %li
-      = p.image.url_for(:original)
+      = p.image.url_for(:o)
 #image_status
 %span
   = label_tag 'content'
@@ -11,8 +11,8 @@
   
 :javascript
   document.addEvent('domready', function(){
-    remote_file('image_uploader', '/images', function(){
+    K.remote_file('image_uploader', '/images', function(v){
       console.log('---');
-      console.log(this.contentDocument.body.innerHTML);
+      console.log(v);
     });
   });
