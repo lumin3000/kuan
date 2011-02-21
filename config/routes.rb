@@ -1,13 +1,21 @@
 Kuan::Application.routes.draw do
+  get "sessions/new"
+
   get "site/public_timeline"
 
   resources :images
-  resources :users
   resources :posts
 
+  resources :users, :only => [:new, :create, :show]
+  resources :sessions, :only => [:new, :create, :destroy]
+  
   match "/posts/new/:type" => "posts#new"
 
   match '/signup', :to => 'users#new'
+  match '/home', :to => 'users#show'
+  
+  match '/signin', :to => 'sessions#new'
+  match '/signout', :to => 'sessions#destroy'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     return render 'new' if !@user.save
     flash[:success] = "欢迎注册"
-    redirect_to @user
+    redirect_to home_path
   end
 
   def show 

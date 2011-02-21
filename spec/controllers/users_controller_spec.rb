@@ -53,7 +53,7 @@ describe UsersController do
 
       it "should redirece to home" do
         post :create, :user => @attr
-        response.should redirect_to user_path(assigns(:user))
+        response.should redirect_to home_path
       end
 
       it "should have a welcome message" do
