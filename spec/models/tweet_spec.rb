@@ -14,5 +14,13 @@ describe Tweet do
       posts.to_ary.should include(subject)
       subject.should be_kind_of Mongoid::Timestamps
     end
+
+    it "should provide type methods aliases" do
+      subject.type.should == subject._type
+      temp_type = 'foo'
+      subject.type = temp_type
+      subject._type.should == temp_type
+    end
+
   end
 end

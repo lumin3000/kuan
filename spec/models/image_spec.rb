@@ -27,7 +27,6 @@ describe Image, "create_from_original" do
       url = subject.url_for :description
       url.should be_nil
     end
-    
 
   end
 end
