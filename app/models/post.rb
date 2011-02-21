@@ -1,6 +1,10 @@
 class Post
   include Mongoid::Document
   include Mongoid::Timestamps
+  
+  def haml_object_ref
+    "post"
+  end
 
   alias type _type
   alias type= _type=
