@@ -1,9 +1,9 @@
-KT.Slide = {
+K.Slide = {
   Stage: new Class({
     initialize: function(conf) {
       conf = conf || {}
       this.images = conf.images.map(function(i) {
-        return new KT.Slide.Item(i)
+        return new K.Slide.Item(i)
       })
       this.current = 0
       this.minHeight = conf.minHeight || 200
@@ -40,7 +40,7 @@ KT.Slide = {
       new Element("img", {
         width: 16
       , height: 16
-      , src: KT.Slide.busyIndicator
+      , src: K.Slide.busyIndicator
       }).addClass("pending_indicator").inject(this.context)
     }
   , finishPending: function() {
@@ -86,8 +86,8 @@ KT.Slide = {
         .set("html", img.desc || "")
         .getParent(".slide_desc_wrapper")
         .setStyle("visibility", img.desc ? "visible" : "hidden")
-      if (KT && KT.lightbox && typeof KT.lightbox.refresh == "function") {
-        KT.lightbox.refresh()
+      if (K.lightbox && typeof K.lightbox.refresh == "function") {
+        K.lightbox.refresh()
       }
     }
   , next: function() {
@@ -253,19 +253,19 @@ document.addEvent("domready", function() {
   slides.each(function(list) {
     var items = list.getElements("img")
     if (!items.length) return
-    var slide = new KT.Slide.Stage({
+    var slide = new K.Slide.Stage({
       images: items
     , width: 500
     })
-    KT.Slide.instances.push(slide)
+    K.Slide.instances.push(slide)
     list.addEvent("click", function Self() {
       this.removeEvent("click", Self)
       var context = template.clone().replaces(this)
         , controlPanel = context.getElement(".slide_control")
-        , controller = new KT.Slide.Controller(controlPanel)
+        , controller = new K.Slide.Controller(controlPanel)
       slide.show(context)
       controller.control(slide)
     }).setStyle("cursor", "pointer")
   })
-  new Image().src = KT.Slide.busyIndicator
+  new Image().src = K.Slide.busyIndicator
 })
