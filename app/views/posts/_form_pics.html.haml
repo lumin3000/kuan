@@ -1,7 +1,9 @@
 %span
   %input{ :type => 'file', :id => 'image_uploader', :name => 'file' }
-- post.images.each do |p|
-  = p.url_for(:original)
+%ul
+  - post.photos.each do |p|
+    %li
+      = p.image.url_for(:original)
 #image_status
 %span
   = label_tag 'content'
@@ -9,4 +11,8 @@
   
 :javascript
   document.addEvent('domready', function(){
+    remote_file('image_uploader', '/images', function(){
+      console.log('---');
+      console.log(this.contentDocument.body.innerHTML);
+    });
   });
