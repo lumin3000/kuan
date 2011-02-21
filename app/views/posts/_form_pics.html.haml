@@ -1,7 +1,13 @@
 %span
-  %input{ :type => 'file' }
+  %input{ :type => 'file', :id => 'image_uploader', :name => 'file' }
 - post.images.each do |p|
-  = p.original
+  = p.url_for(:original)
+#image_status
 %span
   = label_tag 'content'
   = text_area_tag 'content', post.content
+  
+:javascript
+  document.addEvent('domready', function(){
+    init();
+  });
