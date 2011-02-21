@@ -1,4 +1,34 @@
 - pics_multi.photos.each do |p|
-  = image_tag p.image.url_for(:original)
+  - i = p.image
+  %img{src: i.url_for(:small), data: { l: i.url_for(:large), o: i.url_for(:original), title: p.desc, }}
+%br
+= pics_multi.photos.length
 %br
 = pics_multi.content
+- js 'post'
+- if not @slide_template_provided then
+  - @slide_template_provided = true
+  %div{style: "display: none;"}
+    #slide_for_kite.slide_holder
+      .slide_item
+      .slide_panel.slide_desc_wrapper
+        %p.slide_desc
+        %span.slide_desc_ph
+      .slide_control
+        %a.slide_button.prev{title: "", data: {slide_command: "prev"}}
+          Prev
+      .slide_control
+        %a.slide_button.play{title: "", data: {slide_command: "proceedAndPlay"}}
+          Play
+      .slide_control
+        %a.slide_button.pause{title: "", data: {slide_command: "pause"}}
+          Pause
+      .slide_control
+        %a.slide_button.next{title: "", data: {slide_command: "next"}}
+          Next
+      .slide_control
+        %a.slide_button.show_thumb{title: "", data: {slide_command: "show_thumb"}}
+          ShowThumb
+      .slide_control
+        %a.slide_button.hideThumb{title: "", data: {slide_command: "hideThumbList"}}
+          HideThumb

@@ -10,7 +10,7 @@ module ApplicationHelper
     end
     template = "posts/#{type}"
     render partial: "posts/post", object: p,
-      locals: { sub_template: template }
+      locals: { sub_template: template, type: type }
   end
 
   def js(*files)
