@@ -8,4 +8,6 @@ class Photo
   embedded_in :pics, :inverse_of => :photos
 
   attr_accessible :desc, :pics, :image
+
+  validates_presence_of :image
 end
