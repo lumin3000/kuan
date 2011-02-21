@@ -5,7 +5,6 @@ class ImagesController < ApplicationController
 
     render :json => {
       :o => @image.url_for(:original),
-      :desc => @image.description,
       :id => @image._id
     }
   end
