@@ -47,3 +47,14 @@ pic_post = Pics.new({
 })
 pic_post.photos = [photo]
 pic_post.save!
+
+pics_multi = Pics.create({
+  :content => "Multiple pictures",
+  :photos => [Photo.new({
+    :desc => "bar",
+    :image => mxgs239,
+  }), Photo.new({
+    :desc => "foooooooooooooo",
+    :image => mxgs239,
+  })]
+})
