@@ -35,6 +35,8 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
-    redirect_to posts_url, :notice => "Successfully destroyed post."
+    respond_to do |format|
+      format.js
+    end
   end
 end

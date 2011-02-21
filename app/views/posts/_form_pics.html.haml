@@ -1,0 +1,18 @@
+%span
+  %input{ :type => 'file', :id => 'image_uploader', :name => 'file' }
+%ul
+  - post.photos.each do |p|
+    %li
+      = p.image.url_for(:o)
+#image_status
+%span
+  = label_tag 'content'
+  = text_area_tag 'content', post.content
+  
+:javascript
+  document.addEvent('domready', function(){
+    K.remote_file('image_uploader', '/images', function(v){
+      console.log('---');
+      console.log(v);
+    });
+  });

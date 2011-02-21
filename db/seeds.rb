@@ -6,9 +6,6 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
-Tweet.create content: "foooo"
-Tweet.create content: "很长很长的中文tweet一枚很长很长的中文tweet一很长很长的中文tweet一枚枚很长很长的中文tweet一枚"
-
 Link.create url: "http://g.cn", title: "Google", content: "This is it!"
 
 Blog.create({
@@ -39,3 +36,14 @@ Blog.create({
   不需Context Switch的世界是多么美好.
 EOF
 })
+
+mxgs239 = Image.create_from_original(File.open("#{Rails.root}/test/fixtures/mxgs239.jpg"))
+photo = Photo.new({
+  :desc => "MXGS-239",
+  :image => mxgs239,
+})
+pic_post = Pics.new({
+  :content => "如今的封面越来越杀人了.....还好这女人其实还口以",
+})
+pic_post.photos = [photo]
+pic_post.save!
