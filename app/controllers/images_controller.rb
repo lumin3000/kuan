@@ -3,10 +3,10 @@ class ImagesController < ApplicationController
     file_io = params[:file]
     @image = Image.create_from_original file_io
 
-    render :json => {
+    render :text => {
       :o => @image.url_for(:original),
       :id => @image._id
-    }
+    }.to_json
   end
 
   def new
