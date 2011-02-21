@@ -1,8 +1,12 @@
 module ApplicationHelper
   def render_post(p)
-    type = p.type.downcase!
-    if type == "pics" && p.photos.length != 1
-      type = "pics_multi"
+    type = p.type.downcase
+    if type == "pics"
+      type = if p.photos.length != 1
+        "pics_multi"
+      else
+        "pics_single"
+      end
     end
     template = "posts/#{type}"
     render partial: "posts/post", object: p,
