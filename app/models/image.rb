@@ -11,6 +11,8 @@ class Image
   Versions = [:original]
 
   def self.create_from_original(file, desc = nil)
+    raise "File not available" if not file.respond_to? :read
+
     image = Image.new()
     image.description = desc
 
