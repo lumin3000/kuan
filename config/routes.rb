@@ -6,7 +6,7 @@ Kuan::Application.routes.draw do
   resources :images
   resources :posts
 
-  resources :users, :only => [:new, :create, :show]
+  resources :users
   resources :sessions, :only => [:new, :create, :destroy]
   
   match "/posts/new/:type" => "posts#new"

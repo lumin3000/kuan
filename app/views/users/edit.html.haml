@@ -1,11 +1,11 @@
-%h1 注册
+%h1 修改账户信息
 
 = form_for(@user) do |f|
   = render 'error_messages', :obj => f.object
   .field
-    = f.label :email
+    = f.label :email 
     %br
-    = f.text_field :email
+    = f.text_field :email 
   .field
     = f.label :name
     %br
@@ -18,4 +18,4 @@
     = f.label :password_confirmation
     %br
     = f.password_field :password_confirmation
-  .action= f.submit "提交"
+  .action= f.submit "提交" 

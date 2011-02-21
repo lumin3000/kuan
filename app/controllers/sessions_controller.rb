@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
     end
 
     sign_in user
-    redirect_to home_path
+    redirect_back_or home_path
   end
 
   def destroy
