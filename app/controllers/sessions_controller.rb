@@ -17,10 +17,12 @@ class SessionsController < ApplicationController
     end
 
     sign_in user
-    redirect_to '/home'
+    redirect_to home_path
   end
 
   def destroy
+    sign_out 
+    redirect_to signin_path
   end
 
 end

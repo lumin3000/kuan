@@ -9,7 +9,7 @@ describe SessionsController do
 
   after(:each) do
     User.delete_all
-  end 
+  end
 
   describe "POST 'create'" do
     describe "invalid signin" do
@@ -41,7 +41,7 @@ describe SessionsController do
 
       it "should redirect to home" do
         post :create, :session => @attr
-        response.should redirect_to '/home'
+        response.should redirect_to home_path
       end
 
       it "should check the user sign in" do
@@ -50,5 +50,14 @@ describe SessionsController do
         controller.should be_signed_in
       end
     end
+
+    describe "DELETE 'destroy'" do
+      it "should sign a user out" do
+        controller.sign_in @user
+        delete :destroy
+        controller.should_not be_signed_in
+        response.should redirect_to signin_path
+      end
+    end
   end
-end 
+end

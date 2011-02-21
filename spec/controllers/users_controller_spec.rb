@@ -19,6 +19,19 @@ describe UsersController do
     end
   end
 
+  describe "GET 'show'" do
+    it "should redirect to signin when no user sign in" do
+      get :show
+      response.should redirect_to signin_path
+    end
+
+    it "should display home page when user sign in" do
+      controller.sign_in @user
+      get :show
+      response.should render_template 'show'
+    end
+  end
+
   describe "POST 'create'" do
 
     describe "failure" do
@@ -59,6 +72,11 @@ describe UsersController do
       it "should have a welcome message" do
         post :create, :user => @attr
         flash[:success].should_not be_blank
+      end
+
+      it "should sign in" do
+        post :create, :user => @attr
+        controller.should be_signed_in
       end
     end
 

@@ -21,12 +21,12 @@ class User
 
   before_save :encrypt_password
   before_save :email_downcase
-
+  
   def has_password?(password)
     encrypted_password == encrypt(password)
   end
 
-  class << self
+  class << self  
     def authenticate(email, password)
       user  = User.where(:email => email).first
       return nil, :email if user.nil?
