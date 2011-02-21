@@ -16,11 +16,17 @@ describe Image, "create_from_original" do
       f.content_type.should == 'image/jpeg'
     end
 
-    it "should provide url for image" do
+    it "should provide url for various versions" do
       url = subject.url_for :original
       url.should_not be_nil
       url.should =~ /#{subject.original.to_s}/
       url.should =~ /gridfs/
+
+      url_large = subject.url_for :large
+      url_large.should_not be_nil
+
+      url_small = subject.url_for :small
+      url_small.should_not be_nil
     end
 
     it "should not expose invalid version" do

@@ -1,4 +1,14 @@
-var K = {};
+K = {
+  log: function() {
+    if (typeof console != "undefined") {
+      return console.log.apply(console, arguments)
+    }
+    var body = document.body
+      , text = Array.prototype.join.call(arguments, " ")
+    body.appendChild(document.createElement("br"))
+    body.appendChild(document.createTextNode(text))
+  }
+}
 
 K.remote_file = function(id, path, cb){
     var file = $(id);

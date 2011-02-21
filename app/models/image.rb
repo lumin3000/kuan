@@ -7,7 +7,7 @@ class Image
   field :large
   field :original
 
-  Versions = [:original]
+  Versions = [:original, :large, :small]
 
   def self.create_from_original(file)
     raise "File not available" if not file.respond_to? :read
@@ -27,7 +27,8 @@ class Image
 
   def url_for(version = :original)
     if Image::Versions.include? version
-      id = self.send version
+      # TODO: provide multiple version of images
+      id = self.original
       "/gridfs/#{id}"
     else
       nil
