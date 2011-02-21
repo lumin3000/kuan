@@ -1,0 +1,7 @@
+%span
+  %input{ :type => 'file' }
+- post.images.each do |p|
+  = p.original
+%span
+  = label_tag 'content'
+  = text_area_tag 'content', post.content
