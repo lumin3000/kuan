@@ -1,5 +1,7 @@
+= render partial: sub_template, object: @post,
+  as: :post
+
 = form_t params, do
   = hidden_field_tag "_type", @post._type
-  = render partial: sub_template, object: @post,
-    as: :post
+  = content_for :form
   = submit_tag
