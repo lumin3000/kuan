@@ -1,12 +1,16 @@
 module ApplicationHelper
   def render_post(p)
-    type = p.type.downcase!
-    if type == "pics" && p.photos.length != 1
-      type = "pics_multi"
+    type = p.type.downcase
+    if type == "pics"
+      type = if p.photos.length != 1
+        "pics_multi"
+      else
+        "pics_single"
+      end
     end
     template = "posts/#{type}"
     render partial: "posts/post", object: p,
-      locals: { sub_template: template }
+      locals: { sub_template: template, type: type }
   end
 
   def js(*files)
@@ -23,6 +27,10 @@ module ApplicationHelper
     template = "posts/form_#{_type}"
     render partial: "posts/form", object: p,
     :locals => { sub_template: template }
+  end
+  
+  def render_form_photo(p)
+    render partial: "posts/form_photo", object: p
   end
 
   def form_t(par)

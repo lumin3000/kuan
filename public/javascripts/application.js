@@ -1,4 +1,14 @@
-var K = {};
+K = {
+  log: function() {
+    if (typeof console != "undefined") {
+      return console.log.apply(console, arguments)
+    }
+    var body = document.body
+      , text = Array.prototype.join.call(arguments, " ")
+    body.appendChild(document.createElement("br"))
+    body.appendChild(document.createTextNode(text))
+  }
+}
 
 K.remote_file = function(id, path, cb){
     var file = $(id);
@@ -8,17 +18,20 @@ K.remote_file = function(id, path, cb){
     if(!path){
         throw new Error('Path is empty');
     }
-    function frame_load(){
+    function frame_loaded(){
         var that = this;
-        function on_success(){
+        if(false){
+            return;
+        }
+        function on_success(v){
             file_feed.set('html', '继续上传');
-            var v = that.contentDocument.body.innerHTML;
-            v = JSON.decode(v);
-            cb && cb.bind(that)(v);
+            cb && cb(v);
         }
         function on_error(){
         }
-        on_success();
+        var v = that.contentWindow.document.body.innerHTML;
+        v = JSON.decode(v);
+        on_success(v);
         
         file.set('disabled', false);
         file_submit.set('disabled', false);
@@ -32,7 +45,10 @@ K.remote_file = function(id, path, cb){
             'position': 'absolute',
             'top': '-1000px',
             'left': '-1000px'
-        }).addEvent('load', frame_load);
+        })
+    setTimeout(function(){
+        fr.addEvent('load', frame_loaded);
+    }, 50);
     var file_feed = new Element('span', {
         'id': file_tmp,
         'html': '上传新文件'
@@ -46,7 +62,9 @@ K.remote_file = function(id, path, cb){
         this.set('disabled', true);
         var f = new Element('form', {
             'action': '/images',
+            'accept-charset': 'UTF-8',
             'enctype': 'multipart/form-data',
+            'encoding': 'multipart/form-data', 
             'method': 'post',
             'target': f_tar
         }).inject(document.body).setStyle('display', 'none');

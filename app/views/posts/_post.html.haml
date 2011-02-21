@@ -1,4 +1,4 @@
-%div[post]
+%div[post]{:class => type}
   = render partial: sub_template, object: post
   = post.created_at
   = link_to "编辑", edit_post_path(post)

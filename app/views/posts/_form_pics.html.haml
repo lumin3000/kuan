@@ -1,9 +1,9 @@
 %span
   %input{ :type => 'file', :id => 'image_uploader', :name => 'file' }
+  %input{ :id => 'photo_template', :value => render_form_photo(nil), :type => 'hidden' }
 %ul
   - post.photos.each do |p|
-    %li
-      = p.image.url_for(:o)
+    = render_form_photo p
 #image_status
 %span
   = label_tag 'content'
@@ -11,8 +11,9 @@
   
 :javascript
   document.addEvent('domready', function(){
+    var photo_template = $('photo_template');
     K.remote_file('image_uploader', '/images', function(v){
-      console.log('---');
-      console.log(v);
+      var val = photo_template.value.replace('{_image_}', v.o).replace('{_desc_}', '').replace('{_id_}', v.id);
+      new Element('div', {'html':val}).inject(document.body);
     });
   });
