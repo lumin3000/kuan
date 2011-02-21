@@ -1,5 +1,4 @@
 require 'mini_magick'
-require 'pp'
 
 class Image
   include Mongoid::Document
@@ -8,6 +7,8 @@ class Image
   field :small
   field :large
   field :original
+
+  Versions = [:original]
 
   def self.create_from_original(file, desc = nil)
     image = Image.new()
@@ -18,10 +19,18 @@ class Image
 
     id = grid.put(file,
                   filename: original_path,
-                  content_type: "image/jpg",
                   )
     image.original = id
     image.save
     image
+  end
+
+  def url_for(version = :original)
+    if Image::Versions.include? version
+      id = self.send version
+      "/gridfs/#{id}"
+    else
+      nil
+    end
   end
 end

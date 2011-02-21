@@ -1,0 +1,23 @@
+%h1 注册
+
+= form_for(@user) do |f|
+  = render 'error_messages'
+  %div
+    = f.label :email
+    %br/
+    = f.text_field :email
+  %div
+    = f.label :name
+    %br/
+    = f.text_field :name
+  %div
+    = f.label :password
+    %br/
+    = f.password_field :password
+  %div
+    = f.label :password_confirmation
+    %br/
+    = f.password_field :password_confirmation
+  %div
+    = f.submit "提交"
+= debug params
