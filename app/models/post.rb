@@ -17,4 +17,8 @@ class Post
       nil
     end
   end
+
+  # Must stub this out
+  def photos(*args)
+  end
 end
