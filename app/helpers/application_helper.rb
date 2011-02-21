@@ -24,6 +24,10 @@ module ApplicationHelper
     render partial: "posts/form", object: p,
     :locals => { sub_template: template }
   end
+  
+  def render_form_photo(p)
+    render partial: "posts/form_photo", object: p
+  end
 
   def form_t(par)
     if par[:id].nil?
