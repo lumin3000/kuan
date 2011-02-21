@@ -1,7 +1,10 @@
 module ApplicationHelper
   def render_post(p)
-    _type = p._type.downcase!
-    template = "posts/#{_type}"
+    type = p.type.downcase!
+    if type == "pics" && p.photos.length != 1
+      type = "pics_multi"
+    end
+    template = "posts/#{type}"
     render partial: "posts/post", object: p,
       locals: { sub_template: template }
   end
@@ -30,6 +33,8 @@ module ApplicationHelper
       url = "/posts/#{par[:id]}"
       m = :put
     end
-    form_tag(url, :method => m, :remote => true)
+    form_tag url, :method => m, :remote => true, do
+      yield
+    end
   end
 end
