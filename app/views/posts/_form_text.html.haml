@@ -1,5 +1,5 @@
-- content_for :title, "发布文字_宽瞳"
-- content_for :form_title, "发布文字"
+- @post_type = capture do
+  文字
 
 - content_for :form do
   .option_text
@@ -11,4 +11,4 @@
     = label_tag :title, "标题(可选)"
     = text_field_tag :title, post.title
   .text
-    = text_area_tag 'content', post.content
+    = text_area_tag :content, post.content
