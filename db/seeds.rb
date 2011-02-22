@@ -8,7 +8,7 @@
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 Link.create url: "http://g.cn", title: "Google", content: "This is it!"
 
-Blog.create({
+Text.create({
   title: "Context Switch",
   content: <<EOF,
   Makefile的缩进必须使用tab而非空格

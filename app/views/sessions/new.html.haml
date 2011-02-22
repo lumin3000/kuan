@@ -1,0 +1,14 @@
+%h1 登陆
+
+= form_for(:session, :url => sessions_path) do |f|
+  .field
+    = f.label :email
+    %br
+    = f.text_field :email
+    .email_error= flash[:email_error]
+  .field
+    = f.label :password
+    %br 
+    = f.password_field :password
+    .password_error= flash[:password_error]
+  .action= f.submit "登陆"

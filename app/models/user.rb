@@ -21,18 +21,24 @@ class User
 
   before_save :encrypt_password
   before_save :email_downcase
-
+  
   def has_password?(password)
     encrypted_password == encrypt(password)
   end
 
-  class << self
+  class << self  
     def authenticate(email, password)
-      user = where(:email => email).first
-      user && user.has_password?(password) ? user : nil
+      user  = User.where(:email => email).first
+      return nil, :email if user.nil?
+      (user.has_password? password) ? user : [nil, :password]
+    end
+    
+    def authenticate_with_salt(id, salt)
+      user = id ? find(id) : nil
+      (user && user.salt == salt) ? user : nil
     end
   end
-  
+
   private
 
   def email_downcase
@@ -40,7 +46,7 @@ class User
   end
 
   def encrypt_password
-    self.salt = make_salt
+    self.salt = make_salt if new_record?
     self.encrypted_password = encrypt password
   end
 

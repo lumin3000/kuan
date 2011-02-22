@@ -103,11 +103,11 @@ describe User do
 
   describe "authentication" do
     it "should return nil for email not exist" do
-      User.authenticate("none@k.com", "whatever").should be_nil
+      User.authenticate("none@k.com", "whatever").should == [nil, :email]
     end
 
     it "should return nil when email and password mismatch" do
-      User.authenticate(@attr[:email], "wrongpass").should be_nil
+      User.authenticate(@attr[:email], "wrongpass").should == [nil, :password]
     end
 
     it "should return the user when email and password match" do
