@@ -5,6 +5,8 @@ class User
   field :email
   field :salt
   field :encrypted_password
+  embeds_many :followings
+
   attr_accessor :password
   attr_accessible :name, :email, :password, :password_confirmation
 
@@ -21,21 +23,32 @@ class User
 
   before_save :encrypt_password
   before_save :email_downcase
-  
+
   def has_password?(password)
     encrypted_password == encrypt(password)
   end
 
-  class << self  
+  class << self
     def authenticate(email, password)
       user  = User.where(:email => email).first
       return nil, :email if user.nil?
       (user.has_password? password) ? user : [nil, :password]
     end
-    
+
     def authenticate_with_salt(id, salt)
       user = id ? find(id) : nil
       (user && user.salt == salt) ? user : nil
+    end
+  end
+
+  # Only use this method for follow blogs
+  # Don't use user.followings.create/<</build methods
+  def follow(following)
+    f = followings.where(:blog_id => following.blog._id).first
+    if f.nil?
+      followings << following
+    else
+      f.update_attributes :auth => following.auth
     end
   end
 
@@ -57,7 +70,7 @@ class User
   def encrypt(password)
     secure "#{salt}--#{password}"
   end
-  
+
   def secure(string)
     Digest::SHA2.hexdigest string
   end
