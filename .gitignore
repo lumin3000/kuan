@@ -17,3 +17,5 @@ doc/app
 .autotest
 
 /Gemfile.lock
+
+/public/stylesheets/*.css
