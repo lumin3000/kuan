@@ -1,5 +1,5 @@
 %li
-  %img{ :src => (form_photo.nil? ? "{_image_}" : form_photo.image.url_for(:original)), :alt => '', :style => 'width:100px;height:100px' }
+  %img{ :src => (form_photo.nil? ? "{_image_}" : form_photo.image.url_for(:original)), :alt => '', :style => 'width:30px;height:30px' }
   %span
-    = text_field_tag "desc", form_photo.nil? ? "{_desc_}" : form_photo.desc
-    = hidden_field_tag "photo", (form_photo.nil? ? "{_id_}" : form_photo.id)
+    = text_field_tag "photos[][desc]", form_photo.nil? ? "{_desc_}" : form_photo.desc
+    = hidden_field_tag "photos[][image]", (form_photo.nil? ? "{_id_}" : form_photo.id)
