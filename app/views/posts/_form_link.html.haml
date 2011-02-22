@@ -1,9 +1,10 @@
-%span
-  = label_tag 'url'
-  = text_field_tag 'url', post.url
-%span
-  = label_tag 'title'
-  = text_field_tag 'title', post.title
-%span
-  = label_tag 'content'
-  = text_field_tag 'content', post.content
+- content_for :form do
+  %span
+    = label_tag 'url'
+    = text_field_tag 'url', post.url
+  %span
+    = label_tag 'title'
+    = text_field_tag 'title', post.title
+  %span
+    = label_tag 'content'
+    = text_field_tag 'content', post.content
