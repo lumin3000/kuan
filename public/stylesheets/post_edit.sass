@@ -1,0 +1,181 @@
+$blue = #336DFF
+$light-blue = #7eaedc
+$pink = #cadbea
+$almost-white = #f2f6f9
+$green = #68879F
+
+$font-main = "Hiragino Sans GB", hei, "microsoft yahei"
+
+$logo-width = 210px
+
+$input-font-size: 20px
+$input-height: 40px
+
+@mixin centered_container($width)
+  width: $width
+  margin: auto
+  overflow: hidden
+
+@mixin size($width, $height)
+  width: $width
+  height: $height
+
+@mixin big_button
+  @include size(150px, 44px)
+  cursor: pointer
+
+@mixin clear_fix
+  *zoom: 1
+  &:after
+    content: ' '
+    display: block
+    height: 0
+    clear: both
+    visibility: hidden
+
+@mixin border-radius($radius)
+  -moz-border-radius: $radius
+  -webkit-border-radius: $radius
+  border-radius: $radius
+
+@mixin heading
+  font-weight: normal
+  font-size: 30px
+
+body
+  margin: 0
+  font:
+    size: 12px
+    family: $font-main
+
+a
+  text-decoration: none
+  color: $blue
+  &:hover
+    text-decoration: underline
+
+  &.slight
+    color: $light-blue
+
+  &.page_name
+    color: #f93
+    font-weight: bold
+    line-height: 150%
+
+img
+  border: 0
+
+input,
+textarea
+  outline: none
+
+label
+  font-family: $font-main
+
+.header
+  margin-top: 5px
+  height: 50px
+
+.navigator
+  margin-left: $logo-width
+  text-align: right
+
+.dash_navigator
+  @extend .navigator
+  font-size: 14px
+
+a.logo
+  display: inline
+  border: 0
+  width: $logo-width
+  height: url('/images/logo.gif')
+  float: left
+
+.site
+  @include centered_container(900px)
+
+.site_middle_size
+  @include centered_container(750px)
+
+// Post specific
+
+.post
+  margin: 20px auto 0 auto
+  @include border-radius(15px)
+  border: 1px solid $pink
+  background: $almost-white
+  padding: 0 20px
+
+  h1
+    @include heading
+    color: $green
+
+  label
+    color: gray
+
+  .option_text,
+  .add_textarea
+    display: block
+    margin:
+      top: -20px
+      bottom: 30px
+
+  .option_text
+    padding-bottom: 25px
+
+  .rich_editor_starter,
+  .new_title_starter
+    width: 100px
+
+  .rich_editor_starter
+    float: right
+
+  .new_title_starter
+    float: left
+
+  .text,
+  .title_text,
+  .url_link,
+  .title_link
+    clear: both
+    width: 685px
+    padding: 5px 0 5px 20px
+    font-size: $input-font-size
+    height: $input-height + 5px
+    line-height: $input-height + 5px
+    @include border-radius(8px)
+    border: 1px solid $pink
+    background: white
+    margin-bottom: 30px
+
+  .title_text input,
+  .url_link input,
+  .title_link input
+    border: 0
+    height: $input-height
+    line-height: $input-height
+    font-size: $input-font-size
+    width: 560px
+
+  .text
+    height: 180px
+
+  .text textarea
+    border: 0
+    @include size(670px, 180px)
+    font-size: $input-font-size
+    line-height: 1.5
+
+  .page_selector
+    float: left
+    @include size(195px, 44px)
+
+  .cancel
+    @include big_button
+    float: right
+    background: url('/images/post_cancel.gif')
+
+  .send
+    @include big_button
+    margin-left: 195px
+    background: url('/images/post_send.gif')
