@@ -16,7 +16,7 @@
   :javascript
     document.addEvent('domready', function(){
       var photo_template = $('photo_template');
-      K.remote_file('image_uploader', '/images', function(v){
+      K.remote_file('image_uploader', '/upload/photo', function(v){
         var val = photo_template.value.replace('{_image_}', v.o).replace('{_desc_}', '').replace('{_id_}', v.id);
         new Element('div', {'html':val}).inject($('pics_ul'));
       });

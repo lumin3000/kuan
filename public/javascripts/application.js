@@ -57,7 +57,7 @@ K.remote_file = function(id, path, cb){
             })
 
         var f = new Element('form', {
-            'action': '/images',
+            'action': path,
             'accept-charset': 'UTF-8',
             'enctype': 'multipart/form-data',
             'encoding': 'multipart/form-data', 
