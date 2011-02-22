@@ -1,7 +1,15 @@
 = render partial: sub_template, object: @post,
   as: :post
 
+%h1= "#{@action}#{@post_type}"
+
 = form_t params, do
   = hidden_field_tag "_type", @post._type
   = content_for :form
-  = submit_tag
+  .operation
+    .page_selector
+      .my_pages
+        .selector STUBBED
+    .cancel
+    %button{class: "send", type: "submit", value: "Commit"}
+      SUBMIT

@@ -2,14 +2,14 @@
 %html
   %head
     %title
-      = content_for?(:title) ? yield(:title) : "-"
+      = content_for :title
     = stylesheet_link_tag :all
     - js 'rails', 'mootools-core', 'application'
     - @js.uniq.reverse!.each do |f|
       = javascript_include_tag f
     = csrf_meta_tag
-    = yield :head
+    = yield :head if content_for?(:head)
   %body
     #container
-      = yield
+      = content_for?(:content) ? yield(:content) : yield
     = debug params if Rails.env.development? 

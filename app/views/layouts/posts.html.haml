@@ -1,0 +1,12 @@
+- content_for :content, do
+  .header
+    %a.logo{href: "/"}
+    .navigator
+      %a{href: "/"}回我的主页
+  .post
+    = yield
+  .footer
+
+  - content_for :title, (@action + @post_type + "_宽瞳")
+
+= render :file => 'layouts/application'

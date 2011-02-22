@@ -1,10 +1,15 @@
+- @post_type = capture do
+  链接
+
 - content_for :form do
-  %span
-    = label_tag 'url'
-    = text_field_tag 'url', post.url
-  %span
-    = label_tag 'title'
-    = text_field_tag 'title', post.title
-  %span
-    = label_tag 'content'
-    = text_field_tag 'content', post.content
+  .url_link
+    = label_tag :url, "网址"
+    = text_field_tag :url, post.url
+  .title_link
+    = label_tag :title, "标题"
+    = text_field_tag :title, post.title
+  .option_text
+    %a.rich_editor_starter.slight{href: "#"}
+      +添加描述
+  .text
+    = text_area_tag :content, post.content
