@@ -3,7 +3,8 @@ Kuan::Application.routes.draw do
 
   get "site/public_timeline"
 
-  resources :images
+  post "/upload/:type", :to => 'images#create'
+
   resources :posts
 
   resources :users
