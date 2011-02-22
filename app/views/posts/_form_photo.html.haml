@@ -3,3 +3,5 @@
   %span
     = text_field_tag "photos[][desc]", form_photo.nil? ? "{_desc_}" : form_photo.desc
     = hidden_field_tag "photos[][image]", (form_photo.nil? ? "{_id_}" : form_photo.image.id)
+    - if not form_photo.nil?
+      = hidden_field_tag "photos[][id]", form_photo.id
