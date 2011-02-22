@@ -6,6 +6,6 @@ class Following
   embedded_in :user, :inverse_of => :followings
 
   validates :auth,
-  :inclusion => {:in => %w[follower member founder]}
+  :inclusion => {:in => %w[follower member founder lord]}
 
 end

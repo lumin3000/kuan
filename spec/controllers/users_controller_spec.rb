@@ -64,7 +64,7 @@ describe UsersController do
 
     describe "success" do
       before(:each) do
-        @attr = {:name => "new user", 
+        @attr = {:name => "newuser", 
           :email => "newuser@k.com",
           :password => "foobar",
           :password_confirmation => "foobar"}
@@ -87,6 +87,40 @@ describe UsersController do
       it "should sign in" do
         post :create, :user => @attr
         controller.should be_signed_in
+      end
+
+      it "should create primary blog" do
+        post :create, :user => @attr
+        user = User.where(:email => @attr[:email]).first
+        user.primary_blog.uri.should == @attr[:name].downcase 
+        user.primary_blog.title.should == @attr[:name]
+      end
+
+      it "should translate chinese name to blog name" do
+        post :create, :user => @attr.merge(:name => "李路")
+        user = User.where(:email => @attr[:email]).first
+        user.primary_blog.uri.should == "lilu" 
+      end
+
+      it "should ljust name to uri length" do
+        post :create, :user => @attr.merge(:name => "li")
+        user = User.where(:email => @attr[:email]).first
+        user.primary_blog.uri.should == "likk" 
+      end
+
+      it "should change uri when uri exist" do
+        Factory(:blog, :uri => "dupuri")
+        post :create, :user => @attr.merge(:name => "dupuri")
+        user = User.where(:email => @attr[:email]).first
+        user.primary_blog.uri.should == "dupuri1"
+      end
+
+      it "should add uri number when uri exist" do
+        Factory(:blog, :uri => "dupuri")
+        Factory(:blog, :uri => "dupuri12")
+        post :create, :user => @attr.merge(:name => "dupuri")
+        user = User.where(:email => @attr[:email]).first
+        user.primary_blog.uri.should == "dupuri13"
       end
     end
 

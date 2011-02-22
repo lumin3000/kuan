@@ -9,13 +9,13 @@ describe Blog do
 
   after(:each) do
     Blog.delete_all
-  end
+  end 
 
 
   describe "uri validation" do
     it "should reject unvalid uri" do
       uris = ["中文是不可以",
-              'short',
+              'sho',
               'a'*31,
               "_forbid",
               ""]
@@ -34,9 +34,9 @@ describe Blog do
     end
 
     it "should accept valid uri" do
-      @blog.uri = "valid-uri"
+      @blog.uri = "validuri"
       @blog.should be_valid
-    end
+    end 
 
   end
 

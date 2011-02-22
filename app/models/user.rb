@@ -52,6 +52,10 @@ class User
     end
   end
 
+  def primary_blog
+    followings.where(:auth => "lord").first.blog
+  end
+
   private
 
   def email_downcase
