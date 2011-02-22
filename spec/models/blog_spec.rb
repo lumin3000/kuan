@@ -3,11 +3,11 @@ require 'spec_helper'
 
 describe Blog do
 
-  before(:each) do
+  before :each do
     @blog = Factory :blog
   end
 
-  after(:each) do
+  after :each do
     Blog.delete_all
   end 
 

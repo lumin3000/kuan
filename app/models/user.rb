@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -39,6 +40,19 @@ class User
       user = id ? find(id) : nil
       (user && user.salt == salt) ? user : nil
     end
+  end
+
+  #1,将中文名字转成域名允许的格式，并填充到4 
+  #2,读取数据库中已有uri,如重名则在后面加数字
+  #3,如同名uri已有多个，则取后面数字最大的并+1拼出新的uri
+  def uri_by_name
+    require 'pinyin'
+    uri = PinYin.instance.to_pinyin(name).downcase.ljust(4,'k')
+    return uri if Blog.where(:uri => uri).empty?
+    uri + (Blog.where(:uri => /^#{uri}/).reduce(0) do |max, b|
+             n = b.uri.match(/^#{uri}([0-9]*)$/)[1].to_i
+             (n > max) ? n : max
+           end.to_i+1).to_s
   end
 
   # Only use this method for follow blogs

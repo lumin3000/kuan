@@ -2,14 +2,14 @@ require 'spec_helper'
 
 describe "Following" do
 
-  before(:each) do
+  before :each do
     @user = Factory :user
     @blog = Factory :blog
     @following = Factory :following, :blog => @blog
     @user.follow @following
   end
 
-  after(:each) do
+  after :each do
     User.delete_all
     Blog.delete_all
   end

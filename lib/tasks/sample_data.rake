@@ -2,15 +2,21 @@ namespace :db do
   desc "Fill database with sample data"
   task :populate => :environment do
     User.delete_all
-    User.create!(:name => "lilu",
-                 :email => "lilu@k.org",
-                 :password => "foobar",
-                 :password_confirmation => "foobar")
     99.times do |n|
-      User.create!(:name => "lilu-#{n+1}",
-                   :email => "lilu-#{n+1}@k.org",
+      user = User.create!(:name => "lilu-#{n}",
+                   :email => "lilu-#{n}@k.org",
                    :password => "password",
                    :password_confirmation => "password")
+      blog = Blog.new(:title => "title-lord-#{n}",
+               :uri => "urilord#{n}")
+      blog.primary = true
+      blog.save!
+      user.follow Following.new(:blog => blog, :auth => "lord")
+      3.times do |m|
+        blog = Blog.create!(:title => "title-founder-#{n}-#{m}",
+               :uri => "uri#{n}founder#{m}")
+        user.follow Following.new(:blog => blog, :auth => "founder")
+      end
     end
   end
 end
