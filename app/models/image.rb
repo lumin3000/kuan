@@ -49,4 +49,13 @@ class Image
       "/gridfs/#{id}" if not id.nil?
     end
   end
+
+  def to_json()
+    hash = {id: self.id}
+    AVAIL_VERSIONS.each do |k|
+      url = self.url_for k
+      hash[k] = url if not url.nil?
+    end
+    hash.to_json
+  end
 end

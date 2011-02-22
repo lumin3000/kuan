@@ -14,9 +14,6 @@ class ImagesController < ApplicationController
     process = PROCESS_SPEC[params[:type].to_sym]
     @image = Image.create_from_original file_io, process
 
-    render :text => {
-      :o => @image.url_for(:original),
-      :id => @image._id
-    }.to_json
+    render :text => @image.to_json
   end
 end
