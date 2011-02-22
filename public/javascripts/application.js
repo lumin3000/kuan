@@ -18,35 +18,7 @@ K.remote_file = function(id, path, cb){
     if(!path){
         throw new Error('Path is empty');
     }
-    function frame_loaded(){
-        var that = this;
-        if(false){
-            return;
-        }
-        function on_success(v){
-            file_feed.set('html', '继续上传');
-            cb && cb(v);
-        }
-        function on_error(){
-        }
-        var v = that.contentWindow.document.body.innerHTML;
-        v = JSON.decode(v);
-        on_success(v);
-        
-        file.set('disabled', false);
-    }
     var file_tmp = 'file_upload';
-    var f_tar = '_fff_'+Number.random(1,9999);
-    var fr = new Element('iframe', {'id': f_tar, 'name': f_tar}).
-        inject(document.body, 'after').
-        setStyles({
-            'position': 'absolute',
-            'top': '-1000px',
-            'left': '-1000px'
-        })
-    setTimeout(function(){
-        fr.addEvent('load', frame_loaded);
-    }, 50);
     var file_box = new Element('span', {
         'html': '<a href="#">上传文件:)</a><br />'
     }).inject(file, 'before').setStyles({
@@ -75,6 +47,15 @@ K.remote_file = function(id, path, cb){
         if(this.get('disabled') == true || file.value == ''){
             return false;
         }
+        var f_tar = '_fff_'+Number.random(1,9999);
+        var fr = new Element('iframe', {'id': f_tar, 'name': f_tar}).
+            inject(document.body).
+            setStyles({
+                'position': 'absolute',
+                'top': '-1000px',
+                'left': '-1000px'
+            })
+
         var f = new Element('form', {
             'action': '/images',
             'accept-charset': 'UTF-8',
@@ -89,7 +70,28 @@ K.remote_file = function(id, path, cb){
             .set('disabled', true);
         bind_event(file);
         file_clone = file_clone.clone();
-        f.submit();
+        function frame_loaded(e){
+            var that = this;
+            if(false){
+                return;
+            }
+            function on_success(v){
+                file_feed.set('html', '继续上传');
+                cb && cb(v);
+            }
+            function on_error(){
+            }
+            var v = that.contentWindow.document.body.innerHTML;
+            v = JSON.decode(v);
+            on_success(v);
+            document.body.removeChild(f);
+            document.body.removeChild(fr);
+            file.set('disabled', false);
+        }
+        setTimeout(function(){
+            fr.addEvent('load', frame_loaded);
+            f.submit();
+        }, 50);
     }
     function bind_event(f){
         f.addEvents({
