@@ -10,7 +10,8 @@ describe UsersController do
 
   after(:each) do
     User.delete_all
-  end
+    Blog.delete_all
+  end 
 
   describe "GET 'new'" do
     it "should be successful" do
@@ -29,6 +30,15 @@ describe UsersController do
       controller.sign_in @user
       get :show
       response.should render_template 'show'
+    end
+
+    it "should show the user's blogs" do
+      blog1 = Factory :blog
+      blog2 = Factory :blog, :uri =>Factory.next(:uri)
+      f1 = Factory :following, :blog => blog1
+      f2 = Factory :following, :blog => blog2
+      get :show
+      #waitting for the views to complete
     end
   end
 

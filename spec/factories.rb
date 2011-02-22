@@ -26,6 +26,8 @@ Factory.sequence :uri do |u|
 end
 
 Factory.define :following do |f|
-  f.auth "follower"
+  f.auth "member"
   f.association :blog
 end
+
+

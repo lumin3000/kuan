@@ -5,7 +5,7 @@ describe "Following" do
   before(:each) do
     @user = Factory :user
     @blog = Factory :blog
-    @following = Factory(:following, :blog => @blog)
+    @following = Factory :following, :blog => @blog
     @user.follow @following
   end
 
@@ -43,11 +43,11 @@ describe "Following" do
     end
 
     it "should update the same blog following" do
-      @following.auth = "member"
+      @following.auth = "founder"
       lambda do
         @user.follow @following
       end.should_not change(@user.followings, :count)
-      @user.followings.first.auth.should == "member"
+      @user.followings.first.auth.should == "founder"
     end
  
     it "should add the different blog following" do
