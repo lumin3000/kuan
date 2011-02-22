@@ -9,6 +9,14 @@ class UsersController < ApplicationController
   def create
     @user = User.new params[:user]
     return render 'new' if !@user.save
+
+    #create primary blog
+    blog = Blog.new(:title => @user.name,
+                    :uri => @user.uri_by_name)
+    blog.primary = true
+    blog.save
+    @user.follow Following.new(:blog => blog, :auth => "lord")
+
     sign_in @user
     flash[:success] = "欢迎注册"
     redirect_to home_path

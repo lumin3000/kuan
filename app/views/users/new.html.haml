@@ -1,7 +1,8 @@
 %h1 注册
 
 = form_for(@user) do |f|
-  = render 'error_messages', :obj => f.object
+  - if @user.errors.any?
+    #user_error_explanation= @user.errors.full_messages.first
   .field
     = f.label :email
     %br

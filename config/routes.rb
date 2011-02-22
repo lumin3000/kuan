@@ -7,8 +7,9 @@ Kuan::Application.routes.draw do
 
   resources :posts
 
-  resources :users
+  resources :users, :except => [:index, :destroy]
   resources :sessions, :only => [:new, :create, :destroy]
+  resources :blogs
   
   match "/posts/new/:type" => "posts#new"
 
