@@ -36,6 +36,7 @@ describe Pics do
       @post.reload
       @post.photos.length.should == 1
       @post.photos[0].desc.should be_empty
+      @post.photos[0].image.should be_kind_of(Image)
       @post.content.should be_empty
     end
   end

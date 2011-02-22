@@ -6,8 +6,10 @@ class Pics < Post
 
   def update_attributes(attrs = {})
     photos = attrs.delete :photos
-    if not photos.nil?
+    if photos.is_a? Array
       photos = photos.map do |p|
+        i = Image.criteria.id(p[:image]).first
+        p[:image] = i
         Photo.new(p)
       end
     end
