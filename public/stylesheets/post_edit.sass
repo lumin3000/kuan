@@ -3,6 +3,8 @@ $light-blue = #7eaedc
 $pink = #cadbea
 $almost-white = #f2f6f9
 $green = #68879F
+$light-gray = #8e9494
+$gray = #777
 
 $font-main = "Hiragino Sans GB", hei, "microsoft yahei"
 
@@ -19,6 +21,9 @@ $input-height: 40px
 @mixin size($width, $height)
   width: $width
   height: $height
+
+@mixin hide_text
+  text-indent: -9999px
 
 @mixin big_button
   @include size(150px, 44px)
@@ -87,8 +92,8 @@ label
 a.logo
   display: inline
   border: 0
-  width: $logo-width
-  height: url('/images/logo.gif')
+  @include size($logo-width, 46px)
+  background: url('/images/logo.gif')
   float: left
 
 .site
@@ -166,6 +171,10 @@ a.logo
     font-size: $input-font-size
     line-height: 1.5
 
+  .operation
+    height: 44px
+    margin-bottom: 60px
+
   .page_selector
     float: left
     @include size(195px, 44px)
@@ -179,3 +188,63 @@ a.logo
     @include big_button
     margin-left: 195px
     background: url('/images/post_send.gif')
+
+    button
+      background: none
+      border: 0
+      @include hide_text
+
+.my_pages
+  $selector-width = 186px
+  $selector-padding = 10px
+  $selector-inner = $selector-width - 2 * $selector-padding
+
+  a
+    text-decoration: none
+    color: $light-gray
+
+  .selector_open
+    width: $selector-width
+    font-size: 14px
+    font-weight: bold
+    overflow: hidden
+    color: $gray
+
+  .selector_open_head
+    background: url('/images/mypages_open1.png')
+    @include size($selector-inner, 14px)
+    padding: 5px $selector-padding
+    overflow: hidden
+
+  .selector_open_menu
+    width: $selector-inner
+    background: url('/images/mypages_open2.png') repeat-y
+    padding: 0 $selector-padding
+    line-height: 24px
+
+  .selector_open_footer
+    @include size($selector-width, 15px)
+    background: url('/images/mypages_open3.png')
+
+  .selector
+    display: block
+    @include size($selector-inner - 2 * $selector-padding, 34px)
+    cursor: pointer
+    line-height: 34px
+    font:
+      weight: bold
+      size: 14px
+    padding:
+      left: 10px
+      right: 28px
+    overflow: hidden
+    color: $gray
+
+  div.selector
+    background: url("/images/mypages_close.png")
+
+  a.selector
+    background: url("/images/mypages_close_a.gif")
+    color: $gray
+    &:hover
+      background: url('images/mypages_close.png')
