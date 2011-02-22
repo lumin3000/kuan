@@ -1,38 +1,67 @@
 require 'spec_helper'
 
 describe Image, "create_from_original" do
-  describe "given an image file" do
+  before :each do
     filename = Rails.root.join("test", "fixtures", "mxgs239.jpg")
-    file = File.open filename
-    subject { Image.create_from_original(file) }
-    it "should provide original image" do
-      subject.should be_kind_of(Image)
-      subject._id.should_not be_nil
-      subject.original.should_not be_nil
+    @file = File.open filename
+    @image = Image.create_from_original(@file, large: [500, 800])
+    @grid = Mongo::Grid.new Image.db
+  end
 
-      grid = Mongo::Grid.new Image.db
-      f = grid.get subject.original
+  after :each do
+    @file.close
+  end
+  
+
+  describe "given an image file" do
+    it "should provide original image" do
+      @image.should be_kind_of(Image)
+      @image._id.should_not be_nil
+      @image.original.should_not be_nil
+
+      f = @grid.get @image.original
       f.should_not be_nil
       f.content_type.should == 'image/jpeg'
     end
 
     it "should provide url for various versions" do
-      url = subject.url_for :original
+      url = @image.url_for :original
       url.should_not be_nil
-      url.should =~ /#{subject.original.to_s}/
+      url.should =~ /#{@image.original.to_s}/
       url.should =~ /gridfs/
 
-      url_large = subject.url_for :large
+      url_large = @image.url_for :large
       url_large.should_not be_nil
 
-      url_small = subject.url_for :small
-      url_small.should_not be_nil
+      url_small = @image.url_for :small
+      url_small.should be_nil
+    end
+
+    it "should do the resizing" do
+      large_image = MiniMagick::Image.read(@grid.get(@image.large))
+      dimensions = large_image['dimensions']
+      dimensions[0].should <= 500
+      dimensions[1].should <= 800
     end
 
     it "should not expose invalid version" do
-      url = subject.url_for :description
+      url = @image.url_for :description
       url.should be_nil
     end
 
+  end
+end
+
+describe Image, "scaling calculation" do
+  describe "Given specified from-to-result data" do
+    it "should make it" do
+      @data = [
+        [[1000, 1000], [500, 800], 0.5],
+        [[600, 600], [60, 0], 0.1],
+      ]
+      @data.each do |d|
+        Image.calc_scale(d[0], d[1]).should == d[2]
+      end
+    end
   end
 end
