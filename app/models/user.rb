@@ -56,6 +56,15 @@ class User
     followings.where(:auth => "lord").first.blog
   end
 
+  def blogs
+    followings.excludes(:auth => "follower").sort do |a, b|
+      next 0 if a.auth == b.auth
+      next -1 if a.auth == "lord"
+      next -1 if a.auth == "founder" && b.auth == "member"
+      1
+    end.map {|f| f.blog} 
+  end
+
   private
 
   def email_downcase

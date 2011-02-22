@@ -56,6 +56,23 @@ describe "Following" do
         @user.follow Following.new(:auth=>"member", :blog=>blog_n)
       end.should change(@user.followings, :count).by(1)
     end
+
+  end
+
+  describe "user blogs" do
+    it "should order the blogs by auth" do
+      @user.followings = []
+      bm = Factory(:blog, :uri =>Factory.next(:uri))
+      @user.follow Following.new(:auth=>"member", :blog=>bm)
+      bl = Factory(:blog, :uri =>Factory.next(:uri))
+      @user.follow Following.new(:auth=>"lord",
+                                 :blog=>bl)
+      bf = Factory(:blog, :uri =>Factory.next(:uri))
+      @user.follow Following.new(:auth=>"founder", :blog=>bf)
+      @user.blogs.first.should == bl
+      @user.blogs.second.should == bf
+      @user.blogs.third.should == bm
+    end
   end
 
 end
