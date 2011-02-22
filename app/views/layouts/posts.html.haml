@@ -10,8 +10,15 @@
   - content_for :title, (@action + @post_type + "_宽瞳")
 
 - content_for :head, do
-  = stylesheet_link_tag "post_edit"
-
+  = stylesheet_link_tag "post_edit", "mooeditable"
+  - js 'mooeditable', 'mooeditable.local'
+  :javascript
+    document.addEvent('domready', function(){
+      $$('.rich_editor_starter').addEvent('click', function(){
+        K.init_editor($('content'), this);
+      })
+    });
+    
 - content_for :site_layout, "site_middle_size"
 
 = render :file => 'layouts/application'

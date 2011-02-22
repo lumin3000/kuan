@@ -3,7 +3,7 @@
 
 - content_for :form do
   %span
-    %input{ :type => 'file', :id => 'image_uploader', :name => 'file' }
+    %input{ :type => 'file', :id => 'image_uploader', :name => 'file', :autocomplete => 'off' }
     %input{ :id => 'photo_template', :value => render_form_photo(nil), :type => 'hidden' }
   %ul{ :id => 'pics_ul' }
     - post.photos.each do |p|

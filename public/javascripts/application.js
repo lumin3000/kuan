@@ -34,7 +34,6 @@ K.remote_file = function(id, path, cb){
         on_success(v);
         
         file.set('disabled', false);
-        //file_submit.set('disabled', false);
     }
     var file_tmp = 'file_upload';
     var f_tar = '_fff_'+Number.random(1,9999);
@@ -59,10 +58,11 @@ K.remote_file = function(id, path, cb){
         'position':'absolute',
         'z-index':'100',
         'margin-left':'-180px',
-        'font-size':60,
+        'font-size':30,
         'margin-top':'-5px',
-        'opacity':0.01,
-        'filter':'alpha(opacity=0)'
+        'opacity':0,
+        'filter':'alpha(opacity=0)',
+        'visibility':'visible'
     }).inject(file_box, 'top');
     var file_clone = file.clone();
     var file_feed = new Element('span', {
@@ -71,14 +71,10 @@ K.remote_file = function(id, path, cb){
     }).inject(file_box, 'after').setStyles({
         'margin-left':100
     });
-    /*var file_submit = new Element('input', {
-        'type': 'submit', 'value': '上传'
-    }).inject(file_feed, 'after')*/
     function file_event(){
         if(this.get('disabled') == true || file.value == ''){
             return false;
         }
-        //this.set('disabled', true);
         var f = new Element('form', {
             'action': '/images',
             'accept-charset': 'UTF-8',
@@ -89,9 +85,35 @@ K.remote_file = function(id, path, cb){
         }).inject(document.body).setStyle('display', 'none');
         file.inject(f);        
         file_feed.set('html', '开始上传');
-        file = file_clone.inject(file_box, 'top').set('disabled', true).addEvent('change', file_event);
+        file = file_clone.inject(file_box, 'top')
+            .set('disabled', true);
+        bind_event(file);
         file_clone = file_clone.clone();
         f.submit();
     }
-    file.addEvent('change', file_event);
+    function bind_event(f){
+        f.addEvents({
+            'change': file_event,
+            'mouseenter': function(){
+                //file_box.getElement('a').fireEvent('mouseover');
+            },
+            'mouseleave': function(){
+                //file_box.getElement('a').fireEvent('mouseleave');
+            }
+        });
+    }
+    bind_event(file);
+}
+
+K.init_editor = function(el, target){
+    var textarea = $(el);
+    if($(target)){
+        $(target).destroy();
+    }
+    var w  = textarea.getStyle('width').toInt();
+    var h  = textarea.getStyle('height').toInt() - 50;
+    new MooEditable(textarea, {
+        'actions':'toggleview | bold italic underline strikethrough | formatBlock | createlink unlink | urlimage ',
+        'dimensions':{x:w,y:h}
+    });
 }
