@@ -6,9 +6,9 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
-Link.create url: "http://g.cn", title: "Google", content: "This is it!"
+Link.create! url: "http://g.cn", title: "Google", content: "This is it!"
 
-Text.create({
+Text.create!({
   title: "Context Switch",
   content: <<EOF,
   Makefile的缩进必须使用tab而非空格
@@ -48,7 +48,7 @@ pic_post = Pics.new({
 pic_post.photos = [photo]
 pic_post.save!
 
-pics_multi = Pics.create({
+pics_multi = Pics.create!({
   :content => "Multiple pictures",
   :photos => [Photo.new({
     :desc => "bar",
