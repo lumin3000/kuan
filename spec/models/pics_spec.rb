@@ -10,6 +10,7 @@ describe Pics do
       content: "Blah"
     }
     @post = Pics.new(params)
+    @old_photo = @post.photos
   end
 
   describe "Given a params hash from client" do
@@ -30,11 +31,15 @@ describe Pics do
   describe "Given a param for existing pics" do
     it "should be able to update" do
       @post.update_attributes!({
-        photos: [{image: @images[1].id.to_s, desc: ""}],
+        photos: [
+          {image: @images[1].id.to_s, desc: ""},
+          {id: @old_photo[0].id.to_s, desc: ""},
+          {id: @old_photo[1].id.to_s, desc: ""},
+        ],
         content: "",
       })
       @post.reload
-      @post.photos.length.should == 1
+      @post.photos.length.should == 3
       @post.photos[0].desc.should be_empty
       @post.photos[0].image.should be_kind_of(Image)
       @post.content.should be_empty

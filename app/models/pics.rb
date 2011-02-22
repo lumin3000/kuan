@@ -7,7 +7,6 @@ class Pics < Post
   def update_attributes(attrs = {})
     photos = attrs.delete :photos
     if photos.is_a? Array
-      new_photos = []
       photos.each do |p|
         id = p.delete :id
         if id.nil?
@@ -21,7 +20,6 @@ class Pics < Post
           photo = self.photos.detect do |p|
             p._id.to_s == id
           end
-          next if photo.nil?
           photo.update_attributes!(p) if photo
         end
       end
