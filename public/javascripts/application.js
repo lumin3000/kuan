@@ -48,19 +48,29 @@ K.remote_file = function(id, path, cb){
     setTimeout(function(){
         fr.addEvent('load', frame_loaded);
     }, 50);
-    var file_btn = new Element('input', {
-        'type': 'button',
-        'value': '上传文件:)'
+    var file_box = new Element('span', {
+        'html': '<a href="#">上传文件:)</a><br />'
     }).inject(file, 'before').setStyles({
-        'font-size':12,
         'overflow':'hidden',
-        'position':'absolute'
+        'position':'absolute',
+        'font-size':12
     });
+    file.setStyles({
+        'position':'absolute',
+        'z-index':'100',
+        'margin-left':'-180px',
+        'font-size':60,
+        'margin-top':'-5px',
+        'opacity':0.01,
+        'filter':'alpha(opacity=0)'
+    }).inject(file_box, 'top');
     var file_clone = file.clone();
     var file_feed = new Element('span', {
         'id': file_tmp,
         'html': '上传新文件'
-    }).inject(file, 'after');
+    }).inject(file_box, 'after').setStyles({
+        'margin-left':100
+    });
     /*var file_submit = new Element('input', {
         'type': 'submit', 'value': '上传'
     }).inject(file_feed, 'after')*/
@@ -79,7 +89,7 @@ K.remote_file = function(id, path, cb){
         }).inject(document.body).setStyle('display', 'none');
         file.inject(f);        
         file_feed.set('html', '开始上传');
-        file = file_clone.inject(file_feed, 'before').set('disabled', true).addEvent('change', file_event);
+        file = file_clone.inject(file_box, 'top').set('disabled', true).addEvent('change', file_event);
         file_clone = file_clone.clone();
         f.submit();
     }
