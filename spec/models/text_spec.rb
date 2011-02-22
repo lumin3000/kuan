@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Blog do
+describe Text do
   describe "Given a new blog post" do
-    subject { Blog.new content: "not very long", title: "hi there"}
+    subject { Text.new content: "not very long", title: "hi there"}
 
     it "should have content" do
       subject.content.should_not be_nil
@@ -11,7 +11,7 @@ describe Blog do
   end
 
   describe "Given an empty blog post" do
-    subject { Blog.new content: "", title: "I'm empty!"}
+    subject { Text.new content: "", title: "I'm empty!"}
 
     it "should not validate" do
       subject.should_not be_valid

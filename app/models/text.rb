@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class Blog < Post
+class Text < Post
   field :title
   field :content
 
