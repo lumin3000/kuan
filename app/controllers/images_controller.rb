@@ -44,7 +44,7 @@ class ImagesController < ApplicationController
 
     render :text => {
       status: "success",
-      image: @image.to_hash
+      image: @image.to_a_fucking_hash
     }.to_json
   end
 end
