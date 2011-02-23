@@ -1,4 +1,7 @@
+# encoding: utf-8
 require 'mini_magick'
+require 'uri'
+require 'open-uri'
 
 class Image
   include Mongoid::Document
@@ -27,8 +30,6 @@ class Image
   end
 
   def self.create_from_original(file, process_spec = {})
-    raise "Not a file?" if not file.respond_to? :read
-
     image = Image.new()
 
     grid = Mongo::Grid.new(image.db)
@@ -69,6 +70,15 @@ class Image
 
     image.save!
     image
+  end
+
+  def self.create_from_url(url, process_spec = {})
+    url = "http://" + url if not url =~ /^https?|ftp:\/\//i
+    url = URI.parse(url)
+    raise "Malformed URL" if not url.kind_of? URI::HTTP
+    response = open url
+    raise "抓取失败" if response.status[0] != "200"
+    self.create_from_original response.read, process_spec
   end
 
   def url_for(version = :original)
