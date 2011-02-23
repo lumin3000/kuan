@@ -112,7 +112,7 @@ describe BlogsController do
   describe "GET 'edit'" do
     before :each do
       controller.sign_in @user
-      @user.follow Following.new(:auth => "founder", :blog => @blog)
+      @user.follow! @blog, "founder"
     end
 
     it "should be successful" do
@@ -125,14 +125,14 @@ describe BlogsController do
 
     before :each do
       controller.sign_in @user
-      @user.follow Following.new(:auth => "founder", :blog => @blog)
+      @user.follow! @blog, "founder"
     end
 
     describe "failure" do
       before :each do
         @attr = {:title => "",
           :uri => ""}
-      end
+      end 
 
       it "should render the 'edit' page" do
         put :update, :id => @blog, :blog => @attr

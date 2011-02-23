@@ -11,7 +11,7 @@ class BlogsController < ApplicationController
     @blog = Blog.new params[:blog]
     return render 'new' if !@blog.save
 
-    current_user.follow Following.new(:blog => @blog, :auth => "founder")
+    current_user.follow! @blog, "founder"
 
     flash[:success] = "#{@blog.title} 已成功创建 "
     redirect_to home_path
