@@ -27,18 +27,27 @@ class Image
   end
 
   def self.create_from_original(file, process_spec = {})
-    raise "File not available" if not file.respond_to? :read
+    raise "Not a file?" if not file.respond_to? :read
 
     image = Image.new()
 
     grid = Mongo::Grid.new(image.db)
-    original_image = MiniMagick::Image.read file
+    begin
+      original_image = MiniMagick::Image.read file
+    rescue
+      raise "Cant read your file, really"
+    end
+
     type = original_image["format"].downcase!
     mime = "image/#{type}"
     original_blob = original_image.to_blob
     orig_dimen = original_image['dimensions']
 
-    id = grid.put original_blob, :content_type => mime
+    begin
+      id = grid.put original_blob, :content_type => mime
+    rescue
+      raise "Database fail, cant save your stuff"
+    end
     image.original = id
 
     process_spec.each do |version, geometry|
@@ -50,11 +59,15 @@ class Image
       # os for offset
       os_w, os_h = self.calc_offset([w, h], geometry)
       i.shave "#{os_w}x#{os_h}"
-      id = grid.put i.to_blob, :content_type => mime
-      image.send "#{version}=", id
+      begin
+        id = grid.put i.to_blob, :content_type => mime
+        image.send "#{version}=", id
+      rescue
+        logger.error "Database error, cant save stuff"
+      end
     end
 
-    image.save
+    image.save!
     image
   end
 
@@ -65,17 +78,16 @@ class Image
     end
   end
 
-  def to_json()
+  def to_hash()
     hash = {id: self.id}
     AVAIL_VERSIONS.each do |k|
       url = self.url_for k
       hash[k] = url if not url.nil?
     end
-    hash.to_json
+    hash
   end
 
-  private
-  def min(*args)
-    args.min
+  def to_json()
+    self.to_hash.to_json
   end
 end

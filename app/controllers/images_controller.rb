@@ -17,8 +17,22 @@ class ImagesController < ApplicationController
   def create
     file_io = params[:file]
     process = PROCESS_SPEC[params[:type].to_sym]
-    @image = Image.create_from_original file_io, process
+    begin
+      @image = Image.create_from_original file_io, process
+    rescue Execption => e
+      logger.error e.message
+      render :text => {
+        status: "error",
+        message: e.message
+      }.to_json
+      return
+    ensure
+      file_io.close if file_io.respond_to? :close
+    end
 
-    render :text => @image.to_json
+    render :text => {
+      status: "success",
+      image: @image.to_hash
+    }.to_json
   end
 end
