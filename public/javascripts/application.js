@@ -115,7 +115,7 @@ K.init_editor = function(el, target){
     var w  = textarea.getStyle('width').toInt();
     var h  = textarea.getStyle('height').toInt() - 50;
     new MooEditable(textarea, {
-        'actions':'toggleview | bold italic underline strikethrough | formatBlock | createlink unlink | urlimage ',
+        'actions':'toggleview | bold italic underline strikethrough | createlink unlink | urlimage ',
         'dimensions':{x:w,y:h}
     });
 }
