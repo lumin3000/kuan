@@ -14,9 +14,7 @@
   - js 'mooeditable', 'mooeditable.local'
   :javascript
     document.addEvent('domready', function(){
-      $$('.rich_editor_starter').addEvent('click', function(){
-        K.init_editor($('content'), this);
-      })
+      K.post.init()
     });
     
 - content_for :site_layout, "site_middle_size"

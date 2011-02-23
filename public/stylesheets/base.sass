@@ -1,0 +1,57 @@
+@import 'lib'
+
+body
+  margin: 0
+  font:
+    size: 12px
+    family: $font-main
+
+a
+  text-decoration: none
+  color: $blue
+  &:hover
+    text-decoration: underline
+
+  &.slight
+    color: $light-blue
+
+  &.page_name
+    color: #f93
+    font-weight: bold
+    line-height: 150%
+
+img
+  border: 0
+
+input,
+textarea
+  outline: none
+
+label
+  font-family: $font-main
+
+.header
+  margin-top: 5px
+  height: 50px
+
+.navigator
+  margin-left: $logo-width
+  text-align: right
+
+.dash_navigator
+  @extend .navigator
+  font-size: 14px
+
+a.logo
+  display: inline
+  border: 0
+  @include size($logo-width, 46px)
+  background: url('/images/logo.gif')
+  float: left
+
+.site
+  @include centered_container(900px)
+
+.site_middle_size
+  @include centered_container(750px)
+

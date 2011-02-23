@@ -10,45 +10,94 @@ K = {
   }
 }
 
-K.remote_file = function(id, path, cb){
-    var file = $(id);
-    if(!file){
-        throw new Error('Can not find file element');
-    }
-    if(!path){
-        throw new Error('Path is empty');
-    }
-    var file_tmp = 'file_upload';
-    var file_box = new Element('span', {
-        'html': '<a href="#">上传文件:)</a><br />'
-    }).inject(file, 'before').setStyles({
-        'overflow':'hidden',
-        'position':'absolute',
-        'font-size':12
-    });
-    file.setStyles({
-        'position':'absolute',
-        'z-index':'100',
-        'margin-left':'-180px',
-        'font-size':30,
-        'margin-top':'-5px',
-        'opacity':0,
-        'filter':'alpha(opacity=0)',
-        'visibility':'visible'
-    }).inject(file_box, 'top');
-    var file_clone = file.clone();
-    var file_feed = new Element('span', {
-        'id': file_tmp,
-        'html': '上传新文件'
-    }).inject(file_box, 'after').setStyles({
-        'margin-left':100
-    });
-    function file_event(){
-        if(this.get('disabled') == true || file.value == ''){
+K.file_uploader = new Class({
+    Implements: [Options],
+    
+    options: {
+        /*
+        onStart: nil,
+        onCancel: nil,
+        onSuccess: nil,
+        onFailure: nil
+        */
+        tar: null
+    },
+    
+    initialize: function(el, path, options){
+        this.file = $(el);
+        this.path = path
+        if(!this.file){
+            throw new Error('Can not find file element');
+        }
+        if(!path){
+            throw new Error('Path is empty');
+        }
+
+        this.setOptions(options);
+        var tar = $(this.options.tar);
+        if(tar == null){
+            tar = new Element('a', {
+                'html':'上传',
+                'href':'#'
+            });
+        }
+        var tar_size = tar.getComputedSize();
+        this.file_box_outer = new Element('div', {
+        }).inject(this.file, 'before').setStyles({
+            'height':30,
+            'width':120
+            //not working
+            //'height':tar_size.totalHeight, 
+            //'width':tar_size.totalWidth
+        });
+        
+        this.file_box = new Element('span', {
+        }).inject(this.file_box_outer).setStyles({
+            'overflow':'hidden',
+            'position':'absolute',
+            'height':tar_size.totalHeight,
+            'width':tar_size.totalWidth,
+            'font-size':12
+        });
+        this.file.setStyles({
+            'position':'absolute',
+            'z-index':'100',
+            'margin-left':'-180px',
+            'font-size':30,
+            'margin-top':'-5px',
+            'opacity':0,
+            'filter':'alpha(opacity=0)',
+            'visibility':'visible'
+        }).inject(this.file_box);
+        tar.inject(this.file_box);
+        this.file_clone = this.file.clone();
+        this.file.destroy();
+        this.build_file();
+        this.file.set('disabled', false);
+    },
+    build_file: function(){
+        this.file = this.file_clone.inject(this.file_box, 'top')
+            .set('disabled', true);
+        this.file_clone = this.file_clone.clone();
+        this.file.addEvents({
+            'change': function(){
+                this.start();
+            }.bind(this),
+            'mouseenter': function(){
+                //this.file_box.getElement('a').fireEvent('mouseover');
+            },
+            'mouseleave': function(){
+                //this.file_box.getElement('a').fireEvent('mouseleave');
+            }
+        });
+    },
+    start: function(){
+        K.log('start')
+        if(this.file.get('disabled') == true || this.file.value == ''){
             return false;
         }
         var f_tar = '_fff_'+Number.random(1,9999);
-        var fr = new Element('iframe', {'id': f_tar, 'name': f_tar}).
+        this.frame = new Element('iframe', {'id': f_tar, 'name': f_tar}).
             inject(document.body).
             setStyles({
                 'position': 'absolute',
@@ -56,62 +105,49 @@ K.remote_file = function(id, path, cb){
                 'left': '-1000px'
             })
 
-        var f = new Element('form', {
-            'action': path,
+        this.form = new Element('form', {
+            'action': this.path,
             'accept-charset': 'UTF-8',
             'enctype': 'multipart/form-data',
             'encoding': 'multipart/form-data', 
             'method': 'post',
             'target': f_tar
-        }).inject(document.body).setStyle('display', 'none');
-        file.inject(f);        
-        file_feed.set('html', '开始上传');
-        file = file_clone.inject(file_box, 'top')
-            .set('disabled', true);
-        bind_event(file);
-        file_clone = file_clone.clone();
-        function frame_loaded(e){
-            var that = this;
-            if(false){
-                return;
-            }
-            function on_success(v){
-                file_feed.set('html', '继续上传');
-                cb && cb(v);
-            }
-            function on_error(){
-            }
-            var v = that.contentWindow.document.body.innerHTML;
-            v = JSON.decode(v);
-            on_success(v);
-            document.body.removeChild(f);
-            document.body.removeChild(fr);
-            file.set('disabled', false);
-        }
+        }).inject(document.body).hide();
+        this.file.inject(this.form);        
+        this.build_file();
         setTimeout(function(){
-            fr.addEvent('load', frame_loaded);
-            f.submit();
-        }, 50);
+            this.frame.addEvent('load', function(){
+                this.complete();
+            }.bind(this));
+            this.form.submit();
+        }.bind(this), 50);
+    },
+    cancel: function(){
+        K.log('cancel')
+    },
+    complete: function(){
+        K.log('complete')
+        function on_success(v){
+            cb && cb(v);
+        }
+        function on_error(){
+        }
+        var v = this.frame.contentWindow.document.body.innerHTML;
+        v = JSON.decode(v);
+        this.success.call(this, v);
+        this.form.destroy();
+        document.body.removeChild(this.frame);
+        this.file.set('disabled', false);
+    },
+    success: function(v){
+        K.log('success')
+        this.options.onSuccess &&
+            this.options.onSuccess(v);
     }
-    function bind_event(f){
-        f.addEvents({
-            'change': file_event,
-            'mouseenter': function(){
-                //file_box.getElement('a').fireEvent('mouseover');
-            },
-            'mouseleave': function(){
-                //file_box.getElement('a').fireEvent('mouseleave');
-            }
-        });
-    }
-    bind_event(file);
-}
+});
 
-K.init_editor = function(el, target){
+K.render_editor = function(el){
     var textarea = $(el);
-    if($(target)){
-        $(target).destroy();
-    }
     var w  = textarea.getStyle('width').toInt();
     var h  = textarea.getStyle('height').toInt() - 50;
     new MooEditable(textarea, {
@@ -119,3 +155,46 @@ K.init_editor = function(el, target){
         'dimensions':{x:w,y:h}
     });
 }
+
+K.post = (function(){
+    var init_title = function(){
+        $$('.new_title_starter').addEvent('click', function(){
+            $$('.title_text')[0].show();
+            this.hide();
+            return false;
+        })
+    };
+
+    var init_editor = function(){
+        $$('.rich_editor_starter').addEvent('click', function(){
+            this.hide();
+            K.render_editor($('content'));
+            return false;
+        });
+    };
+
+    var init_upload = function(){
+        var tmpl = $('photo_template');
+        new K.file_uploader($('image_uploader'), '/upload/photo', {
+            'onSuccess': function(v){
+                var val = tmpl.value.substitute({
+                    'image_a': v.original,
+                    'image': v.small,
+                    'desc': '',
+                    'id': v.id
+                });
+                new Element('div', {'html':val}).inject($('pics_ul'));
+            }
+        });
+    };
+
+    return {
+        init: function(){
+            init_title();
+            init_editor();
+            if($('image_uploader') && $('photo_template')){
+                init_upload();
+            }
+        }
+    };
+})();

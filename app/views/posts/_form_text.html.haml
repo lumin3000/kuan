@@ -7,7 +7,7 @@
       +新建标题
     %a.rich_editor_starter.slight{href: "#"}
       启用富文本编辑器
-  .title_text
+  .title_text{ style: "display:none;" }
     = label_tag :title, "标题(可选)"
     = text_field_tag :title, post.title
   .text

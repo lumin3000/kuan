@@ -1,0 +1,60 @@
+$blue = #336DFF
+$light-blue = #7eaedc
+$pink = #cadbea
+$almost-white = #f2f6f9
+$green = #68879F
+$light-gray = #8e9494
+$gray = #777
+
+$font-main = "Hiragino Sans GB", hei, "microsoft yahei"
+
+$logo-width = 210px
+
+$input-font-size: 20px
+$input-height: 40px
+
+$slide-button-size: 18px
+
+@mixin centered_container($width)
+  width: $width
+  margin: auto
+  overflow: hidden
+
+@mixin size($width, $height)
+  width: $width
+  height: $height
+
+@mixin hide_text
+  text-indent: -9999px
+
+@mixin big_button
+  @include size(150px, 44px)
+  cursor: pointer
+
+@mixin inline_block
+  display: inline-block
+  *display: inline
+  *zoom: 1
+
+@mixin clear_fix
+  *zoom: 1
+  &:after
+    content: ' '
+    display: block
+    height: 0
+    clear: both
+    visibility: hidden
+
+@mixin border-radius($radius)
+  -moz-border-radius: $radius
+  -webkit-border-radius: $radius
+  border-radius: $radius
+
+@mixin bg-rgba($r, $g, $b, $a)
+  background-color: rgb($r,$g,$b)
+  background-color: rgba($r,$g,$b,$a)
+  // TODO use custom function to calculate color for MS
+
+@mixin heading
+  font-weight: normal
+  font-size: 30px

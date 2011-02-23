@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe Pics do
   before :all do
     @images = Image.limit(2).all.to_ary
@@ -43,6 +45,18 @@ describe Pics do
       @post.photos[0].desc.should be_empty
       @post.photos[0].image.should be_kind_of(Image)
       @post.content.should be_empty
+    end
+  end
+
+  describe "Given an empty array lack of old photos" do
+    it "should delete missing photos" do
+      @post.update_attributes!({
+        photos: [
+          {image: @images[0].id},
+        ],
+      })
+      @post.reload
+      @post.photos.length.should == 1
     end
   end
 end
