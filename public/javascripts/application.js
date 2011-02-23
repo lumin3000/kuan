@@ -196,14 +196,14 @@ K.post = (function(){
             },
             'onSuccess': function(v){
                 el.getElement('[name=tar_img_a]')
-                    .set('href', v.original)
+                    .set('href', v.image.original)
                     .show();
                 el.getElement('[name=tar_img]')
-                    .set('src', v.small);
+                    .set('src', v.image.small);
                 el.getElement('[name=tar_desc]')
                     .show();
                 el.getElement('.image_id')
-                    .set('value', v.id);
+                    .set('value', v.image.id);
                 el.getElement('[name=tar_process]').hide();
                 /*
                 var val = tmpl.value.substitute({
