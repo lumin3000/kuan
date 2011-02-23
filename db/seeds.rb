@@ -37,7 +37,12 @@ Text.create!({
 EOF
 })
 
-mxgs239 = Image.create_from_original(File.open("#{Rails.root}/test/fixtures/mxgs239.jpg"))
+TO_PHOTO = ImagesController::PROCESS_SPEC[:photo]
+
+mxgs239 = Image.create_from_original(
+  File.open("#{Rails.root}/test/fixtures/mxgs239.jpg"),
+  TO_PHOTO
+)
 photo = Photo.new({
   :desc => "MXGS-239",
   :image => mxgs239,

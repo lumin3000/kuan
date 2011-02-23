@@ -1,11 +1,11 @@
-- pics_multi.photos.each do |p|
-  - i = p.image
-  %img{src: i.url_for(:small), data: { l: i.url_for(:large), o: i.url_for(:original), title: p.desc, }}
-%br
-= pics_multi.photos.length
-%br
-= pics_multi.content
-- js 'post'
+%ul.photos
+  - pics_multi.photos.each_with_index do |p, index|
+    - i = p.image
+    - c = index >= 4 ? 'hidden' : ''
+    %li.photo{class: c}
+      %img{src: i.url_for(:small), data: { l: i.url_for(:large), o: i.url_for(:original), title: p.desc, }}
+%p.total_num= "共#{pics_multi.photos.length}图"
+%p.desc= pics_multi.content
 - if not @slide_template_provided then
   - @slide_template_provided = true
   %div{style: "display: none;"}
@@ -17,18 +17,13 @@
       .slide_control
         %a.slide_button.prev{title: "", data: {slide_command: "prev"}}
           Prev
-      .slide_control
         %a.slide_button.play{title: "", data: {slide_command: "proceedAndPlay"}}
           Play
-      .slide_control
         %a.slide_button.pause{title: "", data: {slide_command: "pause"}}
           Pause
-      .slide_control
         %a.slide_button.next{title: "", data: {slide_command: "next"}}
           Next
-      .slide_control
-        %a.slide_button.show_thumb{title: "", data: {slide_command: "show_thumb"}}
+        %a.slide_button.show_thumb{title: "", data: {slide_command: "showThumbList"}}
           ShowThumb
-      .slide_control
-        %a.slide_button.hideThumb{title: "", data: {slide_command: "hideThumbList"}}
+        %a.slide_button.hide_thumb{title: "", data: {slide_command: "hideThumbList"}}
           HideThumb

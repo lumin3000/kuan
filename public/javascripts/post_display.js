@@ -126,7 +126,7 @@ K.Slide = {
   , showThumbList: function() {
       if (this.showingThumbList) return
       var size = this.context.getSize()
-        , list = new Element("ul").adopt(this.toThumbList()).addClass("thumbList")
+        , list = new Element("ul").adopt(this.toThumbList()).addClass("thumblist")
         , shim = new Element("div", {
             styles: {
               opacity: 0.5
@@ -146,7 +146,7 @@ K.Slide = {
       this.shim = shim
       this.thumbList = list
       this.showingThumbList = true
-      this.context.addClass("showingThumblist")
+      this.context.addClass("showing_thumblist")
       if (this.playing) {
         this.pausedOnThumbList = true
         this.pause()
@@ -159,7 +159,7 @@ K.Slide = {
       delete this.shim
       delete this.thumbList
       this.showingThumbList = false
-      this.context.removeClass("showingThumblist")
+      this.context.removeClass("showing_thumblist")
       if (this.pausedOnThumbList) {
         this.pausedOnThumbList = false
         this.play()
@@ -249,7 +249,7 @@ K.Slide = {
 
 document.addEvent("domready", function() {
   var template = $("slide_for_kite")
-    , slides = $$(".pics_multi")
+    , slides = $$(".pics_multi .photos")
   slides.each(function(list) {
     var items = list.getElements("img")
     if (!items.length) return

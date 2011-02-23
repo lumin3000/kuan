@@ -1,6 +1,141 @@
 // MooTools: the javascript framework.
-// Load this file's selection again by visiting: http://mootools.net/more/5f791a0a26928993fae30ecf88c34f47 
-// Or build this file again with packager using: packager build More/Elements.From More/Element.Pin More/Element.Shortcuts More/OverText More/Drag More/Drag.Move More/Assets More/IframeShim More/Locale
+// Load this file's selection again by visiting: http://mootools.net/more/41e6cddf1e99226d5914976a1f426a08 
+// Or build this file again with packager using: packager build More/Element.Forms More/Element.Position More/Element.Shortcuts More/OverText More/Drag.Move More/Assets More/IframeShim More/Locale
+/*
+---
+
+script: String.Extras.js
+
+name: String.Extras
+
+description: Extends the String native object to include methods useful in managing various kinds of strings (query strings, urls, html, etc).
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+  - Guillermo Rauch
+  - Christopher Pitt
+
+requires:
+  - Core/String
+  - Core/Array
+
+provides: [String.Extras]
+
+...
+*/
+
+(function(){
+
+var special = {
+	'a': /[àáâãäåăą]/g,
+	'A': /[ÀÁÂÃÄÅĂĄ]/g,
+	'c': /[ćčç]/g,
+	'C': /[ĆČÇ]/g,
+	'd': /[ďđ]/g,
+	'D': /[ĎÐ]/g,
+	'e': /[èéêëěę]/g,
+	'E': /[ÈÉÊËĚĘ]/g,
+	'g': /[ğ]/g,
+	'G': /[Ğ]/g,
+	'i': /[ìíîï]/g,
+	'I': /[ÌÍÎÏ]/g,
+	'l': /[ĺľł]/g,
+	'L': /[ĹĽŁ]/g,
+	'n': /[ñňń]/g,
+	'N': /[ÑŇŃ]/g,
+	'o': /[òóôõöøő]/g,
+	'O': /[ÒÓÔÕÖØ]/g,
+	'r': /[řŕ]/g,
+	'R': /[ŘŔ]/g,
+	's': /[ššş]/g,
+	'S': /[ŠŞŚ]/g,
+	't': /[ťţ]/g,
+	'T': /[ŤŢ]/g,
+	'ue': /[ü]/g,
+	'UE': /[Ü]/g,
+	'u': /[ùúûůµ]/g,
+	'U': /[ÙÚÛŮ]/g,
+	'y': /[ÿý]/g,
+	'Y': /[ŸÝ]/g,
+	'z': /[žźż]/g,
+	'Z': /[ŽŹŻ]/g,
+	'th': /[þ]/g,
+	'TH': /[Þ]/g,
+	'dh': /[ð]/g,
+	'DH': /[Ð]/g,
+	'ss': /[ß]/g,
+	'oe': /[œ]/g,
+	'OE': /[Œ]/g,
+	'ae': /[æ]/g,
+	'AE': /[Æ]/g
+},
+
+tidy = {
+	' ': /[\xa0\u2002\u2003\u2009]/g,
+	'*': /[\xb7]/g,
+	'\'': /[\u2018\u2019]/g,
+	'"': /[\u201c\u201d]/g,
+	'...': /[\u2026]/g,
+	'-': /[\u2013]/g,
+//	'--': /[\u2014]/g,
+	'&raquo;': /[\uFFFD]/g
+};
+
+var walk = function(string, replacements){
+	var result = string;
+	for (key in replacements) result = result.replace(replacements[key], key);
+	return result;
+};
+
+var getRegexForTag = function(tag, contents){
+	tag = tag || '';
+	var regstr = contents ? "<" + tag + "(?!\\w)[^>]*>([\\s\\S]*?)<\/" + tag + "(?!\\w)>" : "<\/?" + tag + "([^>]+)?>";
+	reg = new RegExp(regstr, "gi");
+	return reg;
+};
+
+String.implement({
+
+	standardize: function(){
+		return walk(this, special);
+	},
+
+	repeat: function(times){
+		return new Array(times + 1).join(this);
+	},
+
+	pad: function(length, str, direction){
+		if (this.length >= length) return this;
+
+		var pad = (str == null ? ' ' : '' + str)
+			.repeat(length - this.length)
+			.substr(0, length - this.length);
+
+		if (!direction || direction == 'right') return this + pad;
+		if (direction == 'left') return pad + this;
+
+		return pad.substr(0, (pad.length / 2).floor()) + this + pad.substr(0, (pad.length / 2).ceil());
+	},
+
+	getTags: function(tag, contents){
+		return this.match(getRegexForTag(tag, contents)) || [];
+	},
+
+	stripTags: function(tag, contents){
+		return this.replace(getRegexForTag(tag, contents), '');
+	},
+
+	tidy: function(){
+		return walk(this, tidy);
+	}
+
+});
+
+})();
+
+
 /*
 ---
 
@@ -38,11 +173,11 @@ MooTools.More = {
 /*
 ---
 
-script: Elements.From.js
+script: Element.Forms.js
 
-name: Elements.From
+name: Element.Forms
 
-description: Returns a collection of elements from a string of html.
+description: Extends the Element native object to include methods useful in managing inputs.
 
 license: MIT-style license
 
@@ -50,307 +185,128 @@ authors:
   - Aaron Newton
 
 requires:
-  - Core/String
   - Core/Element
+  - /String.Extras
   - /MooTools.More
 
-provides: [Elements.from, Elements.From]
-
-...
-*/
-
-Elements.from = function(text, excludeScripts){
-	if (excludeScripts || excludeScripts == null) text = text.stripScripts();
-
-	var container, match = text.match(/^\s*<(t[dhr]|tbody|tfoot|thead)/i);
-
-	if (match){
-		container = new Element('table');
-		var tag = match[1].toLowerCase();
-		if (['td', 'th', 'tr'].contains(tag)){
-			container = new Element('tbody').inject(container);
-			if (tag != 'tr') container = new Element('tr').inject(container);
-		}
-	}
-
-	return (container || new Element('div')).set('html', text).getChildren();
-};
-
-
-/*
----
-
-script: Element.Pin.js
-
-name: Element.Pin
-
-description: Extends the Element native object to include the pin method useful for fixed positioning for elements.
-
-license: MIT-style license
-
-authors:
-  - Aaron Newton
-
-requires:
-  - Core/Element.Event
-  - Core/Element.Dimensions
-  - Core/Element.Style
-  - /MooTools.More
-
-provides: [Element.Pin]
-
-...
-*/
-
-(function(){
-	var supportsPositionFixed = false,
-		supportTested = false;
-
-	var testPositionFixed = function(){
-		var test = new Element('div').setStyles({
-			position: 'fixed',
-			top: 0,
-			right: 0
-		}).inject(document.body);
-		supportsPositionFixed = (test.offsetTop === 0);
-		test.dispose();
-		supportTested = true;
-	}
-
-	Element.implement({
-
-		pin: function(enable, forceScroll){
-			if (!supportTested) testPositionFixed();
-			if (this.getStyle('display') == 'none') return this;
-
-			var pinnedPosition,
-				scroll = window.getScroll();
-
-			if (enable !== false){
-				pinnedPosition = this.getPosition(supportsPositionFixed ? document.body : this.getOffsetParent());
-				if (!this.retrieve('pin:_pinned')){
-					var currentPosition = {
-						top: pinnedPosition.y - scroll.y,
-						left: pinnedPosition.x - scroll.x
-					};
-
-					if (supportsPositionFixed && !forceScroll){
-						this.setStyle('position', 'fixed').setStyles(currentPosition);
-					} else {
-
-						var parent = this.getOffsetParent(),
-							position = this.getPosition(parent),
-							styles = this.getStyles('left', 'top');
-
-						if (parent && styles.left == 'auto' || styles.top == 'auto') this.setPosition(position);
-						if (this.getStyle('position') == 'static') this.setStyle('position', 'absolute');
-
-						position = {
-							x: styles.left.toInt() - scroll.x,
-							y: styles.top.toInt() - scroll.y
-						};
-
-						var scrollFixer = function(){
-							if (!this.retrieve('pin:_pinned')) return;
-							var scroll = window.getScroll();
-							this.setStyles({
-								left: position.x + scroll.x,
-								top: position.y + scroll.y
-							});
-						}.bind(this);
-
-						this.store('pin:_scrollFixer', scrollFixer);
-						window.addEvent('scroll', scrollFixer);
-					}
-					this.store('pin:_pinned', true);
-				}
-
-			} else {
-				if (!this.retrieve('pin:_pinned')) return this;
-
-				var parent = this.getParent(),
-					offsetParent = (parent.getComputedStyle('position') != 'static' ? parent : parent.getOffsetParent());
-
-				pinnedPosition = this.getPosition(offsetParent);
-
-				this.store('pin:_pinned', false);
-				var scrollFixer = this.retrieve('pin:_scrollFixer');
-				if (!scrollFixer){
-					this.setStyles({
-						position: 'absolute',
-						top: pinnedPosition.y + scroll.y,
-						left: pinnedPosition.x + scroll.x
-					});
-				} else {
-					this.store('pin:_scrollFixer', null);
-					window.removeEvent('scroll', scrollFixer);
-				}
-				this.removeClass('isPinned');
-			}
-			return this;
-		},
-
-		unpin: function(){
-			return this.pin(false);
-		},
-
-		togglepin: function(){
-			return this.pin(!this.retrieve('pin:_pinned'));
-		}
-
-	});
-
-})();
-
-
-/*
----
-
-script: Element.Shortcuts.js
-
-name: Element.Shortcuts
-
-description: Extends the Element native object to include some shortcut methods.
-
-license: MIT-style license
-
-authors:
-  - Aaron Newton
-
-requires:
-  - Core/Element.Style
-  - /MooTools.More
-
-provides: [Element.Shortcuts]
+provides: [Element.Forms]
 
 ...
 */
 
 Element.implement({
 
-	isDisplayed: function(){
-		return this.getStyle('display') != 'none';
+	tidy: function(){
+		this.set('value', this.get('value').tidy());
 	},
 
-	isVisible: function(){
-		var w = this.offsetWidth,
-			h = this.offsetHeight;
-		return (w == 0 && h == 0) ? false : (w > 0 && h > 0) ? true : this.style.display != 'none';
+	getTextInRange: function(start, end){
+		return this.get('value').substring(start, end);
 	},
 
-	toggle: function(){
-		return this[this.isDisplayed() ? 'hide' : 'show']();
+	getSelectedText: function(){
+		if (this.setSelectionRange) return this.getTextInRange(this.getSelectionStart(), this.getSelectionEnd());
+		return document.selection.createRange().text;
 	},
 
-	hide: function(){
-		var d;
-		try {
-			//IE fails here if the element is not in the dom
-			d = this.getStyle('display');
-		} catch(e){}
-		if (d == 'none') return this;
-		return this.store('element:_originalDisplay', d || '').setStyle('display', 'none');
-	},
-
-	show: function(display){
-		if (!display && this.isDisplayed()) return this;
-		display = display || this.retrieve('element:_originalDisplay') || 'block';
-		return this.setStyle('display', (display == 'none') ? 'block' : display);
-	},
-
-	swapClass: function(remove, add){
-		return this.removeClass(remove).addClass(add);
-	}
-
-});
-
-Document.implement({
-
-	clearSelection: function(){
-		if (document.selection && document.selection.empty){
-			document.selection.empty();
-		} else if (window.getSelection){
-			var selection = window.getSelection();
-			if (selection && selection.removeAllRanges) selection.removeAllRanges();
+	getSelectedRange: function(){
+		if (this.selectionStart != null){
+			return {
+				start: this.selectionStart,
+				end: this.selectionEnd
+			};
 		}
-	}
 
-});
+		var pos = {
+			start: 0,
+			end: 0
+		};
+		var range = this.getDocument().selection.createRange();
+		if (!range || range.parentElement() != this) return pos;
+		var duplicate = range.duplicate();
 
+		if (this.type == 'text'){
+			pos.start = 0 - duplicate.moveStart('character', -100000);
+			pos.end = pos.start + range.text.length;
+		} else {
+			var value = this.get('value');
+			var offset = value.length;
+			duplicate.moveToElementText(this);
+			duplicate.setEndPoint('StartToEnd', range);
+			if (duplicate.text.length) offset -= value.match(/[\n\r]*$/)[0].length;
+			pos.end = offset - duplicate.text.length;
+			duplicate.setEndPoint('StartToStart', range);
+			pos.start = offset - duplicate.text.length;
+		}
+		return pos;
+	},
 
-/*
----
+	getSelectionStart: function(){
+		return this.getSelectedRange().start;
+	},
 
-script: Class.Binds.js
+	getSelectionEnd: function(){
+		return this.getSelectedRange().end;
+	},
 
-name: Class.Binds
+	setCaretPosition: function(pos){
+		if (pos == 'end') pos = this.get('value').length;
+		this.selectRange(pos, pos);
+		return this;
+	},
 
-description: Automagically binds specified methods in a class to the instance of the class.
+	getCaretPosition: function(){
+		return this.getSelectedRange().start;
+	},
 
-license: MIT-style license
+	selectRange: function(start, end){
+		if (this.setSelectionRange){
+			this.focus();
+			this.setSelectionRange(start, end);
+		} else {
+			var value = this.get('value');
+			var diff = value.substr(start, end - start).replace(/\r/g, '').length;
+			start = value.substr(0, start).replace(/\r/g, '').length;
+			var range = this.createTextRange();
+			range.collapse(true);
+			range.moveEnd('character', start + diff);
+			range.moveStart('character', start);
+			range.select();
+		}
+		return this;
+	},
 
-authors:
-  - Aaron Newton
+	insertAtCursor: function(value, select){
+		var pos = this.getSelectedRange();
+		var text = this.get('value');
+		this.set('value', text.substring(0, pos.start) + value + text.substring(pos.end, text.length));
+		if (select !== false) this.selectRange(pos.start, pos.start + value.length);
+		else this.setCaretPosition(pos.start + value.length);
+		return this;
+	},
 
-requires:
-  - Core/Class
-  - /MooTools.More
+	insertAroundCursor: function(options, select){
+		options = Object.append({
+			before: '',
+			defaultMiddle: '',
+			after: ''
+		}, options);
 
-provides: [Class.Binds]
+		var value = this.getSelectedText() || options.defaultMiddle;
+		var pos = this.getSelectedRange();
+		var text = this.get('value');
 
-...
-*/
-
-Class.Mutators.Binds = function(binds){
-	return binds;
-};
-
-Class.Mutators.initialize = function(initialize){
-	return function(){
-		Array.from(this.Binds).each(function(name){
-			var original = this[name];
-			if (original) this[name] = original.bind(this);
-		}, this);
-		return initialize.apply(this, arguments);
-	};
-};
-
-
-/*
----
-
-script: Class.Occlude.js
-
-name: Class.Occlude
-
-description: Prevents a class from being applied to a DOM element twice.
-
-license: MIT-style license.
-
-authors:
-  - Aaron Newton
-
-requires:
-  - Core/Class
-  - Core/Element
-  - /MooTools.More
-
-provides: [Class.Occlude]
-
-...
-*/
-
-Class.Occlude = new Class({
-
-	occlude: function(property, element){
-		element = document.id(element || this.element);
-		var instance = element.retrieve(property || this.property);
-		if (instance && this.occluded != null)
-			return this.occluded = instance;
-
-		this.occluded = false;
-		element.store(property || this.property, this);
-		return this.occluded;
+		if (pos.start == pos.end){
+			this.set('value', text.substring(0, pos.start) + options.before + value + options.after + text.substring(pos.end, text.length));
+			this.selectRange(pos.start + options.before.length, pos.end + options.before.length + value.length);
+		} else {
+			var current = text.substring(pos.start, pos.end);
+			this.set('value', text.substring(0, pos.start) + options.before + current + options.after + text.substring(pos.end, text.length));
+			var selStart = pos.start + options.before.length;
+			if (select !== false) this.selectRange(selStart, selStart + current.length);
+			else this.setCaretPosition(selStart + text.length);
+		}
+		return this;
 	}
 
 });
@@ -747,6 +703,159 @@ Element.implement({
 });
 
 })();
+
+
+/*
+---
+
+script: Element.Shortcuts.js
+
+name: Element.Shortcuts
+
+description: Extends the Element native object to include some shortcut methods.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Core/Element.Style
+  - /MooTools.More
+
+provides: [Element.Shortcuts]
+
+...
+*/
+
+Element.implement({
+
+	isDisplayed: function(){
+		return this.getStyle('display') != 'none';
+	},
+
+	isVisible: function(){
+		var w = this.offsetWidth,
+			h = this.offsetHeight;
+		return (w == 0 && h == 0) ? false : (w > 0 && h > 0) ? true : this.style.display != 'none';
+	},
+
+	toggle: function(){
+		return this[this.isDisplayed() ? 'hide' : 'show']();
+	},
+
+	hide: function(){
+		var d;
+		try {
+			//IE fails here if the element is not in the dom
+			d = this.getStyle('display');
+		} catch(e){}
+		if (d == 'none') return this;
+		return this.store('element:_originalDisplay', d || '').setStyle('display', 'none');
+	},
+
+	show: function(display){
+		if (!display && this.isDisplayed()) return this;
+		display = display || this.retrieve('element:_originalDisplay') || 'block';
+		return this.setStyle('display', (display == 'none') ? 'block' : display);
+	},
+
+	swapClass: function(remove, add){
+		return this.removeClass(remove).addClass(add);
+	}
+
+});
+
+Document.implement({
+
+	clearSelection: function(){
+		if (document.selection && document.selection.empty){
+			document.selection.empty();
+		} else if (window.getSelection){
+			var selection = window.getSelection();
+			if (selection && selection.removeAllRanges) selection.removeAllRanges();
+		}
+	}
+
+});
+
+
+/*
+---
+
+script: Class.Binds.js
+
+name: Class.Binds
+
+description: Automagically binds specified methods in a class to the instance of the class.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Core/Class
+  - /MooTools.More
+
+provides: [Class.Binds]
+
+...
+*/
+
+Class.Mutators.Binds = function(binds){
+	return binds;
+};
+
+Class.Mutators.initialize = function(initialize){
+	return function(){
+		Array.from(this.Binds).each(function(name){
+			var original = this[name];
+			if (original) this[name] = original.bind(this);
+		}, this);
+		return initialize.apply(this, arguments);
+	};
+};
+
+
+/*
+---
+
+script: Class.Occlude.js
+
+name: Class.Occlude
+
+description: Prevents a class from being applied to a DOM element twice.
+
+license: MIT-style license.
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Core/Class
+  - Core/Element
+  - /MooTools.More
+
+provides: [Class.Occlude]
+
+...
+*/
+
+Class.Occlude = new Class({
+
+	occlude: function(property, element){
+		element = document.id(element || this.element);
+		var instance = element.retrieve(property || this.property);
+		if (instance && this.occluded != null)
+			return this.occluded = instance;
+
+		this.occluded = false;
+		element.store(property || this.property, this);
+		return this.occluded;
+	}
+
+});
 
 
 /*
