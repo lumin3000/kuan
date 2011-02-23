@@ -1,0 +1,8 @@
+.user_blogs
+  .default
+    .primary
+      = current_user.blogs.first.title
+  .options
+    - current_user.blogs.from(1).each do |blog|
+      .other
+        = blog.title

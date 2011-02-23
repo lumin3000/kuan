@@ -7,7 +7,11 @@ Kuan::Application.routes.draw do
 
   resources :posts
 
-  resources :users, :except => [:index, :destroy]
+  resources :users, :except => [:index, :destroy] do
+    member do
+      get :followings
+    end
+  end
   resources :sessions, :only => [:new, :create, :destroy]
   resources :blogs
   

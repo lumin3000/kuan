@@ -48,8 +48,8 @@ class User
     blog.primary = true
     blog.save
     follow! blog, "lord"
+    blog
   end
-
 
   def follow!(blog, auth="follower")
     f = followings.where(:blog_id => blog._id).first

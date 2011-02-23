@@ -11,7 +11,7 @@ describe UsersController do
   after(:each) do
     User.delete_all
     Blog.delete_all
-  end 
+  end
 
   describe "GET 'new'" do
     it "should be successful" do
@@ -20,7 +20,16 @@ describe UsersController do
     end
   end
 
-  describe "GET 'show'" do
+  describe "GET 'home'" do
+
+    before :each do
+      @blogp = @user.create_primary_blog!
+      @blogf = Factory :blog
+      @blogm = Factory :blog, :uri =>Factory.next(:uri)
+      @user.follow! @blogm, "member"
+      @user.follow! @blogf, "founder"
+    end
+    
     it "should redirect to signin when no user sign in" do
       get :show
       response.should redirect_to signin_path
@@ -33,12 +42,14 @@ describe UsersController do
     end
 
     it "should show the user's blogs" do
-      blog1 = Factory :blog
-      blog2 = Factory :blog, :uri =>Factory.next(:uri)
-      f1 = Factory :following, :blog => blog1
-      f2 = Factory :following, :blog => blog2
+      controller.sign_in @user
       get :show
-      #waitting for the views to complete
+      response.should have_selector("div",
+                                    :content => @blogp.title)
+      response.should have_selector("div",
+                                    :content => @blogf.title)
+      response.should have_selector("div",
+                                    :content => @blogm.title)
     end
   end
 
@@ -64,7 +75,7 @@ describe UsersController do
 
     describe "success" do
       before(:each) do
-        @attr = {:name => "newuser", 
+        @attr = {:name => "newuser",
           :email => "newuser@k.com",
           :password => "foobar",
           :password_confirmation => "foobar"}
@@ -92,20 +103,20 @@ describe UsersController do
       it "should create primary blog" do
         post :create, :user => @attr
         user = User.where(:email => @attr[:email]).first
-        user.primary_blog.uri.should == @attr[:name].downcase 
+        user.primary_blog.uri.should == @attr[:name].downcase
         user.primary_blog.title.should == @attr[:name]
       end
 
       it "should translate chinese name to blog name" do
         post :create, :user => @attr.merge(:name => "李路")
         user = User.where(:email => @attr[:email]).first
-        user.primary_blog.uri.should == "lilu" 
+        user.primary_blog.uri.should == "lilu"
       end
 
       it "should ljust name to uri length" do
         post :create, :user => @attr.merge(:name => "li")
         user = User.where(:email => @attr[:email]).first
-        user.primary_blog.uri.should == "likk" 
+        user.primary_blog.uri.should == "likk"
       end
 
       it "should change uri when uri exist" do
@@ -133,7 +144,7 @@ describe UsersController do
     end
 
     it "should be successful" do
-      controller.sign_in @user 
+      controller.sign_in @user
       get :edit, :id => @user
       response.should render_template 'edit'
     end
@@ -182,7 +193,7 @@ describe UsersController do
         put :update, :id => @user, :user => @attr
         flash[:success].should_not be_blank
       end
-      
+
       it "should redirect to home" do
         put :update, :id => @user, :user => @attr
         response.should redirect_to home_path

@@ -27,6 +27,7 @@ describe "Users" do
   describe "sign in/out" do
     it "should sign a user in and out" do
       user = Factory :user
+      user.create_primary_blog! 
       visit signin_path
       fill_in :email, :with => user.email
       fill_in :password, :with => user.password

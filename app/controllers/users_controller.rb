@@ -31,4 +31,7 @@ class UsersController < ApplicationController
     end
   end
 
+  def followings
+  end
+ 
 end
