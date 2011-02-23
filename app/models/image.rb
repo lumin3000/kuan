@@ -12,34 +12,62 @@ class Image
   def self.calc_scale(from, to)
     scale_w = to[0].fdiv from[0]
     scale_h = to[1].fdiv from[1]
-    min, max = scale_h > scale_w ? [scale_w, scale_h] : [scale_h, scale_w]
-    if min > 0 then min else max end
+    max = [scale_w, scale_h].max
+    scale = [max, 1].min
+    from.map do |n|
+      (n * scale).round
+    end
+  end
+
+  def self.calc_offset(from, to)
+    width = to[0] == 0 ? 0: [to[0] - from[0], 0].min
+    height = to[1] == 0 ? 0 : [to[1] - from[1], 0].min
+
+    [(-width) / 2, (-height) / 2]
   end
 
   def self.create_from_original(file, process_spec = {})
-    raise "File not available" if not file.respond_to? :read
+    raise "Not a file?" if not file.respond_to? :read
 
     image = Image.new()
 
     grid = Mongo::Grid.new(image.db)
-    original_image = MiniMagick::Image.read file
+    begin
+      original_image = MiniMagick::Image.read file
+    rescue
+      raise "Cant read your file, really"
+    end
+
     type = original_image["format"].downcase!
     mime = "image/#{type}"
     original_blob = original_image.to_blob
+    orig_dimen = original_image['dimensions']
 
-    id = grid.put original_blob, :content_type => mime
+    begin
+      id = grid.put original_blob, :content_type => mime
+    rescue
+      raise "Database fail, cant save your stuff"
+    end
     image.original = id
 
     process_spec.each do |version, geometry|
       next if not AVAIL_VERSIONS.include? version
-      scale = self.calc_scale(original_image['dimensions'], geometry)
+      temp_dimen = self.calc_scale(orig_dimen, geometry)
       i = MiniMagick::Image.read(original_blob)
-      i.resize "#{scale*100}%" if scale < 1
-      id = grid.put i.to_blob, :content_type => mime
-      image.send "#{version}=", id
+      i.resize "#{temp_dimen[0]}x#{temp_dimen[1]}"
+      w, h = i['dimensions']
+      # os for offset
+      os_w, os_h = self.calc_offset([w, h], geometry)
+      i.shave "#{os_w}x#{os_h}"
+      begin
+        id = grid.put i.to_blob, :content_type => mime
+        image.send "#{version}=", id
+      rescue
+        logger.error "Database error, cant save stuff"
+      end
     end
 
-    image.save
+    image.save!
     image
   end
 
@@ -50,12 +78,16 @@ class Image
     end
   end
 
-  def to_json()
+  def to_hash()
     hash = {id: self.id}
     AVAIL_VERSIONS.each do |k|
       url = self.url_for k
       hash[k] = url if not url.nil?
     end
-    hash.to_json
+    hash
+  end
+
+  def to_json()
+    self.to_hash.to_json
   end
 end

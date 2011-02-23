@@ -1,16 +1,29 @@
 namespace :db do
   desc "Fill database with sample data"
   task :populate => :environment do
-    User.delete_all
-    User.create!(:name => "lilu",
-                 :email => "lilu@k.org",
-                 :password => "foobar",
-                 :password_confirmation => "foobar")
-    99.times do |n|
-      User.create!(:name => "lilu-#{n+1}",
-                   :email => "lilu-#{n+1}@k.org",
-                   :password => "password",
-                   :password_confirmation => "password")
+    Rake::Task['db:drop'].invoke
+    make_users_and_blogs
+    make_followings
+  end
+end
+
+def make_users_and_blogs
+  50.times do |n|
+    user = User.create!(:name => "lilu-#{n}",
+                        :email => "lilu-#{n}@k.org",
+                        :password => "password",
+                        :password_confirmation => "password")
+    user.create_primary_blog!
+    3.times do |m|
+      blog = Blog.create!(:title => "title-founder-#{n}-#{m}",
+                          :uri => "uri#{n}founder#{m}")
+      user.follow! blog, "founder"
     end
+  end
+end
+
+def make_followings
+  User.all[1..10].each do |u|
+    Blog.all[1..10].each {|b| u.follow! b, "follower"}
   end
 end

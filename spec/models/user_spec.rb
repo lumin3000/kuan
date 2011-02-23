@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe User do
 
-  before(:each) do
+  before :each do
     @user = Factory :user
     @user.save!
     @attr = {:name => @user.name,
@@ -12,7 +12,7 @@ describe User do
       :password_confirmation => @user.password_confirmation}
   end
 
-  after(:each) do
+  after :each do
     User.delete_all
   end
  

@@ -11,7 +11,7 @@ describe Image, "create_from_original" do
   after :each do
     @file.close
   end
-  
+
 
   describe "given an image file" do
     it "should provide original image" do
@@ -56,11 +56,25 @@ describe Image, "scaling calculation" do
   describe "Given specified from-to-result data" do
     it "should make it" do
       @data = [
-        [[1000, 1000], [500, 800], 0.5],
-        [[600, 600], [60, 0], 0.1],
+        [[1000, 1000], [500, 800], [800, 800]],
+        [[600, 600], [60, 0], [60, 60]],
       ]
       @data.each do |d|
         Image.calc_scale(d[0], d[1]).should == d[2]
+      end
+    end
+  end
+end
+
+describe Image, "offset calculation" do
+  describe "Given specified from-to-result data" do
+    it "should make it" do
+      @data = [
+        [[800, 800], [500, 800], [150, 0]],
+        [[600, 600], [60, 0], [270, 0]],
+      ]
+      @data.each do |d|
+        Image.calc_offset(d[0], d[1]).should == d[2]
       end
     end
   end
