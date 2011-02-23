@@ -204,8 +204,9 @@ K.post = (function(){
         attach: function(el){
             el.getElement('[name=tar_close]').addEvent('click', function(){
                 var photo_item = this.getParent('[name=photo_item]');
-                if(photo_item.getElement(['[name=tar_process]']) && photo_item.getElement(['[name=tar_process]']).isVisible()){
-                }
+                /*
+                if(photo_item.getElement(['[name=tar_process]']) && photo_item.getElement(['[name=tar_process]']).isDisplayed()){
+                }*/
                 photo_item.destroy();
             });
         }
@@ -239,11 +240,23 @@ K.post = (function(){
         var tar_tog_local = $('tar_tog_local');
         tar_tog_url.addEvent('click', function(){
             tar_tog_url.hide();
-            tar_tog_local.show();
+            tar_tog_local.setStyle('display', 'inline');
         });
         tar_tog_local.addEvent('click', function(){
-            tar_tog_url.show();
+            tar_tog_url.setStyle('display', 'inline');
             tar_tog_local.hide();
+        });
+    };
+    var init_toggle_textarea = function(){
+        var tar_tog_textarea = $('tar_tog_textarea');
+        var tar_tog_textarea_close = $('tar_tog_textarea_close');
+        tar_tog_textarea.addEvent('click', function(){
+            tar_tog_textarea.hide();
+            tar_tog_textarea_close.setStyle('display', 'inline');
+        });
+        tar_tog_textarea_close.addEvent('click', function(){
+            tar_tog_textarea.setStyle('display', 'inline');
+            tar_tog_textarea_close.hide();
         });
     };
     return {
@@ -259,6 +272,7 @@ K.post = (function(){
                 }
                 this.init_url_upload();
                 init_toggle_upload();
+                init_toggle_textarea();
             }
         },
         init_url_upload: function(){
