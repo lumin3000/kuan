@@ -69,11 +69,32 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 .header .dash_navigator
 {
 	margin-left:210px;
+	padding-top:10px;
+	padding-right:20px;
 	text-align:right;
-	font-size:14px;
+	font-size:12px;
+	line-height:14px;
+	color:#8E9494;
 }
 
+.header .dash_navigator input{
+	width:180px;
+	border:1px solid #8E9494;
+	padding:2px;
+}
 
+.header .dash_navigator *{
+	color:#8E9494;
+}
+
+.header .dash_navigator .logout{
+	display:inline-block;
+	padding:0px;
+	background:url('images/icons.gif') -56px -14px;
+	overflow:hidden;
+	width:14px;
+	height:14px;
+}
 
 /********footer*********/
 
@@ -335,8 +356,96 @@ form.edit_page .submit_box input{
 	width:100px;
 	float:right;
 }
+.post .file_image{
+	clear:both;
+	width:685px;
+	padding:15px 0 5px 20px;
+	font-size:20px;
+	height:35px;
+	line-height:35px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #cadbea;
+	background:#fff;
+	margin-bottom:30px;
+}
 
-.post .text, .post .title_text, .post .url_link,  .post .title_link{
+.post .url_image span{
+	display: inline-block;
+	width:130px;
+	background:url('images/post_image_url.gif') no-repeat;
+	cursor:pointer;
+	line-height:30px;
+	margin-top:9px;
+	vertical-align:top;
+}
+.post .url_image input{
+	border:0;
+	height:40px;
+	line-height:40px;
+	font-size:20px;
+	width:540px;
+}
+
+.post .file_image span {font-size:12px}
+.post .file_image input {width:270px;margin-right:150px;}
+.post .list_image {
+	clear:both;
+	width:685px;
+	padding:5px 0 5px 20px;
+	font-size:20px;
+	height:75px;
+	line-height:75px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #cadbea;
+	background:#fff;
+	margin-bottom:30px;	
+}
+.post .list_image div{float:left;}
+	
+.post .list_image .the_drag_handle {
+	width:14px;
+	height:14px;
+	margin-top:30px;
+	margin-right:20px;
+	background:url('images/icons.gif') -84px -14px;
+	overflow:hidden;
+	cursor:move;
+}
+.post .list_image .the_image {
+	margin-top:6px;
+	width:60px;
+	height:60px;
+	border:1px solid gray;
+}
+.post .list_image .the_text {
+	width:520px;
+	padding:0px 20px;
+	margin-top:20px	;
+}
+.post .list_image .the_text input{
+	width:480px;
+	height:32px;
+	border:1px solid gray;
+	font-size:20px;
+	line-height:32px;
+}
+.post .list_image .the_close {
+	width:14px;
+	height:14px;
+	margin-top:10px;
+	background:url('images/icons.gif') -70px -14px;
+	overflow:hidden;
+}
+.post .image_url_starter{
+	width:200px;
+	display:bock;
+	float:left
+}
+.post .text, .post .title_text, .post .url_link,  .post .title_link, .post .url_image{
 	clear:both;
 	width:685px;
 	padding:5px 0 5px 20px;
@@ -402,6 +511,7 @@ form.edit_page .submit_box input{
 
 .dashboard{margin-top:24px;}
 .dashboard .menu{
+	padding-top:4px;
 	width:186px;
 	padding-left:14px;
 	float:right;
