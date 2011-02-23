@@ -37,6 +37,10 @@ describe Image, "create_from_original" do
       url_small.should be_nil
     end
 
+    it "should reload" do
+      @image.reload
+    end
+
     it "should do the resizing" do
       large_image = MiniMagick::Image.read(@grid.get(@image.large))
       dimensions = large_image['dimensions']

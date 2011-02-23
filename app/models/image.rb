@@ -88,7 +88,7 @@ class Image
     end
   end
 
-  def to_hash()
+  def to_a_fucking_hash()
     hash = {id: self.id}
     AVAIL_VERSIONS.each do |k|
       url = self.url_for k
