@@ -1,7 +1,9 @@
+- js 'post_display'
 %div[post]{:class => type}
-  = render partial: sub_template, object: post
-  = post.created_at
-  = link_to "编辑", edit_post_path(post)
-  = link_to "删除", "/posts/#{post.id}", :confirm => "确定删除?", 
-    :method => :delete, :remote => true
-
+  .content_body
+    = render partial: sub_template, object: post
+  .content_footer
+    = post.created_at
+    = link_to "编辑", edit_post_path(post)
+    = link_to "删除", "/posts/#{post.id}", :confirm => "确定删除?", 
+      :method => :delete, :remote => true
