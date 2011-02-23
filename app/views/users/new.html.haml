@@ -1,4 +1,4 @@
-%h1 注册
+%h1= "#{@inv_user.name}邀请您注册"
 
 = form_for(@user) do |f|
   - if @user.errors.any?
@@ -19,4 +19,5 @@
     = f.label :password_confirmation
     %br
     = f.password_field :password_confirmation
+  = hidden_field_tag 'code', @inv_user.inv_code
   .action= f.submit "提交"

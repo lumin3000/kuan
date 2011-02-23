@@ -8,7 +8,7 @@ class User
   field :encrypted_password
   embeds_many :followings
 
-  attr_accessor :password
+  attr_accessor :password, :code
   attr_accessible :name, :email, :password, :password_confirmation
 
   validates :name, :presence => true,
@@ -40,8 +40,22 @@ class User
       user = id ? find(id) : nil
       (user && user.salt == salt) ? user : nil
     end
+
+    def find_by_code(code)
+      begin
+        find(code.to_i(32).to_s(16))
+      rescue BSON::InvalidObjectId
+        nil
+      end
+    end
   end
 
+  #invitation code
+  def inv_code
+    _id.to_s.to_i(16).to_s(32)
+  end
+
+  #primary blog = user's default blog
   def create_primary_blog!
     blog = Blog.new(:title => name,
                     :uri => uri_by_name)
@@ -49,6 +63,10 @@ class User
     blog.save
     follow! blog, "lord"
     blog
+  end
+
+  def primary_blog
+    followings.where(:auth => "lord").first.blog
   end
 
   def follow!(blog, auth="follower")
@@ -64,10 +82,7 @@ class User
     followings.where(:blog_id => blog._id).destroy
   end
 
-  def primary_blog
-    followings.where(:auth => "lord").first.blog
-  end
-
+  #all editable blogs, lord > founder > member > follower
   def blogs
     followings.excludes(:auth => "follower").sort do |a, b|
       next 0 if a.auth == b.auth
@@ -77,7 +92,7 @@ class User
     end.map {|f| f.blog}
   end
 
-  #subs = subscriptions
+  #subs = subscriptions = follow blogs
   def subs
     #waitting for piginate
     followings.where(:auth => "follower").
