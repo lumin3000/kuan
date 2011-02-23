@@ -234,6 +234,18 @@ K.post = (function(){
             photo_item.attach(item);
         });
     };
+    var init_toggle_upload = function(){
+        var tar_tog_url = $('tar_tog_url');
+        var tar_tog_local = $('tar_tog_local');
+        tar_tog_url.addEvent('click', function(){
+            tar_tog_url.hide();
+            tar_tog_local.show();
+        });
+        tar_tog_local.addEvent('click', function(){
+            tar_tog_url.show();
+            tar_tog_local.hide();
+        });
+    };
     return {
         init: function(){
             init_title();
@@ -246,6 +258,7 @@ K.post = (function(){
                     init_upload();
                 }
                 this.init_url_upload();
+                init_toggle_upload();
             }
         },
         init_url_upload: function(){
