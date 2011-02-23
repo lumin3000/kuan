@@ -217,7 +217,7 @@ K.post = (function(){
                 el = photo_item.create();
             },
             'onSuccess': function(v){
-                photo_item.show(el);
+                photo_item.success(el, v);
             }
         });
     };
