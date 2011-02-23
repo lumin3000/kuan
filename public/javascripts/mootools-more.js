@@ -1,141 +1,6 @@
 // MooTools: the javascript framework.
-// Load this file's selection again by visiting: http://mootools.net/more/41e6cddf1e99226d5914976a1f426a08 
-// Or build this file again with packager using: packager build More/Element.Forms More/Element.Position More/Element.Shortcuts More/OverText More/Drag.Move More/Assets More/IframeShim More/Locale
-/*
----
-
-script: String.Extras.js
-
-name: String.Extras
-
-description: Extends the String native object to include methods useful in managing various kinds of strings (query strings, urls, html, etc).
-
-license: MIT-style license
-
-authors:
-  - Aaron Newton
-  - Guillermo Rauch
-  - Christopher Pitt
-
-requires:
-  - Core/String
-  - Core/Array
-
-provides: [String.Extras]
-
-...
-*/
-
-(function(){
-
-var special = {
-	'a': /[àáâãäåăą]/g,
-	'A': /[ÀÁÂÃÄÅĂĄ]/g,
-	'c': /[ćčç]/g,
-	'C': /[ĆČÇ]/g,
-	'd': /[ďđ]/g,
-	'D': /[ĎÐ]/g,
-	'e': /[èéêëěę]/g,
-	'E': /[ÈÉÊËĚĘ]/g,
-	'g': /[ğ]/g,
-	'G': /[Ğ]/g,
-	'i': /[ìíîï]/g,
-	'I': /[ÌÍÎÏ]/g,
-	'l': /[ĺľł]/g,
-	'L': /[ĹĽŁ]/g,
-	'n': /[ñňń]/g,
-	'N': /[ÑŇŃ]/g,
-	'o': /[òóôõöøő]/g,
-	'O': /[ÒÓÔÕÖØ]/g,
-	'r': /[řŕ]/g,
-	'R': /[ŘŔ]/g,
-	's': /[ššş]/g,
-	'S': /[ŠŞŚ]/g,
-	't': /[ťţ]/g,
-	'T': /[ŤŢ]/g,
-	'ue': /[ü]/g,
-	'UE': /[Ü]/g,
-	'u': /[ùúûůµ]/g,
-	'U': /[ÙÚÛŮ]/g,
-	'y': /[ÿý]/g,
-	'Y': /[ŸÝ]/g,
-	'z': /[žźż]/g,
-	'Z': /[ŽŹŻ]/g,
-	'th': /[þ]/g,
-	'TH': /[Þ]/g,
-	'dh': /[ð]/g,
-	'DH': /[Ð]/g,
-	'ss': /[ß]/g,
-	'oe': /[œ]/g,
-	'OE': /[Œ]/g,
-	'ae': /[æ]/g,
-	'AE': /[Æ]/g
-},
-
-tidy = {
-	' ': /[\xa0\u2002\u2003\u2009]/g,
-	'*': /[\xb7]/g,
-	'\'': /[\u2018\u2019]/g,
-	'"': /[\u201c\u201d]/g,
-	'...': /[\u2026]/g,
-	'-': /[\u2013]/g,
-//	'--': /[\u2014]/g,
-	'&raquo;': /[\uFFFD]/g
-};
-
-var walk = function(string, replacements){
-	var result = string;
-	for (key in replacements) result = result.replace(replacements[key], key);
-	return result;
-};
-
-var getRegexForTag = function(tag, contents){
-	tag = tag || '';
-	var regstr = contents ? "<" + tag + "(?!\\w)[^>]*>([\\s\\S]*?)<\/" + tag + "(?!\\w)>" : "<\/?" + tag + "([^>]+)?>";
-	reg = new RegExp(regstr, "gi");
-	return reg;
-};
-
-String.implement({
-
-	standardize: function(){
-		return walk(this, special);
-	},
-
-	repeat: function(times){
-		return new Array(times + 1).join(this);
-	},
-
-	pad: function(length, str, direction){
-		if (this.length >= length) return this;
-
-		var pad = (str == null ? ' ' : '' + str)
-			.repeat(length - this.length)
-			.substr(0, length - this.length);
-
-		if (!direction || direction == 'right') return this + pad;
-		if (direction == 'left') return pad + this;
-
-		return pad.substr(0, (pad.length / 2).floor()) + this + pad.substr(0, (pad.length / 2).ceil());
-	},
-
-	getTags: function(tag, contents){
-		return this.match(getRegexForTag(tag, contents)) || [];
-	},
-
-	stripTags: function(tag, contents){
-		return this.replace(getRegexForTag(tag, contents), '');
-	},
-
-	tidy: function(){
-		return walk(this, tidy);
-	}
-
-});
-
-})();
-
-
+// Load this file's selection again by visiting: http://mootools.net/more/dd92af0a656ae9cae411a9ede05a4af1 
+// Or build this file again with packager using: packager build More/Elements.From More/OverText More/Sortables More/IframeShim More/Locale
 /*
 ---
 
@@ -173,11 +38,11 @@ MooTools.More = {
 /*
 ---
 
-script: Element.Forms.js
+script: Elements.From.js
 
-name: Element.Forms
+name: Elements.From
 
-description: Extends the Element native object to include methods useful in managing inputs.
+description: Returns a collection of elements from a string of html.
 
 license: MIT-style license
 
@@ -185,128 +50,106 @@ authors:
   - Aaron Newton
 
 requires:
+  - Core/String
   - Core/Element
-  - /String.Extras
   - /MooTools.More
 
-provides: [Element.Forms]
+provides: [Elements.from, Elements.From]
 
 ...
 */
 
-Element.implement({
+Elements.from = function(text, excludeScripts){
+	if (excludeScripts || excludeScripts == null) text = text.stripScripts();
 
-	tidy: function(){
-		this.set('value', this.get('value').tidy());
-	},
+	var container, match = text.match(/^\s*<(t[dhr]|tbody|tfoot|thead)/i);
 
-	getTextInRange: function(start, end){
-		return this.get('value').substring(start, end);
-	},
-
-	getSelectedText: function(){
-		if (this.setSelectionRange) return this.getTextInRange(this.getSelectionStart(), this.getSelectionEnd());
-		return document.selection.createRange().text;
-	},
-
-	getSelectedRange: function(){
-		if (this.selectionStart != null){
-			return {
-				start: this.selectionStart,
-				end: this.selectionEnd
-			};
+	if (match){
+		container = new Element('table');
+		var tag = match[1].toLowerCase();
+		if (['td', 'th', 'tr'].contains(tag)){
+			container = new Element('tbody').inject(container);
+			if (tag != 'tr') container = new Element('tr').inject(container);
 		}
+	}
 
-		var pos = {
-			start: 0,
-			end: 0
-		};
-		var range = this.getDocument().selection.createRange();
-		if (!range || range.parentElement() != this) return pos;
-		var duplicate = range.duplicate();
+	return (container || new Element('div')).set('html', text).getChildren();
+};
 
-		if (this.type == 'text'){
-			pos.start = 0 - duplicate.moveStart('character', -100000);
-			pos.end = pos.start + range.text.length;
-		} else {
-			var value = this.get('value');
-			var offset = value.length;
-			duplicate.moveToElementText(this);
-			duplicate.setEndPoint('StartToEnd', range);
-			if (duplicate.text.length) offset -= value.match(/[\n\r]*$/)[0].length;
-			pos.end = offset - duplicate.text.length;
-			duplicate.setEndPoint('StartToStart', range);
-			pos.start = offset - duplicate.text.length;
-		}
-		return pos;
-	},
 
-	getSelectionStart: function(){
-		return this.getSelectedRange().start;
-	},
+/*
+---
 
-	getSelectionEnd: function(){
-		return this.getSelectedRange().end;
-	},
+script: Class.Binds.js
 
-	setCaretPosition: function(pos){
-		if (pos == 'end') pos = this.get('value').length;
-		this.selectRange(pos, pos);
-		return this;
-	},
+name: Class.Binds
 
-	getCaretPosition: function(){
-		return this.getSelectedRange().start;
-	},
+description: Automagically binds specified methods in a class to the instance of the class.
 
-	selectRange: function(start, end){
-		if (this.setSelectionRange){
-			this.focus();
-			this.setSelectionRange(start, end);
-		} else {
-			var value = this.get('value');
-			var diff = value.substr(start, end - start).replace(/\r/g, '').length;
-			start = value.substr(0, start).replace(/\r/g, '').length;
-			var range = this.createTextRange();
-			range.collapse(true);
-			range.moveEnd('character', start + diff);
-			range.moveStart('character', start);
-			range.select();
-		}
-		return this;
-	},
+license: MIT-style license
 
-	insertAtCursor: function(value, select){
-		var pos = this.getSelectedRange();
-		var text = this.get('value');
-		this.set('value', text.substring(0, pos.start) + value + text.substring(pos.end, text.length));
-		if (select !== false) this.selectRange(pos.start, pos.start + value.length);
-		else this.setCaretPosition(pos.start + value.length);
-		return this;
-	},
+authors:
+  - Aaron Newton
 
-	insertAroundCursor: function(options, select){
-		options = Object.append({
-			before: '',
-			defaultMiddle: '',
-			after: ''
-		}, options);
+requires:
+  - Core/Class
+  - /MooTools.More
 
-		var value = this.getSelectedText() || options.defaultMiddle;
-		var pos = this.getSelectedRange();
-		var text = this.get('value');
+provides: [Class.Binds]
 
-		if (pos.start == pos.end){
-			this.set('value', text.substring(0, pos.start) + options.before + value + options.after + text.substring(pos.end, text.length));
-			this.selectRange(pos.start + options.before.length, pos.end + options.before.length + value.length);
-		} else {
-			var current = text.substring(pos.start, pos.end);
-			this.set('value', text.substring(0, pos.start) + options.before + current + options.after + text.substring(pos.end, text.length));
-			var selStart = pos.start + options.before.length;
-			if (select !== false) this.selectRange(selStart, selStart + current.length);
-			else this.setCaretPosition(selStart + text.length);
-		}
-		return this;
+...
+*/
+
+Class.Mutators.Binds = function(binds){
+	return binds;
+};
+
+Class.Mutators.initialize = function(initialize){
+	return function(){
+		Array.from(this.Binds).each(function(name){
+			var original = this[name];
+			if (original) this[name] = original.bind(this);
+		}, this);
+		return initialize.apply(this, arguments);
+	};
+};
+
+
+/*
+---
+
+script: Class.Occlude.js
+
+name: Class.Occlude
+
+description: Prevents a class from being applied to a DOM element twice.
+
+license: MIT-style license.
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Core/Class
+  - Core/Element
+  - /MooTools.More
+
+provides: [Class.Occlude]
+
+...
+*/
+
+Class.Occlude = new Class({
+
+	occlude: function(property, element){
+		element = document.id(element || this.element);
+		var instance = element.retrieve(property || this.property);
+		if (instance && this.occluded != null)
+			return this.occluded = instance;
+
+		this.occluded = false;
+		element.store(property || this.property, this);
+		return this.occluded;
 	}
 
 });
@@ -775,84 +618,6 @@ Document.implement({
 			var selection = window.getSelection();
 			if (selection && selection.removeAllRanges) selection.removeAllRanges();
 		}
-	}
-
-});
-
-
-/*
----
-
-script: Class.Binds.js
-
-name: Class.Binds
-
-description: Automagically binds specified methods in a class to the instance of the class.
-
-license: MIT-style license
-
-authors:
-  - Aaron Newton
-
-requires:
-  - Core/Class
-  - /MooTools.More
-
-provides: [Class.Binds]
-
-...
-*/
-
-Class.Mutators.Binds = function(binds){
-	return binds;
-};
-
-Class.Mutators.initialize = function(initialize){
-	return function(){
-		Array.from(this.Binds).each(function(name){
-			var original = this[name];
-			if (original) this[name] = original.bind(this);
-		}, this);
-		return initialize.apply(this, arguments);
-	};
-};
-
-
-/*
----
-
-script: Class.Occlude.js
-
-name: Class.Occlude
-
-description: Prevents a class from being applied to a DOM element twice.
-
-license: MIT-style license.
-
-authors:
-  - Aaron Newton
-
-requires:
-  - Core/Class
-  - Core/Element
-  - /MooTools.More
-
-provides: [Class.Occlude]
-
-...
-*/
-
-Class.Occlude = new Class({
-
-	occlude: function(property, element){
-		element = document.id(element || this.element);
-		var instance = element.retrieve(property || this.property);
-		if (instance && this.occluded != null)
-			return this.occluded = instance;
-
-		this.occluded = false;
-		element.store(property || this.property, this);
-		return this.occluded;
 	}
 
 });
@@ -1546,128 +1311,221 @@ Element.implement({
 /*
 ---
 
-script: Assets.js
+script: Sortables.js
 
-name: Assets
+name: Sortables
 
-description: Provides methods to dynamically load JavaScript, CSS, and Image files into the document.
+description: Class for creating a drag and drop sorting interface for lists of items.
 
 license: MIT-style license
 
 authors:
-  - Valerio Proietti
+  - Tom Occhino
 
 requires:
-  - Core/Element.Event
-  - /MooTools.More
+  - /Drag.Move
 
-provides: [Assets]
+provides: [Sortables]
 
 ...
 */
 
-var Asset = {
+var Sortables = new Class({
 
-	javascript: function(source, properties){
-		properties = Object.append({
-			document: document
-		}, properties);
+	Implements: [Events, Options],
 
-		if (properties.onLoad){
-			properties.onload = properties.onLoad;
-			delete properties.onLoad;
-		}
-
-		var script = new Element('script', {src: source, type: 'text/javascript'});
-		var load = properties.onload || function(){},
-			doc = properties.document;
-		delete properties.onload;
-		delete properties.document;
-
-		return script.addEvents({
-			load: load,
-			readystatechange: function(){
-				if (['loaded', 'complete'].contains(this.readyState)) load.call(this);
-			}
-		}).set(properties).inject(doc.head);
+	options: {/*
+		onSort: function(element, clone){},
+		onStart: function(element, clone){},
+		onComplete: function(element){},*/
+		snap: 4,
+		opacity: 1,
+		clone: false,
+		revert: false,
+		handle: false,
+		constrain: false,
+		preventDefault: false
 	},
 
-	css: function(source, properties){
-		properties = properties || {};
-		var onload = properties.onload || properties.onLoad;
-		if (onload){
-			properties.events = properties.events || {};
-			properties.events.load = onload;
-			delete properties.onload;
-			delete properties.onLoad;
-		}
-		return new Element('link', Object.merge({
-			rel: 'stylesheet',
-			media: 'screen',
-			type: 'text/css',
-			href: source
-		}, properties)).inject(document.head);
+	initialize: function(lists, options){
+		this.setOptions(options);
+
+		this.elements = [];
+		this.lists = [];
+		this.idle = true;
+
+		this.addLists($$(document.id(lists) || lists));
+
+		if (!this.options.clone) this.options.revert = false;
+		if (this.options.revert) this.effect = new Fx.Morph(null, Object.merge({
+			duration: 250,
+			link: 'cancel'
+		}, this.options.revert));
 	},
 
-	image: function(source, properties){
-		properties = Object.merge({
-			onload: function(){},
-			onabort: function(){},
-			onerror: function(){}
-		}, properties);
-		var image = new Image();
-		var element = document.id(image) || new Element('img');
-		['load', 'abort', 'error'].each(function(name){
-			var type = 'on' + name;
-			var cap = name.capitalize();
-			if (properties['on' + cap]){
-				properties[type] = properties['on' + cap];
-				delete properties['on' + cap];
-			}
-			var event = properties[type];
-			delete properties[type];
-			image[type] = function(){
-				if (!image) return;
-				if (!element.parentNode){
-					element.width = image.width;
-					element.height = image.height;
-				}
-				image = image.onload = image.onabort = image.onerror = null;
-				event.delay(1, element, element);
-				element.fireEvent(name, element, 1);
-			};
+	attach: function(){
+		this.addLists(this.lists);
+		return this;
+	},
+
+	detach: function(){
+		this.lists = this.removeLists(this.lists);
+		return this;
+	},
+
+	addItems: function(){
+		Array.flatten(arguments).each(function(element){
+			this.elements.push(element);
+			var start = element.retrieve('sortables:start', function(event){
+				this.start.call(this, event, element);
+			}.bind(this));
+			(this.options.handle ? element.getElement(this.options.handle) || element : element).addEvent('mousedown', start);
+		}, this);
+		return this;
+	},
+
+	addLists: function(){
+		Array.flatten(arguments).each(function(list){
+			this.lists.push(list);
+			this.addItems(list.getChildren());
+		}, this);
+		return this;
+	},
+
+	removeItems: function(){
+		return $$(Array.flatten(arguments).map(function(element){
+			this.elements.erase(element);
+			var start = element.retrieve('sortables:start');
+			(this.options.handle ? element.getElement(this.options.handle) || element : element).removeEvent('mousedown', start);
+
+			return element;
+		}, this));
+	},
+
+	removeLists: function(){
+		return $$(Array.flatten(arguments).map(function(list){
+			this.lists.erase(list);
+			this.removeItems(list.getChildren());
+
+			return list;
+		}, this));
+	},
+
+	getClone: function(event, element){
+		if (!this.options.clone) return new Element(element.tagName).inject(document.body);
+		if (typeOf(this.options.clone) == 'function') return this.options.clone.call(this, event, element, this.list);
+		var clone = element.clone(true).setStyles({
+			margin: 0,
+			position: 'absolute',
+			visibility: 'hidden',
+			width: element.getStyle('width')
 		});
-		image.src = element.src = source;
-		if (image && image.complete) image.onload.delay(1);
-		return element.set(properties);
+		//prevent the duplicated radio inputs from unchecking the real one
+		if (clone.get('html').test('radio')){
+			clone.getElements('input[type=radio]').each(function(input, i){
+				input.set('name', 'clone_' + i);
+				if (input.get('checked')) element.getElements('input[type=radio]')[i].set('checked', true);
+			});
+		}
+
+		return clone.inject(this.list).setPosition(element.getPosition(element.getOffsetParent()));
 	},
 
-	images: function(sources, options){
-		options = Object.merge({
-			onComplete: function(){},
-			onProgress: function(){},
-			onError: function(){},
-			properties: {}
-		}, options);
-		sources = Array.from(sources);
-		var counter = 0;
-		return new Elements(sources.map(function(source, index){
-			return Asset.image(source, Object.append(options.properties, {
-				onload: function(){
-					counter++;
-					options.onProgress.call(this, counter, index, source);
-					if (counter == sources.length) options.onComplete();
-				},
-				onerror: function(){
-					counter++;
-					options.onError.call(this, counter, index, source);
-					if (counter == sources.length) options.onComplete();
-				}
-			}));
-		}));
+	getDroppables: function(){
+		var droppables = this.list.getChildren().erase(this.clone).erase(this.element);
+		if (!this.options.constrain) droppables.append(this.lists).erase(this.list);
+		return droppables;
+	},
+
+	insert: function(dragging, element){
+		var where = 'inside';
+		if (this.lists.contains(element)){
+			this.list = element;
+			this.drag.droppables = this.getDroppables();
+		} else {
+			where = this.element.getAllPrevious().contains(element) ? 'before' : 'after';
+		}
+		this.element.inject(element, where);
+		this.fireEvent('sort', [this.element, this.clone]);
+	},
+
+	start: function(event, element){
+		if (
+			!this.idle ||
+			event.rightClick ||
+			['button', 'input'].contains(event.target.get('tag'))
+		) return;
+
+		this.idle = false;
+		this.element = element;
+		this.opacity = element.get('opacity');
+		this.list = element.getParent();
+		this.clone = this.getClone(event, element);
+
+		this.drag = new Drag.Move(this.clone, {
+			preventDefault: this.options.preventDefault,
+			snap: this.options.snap,
+			container: this.options.constrain && this.element.getParent(),
+			droppables: this.getDroppables(),
+			onSnap: function(){
+				event.stop();
+				this.clone.setStyle('visibility', 'visible');
+				this.element.set('opacity', this.options.opacity || 0);
+				this.fireEvent('start', [this.element, this.clone]);
+			}.bind(this),
+			onEnter: this.insert.bind(this),
+			onCancel: this.reset.bind(this),
+			onComplete: this.end.bind(this)
+		});
+
+		this.clone.inject(this.element, 'before');
+		this.drag.start(event);
+	},
+
+	end: function(){
+		this.drag.detach();
+		this.element.set('opacity', this.opacity);
+		if (this.effect){
+			var dim = this.element.getStyles('width', 'height');
+			var pos = this.clone.computePosition(this.element.getPosition(this.clone.getOffsetParent()));
+			this.effect.element = this.clone;
+			this.effect.start({
+				top: pos.top,
+				left: pos.left,
+				width: dim.width,
+				height: dim.height,
+				opacity: 0.25
+			}).chain(this.reset.bind(this));
+		} else {
+			this.reset();
+		}
+	},
+
+	reset: function(){
+		this.idle = true;
+		this.clone.destroy();
+		this.fireEvent('complete', this.element);
+	},
+
+	serialize: function(){
+		var params = Array.link(arguments, {
+			modifier: Type.isFunction,
+			index: function(obj){
+				return obj != null;
+			}
+		});
+		var serial = this.lists.map(function(list){
+			return list.getChildren().map(params.modifier || function(element){
+				return element.get('id');
+			}, this);
+		}, this);
+
+		var index = params.index;
+		if (this.lists.length == 1) index = 0;
+		return (index || index === 0) && index >= 0 && index < this.lists.length ? serial[index] : serial;
 	}
 
-};
+});
 
 
 /*
