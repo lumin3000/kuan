@@ -112,7 +112,7 @@ describe BlogsController do
   describe "GET 'edit'" do
     before :each do
       controller.sign_in @user
-      @user.follow Following.new(:auth => "founder", :blog => @blog)
+      @user.follow! @blog, "founder"
     end
 
     it "should be successful" do
@@ -125,14 +125,14 @@ describe BlogsController do
 
     before :each do
       controller.sign_in @user
-      @user.follow Following.new(:auth => "founder", :blog => @blog)
+      @user.follow! @blog, "founder"
     end
 
     describe "failure" do
       before :each do
         @attr = {:title => "",
           :uri => ""}
-      end
+      end 
 
       it "should render the 'edit' page" do
         put :update, :id => @blog, :blog => @attr
@@ -162,6 +162,21 @@ describe BlogsController do
         put :update, :id => @blog, :blog => @attr
         response.should redirect_to home_path
       end
+    end
+  end
+
+  describe "GET 'followers'" do
+    it "should display followers" do
+      controller.sign_in @user
+      user1 = Factory :user, :email => Factory.next(:email)
+      user2 = Factory :user, :email => Factory.next(:email)
+      user1.follow! @blog
+      user2.follow! @blog
+      get :followers, :id => @blog
+      response.should have_selector("div",
+                                    :content => user1.name)
+      response.should have_selector("div",
+                                    :content => user2.name)
     end
   end
 

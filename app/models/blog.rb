@@ -13,5 +13,24 @@ class Blog
   :uniqueness => {:case_sensitive => false}
   validates :title, :presence => true,
   :length => {:maximum => 40}
-  
+
+  def followed?(user)
+    !user.followings.where(:blog_id => _id, :auth => "follower").empty?
+  end
+
+  def edited?(user)
+    !user.followings.where(:blog_id => _id).excludes(:auth => "follower").empty?
+  end
+
+  def followers_count
+    User.where("followings.blog_id" => _id,
+               "followings.auth" => "follower").count
+  end
+
+  def followers
+    User.where("followings.blog_id" => _id,
+               "followings.auth" => "follower").
+      desc("followings.created_at").limit(100)
+  end  
+
 end

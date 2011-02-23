@@ -5,8 +5,7 @@ describe "Following" do
   before :each do
     @user = Factory :user
     @blog = Factory :blog
-    @following = Factory :following, :blog => @blog
-    @user.follow @following
+    @user.follow! @blog, "member"
   end
 
   after :each do
@@ -15,6 +14,10 @@ describe "Following" do
   end
 
   describe "validation" do
+    before :each do
+      @following = Following.new(:blog => @blog, :auth => "member")
+    end
+
     it "should reject error auths" do
       @following.auth = "other"
       @following.should_not be_valid
@@ -30,6 +33,10 @@ describe "Following" do
 
   describe "user followings" do
 
+    before :each do
+      @blogf = Factory(:blog, :uri=>Factory.next(:uri))
+    end
+
     it "should be in user followings" do
       @user.should respond_to :followings
     end
@@ -42,33 +49,56 @@ describe "Following" do
       @user.followings.first.user.should == @user
     end
 
+    it "blog should be edited" do
+      @blog.edited?(@user).should be_true
+    end
+
+    it "blog should be followd" do
+      @user.follow! @blog, "follower"
+      @blog.followed?(@user).should be_true
+    end
+
     it "should update the same blog following" do
-      @following.auth = "founder"
       lambda do
-        @user.follow @following
+        @user.follow! @blog, "founder"
       end.should_not change(@user.followings, :count)
       @user.followings.first.auth.should == "founder"
     end
- 
+
     it "should add the different blog following" do
       blog_n = Factory(:blog, :uri =>Factory.next(:uri))
       lambda do
-        @user.follow Following.new(:auth=>"member", :blog=>blog_n)
+        @user.follow! blog_n, "member"
       end.should change(@user.followings, :count).by(1)
     end
 
+    it "should change the subs and followers" do
+      @user.follow! @blogf, "follower"
+      @blogf.reload
+      @blogf.followers.should be_include @user
+      @user.subs.should be_include @blogf
+    end
+
+  end
+
+  describe "user unfollowing" do
+
+    it "should unfollow the blog" do
+      lambda do
+        @user.unfollow! @blog
+      end.should change(@user.followings, :count).by(-1)
+    end
   end
 
   describe "user blogs" do
     it "should order the blogs by auth" do
       @user.followings = []
       bm = Factory(:blog, :uri =>Factory.next(:uri))
-      @user.follow Following.new(:auth=>"member", :blog=>bm)
+      @user.follow! bm, "member"
       bl = Factory(:blog, :uri =>Factory.next(:uri))
-      @user.follow Following.new(:auth=>"lord",
-                                 :blog=>bl)
+      @user.follow! bl, "lord"
       bf = Factory(:blog, :uri =>Factory.next(:uri))
-      @user.follow Following.new(:auth=>"founder", :blog=>bf)
+      @user.follow! bf, "founder"
       @user.blogs.first.should == bl
       @user.blogs.second.should == bf
       @user.blogs.third.should == bm

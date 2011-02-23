@@ -1,0 +1,9 @@
+.user_blogs
+  .default
+    .primary
+      = default_blog.title
+  .options
+    - current_user.blogs.delete default_blog
+    - current_user.blogs.each do |blog|
+      .other
+        = blog.title
