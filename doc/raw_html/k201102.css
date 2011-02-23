@@ -542,7 +542,6 @@ form.edit_page .submit_box input{
 	overflow:hidden;
 }
 
-
 .dashboard .icon_create{
 	display: inline-block;
 	width:14px;
@@ -682,6 +681,30 @@ form.edit_page .submit_box input{
 .dashboard .timeline{
 		padding-top:30px;
 }
+
+/****page_control***/
+.page_control {
+	margin-left:433px;
+	*margin-left:416px;
+}
+
+.page_control a{
+	display:block;
+	float:left;
+	text-decoration:none;
+}
+
+.page_control .page_left, .page_control .page_right{
+	height:26px;
+	line-height:26px;
+	width:108px;
+	background:#009fff;
+	color:white;
+	font-size:14px;
+	text-align:center;
+	margin-left:20px;
+}
+
 
 /****my_pages****/
 .my_pages a{
