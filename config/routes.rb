@@ -7,22 +7,20 @@ Kuan::Application.routes.draw do
 
   resources :posts
 
-  resources :users, :except => [:index, :destroy] do
+  resources :users, :except => [:index, :destroy] 
+
+  resources :sessions, :only => [:new, :create, :destroy]
+  resources :blogs do
     member do
-
-    end
-
-    collection do
-      
+      get :followers
     end
   end
-  resources :sessions, :only => [:new, :create, :destroy]
-  resources :blogs
   
   match "/posts/new/:type" => "posts#new"
 
   match '/signup', :to => 'users#new'
   match '/home', :to => 'users#show'
+  match '/home/:uri', :to => 'users#show'
   match '/followings', :to => 'users#followings'
   
   match '/signin', :to => 'sessions#new'

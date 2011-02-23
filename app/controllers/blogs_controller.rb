@@ -29,6 +29,11 @@ class BlogsController < ApplicationController
     end
   end
 
+  def followers
+    @blog = params[:id]
+    @followers = @blog.followers
+  end
+
   private
 
   def founder_auth

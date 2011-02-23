@@ -33,6 +33,10 @@ describe "Following" do
 
   describe "user followings" do
 
+    before :each do
+      @blogf = Factory(:blog, :uri=>Factory.next(:uri))
+    end
+
     it "should be in user followings" do
       @user.should respond_to :followings
     end
@@ -66,6 +70,13 @@ describe "Following" do
       lambda do
         @user.follow! blog_n, "member"
       end.should change(@user.followings, :count).by(1)
+    end
+
+    it "should change the subs and followers" do
+      @user.follow! @blogf, "follower"
+      @blogf.reload
+      @blogf.followers.should be_include @user
+      @user.subs.should be_include @blogf
     end
 
   end

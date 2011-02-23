@@ -12,9 +12,7 @@ describe UsersController do
     User.delete_all
     Blog.delete_all
   end
-
   
-
   describe "GET 'home'" do
 
     before :each do
@@ -59,7 +57,7 @@ describe UsersController do
                                     :href => followings_path, 
                                     :content => "#{@user.subs.count}")
     end
-
+ 
     it "GET 'followings' should show the following blogs" do
       get :followings
       response.should have_selector("div",
@@ -67,6 +65,30 @@ describe UsersController do
       response.should have_selector("div",
                                     :content => @blogf2.title)
     end
+
+    it "should give default blog for passing uri" do
+      get :show, :uri => @blogm.uri
+      response.should have_selector("div.default_blog",
+                                    :content => @blogm.title)
+    end
+
+    it "should give primary blog for not passing uri" do
+      get :show
+      response.should have_selector("div.default_blog",
+                                    :content => @blogp.title)
+    end
+
+    it "should give default blog followers count and link" do
+      user1 = Factory :user, :email => Factory.next(:email)
+      user2 = Factory :user, :email => Factory.next(:email)
+      user1.follow! @blogp
+      user2.follow! @blogp
+      get :show
+      response.should have_selector("a",
+                                    :href => followers_blog_path(@blogp), 
+                                    :content => "#{@blogp.followers_count}") 
+    end
+
   end
 
   describe "GET 'new'" do

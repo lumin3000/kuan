@@ -74,12 +74,15 @@ class User
       next -1 if a.auth == "lord"
       next -1 if a.auth == "founder" && b.auth == "member"
       1
-    end.map {|f| f.blog} 
+    end.map {|f| f.blog}
   end
 
   #subs = subscriptions
   def subs
-    followings.where(:auth => "follower").map {|f| f.blog}
+    #waitting for piginate
+    followings.where(:auth => "follower").
+      desc(:created_at).limit(100).
+      map {|f| f.blog}
   end
 
   private
@@ -105,7 +108,7 @@ class User
     Digest::SHA2.hexdigest string
   end
 
-  #1,将中文名字转成域名允许的格式，并填充到4 
+  #1,将中文名字转成域名允许的格式，并填充到4
   #2,读取数据库中已有uri,如重名则在后面加数字
   #3,如同名uri已有多个，则取后面数字最大的并+1拼出新的uri
   def uri_by_name

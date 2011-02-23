@@ -24,6 +24,6 @@ end
 
 def make_followings
   User.all[1..10].each do |u|
-    Blog.all[1..10].each {|b| u.follow! b, "followerb"}
+    Blog.all[1..10].each {|b| u.follow! b, "follower"}
   end
 end

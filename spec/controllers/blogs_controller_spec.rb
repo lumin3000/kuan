@@ -165,4 +165,19 @@ describe BlogsController do
     end
   end
 
+  describe "GET 'followers'" do
+    it "should display followers" do
+      controller.sign_in @user
+      user1 = Factory :user, :email => Factory.next(:email)
+      user2 = Factory :user, :email => Factory.next(:email)
+      user1.follow! @blog
+      user2.follow! @blog
+      get :followers, :id => @blog
+      response.should have_selector("div",
+                                    :content => user1.name)
+      response.should have_selector("div",
+                                    :content => user2.name)
+    end
+  end
+
 end

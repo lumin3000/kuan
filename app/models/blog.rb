@@ -22,4 +22,15 @@ class Blog
     !user.followings.where(:blog_id => _id).excludes(:auth => "follower").empty?
   end
 
+  def followers_count
+    User.where("followings.blog_id" => _id,
+               "followings.auth" => "follower").count
+  end
+
+  def followers
+    User.where("followings.blog_id" => _id,
+               "followings.auth" => "follower").
+      desc("followings.created_at").limit(100)
+  end  
+
 end
