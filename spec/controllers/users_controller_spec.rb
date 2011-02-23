@@ -93,10 +93,20 @@ describe UsersController do
 
   describe "GET 'new'" do
     it "should be successful" do
-      get :new
+      get :new, :code => @user.inv_code
       response.should be_success
     end
-  end
+
+    it "blank code should render invalid_invitation page" do
+      get :new
+      response.should render_template 'invalid_invitation'
+    end
+
+    it "error code should render invalid_invitation page" do
+      get :new, :code => "invalid"
+      response.should render_template 'invalid_invitation'
+    end
+  end 
   
   describe "POST 'create'" do
 
@@ -106,14 +116,20 @@ describe UsersController do
           :email => "",
           :password => "",
           :password_confirmation => ""}
+        @code = @user.inv_code
+      end
+
+      it "error code should render invalid_invitation page" do
+        post :create, :code => "invalid"
+        response.should render_template 'invalid_invitation'
       end
 
       it "should not create a user" do
-        lambda {post :create, :user => @attr}.should_not change(User, :count)
+        lambda {post :create, :user => @attr, :code => @code}.should_not change(User, :count)
       end
 
       it "should render the 'new' page" do
-        post :create, :user => @attr
+        post :create, :user => @attr, :code => @code
         response.should render_template 'new'
       end
     end
@@ -124,49 +140,50 @@ describe UsersController do
           :email => "newuser@k.com",
           :password => "foobar",
           :password_confirmation => "foobar"}
+        @code = @user.inv_code
       end
 
       it "should create a user" do
-        lambda {post :create, :user => @attr}.should change(User, :count).by(1)
+        lambda {post :create, :user => @attr, :code => @code}.should change(User, :count).by(1)
       end
 
       it "should redirece to home" do
-        post :create, :user => @attr
+        post :create, :user => @attr, :code => @code
         response.should redirect_to home_path
       end
 
       it "should have a welcome message" do
-        post :create, :user => @attr
+        post :create, :user => @attr, :code => @code
         flash[:success].should_not be_blank
       end
 
       it "should sign in" do
-        post :create, :user => @attr
+        post :create, :user => @attr, :code => @code
         controller.should be_signed_in
       end
 
       it "should create primary blog" do
-        post :create, :user => @attr
+        post :create, :user => @attr, :code => @code
         user = User.where(:email => @attr[:email]).first
         user.primary_blog.uri.should == @attr[:name].downcase
         user.primary_blog.title.should == @attr[:name]
       end
 
       it "should translate chinese name to blog name" do
-        post :create, :user => @attr.merge(:name => "李路")
+        post :create, :user => @attr.merge(:name => "李路"), :code => @code
         user = User.where(:email => @attr[:email]).first
         user.primary_blog.uri.should == "lilu"
       end
 
       it "should ljust name to uri length" do
-        post :create, :user => @attr.merge(:name => "li")
+        post :create, :user => @attr.merge(:name => "li"), :code => @code
         user = User.where(:email => @attr[:email]).first
         user.primary_blog.uri.should == "likk"
       end
 
       it "should change uri when uri exist" do
         Factory(:blog, :uri => "dupuri")
-        post :create, :user => @attr.merge(:name => "dupuri")
+        post :create, :user => @attr.merge(:name => "dupuri"), :code => @code
         user = User.where(:email => @attr[:email]).first
         user.primary_blog.uri.should == "dupuri1"
       end
@@ -174,9 +191,20 @@ describe UsersController do
       it "should add uri number when uri exist" do
         Factory(:blog, :uri => "dupuri")
         Factory(:blog, :uri => "dupuri12")
-        post :create, :user => @attr.merge(:name => "dupuri")
+        post :create, :user => @attr.merge(:name => "dupuri"), :code => @code
         user = User.where(:email => @attr[:email]).first
         user.primary_blog.uri.should == "dupuri13"
+      end
+
+      it "should follow inv_user's blogs" do
+        bf = Factory(:blog, :uri => "invuri")
+        @user.follow! bf, "founder"
+        bm = Factory(:blog, :uri => "invuri2")
+        @user.follow! bm, "member"
+        post :create, :user => @attr, :code => @code
+        user = User.where(:email => @attr[:email]).first
+        user.subs.should be_include bf
+        user.subs.should be_include bm
       end
     end
 
