@@ -63,7 +63,7 @@ K.remote_file = function(id, path, cb){
             'encoding': 'multipart/form-data', 
             'method': 'post',
             'target': f_tar
-        }).inject(document.body).setStyle('display', 'none');
+        }).inject(document.body).hide();
         file.inject(f);        
         file_feed.set('html', '开始上传');
         file = file_clone.inject(file_box, 'top')
@@ -107,11 +107,8 @@ K.remote_file = function(id, path, cb){
     bind_event(file);
 }
 
-K.init_editor = function(el, target){
+K.render_editor = function(el){
     var textarea = $(el);
-    if($(target)){
-        $(target).destroy();
-    }
     var w  = textarea.getStyle('width').toInt();
     var h  = textarea.getStyle('height').toInt() - 50;
     new MooEditable(textarea, {
@@ -119,3 +116,28 @@ K.init_editor = function(el, target){
         'dimensions':{x:w,y:h}
     });
 }
+
+K.post = (function(){
+    var init_title = function(){
+        $$('.new_title_starter').addEvent('click', function(){
+            $$('.title_text')[0].show();
+            this.hide();
+            return false;
+        })
+    };
+
+    var init_editor = function(){
+        $$('.rich_editor_starter').addEvent('click', function(){
+            this.hide();
+            K.render_editor($('content'));
+            return false;
+        });
+    };
+
+    return {
+        init: function(){
+            init_title();
+            init_editor();
+        }
+    };
+})();
