@@ -159,6 +159,7 @@ K.render_editor = function(el){
 }
 
 K.post = (function(){
+    var photo_path = '/upload/photo';
     var init_title = function(){
         $$('.new_title_starter').addEvent('click', function(){
             $$('.title_text')[0].show();
@@ -175,46 +176,48 @@ K.post = (function(){
         });
     };
 
-    var photo_item_attach = function(el){
-        el.getElement('[name=tar_close]').addEvent('click', function(){
-            var photo_item = this.getParent('[name=photo_item]');
-            if(photo_item.getElement(['[name=tar_process]']) && photo_item.getElement(['[name=tar_process]']).isVisible()){
-            }
-            photo_item.destroy();
-        });
+    var photo_item_template;
+    var photo_item = {
+        create: function(){
+            var el = photo_item_template.clone();
+            el.inject($('photos_list'));
+            this.process(el);
+            photo_item.attach(el);
+            return el;
+        },
+        process: function(el){
+            el.getElement('[name=tar_img_a]').hide();
+            el.getElement('[name=tar_desc]').hide();
+        },
+        success: function(el, v){
+            el.getElement('[name=tar_img_a]')
+                .set('href', v.image.original)
+                .show();
+            el.getElement('[name=tar_img]')
+                .set('src', v.image.small);
+            el.getElement('[name=tar_desc]')
+                .show();
+            el.getElement('.image_id')
+                .set('value', v.image.id);
+            el.getElement('[name=tar_process]').hide();
+        },
+        attach: function(el){
+            el.getElement('[name=tar_close]').addEvent('click', function(){
+                var photo_item = this.getParent('[name=photo_item]');
+                if(photo_item.getElement(['[name=tar_process]']) && photo_item.getElement(['[name=tar_process]']).isVisible()){
+                }
+                photo_item.destroy();
+            });
+        }
     };
     var init_upload = function(){
-        var tmpl = Elements.from($('photo_template').value)[0];
         var el;
-        new K.file_uploader($('image_uploader'), '/upload/photo', {
+        new K.file_uploader($('image_uploader'), photo_path, {
             'onStart': function(){
-                el = tmpl.clone();
-                el.inject($('photos_list'));
-                el.getElement('[name=tar_img_a]').hide();
-                el.getElement('[name=tar_desc]').hide();
-                photo_item_attach(el);
+                el = photo_item.create();
             },
             'onSuccess': function(v){
-                el.getElement('[name=tar_img_a]')
-                    .set('href', v.image.original)
-                    .show();
-                el.getElement('[name=tar_img]')
-                    .set('src', v.image.small);
-                el.getElement('[name=tar_desc]')
-                    .show();
-                el.getElement('.image_id')
-                    .set('value', v.image.id);
-                el.getElement('[name=tar_process]').hide();
-                /*
-                var val = tmpl.value.substitute({
-                    'image_a': v.original,
-                    'image': v.small,
-                    'desc': '',
-                    'id': v.id
-                });
-                tmpl.hide();
-                new Element('div', {'html':val}).inject($('photos_list'));
-                */
+                photo_item.show(el);
             }
         });
     };
@@ -228,19 +231,39 @@ K.post = (function(){
             photos_list_sort.addItems(item);
         });
         $$('[name=photo_item]').each(function(item){
-            photo_item_attach(item);
+            photo_item.attach(item);
         });
     };
     return {
         init: function(){
             init_title();
             init_editor();
+            
             if($('photos_list')){
+                photo_item_template = Elements.from($('photo_template').value)[0];
                 init_photo_items();
+                if($('image_uploader') && $('photo_template')){
+                    init_upload();
+                }
+                this.init_url_upload();
             }
-            if($('image_uploader') && $('photo_template')){
-                init_upload();
-            }
+        },
+        init_url_upload: function(){
+            new OverText($('url_uploader_url'));
+            $('url_uploader_btn') && $('url_uploader_btn').addEvent('click', function(){
+                var url = $('url_uploader_url').value;
+                var el = photo_item.create();
+                photo_item.attach(el);
+                new Request.JSON({
+                    url: photo_path,
+                    method: 'post',
+                    data: {'url':url},
+                    onComplete: function(result){
+                        photo_item.success(el, result);
+                    }
+                }).send();
+
+            });
         }
     };
 })();
