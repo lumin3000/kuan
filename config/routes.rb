@@ -9,7 +9,11 @@ Kuan::Application.routes.draw do
 
   resources :users, :except => [:index, :destroy] do
     member do
-      get :followings
+
+    end
+
+    collection do
+      
     end
   end
   resources :sessions, :only => [:new, :create, :destroy]
@@ -19,6 +23,7 @@ Kuan::Application.routes.draw do
 
   match '/signup', :to => 'users#new'
   match '/home', :to => 'users#show'
+  match '/followings', :to => 'users#followings'
   
   match '/signin', :to => 'sessions#new'
   match '/signout', :to => 'sessions#destroy'

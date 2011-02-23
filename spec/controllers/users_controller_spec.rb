@@ -13,36 +13,35 @@ describe UsersController do
     Blog.delete_all
   end
 
-  describe "GET 'new'" do
-    it "should be successful" do
-      get :new
-      response.should be_success
-    end
-  end
+  
 
   describe "GET 'home'" do
 
     before :each do
       @blogp = @user.create_primary_blog!
-      @blogf = Factory :blog
-      @blogm = Factory :blog, :uri =>Factory.next(:uri)
+      @blogf = Factory :blog, :title => "founder blog"
+      @blogm = Factory :blog, :uri =>Factory.next(:uri), :title => "member blog"
+      @blogf1 = Factory :blog, :uri =>Factory.next(:uri), :title => "sub blog1"
+      @blogf2 = Factory :blog, :uri =>Factory.next(:uri), :title => "sub blog2"
       @user.follow! @blogm, "member"
       @user.follow! @blogf, "founder"
-    end
+      @user.follow! @blogf1, "follower"
+      @user.follow! @blogf2, "follower"
+      controller.sign_in @user
+    end 
     
     it "should redirect to signin when no user sign in" do
+      controller.sign_out
       get :show
       response.should redirect_to signin_path
     end
 
     it "should display home page when user sign in" do
-      controller.sign_in @user
       get :show
       response.should render_template 'show'
     end
 
     it "should show the user's blogs" do
-      controller.sign_in @user
       get :show
       response.should have_selector("div",
                                     :content => @blogp.title)
@@ -50,9 +49,33 @@ describe UsersController do
                                     :content => @blogf.title)
       response.should have_selector("div",
                                     :content => @blogm.title)
+      response.should_not have_selector("div",
+                                    :content => @blogf1.title)
+    end
+
+    it "should show the right following counts and link" do
+      get :show
+      response.should have_selector("a",
+                                    :href => followings_path, 
+                                    :content => "#{@user.subs.count}")
+    end
+
+    it "GET 'followings' should show the following blogs" do
+      get :followings
+      response.should have_selector("div",
+                                    :content => @blogf1.title)
+      response.should have_selector("div",
+                                    :content => @blogf2.title)
     end
   end
 
+  describe "GET 'new'" do
+    it "should be successful" do
+      get :new
+      response.should be_success
+    end
+  end
+  
   describe "POST 'create'" do
 
     describe "failure" do

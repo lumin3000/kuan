@@ -4,3 +4,5 @@
 .edit_user
   = link_to "修改账户信息", edit_user_path(current_user)
 = render 'shared/current_user_blogs'
+.link_to_followings
+  = link_to "关注#{@user.subs.count}个页面", followings_path

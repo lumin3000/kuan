@@ -77,6 +77,11 @@ class User
     end.map {|f| f.blog} 
   end
 
+  #subs = subscriptions
+  def subs
+    followings.where(:auth => "follower").map {|f| f.blog}
+  end
+
   private
 
   def email_downcase

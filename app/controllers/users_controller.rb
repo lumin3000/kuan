@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class UsersController < ApplicationController
-  before_filter :signin_auth, :only => [:show, :edit, :update]
+  before_filter :signin_auth, :only => [:show, :edit, :update, :followings]
 
   def new
     @user = User.new
@@ -32,6 +32,7 @@ class UsersController < ApplicationController
   end
 
   def followings
+    @blogs = @user.subs
   end
  
 end
