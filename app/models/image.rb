@@ -76,7 +76,11 @@ class Image
     url = "http://" + url if not url =~ /^https?|ftp:\/\//i
     url = URI.parse(url)
     raise "Malformed URL" if not url.kind_of? URI::HTTP
-    response = open url
+    begin
+      response = open url
+    rescue
+      raise "抓取失败"
+    end
     raise "抓取失败" if response.status[0] != "200"
     self.create_from_original response.read, process_spec
   end

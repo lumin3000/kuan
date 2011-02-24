@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class BlogsController < ApplicationController
   before_filter :signin_auth, :except => [:show]
-  before_filter :founder_auth, :only => [:edit, :update]
+  before_filter :custom_auth, :only => [:edit, :update]
 
   def new
     @blog = Blog.new
@@ -29,19 +29,28 @@ class BlogsController < ApplicationController
     end
   end
 
+  def show
+    @blog = Blog.where(:uri => params[:uri]).first
+    render '404', :status => 404 if @blog.nil? 
+  end
+
   def followers
     @blog = params[:id]
     @followers = @blog.followers
   end
 
+  def follow_toggle
+    @blog = params[:id]
+    redirect_to home_path if @blog.nil?
+    follow?(@blog) ? @user.unfollow!(@blog) : @user.follow!(@blog)
+    redirect_to blog_path, :uri => @blog.uri
+  end
+
   private
 
-  def founder_auth
+  def custom_auth
     @blog = Blog.find params[:id]._id
-    if @user.followings.where(:blog_id => @blog._id,
-                              :auth => "founder").empty?
-      redirect_to home_path
-    end
+    redirect_to home_path unless custom_auth? @blog
   end
 
 end
