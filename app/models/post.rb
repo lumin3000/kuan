@@ -1,7 +1,13 @@
 class Post
   include Mongoid::Document
   include Mongoid::Timestamps
-  
+
+  referenced_in :blog
+
+  attr_accessible :blog
+
+  validates_presence_of :blog
+
   def haml_object_ref
     "post"
   end
