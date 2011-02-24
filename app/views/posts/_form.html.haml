@@ -4,12 +4,24 @@
 %h1= "#{@action}#{@post_type}"
 
 = form_t params, do
-  = hidden_field_tag "_type", @post._type
+  = hidden_field_tag :type, @post.type
+  - if not @post.author
+    = hidden_field_tag 'author_id', @user.id
   = content_for :form
   .operation
     .page_selector
       .my_pages
-        .selector STUBBED
+        - if @post.blog
+          %p
+            发布至:
+            = @post.blog.title
+        - else
+          %p
+            发布至:
+            %select{name: 'blog_id'}
+              - @target_blogs.each do |b|
+                %option{value: b.id}
+                  = b.title
     .cancel
     .send
       %button{type: "submit", value: "Commit"}

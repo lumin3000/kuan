@@ -7,3 +7,6 @@
     .link_to_unfollow = link_to "取消关注"
   - else
     .link_to_follow = link_to "关注"
+
+- @posts.each do |p|
+  = render_post p

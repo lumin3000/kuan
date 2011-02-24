@@ -1,6 +1,6 @@
 module PostsHelper
   def render_post(p)
-    type = p.type.downcase
+    type = p.type
     if type == "pics"
       type = if p.photos.length != 1
         "pics_multi"
@@ -14,8 +14,8 @@ module PostsHelper
   end
 
   def render_form(p)
-    _type = p._type.downcase
-    template = "posts/form_#{_type}"
+    type = p.type
+    template = "posts/form_#{type}"
     render partial: "posts/form", object: p,
     :locals => { sub_template: template }
   end

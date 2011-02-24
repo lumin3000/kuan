@@ -7,6 +7,7 @@ class User
   field :salt
   field :encrypted_password
   embeds_many :followings
+  references_many :posts
 
   attr_accessor :password, :code
   attr_accessible :name, :email, :password, :password_confirmation
@@ -90,6 +91,13 @@ class User
       next -1 if a.auth == "founder" && b.auth == "member"
       1
     end.map {|f| f.blog}
+  end
+
+  #owning blog as lord or founder
+  def own?(blog)
+    followings.where(:auth.in => %w"lord founder").any? do |f|
+      f.blog == blog
+    end
   end
 
   #subs = subscriptions = follow blogs

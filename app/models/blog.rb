@@ -5,7 +5,8 @@ class Blog
   field :title
   field :primary, :type => Boolean, :default => false
   references_many :followings
-   
+  references_many :posts
+
   attr_accessible :uri, :title
 
   validates :uri, :presence => true,

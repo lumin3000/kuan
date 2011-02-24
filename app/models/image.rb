@@ -64,7 +64,7 @@ class Image
         id = grid.put i.to_blob, :content_type => mime
         image.send "#{version}=", id
       rescue
-        logger.error "Database error, cant save stuff"
+        Rails.logger.error "Database error, cant save stuff"
       end
     end
 
