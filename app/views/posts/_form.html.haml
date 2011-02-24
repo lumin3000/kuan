@@ -4,7 +4,7 @@
 %h1= "#{@action}#{@post_type}"
 
 = form_t params, do
-  = hidden_field_tag "_type", @post._type
+  = hidden_field_tag :type, @post.type
   = content_for :form
   .operation
     .page_selector
