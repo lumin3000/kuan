@@ -35,6 +35,8 @@ textarea {outline: none;}
 label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 
 .clear_fix{clear:both}
+
+
 /*******site*******/
 .site{
 	width:900px;
@@ -70,16 +72,17 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 {
 	margin-left:210px;
 	padding-top:10px;
-	padding-right:20px;
+	padding-right:6px;
 	text-align:right;
 	font-size:12px;
 	line-height:14px;
 	color:#8E9494;
 }
 
-.header .dash_navigator input{
+.header .dash_navigator .invite{
 	width:180px;
-	border:1px solid #8E9494;
+	border:1px solid;
+	border-color:#C4C7BD #EFEFEF #F2F2F2 #D2D5CA;
 	padding:2px;
 }
 
@@ -110,6 +113,7 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	-webkit-border-radius:20px;
 	border-radius:20px;
 	border:1px solid #cadbea;
+	overflow:hidden;
 }
 
 .middle_box h1{
@@ -174,7 +178,69 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	background:url('images/post_save.gif');
 }
 
+/******follow and befollow*****/
+.followers .follower, .following .follower{
+	width:550px;
+	padding:15px 0 5px 20px;
+	font-size:20px;
+	height:70px;
+	line-height:80px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #cadbea;
+	background:#fff;
+	margin-bottom:30px;
+	
+}
 
+.followers .avatar, .following .avatar {
+	width:62px;
+	height:62px;
+	float:left;
+}
+.followers .avatar .image, .following .avatar .image{
+	width:60px;
+	height:60px;
+	border:1px solid gray;
+	margin-bottom:5px;
+	background:url('images/avatar.jpg')
+}
+
+.followers .fo_name, .following .fo_name{
+	font-weight:bold;
+	line-height:60px;
+	font-size:14px;
+	width:350px;
+	padding-left:20px;
+	float:left;
+	height:60px;
+	overflow:hidden;
+}
+
+.followers .fo_name a, .following .fo_name a{
+	color:#f93;
+}
+
+.following .btn_unfollow{
+	margin-top:20px;
+	width:80px;
+	height:20px;
+	background:url('images/btn_unfollow.gif') no-repeat;
+	float:left;
+	cursor:pointer;
+	overflow:hidden;
+}
+
+.followers .btn_follow{
+	margin-top:20px;
+	width:80px;
+	height:20px;
+	background:url('images/btn_follow.gif') no-repeat;
+	float:left;
+	cursor:pointer;
+	overflow:hidden;
+}
 /*****new page and edit page****/
 .new_page .page_name, .new_page .page_url{
 	width:600px;
@@ -551,7 +617,7 @@ form.edit_page .submit_box input{
 }
 .dashboard .text_follow{
 		display: inline-block;
-		width:120px;
+		width:134px;
 		line-height:14px;
 }
 .dashboard .icon_follow{
@@ -594,6 +660,14 @@ form.edit_page .submit_box input{
 	overflow:hidden;
 }
 
+.dashboard .icon_posts{
+	display: inline-block;
+	width:14px;
+	height:14px;
+	background:url('images/icons.gif') -98px 0px;
+	overflow:hidden;
+}
+
 .dashboard .icon_view{
 	display: inline-block;
 	width:14px;
@@ -607,12 +681,18 @@ form.edit_page .submit_box input{
 
 .dashboard .dash_operation hr{
 	width:80%;
-	color:#ddd;height:1px;border:0px;border-top:1px solid #ddd;margin:0px;padding:0px;overflow:hidden
+	color:#ddd;
+	height:1px;
+	border:0px;
+	border-top:1px solid #ddd;
+	margin:0px 0px 5px 0px;
+	padding:0px;
+	overflow:hidden
 }
 
-.dashboard .dash_operation .follow{
+.dashboard .dash_operation .my_follow{
 	margin-left:-18px;
-	margin-bottom:8px;
+	margin-bottom:16px;
 }
 
 .dashboard .dash_operation .create_page{
@@ -741,8 +821,16 @@ form.edit_page .submit_box input{
 .my_pages .selector_open_footer{
 	width:186px;
 	background:url('images/mypages_open3.png');
-	height:15px;
+	height:50px;
+	text-align:center;
+	line-height:50px;
 }
+
+.my_pages .selector_open_footer a{
+	display:block;
+	color:#336DFF;
+	line-height:50px;
+	}
 
 
 .my_pages .selector {
@@ -838,6 +926,54 @@ form.edit_page .submit_box input{
 .article .content_body{
 	padding:0px 50px;
 	font-size:14px;
+}
+
+
+
+/****temp and gears*****/
+.the_kt_gear .weburl{
+	clear:both;
+	width:500px;
+	padding:5px 0 5px 20px;
+	font-size:20px;
+	height:45px;
+	line-height:45px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #cadbea;
+	background:#fff;
+}
+
+.the_kt_gear .weburl input{
+	border:0;
+	height:40px;
+	line-height:40px;
+	font-size:20px;
+	width:360px;
+}
+.the_kt_gear .submiter {
+	text-align:center;
+	margin:30px 0px;
+}
+.the_kt_gear .submiter input{
+	width:130px;
+	height:30px;
+	background:url('images/post_image_url.gif') no-repeat;
+	cursor:pointer;
+	overflow:hidden;
+	border:0;
+}
+
+.the_kt_gear .error {
+	line-height:45px;
+	color:red;
+}
+
+.the_kt_gear .error input{
+	border:1px solid;
+	border-color:#C4C7BD #EFEFEF #F2F2F2 #D2D5CA;
+	padding:2px;
 }
 
 
