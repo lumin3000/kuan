@@ -190,9 +190,10 @@ K.post = (function(){
             el.getElement('.the_text').hide();
         },
         success: function(el, v){
-            el.getElement('the_image')
-                .set('href', v.image.original)
+            el.getElement('.the_image')
                 .show();
+            el.getElement('.the_image a')
+                .set('href', v.image.original);
             el.getElement('[name=tar_img]')
                 .set('src', v.image.small);
             el.getElement('.the_text')

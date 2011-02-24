@@ -13,7 +13,7 @@
   #photos_list
     - post.photos.each do |p|
       = render_form_photo p
-  .option_text<
+  .option_text
     %a{ :id => 'tar_tog_url', :class => 'image_url_starter slight', :href => '#' }<
       提交一个图片网址
     %a{ :id => 'tar_tog_local', :class => 'image_local_starter slight', :href => '#', :style => 'display:none' }<
