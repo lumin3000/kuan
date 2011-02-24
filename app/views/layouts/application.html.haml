@@ -3,6 +3,7 @@
   %head
     %title
       = content_for :title
+    = stylesheet_link_tag "base"
     - js 'application', 'mootools-more', 'rails', 'mootools-core'
     - @js.uniq.reverse!.each do |f|
       = javascript_include_tag f

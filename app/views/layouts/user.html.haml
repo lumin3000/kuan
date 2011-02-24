@@ -1,0 +1,11 @@
+- content_for :content, do
+  %h1<
+    = @sub_title
+  = yield
+
+- content_for :head, do
+  = stylesheet_link_tag "user"
+
+- content_for :site_layout, "start_page"
+
+= render :file => 'layouts/application'

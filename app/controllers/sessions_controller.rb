@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 class SessionsController < ApplicationController
+  layout "user"
   def new
   end
 
