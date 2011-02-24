@@ -4,9 +4,10 @@ class Post
 
   referenced_in :blog
 
-  attr_accessible :blog
+  referenced_in :author, :class_name => 'User'
+  attr_accessible :blog, :author
 
-  validates_presence_of :blog
+  validates_presence_of :blog, :author
 
   def haml_object_ref
     "post"

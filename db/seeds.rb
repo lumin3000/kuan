@@ -15,6 +15,7 @@ me = User.create!({
 my_blog = me.create_primary_blog!
 
 Link.create!({
+  author: me.id,
   url: "http://g.cn",
   title: "Google",
   content: "This is it!",
@@ -23,6 +24,7 @@ Link.create!({
 
 Text.create!({
   blog: my_blog,
+  author: me.id,
   title: "Context Switch",
   content: <<EOF,
   Makefile的缩进必须使用tab而非空格
@@ -63,6 +65,7 @@ photo = Photo.new({
 })
 pic_post = Pics.new({
   :blog => my_blog,
+  :author => me.id,
   :content => "如今的封面越来越杀人了.....还好这女人其实还口以",
 })
 pic_post.photos = [photo]
@@ -70,6 +73,7 @@ pic_post.save!
 
 pics_multi = Pics.create!({
   :content => "Multiple pictures",
+  :author => me.id,
   :blog => my_blog,
   :photos => [Photo.new({
     :desc => "bar",
