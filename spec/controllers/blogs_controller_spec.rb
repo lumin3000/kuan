@@ -180,4 +180,25 @@ describe BlogsController do
     end
   end
 
+  describe "GET 'show'" do
+    it "should display show" do
+      get :show, :uri => @blog.uri
+      response.should render_template 'show'
+    end
+
+    it "should response 404 for invalid uri" do
+      get :show, :uri => "invalid"
+      response.status.should == 404
+    end
+  end
+
+  describe "POST 'follow_toggle'" do
+    it "should add followers" do
+      controller.sign_in @user
+      post :follow_toggle, :id => @blog
+      controller.should be_follow @blog
+      post :follow_toggle, :id => @blog
+      controller.should_not be_follow @blog
+    end
+  end
 end

@@ -22,6 +22,10 @@ class Blog
     !user.followings.where(:blog_id => _id).excludes(:auth => "follower").empty?
   end
 
+  def customed?(user)
+    !user.followings.where(:blog_id => _id).any_in(:auth => ["founder", "lord"]).empty?
+  end
+
   def followers_count
     User.where("followings.blog_id" => _id,
                "followings.auth" => "follower").count
@@ -31,6 +35,5 @@ class Blog
     User.where("followings.blog_id" => _id,
                "followings.auth" => "follower").
       desc("followings.created_at").limit(100)
-  end  
-
+  end
 end
