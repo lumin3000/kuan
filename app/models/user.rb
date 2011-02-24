@@ -93,6 +93,13 @@ class User
     end.map {|f| f.blog}
   end
 
+  #owning blog as lord or founder
+  def own?(blog)
+    followings.where(:auth.in => %w"lord founder").any? do |f|
+      f.blog == blog
+    end
+  end
+
   #subs = subscriptions = follow blogs
   def subs
     #waitting for piginate

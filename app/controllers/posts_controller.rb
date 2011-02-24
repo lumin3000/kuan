@@ -1,9 +1,11 @@
 class PostsController < ApplicationController
+  before_filter :signin_auth
 
   def new
     @type = params[:type] || Post.default_type
     @post = Post.infer_type(@type).new
     @post.type = @type
+    @target_blogs = @user.blogs
   end
 
   def create
@@ -19,6 +21,7 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+    render :status => :forbidden unless @post.editable_by? @user
   end
 
   def update
@@ -39,4 +42,5 @@ class PostsController < ApplicationController
       format.js
     end
   end
+
 end
