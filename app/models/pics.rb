@@ -10,7 +10,7 @@ class Pics < Post
       old_photos = self.photos.to_a.dup
       photos.each do |p|
         id = p.delete :id
-        if id.nil?
+        if id.nil? || id.empty?
           i = Image.criteria.id(p[:image]).first
           next if i.nil?
           p[:image] = i

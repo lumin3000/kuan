@@ -34,7 +34,7 @@ describe Pics do
     it "should be able to update" do
       @post.update_attributes!({
         photos: [
-          {image: @images[1].id.to_s, desc: ""},
+          {image: @images[1].id.to_s, id: "", desc: ""},
           {id: @old_photo[0].id.to_s, desc: ""},
           {id: @old_photo[1].id.to_s, desc: ""},
         ],
