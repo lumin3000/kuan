@@ -32,7 +32,7 @@ class ImagesController < ApplicationController
         return
       end
     rescue Exception => e
-      logger.error e
+      Rails.logger.error e
       render :text => {
         status: "error",
         message: e.message
