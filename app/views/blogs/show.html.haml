@@ -1,0 +1,9 @@
+%h1= @blog.title
+
+- if signed_in?
+  - if custom_auth? @blog
+    .link_to_custom= link_to "自定义", edit_blog_path(@blog)
+  - if follow? @blog
+    .link_to_unfollow = link_to "取消关注"
+  - else
+    .link_to_follow = link_to "关注"

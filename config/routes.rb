@@ -13,6 +13,7 @@ Kuan::Application.routes.draw do
   resources :blogs do
     member do
       get :followers
+      post :follow_toggle
     end
   end
   
@@ -22,6 +23,7 @@ Kuan::Application.routes.draw do
   match '/home', :to => 'users#show'
   match '/home/:uri', :to => 'users#show'
   match '/followings', :to => 'users#followings'
+  match '/blog/:uri', :to => 'blogs#show'
   
   match '/signin', :to => 'sessions#new'
   match '/signout', :to => 'sessions#destroy' 
