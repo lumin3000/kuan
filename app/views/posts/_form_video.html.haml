@@ -1,0 +1,7 @@
+- @post_type = capture do
+  视频
+
+- content_for :form do
+  .title_video
+    = label_tag :title, "标题"
+    = text_field_tag :title, post.title
