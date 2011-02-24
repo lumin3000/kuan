@@ -5,6 +5,22 @@ namespace :db do
     make_users_and_blogs
     make_followings
   end
+
+  desc "db:drop might be a better name for this"
+  task :purge => :environment do
+    User.db.collections.each do |c|
+      begin
+        c.drop
+      rescue
+      end
+    end
+  end
+
+  desc "reload seed data"
+  task :reset => :environment do
+    Rake::Task['db:purge'].invoke
+    Rake::Task['db:seed'].invoke
+  end
 end
 
 def make_users_and_blogs
