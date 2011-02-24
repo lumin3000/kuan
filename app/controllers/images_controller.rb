@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class ImagesController < ApplicationController
   PROCESS_SPEC = {
     photo: {
@@ -16,9 +18,33 @@ class ImagesController < ApplicationController
 
   def create
     file_io = params[:file]
+    url = params[:url]
     process = PROCESS_SPEC[params[:type].to_sym]
-    @image = Image.create_from_original file_io, process
+    begin
+      if file_io
+        @image = Image.create_from_original file_io, process
+      elsif url
+        @image = Image.create_from_url url, process
+      else
+        render :text => {
+          status: "error",
+          message: "参数错误" }.to_json
+        return
+      end
+    rescue Exception => e
+      logger.error e
+      render :text => {
+        status: "error",
+        message: e.message
+      }.to_json
+      return
+    ensure
+      file_io.close if file_io.respond_to? :close
+    end
 
-    render :text => @image.to_json
+    render :text => {
+      status: "success",
+      image: @image.to_a_fucking_hash
+    }.to_json
   end
 end

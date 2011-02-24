@@ -3,17 +3,17 @@ require 'spec_helper'
 describe SessionsController do
   render_views
 
-  before(:each) do
+  before :each do
     @user = Factory(:user)
   end
 
-  after(:each) do
+  after :each do
     User.delete_all
   end
 
   describe "POST 'create'" do
     describe "invalid signin" do
-      before(:each) do
+      before :each do
         @attr = { :email => "invalid@k.com", :password => "invalid"}
       end
 
@@ -35,7 +35,7 @@ describe SessionsController do
     end
 
     describe "valid signin" do
-      before(:each) do
+      before :each do
         @attr = { :email => @user.email, :password => @user.password}
       end
 

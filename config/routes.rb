@@ -7,16 +7,26 @@ Kuan::Application.routes.draw do
 
   resources :posts
 
-  resources :users
+  resources :users, :except => [:index, :destroy] 
+
   resources :sessions, :only => [:new, :create, :destroy]
+  resources :blogs do
+    member do
+      get :followers
+      post :follow_toggle
+    end
+  end
   
   match "/posts/new/:type" => "posts#new"
 
-  match '/signup', :to => 'users#new'
+  match '/signup/:code', :to => 'users#new', :as => :signup
   match '/home', :to => 'users#show'
+  match '/home/:uri', :to => 'users#show'
+  match '/followings', :to => 'users#followings'
+  match '/blog/:uri', :to => 'blogs#show'
   
   match '/signin', :to => 'sessions#new'
-  match '/signout', :to => 'sessions#destroy'
+  match '/signout', :to => 'sessions#destroy' 
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

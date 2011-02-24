@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe User do
 
-  before(:each) do
+  before :each do
     @user = Factory :user
     @user.save!
     @attr = {:name => @user.name,
@@ -12,10 +12,10 @@ describe User do
       :password_confirmation => @user.password_confirmation}
   end
 
-  after(:each) do
+  after :each do
     User.delete_all
   end
- 
+  
   describe "name validations" do
     it "should reject unvalid names" do
       names = [" ",
@@ -113,6 +113,12 @@ describe User do
     it "should return the user when email and password match" do
       User.authenticate(@attr[:email], @attr[:password]).should == @user
     end
+  end
+
+  describe "invitaion code" do
+    it "should encode and decode" do
+      User.find_by_code(@user.inv_code).should == @user
+    end 
   end
 
 end

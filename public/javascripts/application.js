@@ -121,6 +121,8 @@ K.file_uploader = new Class({
             }.bind(this));
             this.form.submit();
         }.bind(this), 50);
+        this.options.onStart &&
+            this.options.onStart();
     },
     cancel: function(){
         K.log('cancel')
@@ -157,6 +159,7 @@ K.render_editor = function(el){
 }
 
 K.post = (function(){
+    var photo_path = '/upload/photo';
     var init_title = function(){
         $$('.new_title_starter').addEvent('click', function(){
             $$('.title_text')[0].show();
@@ -173,28 +176,121 @@ K.post = (function(){
         });
     };
 
+    var photo_item_template;
+    var photo_item = {
+        create: function(){
+            var el = photo_item_template.clone();
+            el.inject($('photos_list'));
+            this.process(el);
+            photo_item.attach(el);
+            return el;
+        },
+        process: function(el){
+            el.getElement('[name=tar_img_a]').hide();
+            el.getElement('[name=tar_desc]').hide();
+        },
+        success: function(el, v){
+            el.getElement('[name=tar_img_a]')
+                .set('href', v.image.original)
+                .show();
+            el.getElement('[name=tar_img]')
+                .set('src', v.image.small);
+            el.getElement('[name=tar_desc]')
+                .show();
+            el.getElement('.image_id')
+                .set('value', v.image.id);
+            el.getElement('[name=tar_process]').hide();
+        },
+        attach: function(el){
+            el.getElement('[name=tar_close]').addEvent('click', function(){
+                var photo_item = this.getParent('[name=photo_item]');
+                /*
+                if(photo_item.getElement(['[name=tar_process]']) && photo_item.getElement(['[name=tar_process]']).isDisplayed()){
+                }*/
+                photo_item.destroy();
+            });
+        }
+    };
     var init_upload = function(){
-        var tmpl = $('photo_template');
-        new K.file_uploader($('image_uploader'), '/upload/photo', {
+        var el;
+        new K.file_uploader($('image_uploader'), photo_path, {
+            'onStart': function(){
+                el = photo_item.create();
+            },
             'onSuccess': function(v){
-                var val = tmpl.value.substitute({
-                    'image_a': v.original,
-                    'image': v.small,
-                    'desc': '',
-                    'id': v.id
-                });
-                new Element('div', {'html':val}).inject($('pics_ul'));
+                photo_item.success(el, v);
             }
         });
     };
-
+    var photos_list_sort;
+    var init_photo_items = function(){
+        photos_list_sort = new Sortables($('photos_list'), {
+            handle:'[name=photo_item]',
+            clone:true
+        });
+        $$('[name=photo_item]').each(function(item){
+            photos_list_sort.addItems(item);
+        });
+        $$('[name=photo_item]').each(function(item){
+            photo_item.attach(item);
+        });
+    };
+    var init_toggle_upload = function(){
+        var tar_tog_url = $('tar_tog_url');
+        var tar_tog_local = $('tar_tog_local');
+        tar_tog_url.addEvent('click', function(){
+            tar_tog_url.hide();
+            tar_tog_local.setStyle('display', 'inline');
+        });
+        tar_tog_local.addEvent('click', function(){
+            tar_tog_url.setStyle('display', 'inline');
+            tar_tog_local.hide();
+        });
+    };
+    var init_toggle_textarea = function(){
+        var tar_tog_textarea = $('tar_tog_textarea');
+        var tar_tog_textarea_close = $('tar_tog_textarea_close');
+        tar_tog_textarea.addEvent('click', function(){
+            tar_tog_textarea.hide();
+            tar_tog_textarea_close.setStyle('display', 'inline');
+        });
+        tar_tog_textarea_close.addEvent('click', function(){
+            tar_tog_textarea.setStyle('display', 'inline');
+            tar_tog_textarea_close.hide();
+        });
+    };
     return {
         init: function(){
             init_title();
             init_editor();
-            if($('image_uploader') && $('photo_template')){
-                init_upload();
+            
+            if($('photos_list')){
+                photo_item_template = Elements.from($('photo_template').value)[0];
+                init_photo_items();
+                if($('image_uploader') && $('photo_template')){
+                    init_upload();
+                }
+                this.init_url_upload();
+                init_toggle_upload();
+                init_toggle_textarea();
             }
+        },
+        init_url_upload: function(){
+            new OverText($('url_uploader_url'));
+            $('url_uploader_btn') && $('url_uploader_btn').addEvent('click', function(){
+                var url = $('url_uploader_url').value;
+                var el = photo_item.create();
+                photo_item.attach(el);
+                new Request.JSON({
+                    url: photo_path,
+                    method: 'post',
+                    data: {'url':url},
+                    onComplete: function(result){
+                        photo_item.success(el, result);
+                    }
+                }).send();
+
+            });
         }
     };
 })();
