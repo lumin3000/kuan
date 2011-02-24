@@ -1,15 +1,15 @@
-%div{ :id => (form_photo.nil? ? "" : "photo_#{form_photo.id}"), :name => 'photo_item' }
+%div{ :id => (form_photo.nil? ? "" : "photo_#{form_photo.id}"), :name => 'photo_item', :class => 'list_image' }
   = hidden_field_tag "photos[][image]", (form_photo.nil? ? "" : form_photo.image.id), :class => "image_id"
   = hidden_field_tag "photos[][id]", (form_photo.nil? ? "" : form_photo.id)
-
-  %a{ :name => "tar_drag", :alt => "上下拖动调整顺序", :href => "#" }
-    +
-  %a{ :name => "tar_img_a", :href => (form_photo.nil? ? "#" : form_photo.image.url_for(:original)), :rel => 'lightbox' }
-    %img{ :name => "tar_img", :src => (form_photo.nil? ? "" : form_photo.image.url_for(:small)), :alt => '', :style => 'width:30px;height:30px' }
-  %span{ :name => "tar_desc" }
+  %div{ :class => "the_drag_handle", :alt => "上下拖动调整顺序" }<
+    &nbsp;
+  %div{ :class => "the_image" }<
+    %a{ :href => (form_photo.nil? ? "#" : form_photo.image.url_for(:original)), :rel => 'lightbox' }<
+      %img{ :name => "tar_img", :src => (form_photo.nil? ? "" : form_photo.image.url_for(:small)), :alt => '' }
+  %div{ :class => "the_text" }<
     = text_field_tag "photos[][desc]", form_photo.nil? ? "" : form_photo.desc
   - if form_photo.nil?
     %span{ :name => "tar_process" }
       上传中...
-  %a{ :name => "tar_close", :alt => "删除", :href => "#" }
-    删除
+  %div{ :class => "the_close", :alt => "删除" }<
+    &nbsp;

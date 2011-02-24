@@ -40,7 +40,27 @@ label
 
 .dash_navigator
   @extend .navigator
-  font-size: 14px
+  padding-top: 10px
+  padding-right: 20px
+  font-size: 12px
+  line-height: 14px
+  font-color: #8E9494
+
+  input
+    width: 180px
+    border: 1px solid #8E9494
+    padding: 2px
+
+  *
+    color: #8E9494
+
+  .logout
+    display: inline-block
+    padding: 0px
+    background: url('/images/icons.gif') -56px -14px
+    overflow: hidden
+    width: 14px
+    height: 14px
 
 a.logo
   display: inline
@@ -54,4 +74,3 @@ a.logo
 
 .site_middle_size
   @include centered_container(750px)
-

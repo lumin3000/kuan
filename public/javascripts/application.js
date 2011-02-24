@@ -186,23 +186,23 @@ K.post = (function(){
             return el;
         },
         process: function(el){
-            el.getElement('[name=tar_img_a]').hide();
-            el.getElement('[name=tar_desc]').hide();
+            el.getElement('.the_image').hide();
+            el.getElement('.the_text').hide();
         },
         success: function(el, v){
-            el.getElement('[name=tar_img_a]')
+            el.getElement('the_image')
                 .set('href', v.image.original)
                 .show();
             el.getElement('[name=tar_img]')
                 .set('src', v.image.small);
-            el.getElement('[name=tar_desc]')
+            el.getElement('.the_text')
                 .show();
             el.getElement('.image_id')
                 .set('value', v.image.id);
             el.getElement('[name=tar_process]').hide();
         },
         attach: function(el){
-            el.getElement('[name=tar_close]').addEvent('click', function(){
+            el.getElement('.the_close').addEvent('click', function(){
                 var photo_item = this.getParent('[name=photo_item]');
                 /*
                 if(photo_item.getElement(['[name=tar_process]']) && photo_item.getElement(['[name=tar_process]']).isDisplayed()){
@@ -225,7 +225,7 @@ K.post = (function(){
     var photos_list_sort;
     var init_photo_items = function(){
         photos_list_sort = new Sortables($('photos_list'), {
-            handle:'[name=photo_item]',
+            handle:'.the_drag_handle',
             clone:true
         });
         $$('[name=photo_item]').each(function(item){
@@ -238,25 +238,38 @@ K.post = (function(){
     var init_toggle_upload = function(){
         var tar_tog_url = $('tar_tog_url');
         var tar_tog_local = $('tar_tog_local');
+        var box_file = $('box_file');
+        var box_url = $('box_url');
         tar_tog_url.addEvent('click', function(){
             tar_tog_url.hide();
             tar_tog_local.setStyle('display', 'inline');
+            box_file.hide();
+            box_url.show();
         });
         tar_tog_local.addEvent('click', function(){
             tar_tog_url.setStyle('display', 'inline');
             tar_tog_local.hide();
+            box_file.show();
+            box_url.hide();
         });
     };
     var init_toggle_textarea = function(){
         var tar_tog_textarea = $('tar_tog_textarea');
         var tar_tog_textarea_close = $('tar_tog_textarea_close');
+        var box_textarea = $('box_textarea');
+        if(box_textarea.isDisplayed()){
+            tar_tog_textarea.hide();
+            tar_tog_textarea_close.show();
+        }
         tar_tog_textarea.addEvent('click', function(){
             tar_tog_textarea.hide();
-            tar_tog_textarea_close.setStyle('display', 'inline');
+            tar_tog_textarea_close.show();
+            box_textarea.show();
         });
         tar_tog_textarea_close.addEvent('click', function(){
-            tar_tog_textarea.setStyle('display', 'inline');
+            tar_tog_textarea.show();
             tar_tog_textarea_close.hide();
+            box_textarea.hide();
         });
     };
     return {
