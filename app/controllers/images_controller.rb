@@ -31,8 +31,8 @@ class ImagesController < ApplicationController
           message: "参数错误" }.to_json
         return
       end
-    rescue Execption => e
-      logger.error e.message
+    rescue Exception => e
+      logger.error e
       render :text => {
         status: "error",
         message: e.message
