@@ -2,8 +2,11 @@ require 'spec_helper'
 
 describe Pics do
   before :all do
-    @images = Image.limit(2).all.to_ary
-    raise "not enouuuuuuuuuuuuuuuuugh" if @images.length < 2
+    @images = []
+    10.times do
+      @images << Image.create
+    end
+
     params = {
       photos: [
         {image: @images[0].id.to_s, desc: "Photo1"},
@@ -21,9 +24,6 @@ describe Pics do
       @post.save.should be_true
 
       image = @post.photos[0].image
-      url = image.url_for(:original)
-      url.should be_kind_of(String)
-      url.should be_include(image.original.to_s)
 
       posts = Post.all.to_ary
       posts.should be_include(@post)
@@ -34,9 +34,9 @@ describe Pics do
     it "should be able to update" do
       @post.update_attributes!({
         photos: [
-          {image: @images[1].id.to_s, id: "", desc: ""},
-          {id: @old_photo[0].id.to_s, desc: ""},
-          {id: @old_photo[1].id.to_s, desc: ""},
+          {image: @images[1].id.to_s, desc: ""},
+          {image: @images[0].id.to_s, desc: ""},
+          {id: @old_photo[1].id.to_s, image: @images[1].id.to_s, desc: ""},
         ],
         content: "",
       })

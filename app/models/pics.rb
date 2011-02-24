@@ -7,29 +7,19 @@ class Pics < Post
   def update_attributes(attrs = {})
     photos = attrs.delete :photos
     if photos.is_a? Array
-      old_photos = self.photos.to_a.dup
-      photos.each do |p|
-        id = p.delete :id
-        if id.nil? || id.empty?
-          i = Image.criteria.id(p[:image]).first
-          next if i.nil?
-          p[:image] = i
-          np = Photo.new(p)
-          self.photos << np
-          np.save
-        else
-          photo = self.photos.detect do |p|
-            p._id.to_s == id
-          end
-          next if photo.nil?
-          photo.update_attributes!(p)
-          old_photos.delete_if do |p|
-            p._id.to_s == id
-          end
-        end
-      end
-      old_photos.each do |p|
+      self.photos.each do |p|
         p.destroy
+      end
+      new_photos = photos.map do |p|
+        p.delete :id
+        i = Image.criteria.id(p[:image]).first
+        p[:image] = i
+        Photo.new(p)
+      end
+
+      self.photos = new_photos
+      new_photos.each do |p|
+        p.save
       end
     end
     super(attrs)
