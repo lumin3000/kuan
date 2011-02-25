@@ -10,7 +10,7 @@ module PostsHelper
     end
     template = "posts/#{type}"
     render partial: "posts/post", object: p,
-      locals: { sub_template: template, type: type }
+      locals: { sub_template: template }
   end
 
   def render_form(p)
