@@ -47,7 +47,7 @@ class Post
   def error=
   end
 
-  def editable_by?(user = nil?)
+  def editable_by?(user = nil)
     return false if self.author_id.nil?
     user ||= User.find(self.author_id)
     self.author == user || user.own?(self.blog)
