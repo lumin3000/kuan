@@ -4,6 +4,13 @@ require 'spec_helper'
 describe Video do
   before :each do
     @video = Video.new
+    @video.blog = Factory :blog
+    @video.author = Factory :user
+  end
+
+  after :each do
+    Blog.delete_all
+    User.delete_all
   end
 
   it "should reject the invalid url" do
