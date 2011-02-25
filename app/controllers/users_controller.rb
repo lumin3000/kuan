@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new params[:user]
-    return render 'new' if !@user.save
+    return (render 'new', :layout => "user") if !@user.save
 
     @user.create_primary_blog!
     @inv_user.blogs.each {|b| @user.follow! b}
