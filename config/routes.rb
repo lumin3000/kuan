@@ -1,8 +1,4 @@
 Kuan::Application.routes.draw do
-  get "sessions/new"
-
-  get "site/public_timeline"
-
   post "/upload/:type", :to => 'images#create'
 
   resources :posts
@@ -16,6 +12,8 @@ Kuan::Application.routes.draw do
       post :follow_toggle
     end
   end
+
+  resources :movings, :only => [:new, :create]
   
   match "/posts/new/:type" => "posts#new"
 
