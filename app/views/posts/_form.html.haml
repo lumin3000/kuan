@@ -7,6 +7,7 @@
   = hidden_field_tag :type, @post.type
   - if not @post.author
     = hidden_field_tag 'author_id', @user.id
+
   = content_for :form
   .operation
     .page_selector

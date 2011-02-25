@@ -18,10 +18,5 @@
       提交一个图片网址
     %a{ :id => 'tar_tog_local', :class => 'image_local_starter slight', :href => '#', :style => 'display:none' }<
       提交本地图片
-    %a{ :id => 'tar_tog_textarea', :class => 'textarea_starter slight', :href => '#' }<
-      +添加描述
-    %a{ :id => 'tar_tog_textarea_close', :class => 'textarea_closer slight', :href => '#', :style => 'display:none' }<
-      +关闭描述
-    
-  #box_textarea{ :class => 'text', :style => 'display:none' }
-    = text_area_tag 'content', post.content
+    = content_for :content_toggle
+  = content_for :content_area

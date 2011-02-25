@@ -1,0 +1,12 @@
+- content_for :content_toggle do
+  - if closable
+    %a.textarea_starter.slight{ :id => "tar_tog_textarea", :href => "#", :style => (default_open ? "display:none" : "") }<
+      +添加描述
+    %a.textarea_closer.slight{ :id => "tar_tog_textarea_close", :href => "#", :style => (default_open ? "" : "display:none") }<
+      +关闭描述
+  - else
+    %a.rich_editor_starter.slight{ :href => "#", :style => (default_rich ? "display:none" : "")}<
+      启用富文本编辑器
+- content_for :content_area do
+  #box_text.text{ :style => (default_open ? "" : "display:none"), :class => (default_rich ? "text rich_text" : "text") }
+    = text_area_tag :content, post.content

@@ -168,14 +168,6 @@ K.post = (function(){
         })
     };
 
-    var init_editor = function(){
-        $$('.rich_editor_starter').addEvent('click', function(){
-            this.hide();
-            K.render_editor($('content'));
-            return false;
-        });
-    };
-
     var photo_item_template;
     var photo_item = {
         create: function(){
@@ -236,6 +228,7 @@ K.post = (function(){
             photo_item.attach(item);
         });
     };
+
     var init_toggle_upload = function(){
         var tar_tog_url = $('tar_tog_url');
         var tar_tog_local = $('tar_tog_local');
@@ -254,23 +247,40 @@ K.post = (function(){
             box_url.hide();
         });
     };
+
+    var init_editor = function(){
+        if($$('.text')[0] && $$('.text')[0].hasClass('rich_text')){
+            K.render_editor($('content'));
+        }
+        $$('.rich_editor_starter').addEvent('click', function(){
+            this.hide();
+            K.render_editor($('content'));
+            return false;
+        });
+        if($('tar_tog_textarea')){
+            init_toggle_textarea();
+        }
+    };
+
     var init_toggle_textarea = function(){
         var tar_tog_textarea = $('tar_tog_textarea');
         var tar_tog_textarea_close = $('tar_tog_textarea_close');
-        var box_textarea = $('box_textarea');
-        if(box_textarea.isDisplayed()){
+        var box_text = $('box_text');
+        if(box_text.isDisplayed()){
             tar_tog_textarea.hide();
             tar_tog_textarea_close.show();
         }
         tar_tog_textarea.addEvent('click', function(){
             tar_tog_textarea.hide();
             tar_tog_textarea_close.show();
-            box_textarea.show();
+            box_text.show();
+            return false;
         });
         tar_tog_textarea_close.addEvent('click', function(){
             tar_tog_textarea.show();
             tar_tog_textarea_close.hide();
-            box_textarea.hide();
+            box_text.hide();
+            return false;
         });
     };
     return {
@@ -286,7 +296,6 @@ K.post = (function(){
                 }
                 this.init_url_upload();
                 init_toggle_upload();
-                init_toggle_textarea();
             }
         },
         init_url_upload: function(){

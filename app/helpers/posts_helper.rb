@@ -16,8 +16,9 @@ module PostsHelper
   def render_form(p)
     type = p.type
     template = "posts/form_#{type}"
+    content_t
     render partial: "posts/form", object: p,
-    :locals => { sub_template: template }
+      :locals => { sub_template: template }
   end
   
   def render_form_photo(p)
@@ -35,5 +36,32 @@ module PostsHelper
     form_tag url, :method => m, :remote => true, do
       yield
     end
+  end
+
+  def content_t
+    default_open = false
+    closable = true
+    default_rich = false
+    if(@post.type == "text")
+      default_open = true
+      closable = false
+    else
+      default_open = false
+      closable = true
+      default_rich = true
+    end
+
+    unless @post.content.nil? || @post.content.empty?
+      default_open = true
+      default_rich = true
+    end
+
+    render partial: "content", object: @post,
+      as: :post,
+      :locals => {
+        :closable => closable,
+        :default_open => default_open,
+        :default_rich => default_rich
+      }
   end
 end

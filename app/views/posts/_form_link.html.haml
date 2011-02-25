@@ -9,7 +9,5 @@
     = label_tag :title, "标题"
     = text_field_tag :title, post.title
   .option_text
-    %a.rich_editor_starter.slight{href: "#"}
-      +添加描述
-  .text
-    = text_area_tag :content, post.content
+    = content_for :content_toggle
+  = content_for :content_area
