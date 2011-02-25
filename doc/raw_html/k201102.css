@@ -525,7 +525,7 @@ form.edit_page .submit_box input{
 	background:#fff;
 	margin-bottom:30px;
 }
-
+.post div.rich_text{padding:0px;}
 
 .post .title_text input, .post .url_link input, .post .title_link input{
 	border:0;
