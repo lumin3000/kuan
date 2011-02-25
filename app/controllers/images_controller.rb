@@ -7,7 +7,7 @@ class ImagesController < ApplicationController
       medium: [180, 300],
       small: [60, 60],
     },
-    blog_portrait: {
+    blog_icon: {
       large: [180, 180],
       medium: [60, 60],
       small: [24, 24],

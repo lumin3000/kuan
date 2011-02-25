@@ -5,11 +5,12 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    render :layout => "user"
   end
 
   def create
     @user = User.new params[:user]
-    return render 'new' if !@user.save
+    return (render 'new', :layout => "user") if !@user.save
 
     @user.create_primary_blog!
     @inv_user.blogs.each {|b| @user.follow! b}
@@ -22,13 +23,23 @@ class UsersController < ApplicationController
   #param :uri: 显示指定uri的blog的信息和帖子列表，否则使用默认页面
   def show
     @blog = @user.primary_blog
+    @blogs = @user.blogs
+    pagination = {
+      :page => params[:page] || 1,
+      :per_page => 2,
+    }
     if !params[:uri].blank?
       param_blog = Blog.where(:uri => params[:uri]).first
       @blog = @user.blogs.include?(param_blog) ? param_blog : @blog
+      cond = {:blog_id => @blog.id}
+    else
+      cond = {:blog_id.in => @blogs.map {|b| b.id}}
     end
+    @posts = Post.paginate pagination.update({:conditions => cond})
   end
 
   def edit
+    render :layout => "account"
   end
 
   def update
@@ -36,7 +47,7 @@ class UsersController < ApplicationController
       flash[:success] = "账户信息更新成功"
       redirect_to home_path
     else
-      render 'edit'
+      render 'edit', :layout => "account"
     end
   end
 

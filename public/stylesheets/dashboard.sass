@@ -1,0 +1,305 @@
+@import 'lib'
+
+@mixin dashboard_sidebar_button
+  display: inline-block
+  @include size(14px, 14px)
+  overflow: hidden
+
+@mixin post_area_button
+  width: 125px
+  background-color: #65b7fc
+  cursor: pointer
+
+a.page_name
+  color: #f93
+  font-weight: bold
+  line-height: 1.5
+
+.dashboard
+  margin-top: 24px
+  @include clear_fix
+
+  .menu
+    padding-top: 4px
+    width: 186px
+    padding-left: 14px
+    float: right
+    overflow: hidden
+
+    a
+      color: $light-gray
+      text-decoration: none
+
+
+    .page_operation
+      margin: 0px 10px
+
+
+    .page_operation
+      line-height: 24px
+
+    span
+      vertical-align: middle
+      cursor: pointer
+
+
+  .menu_arraw
+    @include dashboard_sidebar_button
+    background: url('/images/icons.gif') -14px -14px
+
+
+  .icon_create
+    background: url('/images/icons.gif') -14px 0px
+
+  .text_follow
+    display: inline-block
+    width: 134px
+    line-height: 14px
+
+  .icon_follow
+    @include dashboard_sidebar_button
+    background: url('/images/icons.gif') 0px -14px
+
+
+  .icon_follow2
+    @include dashboard_sidebar_button
+    background: url('/images/icons.gif') 0px 0px
+
+
+  .icon_followed
+    @include dashboard_sidebar_button
+    background: url('/images/icons.gif') -42px 0px
+
+
+  .icon_config
+    @include dashboard_sidebar_button
+    background: url('/images/icons.gif') -56px 0px
+
+  .icon_remove
+    @include dashboard_sidebar_button
+    background: url('/images/icons.gif') -70px 0px
+
+
+  .icon_post
+    @include dashboard_sidebar_button
+    background: url('/images/icons.gif') -98px 0px
+
+  .icon_view
+    @include dashboard_sidebar_button
+    background: url('/images/icons.gif') -98px 0px
+
+  .dash_operation
+    margin-left: 10px
+
+    hr
+      width: 80%
+      color: #ddd
+      height: 1px
+      border: 0px
+      border-top: 1px solid #ddd
+      margin: 0px 0px 5px 0px
+      padding: 0px
+      overflow: hidden
+
+
+    .my_follow
+      margin-left: -18px
+      margin-bottom: 16px
+
+
+    .create_page
+      margin-bottom: 2px
+      margin-top: 5px
+      font-size: 12px
+
+
+  .main
+    width: 700px
+    float: left
+    overflow: hidden
+
+  .head
+    height: 100px
+    clear: both
+
+  .head_avatar
+    @include size(60px, 60px)
+    border: 1px solid gray
+    float: left
+    background: url('/images/avatar.jpg')
+
+
+  .post_area
+    margin-left: 72px
+
+    div
+      height: 100px
+      float: left
+
+    .left
+      width: 66px
+      background: url('/images/dash_left.png')
+
+    .text
+      @include post_area_button
+      background-image: url('/images/dash_text.png')
+
+    .picture
+      @include post_area_button
+      background-image: url('/images/dash_picture.png')
+
+    .link
+      @include post_area_button
+      background-image: url('/images/dash_link.png')
+
+    .video
+      @include post_area_button
+      background-image: url('/images/dash_video.png')
+
+    .right
+      width: 51px
+      background: url('/images/dash_right.png')
+
+  .timeline
+    padding-top: 30px
+
+.my_pages a
+  color: $light-gray
+  text-decoration: none
+
+  .selector_open
+    width: 186px
+    font-weight: bold
+    font-size: 14px
+    overflow: hidden
+    color: #777777
+
+  .selector_open_head
+    background: url('/images/mypages_open1.png')
+    @include size(166px, 14px)
+    padding: 5px 10px
+    overflow: hidden
+
+  .selector_open_menu
+    width: 166px
+    background: url('/images/mypages_open2.png') repeat-y
+    padding: 0px 10px
+    line-height: 24px
+
+  .selector_open_footer
+    background: url('/images/mypages_open3.png')
+    @include size(186px, 50px)
+    text-align: center
+    line-height: 50px
+
+    a
+      display: block
+      color: $blue
+      line-height: 50px
+
+  .selector 
+  display: block
+  @include size(148px, 34px)
+  cursor: pointer
+  line-height: 34px
+  font-weight: bold
+  font-size: 14px
+  padding-left: 10px
+  padding-right: 28px
+  overflow: hidden
+  color: $gray
+
+  div.selector
+    background: url('/images/mypages_close.png')
+
+  a.selector
+    background: url('/images/mypages_close_a.gif')
+    color: $gray
+    &:hover
+      background: url('/images/mypages_close.png')
+
+
+
+.article
+  clear: both
+  margin-bottom: 25px
+
+  .avatar
+    width: 62px
+    float: left
+
+    .image
+      @include size(60px, 60px)
+      border: 1px solid gray
+      margin-bottom: 5px
+      background: url('/images/avatar.jpg')
+
+
+
+  .content
+    margin-left: 86px
+    width: 600px
+    @include border-radius(15px)
+    border: 1px solid #dcdcdc
+    overflow: hidden
+
+  .content_head
+    @include single_line(50px)
+    padding: 0px 25px
+
+  .content_footer
+    padding: 20px 15px 0px 15px
+    @include single_line(30px)
+
+    .left
+      width: 200px
+      float: left
+
+    .middle
+      margin-left: 200px
+      margin-right: 100px
+
+
+    .right
+      width: 100px
+      float: right
+
+
+  .writer_name a
+    color: #888888
+    font-size: 14px
+
+  .update_time
+    font-size: 10px
+    font-family: Arial, Verdana
+    color: #888888
+
+  .content_body
+    padding: 0px 50px
+    font-size: 14px
+
+.page_control 
+  margin-left: 413px
+
+  a, .page_control .page_number
+    display: block
+    float: left
+    text-decoration: none
+
+  .page_left,
+  .page_right
+    @include single_line(26px)
+    width: 108px
+    background: #009fff
+    color: white
+    font-size: 14px
+    text-align: center
+
+  .page_number
+    width: 60px
+    font-size: 22px
+    line-height: 26px
+    font-weight: bold
+    text-align: center
+    font-family: Helvetica,Arial,sans-serif
+    color: #666

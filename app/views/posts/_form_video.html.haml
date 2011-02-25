@@ -2,6 +2,12 @@
   视频
 
 - content_for :form do
-  .title_video
-    = label_tag :title, "标题"
-    = text_field_tag :title, post.title
+  .title_text
+    = label_tag :url, "网址"
+    = text_field_tag :url, post.url
+  .option_text
+    %span.slight
+      支持优酷、酷6、土豆视频网站的视频播放页链接，其他网站视频请输入Flash地址或HTML代码 
+    %a.rich_editor_starter.slight{href: "#"}+添加描述
+  .text
+    =text_area_tag :content, post.content

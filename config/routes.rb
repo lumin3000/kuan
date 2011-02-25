@@ -1,8 +1,4 @@
 Kuan::Application.routes.draw do
-  get "sessions/new"
-
-  get "site/public_timeline"
-
   post "/upload/:type", :to => 'images#create'
 
   resources :posts
@@ -16,15 +12,25 @@ Kuan::Application.routes.draw do
       post :follow_toggle
     end
   end
+
+  resources :movings, :only => [:new, :create]
   
   match "/posts/new/:type" => "posts#new"
 
   match '/signup/:code', :to => 'users#new', :as => :signup
+
+  # FIXME: How to make it DRY?
   match '/home', :to => 'users#show'
+  match '/home/page/:page', :to => 'users#show', :page => /\d+/
   match '/home/:uri', :to => 'users#show'
+  match '/home/:uri/page/:page', :to => 'users#show', :page => /\d+/
+
   match '/followings', :to => 'users#followings'
+
   match '/blog/:uri', :to => 'blogs#show'
-  
+  match '/blog/:uri/post/:post_id', :to => 'blogs#show'
+  match '/blog/:uri/page/:page', :to => 'blogs#show'
+
   match '/signin', :to => 'sessions#new'
   match '/signout', :to => 'sessions#destroy' 
 

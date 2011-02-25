@@ -1,22 +1,32 @@
-%h1 修改账户信息
+- @sub_title = "修改账户信息"
+- content_for :title, @sub_title
 
-= form_for(@user) do |f|
-  - if @user.errors.any?
-    #user_error_explanation= @user.errors.full_messages.first
-  .field
-    = f.label :email 
-    %br
-    = f.text_field :email 
-  .field
-    = f.label :name
-    %br
+= form_for(@user, :html => {:class => 'middle_box'}) do |f|
+  %h1<
+    账户设置
+  .nick_box<
+    = f.label :name, '用户名'
     = f.text_field :name
-  .field
-    = f.label :password
-    %br
+  .error<
+    &nbsp;
+    = @user.errors[:name].first
+  .email_box<
+    = f.label :email, '邮箱'
+    = f.text_field :email
+  .error<
+    &nbsp;
+    = @user.errors[:email].first
+  .password_box<
+    = f.label :password, '密码'
     = f.password_field :password
-  .field
-    = f.label :password_confirmation
-    %br
+  .error<
+    &nbsp;
+    = @user.errors[:password].first
+  .password_box<
+    = f.label :password_confirmation, '确认密码'
     = f.password_field :password_confirmation
-  .action= f.submit "提交" 
+  .error<
+    &nbsp;
+    = @user.errors[:password_confirmation].first
+  .submit_box<
+    = f.submit " "

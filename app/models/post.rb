@@ -8,9 +8,8 @@ class Post
   referenced_in :author, :class_name => 'User'
   attr_accessible :blog, :author, :author_id, :blog_id
 
-  validates_presence_of :blog, :author
+  validates_presence_of :blog_id, :author_id
   validate :posted_to_editable_blogs, :if => :new_record?
-  validate :editable_by?
 
   def haml_object_ref
     "post"
@@ -41,9 +40,13 @@ class Post
   def photos(*args)
   end
 
-  def editable_by?(user = nil?)
-    return false if self.author_id.nil?
-    user ||= User.find(self.author_id)
+  # Also stubbed
+  def error
+  end
+  def error=
+  end
+
+  def editable_by?(user)
     self.author == user || user.own?(self.blog)
   end
 

@@ -12,16 +12,30 @@ class User
   attr_accessor :password, :code
   attr_accessible :name, :email, :password, :password_confirmation
 
-  validates :name, :presence => true,
-  :length => {:maximum => 10}
+  validates_presence_of :name, :message => "请输入用户名"
+  validates_length_of :name,
+    :minimum => 1,
+    :maximum => 10,
+    :too_short => "最少%{count}个字",
+    :too_long => "最多%{count}个字"
 
-  validates :email, :presence => true,
-  :format => {:with => /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i},
-  :uniqueness => {:case_sensitive => false}
+  validates_presence_of :email, 
+    :message => "请输入邮箱"
+  validates_uniqueness_of :email, 
+    :case_sensitive => false, 
+    :message => "此邮箱已被使用"
+  validates_format_of :email, 
+    :with => /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, 
+    :message => "邮箱格式不正确"
 
-  validates :password, :presence => true,
-  :confirmation => true,
-  :length => {:within => 5..10}
+  validates_presence_of :password, :message => "请输入密码"
+  validates_length_of :password,
+    :minimum => 5,
+    :maximum => 10,
+    :too_short => "最少%{count}个字",
+    :too_long => "最多%{count}个字"
+  validates_confirmation_of :password, :message => "两次密码不统一"
+  validates_presence_of :password_confirmation, :message => "请再次输入密码"
 
   before_save :encrypt_password
   before_save :email_downcase
