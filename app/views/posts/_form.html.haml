@@ -18,7 +18,7 @@
         - else
           %p
             发布至:
-            %select{name: 'blog_id'}
+            %select{name: 'blog_id', id: 'blog_id'}
               - @target_blogs.each do |b|
                 %option{value: b.id}
                   = b.title

@@ -6,8 +6,13 @@ describe Pics do
     10.times do
       @images << Image.create
     end
-    @user = Factory.build :user
-    @blog = Factory.build :blog
+    @blog = Factory :blog, :uri => Factory.next(:uri)
+    @attendance = Factory :following, {
+      auth: "member",
+      blog: @blog,
+    }
+    @user = Factory :user, :followings => [@attendance],
+      :email => Factory.next(:email)
 
     @param = {
       author_id: @user.id.to_s,
@@ -27,7 +32,6 @@ describe Pics do
 
   describe "Given a params hash from client" do
     it "should create a complete pics model" do
-      pending "unable to sort this out"
       @post.should be_valid
       @post.save.should be_true
 
@@ -40,7 +44,6 @@ describe Pics do
 
   describe "Given a param for existing pics" do
     it "should be able to update" do
-      pending "unable to sort this out"
       @post.update_attributes!({
         photos: [
           {image: @images[1].id.to_s, desc: ""},
@@ -59,7 +62,6 @@ describe Pics do
 
   describe "Given an empty array lack of old photos" do
     it "should delete missing photos" do
-      pending "unable to sort this out"
       @post.update_attributes!({
         photos: [
           {image: @images[0].id},

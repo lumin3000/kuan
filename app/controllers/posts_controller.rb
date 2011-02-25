@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class PostsController < ApplicationController
   before_filter :signin_auth
 
@@ -21,7 +23,9 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
-    render :status => :forbidden unless @post.editable_by? @user
+    if not @post.editable_by? @user
+      render :status => :forbidden, :text => "放开那帖子"
+    end
   end
 
   def update
