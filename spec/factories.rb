@@ -4,6 +4,7 @@ Factory.define :user do |user|
   user.email "u1@k.com"
   user.password "foobar"
   user.password_confirmation "foobar"
+  user.followings []
 end
 
 Factory.sequence :email do |n|
