@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    render :layout => "user"
   end
 
   def create
@@ -29,6 +30,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    render :layout => "account"
   end
 
   def update

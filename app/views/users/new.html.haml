@@ -1,23 +1,31 @@
-%h1= "#{@inv_user.name}邀请您注册"
+- @sub_title = "你的朋友#{@inv_user.name}宽街小分队邀请你参与测试"
+- @sub_title_class = "register_title"
 
-= form_for(@user) do |f|
-  - if @user.errors.any?
-    #user_error_explanation= @user.errors.full_messages.first
-  .field
-    = f.label :email
-    %br
-    = f.text_field :email
-  .field
-    = f.label :name
-    %br
+= form_for(@user, :url => sessions_path, :html => {:class => 'register'}) do |f|
+  .nick_box<
+    = f.label :name, '用户名'
     = f.text_field :name
-  .field
-    = f.label :password
-    %br
+  .error<
+    = flash[:name_error]
+    &nbsp;
+  .email_box<
+    = f.label :email, '邮箱'
+    = f.text_field :email
+  .error<
+    = flash[:email_error]
+    &nbsp;
+  .password_box<
+    = f.label :password, '密码'
     = f.password_field :password
-  .field
-    = f.label :password_confirmation
-    %br
+  .error<
+    = flash[:password_error]
+    &nbsp;
+  .password_box<
+    = f.label :password_confirmation, '确认密码'
     = f.password_field :password_confirmation
+  .error<
+    = flash[:password_confirmation_error]
+    &nbsp;
   = hidden_field_tag 'code', @inv_user.inv_code
-  .action= f.submit "提交"
+  .submit_box<
+    = f.submit " "

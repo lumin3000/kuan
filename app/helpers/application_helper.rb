@@ -7,4 +7,12 @@ module ApplicationHelper
       end
     end
   end
+
+  def use_header(t)
+    if(t.nil?)
+      render partial: "layouts/header"
+    else
+      render partial: "layouts/header_#{t}"
+    end
+  end
 end

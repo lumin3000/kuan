@@ -1,20 +1,25 @@
 # -*- coding: utf-8 -*-
-Factory.define :text do |p|
+Factory.define :post do |p|
+  p.association :blog
+  p.association :user
+end
+
+Factory.define :text, :parent => :post do |p|
   p.title "哈哈哈"
   p.content "哈哈哈"
 end
 
-Factory.define :link do |p|
+Factory.define :link, :parent => :post do |p|
   p.url "http://www.google.com"
   p.title "谷歌"
   p.content "this is content"
 end
 
-Factory.define :video do |p|
+Factory.define :video, :parent => :post do |p|
   p.url "foo.swf"
 end
 
-Factory.define :pics do |p|
+Factory.define :pics, :parent => :post do |p|
   p.content "this is pics content"
   p.photos {|items| [items.association(:photo), items.association(:photo)]}
 end
