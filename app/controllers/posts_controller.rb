@@ -7,16 +7,20 @@ class PostsController < ApplicationController
     @type = params[:type] || Post.default_type
     @post = Post.infer_type(@type).new
     @post.type = @type
-    @target_blogs = @user.blogs
+    get_target_blogs
   end
 
   def create
-    @post = Post.infer_type(params[:type]).new(params)
+    type = params.delete :type
+    @post = Post.infer_type(type).new(params)
     respond_to do |format|
-      if @post.save
+      if !@post.error && @post.save
         format.js
       else
-        render :action => 'new'
+        Rails.logger.debug @post.errors
+        format.js do
+          render :text => "console.log(#{@post.errors.to_json})"
+        end
       end
     end
   end
@@ -41,10 +45,19 @@ class PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
+    if not @post.editable_by? @user
+      render :status => :forbidden, :text => "放开那帖子"
+      return
+    end
     @post.destroy
     respond_to do |format|
       format.js
     end
   end
 
+  private
+
+  def get_target_blogs
+    @target_blogs = @user.blogs
+  end
 end

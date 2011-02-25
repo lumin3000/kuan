@@ -1,11 +1,10 @@
-- @header = @footer = "start"
-
+- @header = @footer = "main"
 - content_for :content, do
   = yield
 
 - content_for :head, do
   = stylesheet_link_tag "user"
 
-- content_for :site_layout, "start_page"
+- content_for :site_layout, "site_middle_size account"
 
 = render :file => 'layouts/application'

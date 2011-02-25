@@ -4,6 +4,6 @@
     = render partial: sub_template, object: post
   .content_footer
     = post.created_at
-    = link_to "编辑", edit_post_path(post)
+    = link_to "编辑", "/posts/#{post.id}/edit"
     = link_to "删除", "/posts/#{post.id}", :confirm => "确定删除?", 
       :method => :delete, :remote => true

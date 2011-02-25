@@ -1,8 +1,8 @@
 !!! 5
 %html
   %head
-    %title
-      = content_for :title
+    %title<
+      = (content_for?(:title) ? content_for(:title)+"_" : "")+"宽瞳"
     = stylesheet_link_tag "base"
     - js 'application', 'mootools-more', 'rails', 'mootools-core'
     - @js.uniq.reverse!.each do |f|
@@ -11,5 +11,6 @@
     = yield :head if content_for?(:head)
   %body
     #container{class: content_for?(:site_layout) ? yield(:site_layout) : "site"}
+      = use_header(@header)
       = content_for?(:content) ? yield(:content) : yield
     = debug params if Rails.env.development? 

@@ -5,11 +5,12 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    render :layout => "user"
   end
 
   def create
     @user = User.new params[:user]
-    return render 'new' if !@user.save
+    return (render 'new', :layout => "user") if !@user.save
 
     @user.create_primary_blog!
     @inv_user.blogs.each {|b| @user.follow! b}
@@ -38,6 +39,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    render :layout => "account"
   end
 
   def update
@@ -45,7 +47,7 @@ class UsersController < ApplicationController
       flash[:success] = "账户信息更新成功"
       redirect_to home_path
     else
-      render 'edit'
+      render 'edit', :layout => "account"
     end
   end
 
