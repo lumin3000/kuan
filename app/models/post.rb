@@ -10,7 +10,6 @@ class Post
 
   validates_presence_of :blog_id, :author_id
   validate :posted_to_editable_blogs, :if => :new_record?
-  validate :editable_by?
 
   def haml_object_ref
     "post"
@@ -47,9 +46,7 @@ class Post
   def error=
   end
 
-  def editable_by?(user = nil)
-    return false if self.author_id.nil?
-    user ||= User.find(self.author_id)
+  def editable_by?(user)
     self.author == user || user.own?(self.blog)
   end
 
