@@ -11,6 +11,8 @@ gem 'haml-rails'
 gem 'carrierwave'
 gem 'mini_magick'
 
+gem 'nokogiri'
+
 group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
