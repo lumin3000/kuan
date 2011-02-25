@@ -748,6 +748,7 @@ form.edit_page .submit_box input{
 
 .dashboard .post_area {
 	margin-left:72px;
+	background-color:#65b7fc;
 }
 
 .dashboard .post_area div {
@@ -756,36 +757,33 @@ form.edit_page .submit_box input{
 }	
 .dashboard .post_area .left{
 	width:66px;
-	background:url('images/dash_left.png')
+	background:url('images/dash_.gif') 0px no-repeat;
 }
 .dashboard .post_area .text{
 	width:125px;
-	background-color:#65b7fc;
-	background-image:url('images/dash_text.png');
+	background:url('images/dash_.gif') -66px no-repeat;
 	cursor:pointer;
 }
 .dashboard .post_area .picture{
 	width:125px;
-	background-color:#65b7fc;
-	background-image:url('images/dash_picture.png');
+	background:url('images/dash_.gif') -191px no-repeat;
 	cursor:pointer;
 }
 .dashboard .post_area .link{
 	width:125px;
-	background-color:#65b7fc;
-	background-image:url('images/dash_link.png');
+	background:url('images/dash_.gif') -316px no-repeat;
 	cursor:pointer;
 }
 .dashboard .post_area .video{
 	width:125px;
-	background-color:#65b7fc;
-	background-image:url('images/dash_video.png');
+	background:url('images/dash_.gif') -441px no-repeat;
 	cursor:pointer;
 }
 .dashboard .post_area .right{
 	width:51px;
-	background:url('images/dash_right.png')
+	background:url('images/dash_.gif') -566px no-repeat;
 }
+
 .dashboard .timeline{
 		padding-top:30px;
 }
