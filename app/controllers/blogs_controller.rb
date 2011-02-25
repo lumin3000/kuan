@@ -32,11 +32,16 @@ class BlogsController < ApplicationController
   def show
     @blog = Blog.where(:uri => params[:uri]).first
     render '404', :status => 404 and return if @blog.nil?
-    @posts = Post.paginate({
-      :conditions => {:blog_id => @blog.id},
-      :page => params[:page] || 1,
-      :per_page => 2,
-    })
+    post_id = params[:post_id]
+    if post_id.nil?
+      @posts = Post.paginate({
+        :conditions => {:blog_id => @blog.id},
+        :page => params[:page] || 1,
+        :per_page => 2,
+      })
+    else
+      @posts = [Post.find(post_id)]
+    end
   end
 
   def followers

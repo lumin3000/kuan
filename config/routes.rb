@@ -30,6 +30,7 @@ Kuan::Application.routes.draw do
   match '/followings', :to => 'users#followings'
 
   match '/blog/:uri', :to => 'blogs#show'
+  match '/blog/:uri/post/:post_id', :to => 'blogs#show'
   match '/blog/:uri/page/:page', :to => 'blogs#show'
 
   match '/signin', :to => 'sessions#new'
