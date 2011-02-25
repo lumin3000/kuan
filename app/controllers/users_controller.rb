@@ -47,7 +47,7 @@ class UsersController < ApplicationController
       flash[:success] = "账户信息更新成功"
       redirect_to home_path
     else
-      render 'edit'
+      render 'edit', :layout => "account"
     end
   end
 
