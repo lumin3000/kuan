@@ -14,7 +14,7 @@ describe Video do
   it "should reject the invalid url" do
     @video.url = "invalid"
     @video.should_not be_valid
-    @video.error.should_not be_blank
+    @video.errors.should_not be_blank
   end
 
   it "should accept the url ended with .swf" do

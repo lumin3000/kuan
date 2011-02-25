@@ -1,25 +1,28 @@
 # -*- coding: utf-8 -*-
 Factory.define :post do |p|
-  p.association :blog
-  p.association :user
+  user = Factory.build :user2
+  p.blog { user.followings.first }
+  p.author { user }
+  #p.association :blog, :factory => :blog_primary
+  #p.association :author, :factory => :user2
 end
 
-Factory.define :text, :parent => :post do |p|
+Factory.define :text, :parent => :post, :class => :text do |p|
   p.title "哈哈哈"
   p.content "哈哈哈"
 end
 
-Factory.define :link, :parent => :post do |p|
+Factory.define :link, :parent => :post, :class => :link do |p|
   p.url "http://www.google.com"
   p.title "谷歌"
   p.content "this is content"
 end
 
-Factory.define :video, :parent => :post do |p|
+Factory.define :video, :parent => :post, :class => :video do |p|
   p.url "foo.swf"
 end
 
-Factory.define :pics, :parent => :post do |p|
+Factory.define :pics, :parent => :post, :class => :pics do |p|
   p.content "this is pics content"
   p.photos {|items| [items.association(:photo), items.association(:photo)]}
 end
