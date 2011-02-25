@@ -4,6 +4,11 @@ require 'spec_helper'
 describe Video do
   before :each do
     @video = Video.new
+    @blog = Factory :blog, :uri => Factory.next(:uri)
+    @author = Factory :user, :email => Factory.next(:email)
+    @author.follow! @blog, 'lord'
+    @video.author = @author
+    @video.blog = @blog
   end
 
   it "should reject the invalid url" do

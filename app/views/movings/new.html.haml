@@ -1,0 +1,15 @@
+= form_for(:moving, :url => movings_path, :html => {:class => "middle_box the_kt_gear"}) do |f|
+  %h1 搬家工具
+  %h2 请输入宽途页面地址，比如 http://12345678.kuantu.com 或 1234
+  .weburl
+    = f.label :from_uri, '网址'
+    = f.text_field :from_uri
+  - if flash.now[:success]
+    .error= flash.now[:success]
+  - elsif @moving.errors[:exist].any?
+    .error
+      = @moving.errors[:exist].first
+      = f.text_field :to_uri
+  - elsif @moving.errors.any?
+    .error= @moving.errors.full_messages.first
+  .submiter= f.submit "提交"

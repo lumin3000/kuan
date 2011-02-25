@@ -7,9 +7,10 @@ describe ApplicationHelper do
   it "should render post" do
     for po in Post.subclasses
       # assign(:p, Post.new)
-      post = Factory po.name.downcase.to_sym
-      reg = "<div.*"+(post[:content].nil? ? "" : post.content)+".*</div>"
-      helper.render_post(post).should =~ Regexp.new(reg, Regexp::MULTILINE)
+      post = Factory.build po.name.downcase.to_sym
+      unless post[:content].nil?
+        helper.render_post(post).should be_include(post.content)
+      end
     end
   end
 end

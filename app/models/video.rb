@@ -12,7 +12,6 @@ class Video < Post
 
   validates_presence_of :player, :url
   attr_accessible :content, :url
-  attr_accessor :error
 
   FETCH_SITES = [:youku, :tudou, :ku6]
 
@@ -22,8 +21,7 @@ class Video < Post
       http = URI.parse self.url
       raise URI::InvalidURIError unless http.kind_of? URI::HTTP
     rescue Exception
-      self.error = "不是正确的格式"
-      return
+      return self.errors.add :url, "不是正确的格式"
     end
 
     begin
@@ -40,7 +38,7 @@ class Video < Post
         end
       end
     rescue Exception => e
-      self.error = "无法识别此地址"
+      return self.errors.add :url, "无法识别此地址"
     end
   end
 
