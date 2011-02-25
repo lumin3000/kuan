@@ -148,11 +148,12 @@ K.file_uploader = new Class({
     }
 });
 
+K.editor = null;
 K.render_editor = function(el){
     var textarea = $(el);
     var w  = textarea.getStyle('width').toInt();
     var h  = textarea.getStyle('height').toInt() - 50;
-    new MooEditable(textarea, {
+    K.editor = new MooEditable(textarea, {
         'actions':'toggleview | bold italic underline strikethrough | createlink unlink | urlimage ',
         'dimensions':{x:w,y:h}
     });
@@ -280,6 +281,7 @@ K.post = (function(){
             tar_tog_textarea.show();
             tar_tog_textarea_close.hide();
             box_text.hide();
+            K.editor.setContent('');
             return false;
         });
     };
