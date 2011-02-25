@@ -22,7 +22,9 @@ class Video < Post
       http = URI.parse self.url
       raise URI::InvalidURIError unless http.kind_of? URI::HTTP
     rescue Exception
-      self.error = "不是正确的格式"
+      error_msg = "不是正确的格式"
+      self.errors.add :url, error_msg
+      self.error = error_msg
       return
     end
 

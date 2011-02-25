@@ -8,7 +8,7 @@ class Post
   referenced_in :author, :class_name => 'User'
   attr_accessible :blog, :author, :author_id, :blog_id
 
-  validates_presence_of :blog, :author
+  validates_presence_of :blog_id, :author_id
   validate :posted_to_editable_blogs, :if => :new_record?
   validate :editable_by?
 
@@ -39,6 +39,12 @@ class Post
 
   # Must stub this out
   def photos(*args)
+  end
+
+  # Also stubbed
+  def error
+  end
+  def error=
   end
 
   def editable_by?(user = nil?)
