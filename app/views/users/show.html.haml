@@ -11,3 +11,6 @@
 .default_blog= @blog.title
 
 .link_to_followers= link_to "被#{@blog.followers_count}个人关注", followers_blog_path(@blog)
+
+- @posts.each do |p|
+  = render_post p

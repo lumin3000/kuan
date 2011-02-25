@@ -20,11 +20,19 @@ Kuan::Application.routes.draw do
   match "/posts/new/:type" => "posts#new"
 
   match '/signup/:code', :to => 'users#new', :as => :signup
+
+  # FIXME: How to make it DRY?
   match '/home', :to => 'users#show'
+  match '/home/page/:page', :to => 'users#show', :page => /\d+/
   match '/home/:uri', :to => 'users#show'
+  match '/home/:uri/page/:page', :to => 'users#show', :page => /\d+/
+
   match '/followings', :to => 'users#followings'
+
   match '/blog/:uri', :to => 'blogs#show'
-  
+  match '/blog/:uri/post/:post_id', :to => 'blogs#show'
+  match '/blog/:uri/page/:page', :to => 'blogs#show'
+
   match '/signin', :to => 'sessions#new'
   match '/signout', :to => 'sessions#destroy' 
 
