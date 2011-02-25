@@ -257,6 +257,7 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 
 
 
+
 .new_page .page_name input, .new_page .page_url input{
 	border:0;
 	height:40px;
@@ -290,6 +291,33 @@ form.edit_page .submit_box input{
 	background:url('images/post_save.gif');
 }
 
+.edit_page .page_logo {
+	width:600px;
+	padding:15px 0 5px 20px;
+	font-size:20px;
+	height:85px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #cadbea;
+	background:#fff;
+	margin-bottom:30px;
+}
+
+.edit_page .page_logo label{
+	display:block;
+	width:60px;
+	height:80px;
+	float:left;
+	text-align:center;
+	font-size:14px;
+}
+.edit_page .page_logo input {
+	display:block;
+	width:200px;
+	float:left;
+	margin:20px 30px;
+}
 	
 /******login + register ********/
 .start_page h1{
