@@ -2,7 +2,7 @@ set :application, "kuan"
 set :repository,  "git@github.com:sjerrys/kuan.git"
 
 set :scm, :git
-set :deploy_to, "/var/www"
+set :deploy_to, "/var/kuan"
 set :use_sudo, false
 set :ssh_options, {:forward_agent => true}
 
