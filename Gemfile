@@ -13,6 +13,8 @@ gem 'mini_magick'
 
 gem 'nokogiri'
 
+gem 'daemons'
+
 group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
