@@ -1,6 +1,6 @@
 // MooTools: the javascript framework.
-// Load this file's selection again by visiting: http://mootools.net/more/dd92af0a656ae9cae411a9ede05a4af1 
-// Or build this file again with packager using: packager build More/Elements.From More/OverText More/Sortables More/IframeShim More/Locale
+// Load this file's selection again by visiting: http://mootools.net/more/3ce49dd8ef76d41684d6ef2a17677071 
+// Or build this file again with packager using: packager build More/Elements.From More/OverText More/Sortables More/Assets More/IframeShim More/Locale
 /*
 ---
 
@@ -30,8 +30,8 @@ provides: [MooTools.More]
 */
 
 MooTools.More = {
-	'version': '1.3.0.1',
-	'build': '6dce99bed2792dffcbbbb4ddc15a1fb9a41994b5'
+	'version': '1.3.1.1',
+	'build': '0292a3af1eea242b817fecf9daa127417d10d4ce'
 };
 
 
@@ -101,6 +101,7 @@ provides: [Class.Binds]
 */
 
 Class.Mutators.Binds = function(binds){
+	if (!this.prototype.initialize) this.implement('initialize', function(){});
 	return binds;
 };
 
@@ -144,8 +145,8 @@ Class.Occlude = new Class({
 	occlude: function(property, element){
 		element = document.id(element || this.element);
 		var instance = element.retrieve(property || this.property);
-		if (instance && this.occluded != null)
-			return this.occluded = instance;
+		if (instance && !this.occluded)
+			return (this.occluded = instance);
 
 		this.occluded = false;
 		element.store(property || this.property, this);
@@ -203,23 +204,23 @@ var calculateEdgeSize = function(edge, styles){
 	return total;
 };
 
+var isVisible = function(el){
+	return !!(!el || el.offsetHeight || el.offsetWidth);
+};
+
 
 Element.implement({
 
 	measure: function(fn){
-		var visibility = function(el){
-			return !!(!el || el.offsetHeight || el.offsetWidth);
-		};
-		if (visibility(this)) return fn.apply(this);
+		if (isVisible(this)) return fn.call(this);
 		var parent = this.getParent(),
-			restorers = [],
 			toMeasure = [];
-		while (!visibility(parent) && parent != document.body){
+		while (!isVisible(parent) && parent != document.body){
 			toMeasure.push(parent.expose());
 			parent = parent.getParent();
 		}
-		var restore = this.expose();
-		var result = fn.apply(this);
+		var restore = this.expose(),
+			result = fn.call(this);
 		restore();
 		toMeasure.each(function(restore){
 			restore();
@@ -283,7 +284,8 @@ Element.implement({
 		}, options);
 
 		var styles = {},
-			size = {width: 0, height: 0};
+			size = {width: 0, height: 0},
+			dimensions;
 
 		if (options.mode == 'vertical'){
 			delete size.width;
@@ -293,16 +295,19 @@ Element.implement({
 			delete options.planes.height;
 		}
 
-
 		getStylesList(options.styles, options.planes).each(function(style){
 			styles[style] = this.getStyle(style).toInt();
 		}, this);
 
 		Object.each(options.planes, function(edges, plane){
 
-			var capitalized = plane.capitalize();
-			styles[plane] = this.getStyle(plane).toInt();
-			size['total' + capitalized] = styles[plane];
+			var capitalized = plane.capitalize(),
+				style = this.getStyle(plane);
+
+			if (style == 'auto' && !dimensions) dimensions = this.getDimensions();
+
+			style = styles[plane] = (style == 'auto') ? dimensions[plane] : style.toInt();
+			size['total' + capitalized] = style;
 
 			edges.each(function(edge){
 				var edgesize = calculateEdgeSize(edge, styles);
@@ -317,7 +322,7 @@ Element.implement({
 
 });
 
-})();
+}).call(this);
 
 
 /*
@@ -443,7 +448,7 @@ Element.implement({
 			prefX = options.offset.x,
 			winSize = window.getSize();
 
-		switch(options.position.x){
+		switch (options.position.x){
 			case 'left':
 				pos.x = left + prefX;
 				break;
@@ -455,7 +460,7 @@ Element.implement({
 				break;
 		}
 
-		switch(options.position.y){
+		switch (options.position.y){
 			case 'top':
 				pos.y = top + prefY;
 				break;
@@ -470,7 +475,7 @@ Element.implement({
 		if (options.edge){
 			var edgeOffset = {};
 
-			switch(options.edge.x){
+			switch (options.edge.x){
 				case 'left':
 					edgeOffset.x = 0;
 					break;
@@ -482,7 +487,7 @@ Element.implement({
 					break;
 			}
 
-			switch(options.edge.y){
+			switch (options.edge.y){
 				case 'top':
 					edgeOffset.y = 0;
 					break;
@@ -545,7 +550,7 @@ Element.implement({
 
 });
 
-})();
+}).call(this);
 
 
 /*
@@ -612,11 +617,14 @@ Element.implement({
 Document.implement({
 
 	clearSelection: function(){
-		if (document.selection && document.selection.empty){
-			document.selection.empty();
-		} else if (window.getSelection){
+		if (window.getSelection){
 			var selection = window.getSelection();
 			if (selection && selection.removeAllRanges) selection.removeAllRanges();
+		} else if (document.selection && document.selection.empty){
+			try {
+				//IE fails here if selected element is not in dom
+				document.selection.empty();
+			} catch(e){}
 		}
 	}
 
@@ -641,10 +649,10 @@ requires:
   - Core/Options
   - Core/Events
   - Core/Element.Event
-  - /Class.Binds
-  - /Class.Occlude
-  - /Element.Position
-  - /Element.Shortcuts
+  - Class.Binds
+  - Class.Occlude
+  - Element.Position
+  - Element.Shortcuts
 
 provides: [OverText]
 
@@ -663,6 +671,7 @@ var OverText = new Class({
 		onTextHide: function(textEl, inputEl){},
 		onTextShow: function(textEl, inputEl){}, */
 		element: 'label',
+		labelClass: 'overTxtLabel',
 		positionOptions: {
 			position: 'upperLeft',
 			edge: 'upperLeft',
@@ -679,13 +688,15 @@ var OverText = new Class({
 	property: 'OverText',
 
 	initialize: function(element, options){
-		this.element = document.id(element);
+		element = this.element = document.id(element);
+
 		if (this.occlude()) return this.occluded;
 		this.setOptions(options);
-		this.attach(this.element);
+
+		this.attach(element);
 		OverText.instances.push(this);
+
 		if (this.options.poll) this.poll();
-		return this;
 	},
 
 	toElement: function(){
@@ -693,40 +704,44 @@ var OverText = new Class({
 	},
 
 	attach: function(){
-		var val = this.options.textOverride || this.element.get('alt') || this.element.get('title');
-		if (!val) return;
-		this.text = new Element(this.options.element, {
-			'class': 'overTxtLabel',
+		var element = this.element,
+			options = this.options,
+			value = options.textOverride || element.get('alt') || element.get('title');
+
+		if (!value) return this;
+
+		var text = this.text = new Element(options.element, {
+			'class': options.labelClass,
 			styles: {
 				lineHeight: 'normal',
 				position: 'absolute',
 				cursor: 'text'
 			},
-			html: val,
+			html: value,
 			events: {
-				click: this.hide.pass(this.options.element == 'label', this)
+				click: this.hide.pass(options.element == 'label', this)
 			}
-		}).inject(this.element, 'after');
-		if (this.options.element == 'label'){
-			if (!this.element.get('id')) this.element.set('id', 'input_' + new Date().getTime());
-			this.text.set('for', this.element.get('id'));
+		}).inject(element, 'after');
+
+		if (options.element == 'label'){
+			if (!element.get('id')) element.set('id', 'input_' + String.uniqueID());
+			text.set('for', element.get('id'));
 		}
 
-		if (this.options.wrap){
-			this.textHolder = new Element('div', {
+		if (options.wrap){
+			this.textHolder = new Element('div.overTxtWrapper', {
 				styles: {
 					lineHeight: 'normal',
 					position: 'relative'
-				},
-				'class':'overTxtWrapper'
-			}).adopt(this.text).inject(this.element, 'before');
+				}
+			}).grab(text).inject(element, 'before');
 		}
 
 		return this.enable();
 	},
 
 	destroy: function(){
-		this.element.eliminate('OverTextDiv').eliminate('OverText');
+		this.element.eliminate(this.property); // Class.Occlude storage
 		this.disable();
 		if (this.text) this.text.destroy();
 		if (this.textHolder) this.textHolder.destroy();
@@ -758,7 +773,7 @@ var OverText = new Class({
 
 	wrap: function(){
 		if (this.options.element == 'label'){
-			if (!this.element.get('id')) this.element.set('id', 'input_' + new Date().getTime());
+			if (!this.element.get('id')) this.element.set('id', 'input_' + String.uniqueID());
 			this.text.set('for', this.element.get('id'));
 		}
 	},
@@ -773,11 +788,14 @@ var OverText = new Class({
 		//pause on focus
 		//resumeon blur
 		if (this.poller && !stop) return this;
-		var test = function(){
-			if (!this.pollingPaused) this.assert(true);
-		}.bind(this);
-		if (stop) clearInterval(this.poller);
-		else this.poller = test.periodical(this.options.pollInterval, this);
+		if (stop){
+			clearInterval(this.poller);
+		} else {
+			this.poller = (function(){
+				if (!this.pollingPaused) this.assert(true);
+			}).periodical(this.options.pollInterval, this);
+		}
+
 		return this;
 	},
 
@@ -787,8 +805,8 @@ var OverText = new Class({
 	},
 
 	focus: function(){
-		if (this.text && (!this.text.isDisplayed() || this.element.get('disabled'))) return;
-		this.hide();
+		if (this.text && (!this.text.isDisplayed() || this.element.get('disabled'))) return this;
+		return this.hide();
 	},
 
 	hide: function(suppressFocus, force){
@@ -816,19 +834,22 @@ var OverText = new Class({
 		return this;
 	},
 
-	assert: function(suppressFocus){
-		this[this.test() ? 'show' : 'hide'](suppressFocus);
+	test: function(){
+		return !this.element.get('value');
 	},
 
-	test: function(){
-		var v = this.element.get('value');
-		return !v;
+	assert: function(suppressFocus){
+		return this[this.test() ? 'show' : 'hide'](suppressFocus);
 	},
 
 	reposition: function(){
 		this.assert(true);
 		if (!this.element.isVisible()) return this.stopPolling().hide();
-		if (this.text && this.test()) this.text.position(Object.merge(this.options.positionOptions, {relativeTo: this.element}));
+		if (this.text && this.test()){
+			this.text.position(Object.merge(this.options.positionOptions, {
+				relativeTo: this.element
+			}));
+		}
 		return this;
 	}
 
@@ -839,9 +860,8 @@ OverText.instances = [];
 Object.append(OverText, {
 
 	each: function(fn){
-		return OverText.instances.map(function(ot, i){
-			if (ot.element && ot.text) return fn.apply(OverText, [ot, i]);
-			return null; //the input or the text was destroyed
+		return OverText.instances.each(function(ot, i){
+			if (ot.element && ot.text) fn.call(OverText, ot, i);
 		});
 	},
 
@@ -869,11 +889,6 @@ Object.append(OverText, {
 
 });
 
-if (window.Fx && Fx.Reveal){
-	Fx.Reveal.implement({
-		hideInputs: Browser.ie ? 'select, input, textarea, object, embed, .overTxtLabel' : false
-	});
-}
 
 
 /*
@@ -1269,9 +1284,21 @@ Drag.Move = new Class({
 		};
 	},
 
+	getDroppableCoordinates: function(element){
+		var position = element.getCoordinates();
+		if (element.getStyle('position') == 'fixed'){
+			var scroll = window.getScroll();
+			position.left += scroll.x;
+			position.right += scroll.x;
+			position.top += scroll.y;
+			position.bottom += scroll.y;
+		}
+		return position;
+	},
+
 	checkDroppables: function(){
 		var overed = this.droppables.filter(function(el, i){
-			el = this.positions ? this.positions[i] : el.getCoordinates();
+			el = this.positions ? this.positions[i] : this.getDroppableCoordinates(el);
 			var now = this.mouse.now;
 			return (now.x > el.left && now.x < el.right && now.y < el.bottom && now.y > el.top);
 		}, this).getLast();
@@ -1323,6 +1350,7 @@ authors:
   - Tom Occhino
 
 requires:
+  - Core/Fx.Morph
   - /Drag.Move
 
 provides: [Sortables]
@@ -1338,13 +1366,11 @@ var Sortables = new Class({
 		onSort: function(element, clone){},
 		onStart: function(element, clone){},
 		onComplete: function(element){},*/
-		snap: 4,
 		opacity: 1,
 		clone: false,
 		revert: false,
 		handle: false,
-		constrain: false,
-		preventDefault: false
+		dragOptions: {}
 	},
 
 	initialize: function(lists, options){
@@ -1386,7 +1412,7 @@ var Sortables = new Class({
 
 	addLists: function(){
 		Array.flatten(arguments).each(function(list){
-			this.lists.push(list);
+			this.lists.include(list);
 			this.addItems(list.getChildren());
 		}, this);
 		return this;
@@ -1419,6 +1445,8 @@ var Sortables = new Class({
 			position: 'absolute',
 			visibility: 'hidden',
 			width: element.getStyle('width')
+		}).addEvent('mousedown', function(event){
+			element.fireEvent('mousedown', event);
 		});
 		//prevent the duplicated radio inputs from unchecking the real one
 		if (clone.get('html').test('radio')){
@@ -1453,7 +1481,7 @@ var Sortables = new Class({
 		if (
 			!this.idle ||
 			event.rightClick ||
-			['button', 'input'].contains(event.target.get('tag'))
+			['button', 'input', 'a'].contains(event.target.get('tag'))
 		) return;
 
 		this.idle = false;
@@ -1462,11 +1490,10 @@ var Sortables = new Class({
 		this.list = element.getParent();
 		this.clone = this.getClone(event, element);
 
-		this.drag = new Drag.Move(this.clone, {
-			preventDefault: this.options.preventDefault,
-			snap: this.options.snap,
-			container: this.options.constrain && this.element.getParent(),
-			droppables: this.getDroppables(),
+		this.drag = new Drag.Move(this.clone, Object.merge({
+			
+			droppables: this.getDroppables()
+		}, this.options.dragOptions)).addEvents({
 			onSnap: function(){
 				event.stop();
 				this.clone.setStyle('visibility', 'visible');
@@ -1474,7 +1501,7 @@ var Sortables = new Class({
 				this.fireEvent('start', [this.element, this.clone]);
 			}.bind(this),
 			onEnter: this.insert.bind(this),
-			onCancel: this.reset.bind(this),
+			onCancel: this.end.bind(this),
 			onComplete: this.end.bind(this)
 		});
 
@@ -1486,24 +1513,31 @@ var Sortables = new Class({
 		this.drag.detach();
 		this.element.set('opacity', this.opacity);
 		if (this.effect){
-			var dim = this.element.getStyles('width', 'height');
-			var pos = this.clone.computePosition(this.element.getPosition(this.clone.getOffsetParent()));
-			this.effect.element = this.clone;
+			var dim = this.element.getStyles('width', 'height'),
+				clone = this.clone,
+				pos = clone.computePosition(this.element.getPosition(this.clone.getOffsetParent()));
+
+			var destroy = function(){
+				this.removeEvent('cancel', destroy);
+				clone.destroy();
+			};
+
+			this.effect.element = clone;
 			this.effect.start({
 				top: pos.top,
 				left: pos.left,
 				width: dim.width,
 				height: dim.height,
 				opacity: 0.25
-			}).chain(this.reset.bind(this));
+			}).addEvent('cancel', destroy).chain(destroy);
 		} else {
-			this.reset();
+			this.clone.destroy();
 		}
+		this.reset();
 	},
 
 	reset: function(){
 		this.idle = true;
-		this.clone.destroy();
 		this.fireEvent('complete', this.element);
 	},
 
@@ -1526,6 +1560,139 @@ var Sortables = new Class({
 	}
 
 });
+
+
+/*
+---
+
+script: Assets.js
+
+name: Assets
+
+description: Provides methods to dynamically load JavaScript, CSS, and Image files into the document.
+
+license: MIT-style license
+
+authors:
+  - Valerio Proietti
+
+requires:
+  - Core/Element.Event
+  - /MooTools.More
+
+provides: [Assets]
+
+...
+*/
+
+var Asset = {
+
+	javascript: function(source, properties){
+		if (!properties) properties = {};
+
+		var script = new Element('script', {src: source, type: 'text/javascript'}),
+			doc = properties.document || document,
+			loaded = 0,
+			loadEvent = properties.onload || properties.onLoad;
+
+		var load = loadEvent ? function(){ // make sure we only call the event once
+			if (++loaded == 1) loadEvent.call(this);
+		} : function(){};
+
+		delete properties.onload;
+		delete properties.onLoad;
+		delete properties.document;
+
+		return script.addEvents({
+			load: load,
+			readystatechange: function(){
+				if (['loaded', 'complete'].contains(this.readyState)) load.call(this);
+			}
+		}).set(properties).inject(doc.head);
+	},
+
+	css: function(source, properties){
+		if (!properties) properties = {};
+
+		var link = new Element('link', {
+			rel: 'stylesheet',
+			media: 'screen',
+			type: 'text/css',
+			href: source
+		});
+
+		var load = properties.onload || properties.onLoad,
+			doc = properties.document || document;
+
+		delete properties.onload;
+		delete properties.onLoad;
+		delete properties.document;
+
+		if (load) link.addEvent('load', load);
+		return link.set(properties).inject(doc.head);
+	},
+
+	image: function(source, properties){
+		if (!properties) properties = {};
+
+		var image = new Image(),
+			element = document.id(image) || new Element('img');
+
+		['load', 'abort', 'error'].each(function(name){
+			var type = 'on' + name,
+				cap = 'on' + name.capitalize(),
+				event = properties[type] || properties[cap] || function(){};
+
+			delete properties[cap];
+			delete properties[type];
+
+			image[type] = function(){
+				if (!image) return;
+				if (!element.parentNode){
+					element.width = image.width;
+					element.height = image.height;
+				}
+				image = image.onload = image.onabort = image.onerror = null;
+				event.delay(1, element, element);
+				element.fireEvent(name, element, 1);
+			};
+		});
+
+		image.src = element.src = source;
+		if (image && image.complete) image.onload.delay(1);
+		return element.set(properties);
+	},
+
+	images: function(sources, options){
+		sources = Array.from(sources);
+
+		var fn = function(){},
+			counter = 0;
+
+		options = Object.merge({
+			onComplete: fn,
+			onProgress: fn,
+			onError: fn,
+			properties: {}
+		}, options);
+
+		return new Elements(sources.map(function(source, index){
+			return Asset.image(source, Object.append(options.properties, {
+				onload: function(){
+					counter++;
+					options.onProgress.call(this, counter, index, source);
+					if (counter == sources.length) options.onComplete();
+				},
+				onerror: function(){
+					counter++;
+					options.onError.call(this, counter, index, source);
+					if (counter == sources.length) options.onComplete();
+				}
+			}));
+		}));
+	}
+
+};
 
 
 /*
@@ -1566,7 +1733,7 @@ var IframeShim = new Class({
 		zIndex: null,
 		margin: 0,
 		offset: {x: 0, y: 0},
-		browsers: ((Browser.ie && Browser.version == 6) || (Browser.firefox && Browser.version < 3 && Browser.Platform.mac))
+		browsers: (Browser.ie6 || (Browser.firefox && Browser.version < 3 && Browser.Platform.mac))
 	},
 
 	property: 'IframeShim',
@@ -1689,12 +1856,14 @@ var defined = function(value){
 	return value != null;
 };
 
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
 Object.extend({
 
-	getFromPath: function(source, key){
-		var parts = key.split('.');
+	getFromPath: function(source, parts){
+		if (typeof parts == 'string') parts = parts.split('.');
 		for (var i = 0, l = parts.length; i < l; i++){
-			if (source.hasOwnProperty(parts[i])) source = source[parts[i]];
+			if (hasOwnProperty.call(source, parts[i])) source = source[parts[i]];
 			else return null;
 		}
 		return source;
@@ -1702,20 +1871,20 @@ Object.extend({
 
 	cleanValues: function(object, method){
 		method = method || defined;
-		for (key in object) if (!method(object[key])){
+		for (var key in object) if (!method(object[key])){
 			delete object[key];
 		}
 		return object;
 	},
 
 	erase: function(object, key){
-		if (object.hasOwnProperty(key)) delete object[key];
+		if (hasOwnProperty.call(object, key)) delete object[key];
 		return object;
 	},
 
 	run: function(object){
 		var args = Array.slice(arguments, 1);
-		for (key in object) if (object[key].apply){
+		for (var key in object) if (object[key].apply){
 			object[key].apply(object, args);
 		}
 		return object;
@@ -1723,7 +1892,7 @@ Object.extend({
 
 });
 
-})();
+}).call(this);
 
 
 /*
@@ -1891,5 +2060,5 @@ Locale.Set = new Class({
 
 
 
-})();
+}).call(this);
 
