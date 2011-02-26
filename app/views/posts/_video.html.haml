@@ -1,1 +1,14 @@
-%div
+.video_closed
+  %a.video_tar_open{ :href => video.player }       
+    %img{ :src => video.thumb }     
+  %img                              
+.video_opened
+  %span
+    %a.video_tar_close<
+      收起
+  %span
+    来自: 
+    %a{ :href => video.url }<
+      = video.site
+  .video_player  
+   

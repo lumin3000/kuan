@@ -337,3 +337,44 @@ K.post = (function(){
         }
     };
 })();
+
+K.posts = (function(){
+    var init_flash = function(path, el){
+        new Swiff(path, {
+            width: 440,
+            height: 360,
+            container: el,
+            params: {
+                wMode: 'opaque',
+                bgcolor: '#ff3300'
+            },
+            vars: {
+            }
+        });
+    };
+    var init_video = function(){
+        $$('.video_tar_open').addEvent('click', function(){
+            var p = this.getParent('.post');
+            p.getElement('.video_closed').hide();
+            p.getElement('.video_opened').show();
+            if(!p.getElement('object')){
+                init_flash(
+                    p.getElement('.video_tar_open').get('href'), 
+                    p.getElement('.video_player')
+                );
+            }
+            return false;
+        })
+        $$('.video_tar_close').addEvent('click', function(){
+            var p = this.getParent('.post');
+            p.getElement('.video_closed').show();
+            p.getElement('.video_opened').hide();
+        })
+    };
+
+    return {
+        init: function(){
+            init_video();
+        }
+    };
+})();
