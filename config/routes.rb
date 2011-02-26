@@ -33,6 +33,7 @@ Kuan::Application.routes.draw do
   require 'constraints/subdomain'
   constraints(Subdomain) do
     match '/' => 'blogs#show'
+    match '/followers' => 'blogs#followers'
     match '/page/:page' => 'blogs#show'
     match '/post/:post_id' => 'blogs#show'
   end

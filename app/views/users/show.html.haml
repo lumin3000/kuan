@@ -48,7 +48,7 @@
       %div
         %span.icon_posts &nbsp;
         %span
-          %a{href: fucking_url_for(@blog)}
+          %a{href: "/home/#{@blog.uri}"}
             = "#{@blog.total_post_num}篇文章"
       %div
         %span.icon_followed &nbsp;
@@ -67,7 +67,7 @@
       %div
         %span.icon_view &nbsp;
         %span
-          %a{href: fucking_url_for(@blog)} 查看
+          %a{href: root_url(:subdomain => @blog.uri)} 查看
   .main
     .head
       .head_avatar<
