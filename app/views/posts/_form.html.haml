@@ -1,9 +1,13 @@
 = render partial: sub_template, object: @post,
   as: :post
 
-%h1= "#{@action}#{@post_type}"
-
 = form_t params, do
+  %h1<
+    = "#{@action}#{@post_type}"
+    - unless @post.errors.empty?
+      %span.post_error<
+        = @post.errors.values.first.first
+
   = hidden_field_tag :type, @post.type
   - if @post.new_record?
     = hidden_field_tag 'author_id', @user.id

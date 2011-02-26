@@ -15,7 +15,7 @@ class Link < Post
     :too_long => "链接格式不正确"
 
   validates_presence_of :title,
-    :message => "请输入链接"
+    :message => "请输入标题"
   validates_length_of :title,
     :maximum => 60,
     :too_long => "标题太长了"
