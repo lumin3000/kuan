@@ -421,6 +421,13 @@ form.edit_page .submit_box input{
 	color:#68879F;
 }
 
+.post .post_error{
+	font-size:12px;
+	color:red;
+	font-weight:bold;
+	padding-left:10px;
+}
+
 .post label{
 	color:gray;
 }
