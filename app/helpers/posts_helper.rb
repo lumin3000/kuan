@@ -33,7 +33,7 @@ module PostsHelper
       url = "/posts/#{par[:id]}"
       m = :put
     end
-    form_tag url, :method => m, :remote => true, do
+    form_tag url, :method => m do
       yield
     end
   end

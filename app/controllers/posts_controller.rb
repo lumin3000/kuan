@@ -13,15 +13,12 @@ class PostsController < ApplicationController
   def create
     type = params.delete :type
     @post = Post.infer_type(type).new(params)
-    respond_to do |format|
-      if !@post.error && @post.save
-        format.js
-      else
-        Rails.logger.debug @post.errors
-        format.js do
-          render :text => "console.log(#{@post.errors.to_json})"
-        end
-      end
+    if !@post.error && @post.save
+      redirect_to home_path
+    else
+      get_target_blogs
+      return render 'new'
+      #Rails.logger.debug @post.errors
     end
   end
 
@@ -34,12 +31,10 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    respond_to do |format|
-      if @post.update_attributes(params)
-        format.js
-      else
-        render :action => 'edit'
-      end
+    if @post.update_attributes(params)
+      redirect_to home_path
+    else
+      return render 'edit'
     end
   end
 
