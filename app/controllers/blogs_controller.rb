@@ -59,7 +59,7 @@ class BlogsController < ApplicationController
   private
 
   def custom_auth
-    @blog = Blog.find params[:id]._id
+    @blog = Blog.find params[:id]
     redirect_to home_path unless custom_auth? @blog
   end
 

@@ -1,15 +1,25 @@
-%h1 修改页面
-
-= form_for(@blog) do |f|
-  - if @blog.errors.any?
-    #blog_error_explanation= @blog.errors.full_messages.first
-  .field
-    = f.label :title
-    %br
-    = f.text_field :title 
-  .field
-    = f.label :uri
-    %br
+= form_for(@blog, :html => { :class => "middle_box new_page edit_page" }) do |f|
+  %h1<
+    设置页面
+  .page_name<
+    = f.label :title, "页面名称"
+    = f.text_field :title
+  .error<
+    &nbsp;
+    = @blog.errors[:title].first
+  .page_url<
+    = f.label :uri, "自定义网址"
     = f.text_field :uri
-  .action= f.submit "提交" 
-
+    %span<
+      = server_name
+  .error<
+    %span.suggestion<
+      (网址随时都可以修改)
+    &nbsp;
+    = @blog.errors[:uri].first
+  .page_logo<
+    %label<
+      %img{ :src => (@blog.nil? ? "" : @blog.icon ) }
+    %input{ :type => 'file', :id => 'image_uploader', :name => 'file', :autocomplete => 'off' }
+  .submit_box.edit_box<
+    = f.submit " "

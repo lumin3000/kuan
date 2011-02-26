@@ -1,14 +1,23 @@
-%h1 创建页面
-
-= form_for(@blog) do |f|
-  - if @blog.errors.any?
-    #blog_error_explanation= @blog.errors.full_messages.first
-  .field
-    = f.label :title
-    %br
+= form_for(@blog, :html => { :class => "middle_box new_page" }) do |f|
+  %h1<
+    新建页面
+  %h2<
+    按兴趣的不同
+  .page_name<
+    = f.label :title, "页面名称"
     = f.text_field :title
-  .field
-    = f.label :uri
-    %br
+  .error<
+    &nbsp;
+    = @blog.errors[:title].first
+  .page_url<
+    = f.label :uri, "自定义网址"
     = f.text_field :uri
-  .action= f.submit "提交" 
+    %span<
+      = server_name
+  .error<
+    %span.suggestion<
+      (网址随时都可以修改)
+    &nbsp;
+    = @blog.errors[:uri].first
+  .submit_box<
+    = f.submit " "

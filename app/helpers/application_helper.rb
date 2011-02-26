@@ -15,4 +15,8 @@ module ApplicationHelper
       render partial: "layouts/header_#{t}"
     end
   end
+  
+  def server_name
+    ".kuandom.com"
+  end
 end

@@ -21,12 +21,12 @@ class User
 
   validates_presence_of :email, 
     :message => "请输入邮箱"
-  validates_uniqueness_of :email, 
-    :case_sensitive => false, 
-    :message => "此邮箱已被使用"
   validates_format_of :email, 
     :with => /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, 
     :message => "邮箱格式不正确"
+  validates_uniqueness_of :email, 
+    :case_sensitive => false, 
+    :message => "此邮箱已被使用"
 
   validates_presence_of :password, :message => "请输入密码"
   validates_length_of :password,

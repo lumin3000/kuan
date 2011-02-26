@@ -1,19 +1,32 @@
+# -*- coding: utf-8 -*-
 class Blog
   include Mongoid::Document
   include Mongoid::Timestamps
   field :uri
   field :title
+  referenced_in :icon, :class_name => 'image'
   field :primary, :type => Boolean, :default => false
   references_many :followings
   references_many :posts
 
-  attr_accessible :uri, :title
-
-  validates :uri, :presence => true,
-  :format => {:with => /^[0-9a-z-]{4,30}$/i},
-  :uniqueness => {:case_sensitive => false}
-  validates :title, :presence => true,
-  :length => {:maximum => 40}
+  attr_accessible :uri, :title, :icon
+  
+  validates_presence_of :title, 
+    :message => "请输入用户名"
+  validates_length_of :title,
+    :minimum => 1,
+    :maximum => 40,
+    :too_short => "最少%{count}个字",
+    :too_long => "最多%{count}个字"
+  
+  validates_presence_of :uri,
+    :message => "请输入链接"
+  validates_format_of :uri,
+    :with => /^[0-9a-z-]{4,30}$/i,
+    :message => "链接格式不正确"
+  validates_uniqueness_of :uri,
+    :case_sensitive => false,
+    :message => "此链接已被使用"
 
   def followed?(user)
     !user.followings.where(:blog_id => _id, :auth => "follower").empty?
