@@ -213,6 +213,10 @@ K.post = (function(){
                 .set('value', v.image.id);
             el.getElement('[name=tar_process]').hide();
         },
+        failure: function(el, v){
+            $$('.post_error')[0].innerHTML = v.message;
+            el.distroy();
+        },
         attach: function(el){
             el.getElement('.the_close').addEvent('click', function(){
                 var photo_item = this.getParent('[name=photo_item]');
@@ -258,6 +262,9 @@ K.post = (function(){
             tar_tog_local.setStyle('display', 'inline');
             box_file.hide();
             box_url.show();
+            OverText.instances.each(function(item){
+                item.reposition();
+            });
         });
         tar_tog_local.addEvent('click', function(){
             tar_tog_url.setStyle('display', 'inline');
@@ -329,7 +336,15 @@ K.post = (function(){
                     method: 'post',
                     data: {'url':url},
                     onComplete: function(result){
-                        photo_item.success(el, result);
+                        if(result.status == 'error'){
+                            photo_item.failure(el, result);
+                        }else{
+                            $('url_uploader_url').value = '';
+                            OverText.instances.each(function(item){
+                                item.reposition();
+                            });
+                            photo_item.success(el, result);
+                        }
                     }
                 }).send();
 
