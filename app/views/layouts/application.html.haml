@@ -8,6 +8,7 @@
     - @js.uniq.reverse!.each do |f|
       = javascript_include_tag f
     = csrf_meta_tag
+    %link{ :rel => "shortcut icon", :href => "/images/favicon.ico" }
     = yield :head if content_for?(:head)
   %body
     #container{class: content_for?(:site_layout) ? yield(:site_layout) : "site"}
