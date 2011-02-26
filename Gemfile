@@ -8,10 +8,11 @@ gem 'bson_ext'
 gem 'haml'
 gem 'haml-rails'
 
-gem 'carrierwave'
 gem 'mini_magick'
 
 gem 'nokogiri'
+
+gem 'daemons'
 
 group :development, :test do
   gem 'rspec'
