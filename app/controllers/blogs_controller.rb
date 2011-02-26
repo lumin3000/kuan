@@ -32,7 +32,7 @@ class BlogsController < ApplicationController
   end
 
   def show
-    find_by_uri(params[:uri])
+    find_by_uri request.subdomain
     render '404', :status => 404 and return if @blog.nil?
     post_id = params[:post_id]
     if post_id.nil?

@@ -4,14 +4,10 @@ gem 'rails', '3.0.4'
 
 gem 'mongoid', '2.0.0.rc.6'
 gem 'bson_ext' 
-
 gem 'haml'
 gem 'haml-rails'
-
 gem 'mini_magick'
-
 gem 'nokogiri'
-
 gem 'daemons'
 
 group :development, :test do
