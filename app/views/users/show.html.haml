@@ -13,8 +13,9 @@
   .dash_navigator
     %a{href: edit_user_path(current_user)}设置
     &nbsp;| 邀请好友加入&nbsp;
-    %input.invite{readonly: true, value: "/signup/#{current_user.inv_code}"}
-    %a.logout{href: "/signout"}
+    %input.invite{readonly: true, value: "/signup/#{current_user.inv_code}"}><
+    &nbsp;|&nbsp;
+    %a.logout{href: "/signout"}><
 .dashboard
   .menu
     .dash_operation
@@ -29,14 +30,26 @@
         %a{href: "#"}
           %span.icon_config &nbsp;
       %hr
-    .my_pages
-      - @blogs.each do |b|
-        %a.selector{href: fucking_url_for(b)}= b.title
+    .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
+      %a.selector{href: "/home/#{@blog.uri}"}
+        = @blog.title
+      - @other_blogs = @blogs.reject {|b| b == @blog}
+      .selector_open
+        .selector_open_head.selector
+          = @blog.title
+        .selector_open_menu
+          - @other_blogs.each do |b|
+            %div
+              %a.other_blog{href: "/home/#{b.uri}"}<
+                = b.title
+        .selector_open_footer
+          %a{href: "/blogs/new"} +新建页面
     .page_operation
       %div
         %span.icon_posts &nbsp;
         %span
-          %a{href: fucking_url_for(@blog)}= @blog.title
+          %a{href: fucking_url_for(@blog)}
+            = "#{@blog.total_post_num}篇文章"
       %div
         %span.icon_followed &nbsp;
         %span
@@ -58,24 +71,24 @@
   .main
     .head
       .head_avatar<
-        %a{href: fucking_url_for(@user.primary_blog)}<
-          %img{src: "/images/test002.jpg"}
+        %a{href: root_url(:subdomain => @user.primary_blog.uri)}<
+          =image_tag @user.primary_blog.icon.url_for(:medium)
       .post_area
         .left
-        .text
-        .picture
-        .link
-        .video
+        %a.text{href: "/posts/new/text"}
+        %a.picture{href: "/posts/new/pics"}
+        %a.link{href: "/posts/new/link"}
+        %a.video{href: "/posts/new/video"}
         .right
     .timeline
       - @posts.each do |p|
         .article
           .avatar
             .image<
-              %a{href: fucking_url_for(p.blog)}<
-                %img{src: "/images/test002.jpg"}
+              %a{href: root_url(:subdomain => p.blog.uri)}<
+                =image_tag p.blog.icon.url_for(:medium)
             %div<
-              %a.page_name{href: fucking_url_for(p.blog)}= p.blog.title
+              %a.page_name{href: url_for(p.blog)}= p.blog.title
           .content= render_post p
 
 = pagination(@posts)

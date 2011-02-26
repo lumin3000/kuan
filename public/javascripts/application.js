@@ -383,3 +383,21 @@ K.posts = (function(){
         }
     };
 })();
+
+K.widgets = {}
+K.widgets.shrinked = function(elem) {
+  var context = elem
+    , triggers = context.getElements(context.get('data-trigger'))
+  triggers.addEvent('click', function(e) {
+    e.stop()
+    context.toggleClass('shrinked')
+  })
+}
+
+document.addEvent('domready', function(){
+  var KEY = 'data-widget'
+  $$('[' + KEY + ']').each(function(e){
+    var type = e.get(KEY)
+    K.widgets[type](e)
+  })
+})

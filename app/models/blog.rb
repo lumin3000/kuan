@@ -10,7 +10,7 @@ class Blog
   references_many :posts
 
   attr_accessible :uri, :title, :icon
-  
+
   validates_presence_of :title, 
     :message => "请输入用户名"
   validates_length_of :title,
@@ -18,7 +18,7 @@ class Blog
     :maximum => 40,
     :too_short => "最少%{count}个字",
     :too_long => "最多%{count}个字"
-  
+
   validates_presence_of :uri,
     :message => "请输入链接"
   validates_format_of :uri,
@@ -27,6 +27,20 @@ class Blog
   validates_uniqueness_of :uri,
     :case_sensitive => false,
     :message => "此链接已被使用"
+
+  alias_method :old_get_icon, :icon
+  def icon
+    icon = old_get_icon
+    (icon.nil?) ? DEFAULT_ICON : icon
+  end
+
+  DEFAULT_ICON = Image.new
+  DEFAULT_ICON.define_singleton_method :url_for do |version|
+    "/images/default_blog_icon.jpg"
+  end
+  DEFAULT_ICON.define_singleton_method :id do
+    nil
+  end
 
   def followed?(user)
     !user.followings.where(:blog_id => _id, :auth => "follower").empty?
@@ -49,6 +63,10 @@ class Blog
     User.where("followings.blog_id" => _id,
                "followings.auth" => "follower").
       desc("followings.created_at").limit(100)
+  end
+
+  def total_post_num
+    Post.where(:blog_id => id).count
   end
 
   def to_param

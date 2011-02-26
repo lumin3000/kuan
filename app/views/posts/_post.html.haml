@@ -6,7 +6,8 @@
   .content_footer
     .left<
       %span.writer_name<
-        %a{href: "#"}= post.author.name
+        %a{href: root_url(:subdomain => post.author.primary_blog.uri)}
+          = post.author.name
       %span.update_time= post.created_at
     .right
       - if @user && post.editable_by?(@user)

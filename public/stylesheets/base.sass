@@ -2,7 +2,7 @@
 
 body
   margin: 0
-  font:
+  font: 
     size: 12px
     family: $font-main
 
@@ -44,18 +44,19 @@ label
 .dash_navigator
   @extend .navigator
   padding-top: 10px
-  padding-right: 20px
+  padding-right: 6px
   font-size: 12px
   line-height: 14px
-  font-color: #8E9494
+  color: $light-gray
 
-  input
+  a, input
+    color: $light-gray
+
+  .invite
     width: 180px
-    border: 1px solid #8E9494
+    border: 1px solid
+    border-color: #C4C7BD #EFEFEF #F2F2F2 #D2D5CA
     padding: 2px
-
-  *
-    color: #8E9494
 
   .logout
     display: inline-block
