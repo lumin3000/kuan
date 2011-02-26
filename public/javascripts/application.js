@@ -45,7 +45,8 @@ K.file_uploader = new Class({
         this.file_box_outer = new Element('div', {
         }).inject(this.file, 'before').setStyles({
             'height':30,
-            'width':120
+            'width':120,
+            'display':'inline'
             //not working
             //'height':tar_size.totalHeight, 
             //'width':tar_size.totalWidth
@@ -151,7 +152,7 @@ K.file_uploader = new Class({
 K.editor = null;
 K.render_editor = function(el){
     var textarea = $(el);
-    var w  = textarea.getStyle('width').toInt() + 12;
+    var w  = textarea.getStyle('width').toInt() + 15;
     var h  = textarea.getStyle('height').toInt() - 50;
     K.editor = new MooEditable(textarea, {
         'actions':'toggleview | bold italic underline strikethrough | createlink unlink | urlimage ',
@@ -191,23 +192,22 @@ K.post = (function(){
     var photo_item = {
         create: function(){
             var el = photo_item_template.clone();
+            el.getElement('[name=tar_img]').set('src', '/images/default_photo.jpg');
             el.inject($('photos_list'));
             this.process(el);
             photo_item.attach(el);
+            photos_list_sort.addItems(el);
+            el.getElement('.the_text input').hide();
             return el;
         },
         process: function(el){
-            el.getElement('.the_image').hide();
-            el.getElement('.the_text').hide();
         },
         success: function(el, v){
-            el.getElement('.the_image')
-                .show();
             el.getElement('.the_image a')
                 .set('href', v.image.original);
             el.getElement('[name=tar_img]')
                 .set('src', v.image.small);
-            el.getElement('.the_text')
+            el.getElement('.the_text input')
                 .show();
             el.getElement('.image_id')
                 .set('value', v.image.id);
