@@ -398,6 +398,7 @@ document.addEvent('domready', function(){
   var KEY = 'data-widget'
   $$('[' + KEY + ']').each(function(e){
     var type = e.get(KEY)
-    K.widgets[type](e)
+      , func = K.widgets[type]
+    func && func(e)
   })
 })
