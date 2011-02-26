@@ -65,11 +65,13 @@ a.page_name
     @include dashboard_sidebar_button
     background: url('/images/icons.gif') 0px 0px
 
+  .icon_posts
+    @include dashboard_sidebar_button
+    background: url('images/icons.gif') -98px 0px
 
   .icon_followed
     @include dashboard_sidebar_button
     background: url('/images/icons.gif') -42px 0px
-
 
   .icon_config
     @include dashboard_sidebar_button
@@ -163,9 +165,31 @@ a.page_name
   .timeline
     padding-top: 30px
 
-.my_pages a
-  color: $light-gray
-  text-decoration: none
+.my_pages
+  position: relative
+
+  a
+    color: $light-gray
+    text-decoration: none
+
+    &.selector
+      background: url('/images/mypages_close_a.gif')
+      color: $gray
+
+      &:hover
+        background: url('/images/mypages_close.png')
+
+  .selector
+    display: block
+    @include size(148px, 34px)
+    cursor: pointer
+    line-height: 34px
+    font-weight: bold
+    font-size: 14px
+    padding-left: 10px
+    padding-right: 28px
+    overflow: hidden
+    color: $gray
 
   .selector_open
     width: 186px
@@ -173,11 +197,14 @@ a.page_name
     font-size: 14px
     overflow: hidden
     color: #777777
+    position: absolute
+    top: 0
+    left: 0
 
   .selector_open_head
     background: url('/images/mypages_open1.png')
-    @include size(166px, 14px)
-    padding: 5px 10px
+    @include size(166px, 21px)
+    padding: 0 10px 5px 10px
     overflow: hidden
 
   .selector_open_menu
@@ -197,28 +224,11 @@ a.page_name
       color: $blue
       line-height: 50px
 
-  .selector 
-  display: block
-  @include size(148px, 34px)
-  cursor: pointer
-  line-height: 34px
-  font-weight: bold
-  font-size: 14px
-  padding-left: 10px
-  padding-right: 28px
-  overflow: hidden
-  color: $gray
-
   div.selector
     background: url('/images/mypages_close.png')
 
-  a.selector
-    background: url('/images/mypages_close_a.gif')
-    color: $gray
-    &:hover
-      background: url('/images/mypages_close.png')
-
-
+.shrinked .selector_open
+  display: none
 
 .article
   clear: both
@@ -233,8 +243,6 @@ a.page_name
       border: 1px solid gray
       margin-bottom: 5px
       background: url('/images/avatar.jpg')
-
-
 
   .content
     margin-left: 86px

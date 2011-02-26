@@ -29,14 +29,26 @@
         %a{href: "#"}
           %span.icon_config &nbsp;
       %hr
-    .my_pages
-      - @blogs.each do |b|
-        %a.selector{href: fucking_url_for(b)}= b.title
+    .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
+      %a.selector{href: "/home/#{@blog.uri}"}
+        = @blog.title
+      - @other_blogs = @blogs.reject {|b| b == @blog}
+      .selector_open
+        .selector_open_head.selector
+          = @blog.title
+        .selector_open_menu
+          - @other_blogs.each do |b|
+            %div
+              %a.other_blog{href: "/home/#{b.uri}"}<
+                = b.title
+        .selector_open_footer
+          %a{href: "/blogs/new"} +新建页面
     .page_operation
       %div
         %span.icon_posts &nbsp;
         %span
-          %a{href: fucking_url_for(@blog)}= @blog.title
+          %a{href: fucking_url_for(@blog)}
+            STUBBED
       %div
         %span.icon_followed &nbsp;
         %span
