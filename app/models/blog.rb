@@ -50,4 +50,14 @@ class Blog
                "followings.auth" => "follower").
       desc("followings.created_at").limit(100)
   end
+
+  def to_param
+    uri.parameterize
+  end
+
+  class << self
+    def find_by_uri!(uri)
+      return self.find(:first, :conditions => {:uri => uri})
+    end
+  end
 end
