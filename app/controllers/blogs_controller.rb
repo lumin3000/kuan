@@ -2,6 +2,8 @@
 class BlogsController < ApplicationController
   before_filter :signin_auth, :except => [:show]
   before_filter :custom_auth, :only => [:edit, :update]
+  before_filter :find_by_uri,
+    :only => [:followers, :follow_toggle]
 
   def new
     @blog = Blog.new
@@ -30,7 +32,7 @@ class BlogsController < ApplicationController
   end
 
   def show
-    @blog = Blog.where(:uri => params[:uri]).first
+    find_by_uri(params[:uri])
     render '404', :status => 404 and return if @blog.nil?
     post_id = params[:post_id]
     if post_id.nil?
@@ -45,12 +47,10 @@ class BlogsController < ApplicationController
   end
 
   def followers
-    @blog = params[:id]
     @followers = @blog.followers
   end
 
   def follow_toggle
-    @blog = params[:id]
     redirect_to home_path if @blog.nil?
     follow?(@blog) ? @user.unfollow!(@blog) : @user.follow!(@blog)
     redirect_to blog_path, :uri => @blog.uri
@@ -59,8 +59,11 @@ class BlogsController < ApplicationController
   private
 
   def custom_auth
-    @blog = Blog.find params[:id]
+    find_by_uri
     redirect_to home_path unless custom_auth? @blog
   end
 
+  def find_by_uri(uri = nil)
+    @blog = Blog.find_by_uri!(uri || params[:id])
+  end
 end

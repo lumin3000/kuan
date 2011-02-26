@@ -1,5 +1,12 @@
-%h1 你关注的页面
+.following.middle_box
+  %h1
+    ="我关注了#{@blogs.length}个页面"
 
-- @blogs.each do |blog|
-  .following_blogs
-    = blog.title
+  - @blogs.each do |blog|
+    .follower
+      .avatar
+        %a{href: fucking_url_for(blog)}
+      .fo_name
+        %a{href: fucking_url_for(blog)}
+          = blog.title
+      .btn_unfollow
