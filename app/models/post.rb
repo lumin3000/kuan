@@ -8,7 +8,9 @@ class Post
   referenced_in :author, :class_name => 'User'
   attr_accessible :blog, :author, :author_id, :blog_id
 
-  validates_presence_of :blog_id, :author_id
+  validates_presence_of :author_id
+  validates_presence_of :blog_id, :message => "请选择要发布到的页面"
+
   validate :posted_to_editable_blogs, :if => :new_record?
 
   def haml_object_ref
