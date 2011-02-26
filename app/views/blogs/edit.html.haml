@@ -19,7 +19,13 @@
     = @blog.errors[:uri].first
   .page_logo<
     %label<
-      %img{ :src => (@blog.nil? ? "" : @blog.icon ) }
+      %img#blog_icon_img{ :src => ((@blog.nil? || @blog.icon.nil?) ? "" : @blog.icon.url_for(:medium) ) }
+    = f.hidden_field :icon, :id => "blog_icon_id", :value => (@blog.icon.nil? ? "" : @blog.icon.id)
     %input{ :type => 'file', :id => 'image_uploader', :name => 'file', :autocomplete => 'off' }
+    %span#blog_icon_feed
   .submit_box.edit_box<
     = f.submit " "
+:javascript
+  document.addEvent('domready', function(){
+    K.blog.init_upload_icon();
+  });

@@ -4,7 +4,7 @@ class Blog
   include Mongoid::Timestamps
   field :uri
   field :title
-  referenced_in :icon, :class_name => 'image'
+  referenced_in :icon, :class_name => 'Image'
   field :primary, :type => Boolean, :default => false
   references_many :followings
   references_many :posts

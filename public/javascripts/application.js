@@ -159,6 +159,24 @@ K.render_editor = function(el){
     });
 }
 
+K.blog  = (function(){
+    
+    return {
+        init_upload_icon: function(){
+            new K.file_uploader($('image_uploader'), '/upload/blog_icon', {
+                'onStart': function(){
+                    $('blog_icon_feed').innerHTML = '上传中,请稍候...';
+                },
+                'onSuccess': function(v){
+                    $('blog_icon_feed').innerHTML = '上传成功';
+                    $('blog_icon_id').value = v.image.id; 
+                    $('blog_icon_img').set('src', v.image.medium); 
+                }
+            });
+        }
+    };
+})();
+
 K.post = (function(){
     var photo_path = '/upload/photo';
     var init_title = function(){
