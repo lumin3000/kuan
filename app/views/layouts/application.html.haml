@@ -2,7 +2,7 @@
 %html
   %head
     %title<
-      = (content_for?(:title) ? content_for(:title)+"_" : "")+"宽岛"
+      = content_for?(:title) ? content_for(:title) : "宽岛"
     = stylesheet_link_tag "base"
     - js 'application', 'mootools-more', 'rails', 'mootools-core'
     - @js.uniq.reverse!.each do |f|
