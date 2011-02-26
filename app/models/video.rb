@@ -9,6 +9,7 @@ class Video < Post
   field :player
   field :thumb
   field :content
+  field :site
 
   validates_presence_of :player, :url
   attr_accessible :content, :url
@@ -31,8 +32,8 @@ class Video < Post
         end
 
         FETCH_SITES.each do |m|
-          send m, io do |p, t, c|
-            self.player, self.thumb = p, t
+          send m, io do |p, t, c, s|
+            self.player, self.thumb, self.site = p, t, s
             self.content = c if self.content.blank?
           end
           return if valid?
@@ -60,7 +61,7 @@ class Video < Post
     doc = Nokogiri::HTML io, nil, io.charset
     t = doc.css('a#download').first.attributes["href"].value.split('|').last
     c = doc.xpath('//title').first.content
-    yield p, t, c
+    yield p, t, c, "优酷"
   end
 
   def tudou(io)
@@ -72,7 +73,7 @@ class Video < Post
     m = /thumbnail\s*?=\s*?'(.*?)'/.match doc.xpath('//script').first.content
     t = m ? m[1] : nil
     c = doc.xpath('//title').first.content
-    yield p, t, c
+    yield p, t, c, "土豆"
   end
 
   def ku6(io)
@@ -83,7 +84,7 @@ class Video < Post
     doc = Nokogiri::HTML io, nil, io.charset
     t = doc.css('span.s_pic').first.content
     c = doc.xpath('//title').first.content
-    yield p, t, c
+    yield p, t, c, "酷6"
   end
 
 end
