@@ -141,6 +141,7 @@ DEPENDENCIES
   haml
   haml-rails
   mini_magick
+  mongo
   mongoid (= 2.0.0.rc.6)
   nokogiri
   rails (= 3.0.4)
