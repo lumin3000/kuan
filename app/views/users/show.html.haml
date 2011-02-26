@@ -13,8 +13,9 @@
   .dash_navigator
     %a{href: edit_user_path(current_user)}设置
     &nbsp;| 邀请好友加入&nbsp;
-    %input.invite{readonly: true, value: "/signup/#{current_user.inv_code}"}
-    %a.logout{href: "/signout"}
+    %input.invite{readonly: true, value: "/signup/#{current_user.inv_code}"}><
+    &nbsp;|&nbsp;
+    %a.logout{href: "/signout"}><
 .dashboard
   .menu
     .dash_operation
@@ -48,7 +49,7 @@
         %span.icon_posts &nbsp;
         %span
           %a{href: fucking_url_for(@blog)}
-            STUBBED
+            = "#{@blog.total_post_num}篇文章"
       %div
         %span.icon_followed &nbsp;
         %span
@@ -74,20 +75,20 @@
           =image_tag @user.primary_blog.icon.url_for(:medium)
       .post_area
         .left
-        .text
-        .picture
-        .link
-        .video
+        %a.text{href: "/posts/new/text"}
+        %a.picture{href: "/posts/new/pics"}
+        %a.link{href: "/posts/new/link"}
+        %a.video{href: "/posts/new/video"}
         .right
     .timeline
       - @posts.each do |p|
         .article
           .avatar
             .image<
-              %a{href: fucking_url_for(p.blog)}<
+              %a{href: url_for(p.blog)}<
                 =image_tag p.blog.icon.url_for(:medium)
             %div<
-              %a.page_name{href: fucking_url_for(p.blog)}= p.blog.title
+              %a.page_name{href: url_for(p.blog)}= p.blog.title
           .content= render_post p
 
 = pagination(@posts)

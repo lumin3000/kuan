@@ -65,6 +65,10 @@ class Blog
       desc("followings.created_at").limit(100)
   end
 
+  def total_post_num
+    Post.where(:blog_id => id).count
+  end
+
   def to_param
     uri.parameterize
   end
