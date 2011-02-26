@@ -340,13 +340,14 @@ K.post = (function(){
 
 K.posts = (function(){
     var init_flash = function(path, el){
+        K.log('init_flash');
         new Swiff(path, {
             width: 440,
             height: 360,
             container: el,
             params: {
-                wMode: 'opaque',
-                bgcolor: '#ff3300'
+                //bgcolor: '#ff3300',
+                wMode: 'opaque'
             },
             vars: {
             }
@@ -355,8 +356,8 @@ K.posts = (function(){
     var init_video = function(){
         $$('.video_tar_open').addEvent('click', function(){
             var p = this.getParent('.post');
-            p.getElement('.video_closed').hide();
-            p.getElement('.video_opened').show();
+            p.getElement('.video_thumb').hide();
+            p.getElement('.video_full').show();
             if(!p.getElement('object')){
                 init_flash(
                     p.getElement('.video_tar_open').get('href'), 
@@ -367,8 +368,8 @@ K.posts = (function(){
         })
         $$('.video_tar_close').addEvent('click', function(){
             var p = this.getParent('.post');
-            p.getElement('.video_closed').show();
-            p.getElement('.video_opened').hide();
+            p.getElement('.video_thumb').show();
+            p.getElement('.video_full').hide();
         })
     };
 

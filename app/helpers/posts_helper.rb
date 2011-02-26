@@ -64,4 +64,7 @@ module PostsHelper
         :default_rich => default_rich
       }
   end
+  def image_video_thumb_play
+    "/images/post_video_play.gif"
+  end
 end
