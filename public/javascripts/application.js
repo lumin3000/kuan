@@ -346,10 +346,14 @@ K.posts = (function(){
             height: 360,
             container: el,
             params: {
-                //bgcolor: '#ff3300',
                 wMode: 'opaque'
             },
             vars: {
+                isShowRelatedVideo: false,
+                showAd: 0,
+                isAutoPlay: true, 
+                playMovie: true, 
+                UserID: ''
             }
         });
     };
