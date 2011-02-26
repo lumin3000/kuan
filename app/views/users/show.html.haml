@@ -73,7 +73,4 @@
             %div<
               %a.page_name{href: fucking_url_for(p.blog)}= p.blog.title
           .content= render_post p
-.page_control
-  %a.page_left{href: "#"} &#8592; 过去的
-  .page_number
-  %a.page_right{href: "#"}以前的 &#8594;
+= pagination(@posts)
