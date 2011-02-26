@@ -257,6 +257,7 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 
 
 
+
 .new_page .page_name input, .new_page .page_url input{
 	border:0;
 	height:40px;
@@ -290,6 +291,33 @@ form.edit_page .submit_box input{
 	background:url('images/post_save.gif');
 }
 
+.edit_page .page_logo {
+	width:600px;
+	padding:15px 0 5px 20px;
+	font-size:20px;
+	height:85px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #cadbea;
+	background:#fff;
+	margin-bottom:30px;
+}
+
+.edit_page .page_logo label{
+	display:block;
+	width:60px;
+	height:80px;
+	float:left;
+	text-align:center;
+	font-size:14px;
+}
+.edit_page .page_logo input {
+	display:block;
+	width:200px;
+	float:left;
+	margin:20px 30px;
+}
 	
 /******login + register ********/
 .start_page h1{
@@ -525,7 +553,7 @@ form.edit_page .submit_box input{
 	background:#fff;
 	margin-bottom:30px;
 }
-
+.post div.rich_text{padding:0px;}
 
 .post .title_text input, .post .url_link input, .post .title_link input{
 	border:0;
@@ -720,6 +748,7 @@ form.edit_page .submit_box input{
 
 .dashboard .post_area {
 	margin-left:72px;
+	background-color:#65b7fc;
 }
 
 .dashboard .post_area div {
@@ -728,36 +757,33 @@ form.edit_page .submit_box input{
 }	
 .dashboard .post_area .left{
 	width:66px;
-	background:url('images/dash_left.png')
+	background:url('images/dash_.gif') 0px no-repeat;
 }
 .dashboard .post_area .text{
 	width:125px;
-	background-color:#65b7fc;
-	background-image:url('images/dash_text.png');
+	background:url('images/dash_.gif') -66px no-repeat;
 	cursor:pointer;
 }
 .dashboard .post_area .picture{
 	width:125px;
-	background-color:#65b7fc;
-	background-image:url('images/dash_picture.png');
+	background:url('images/dash_.gif') -191px no-repeat;
 	cursor:pointer;
 }
 .dashboard .post_area .link{
 	width:125px;
-	background-color:#65b7fc;
-	background-image:url('images/dash_link.png');
+	background:url('images/dash_.gif') -316px no-repeat;
 	cursor:pointer;
 }
 .dashboard .post_area .video{
 	width:125px;
-	background-color:#65b7fc;
-	background-image:url('images/dash_video.png');
+	background:url('images/dash_.gif') -441px no-repeat;
 	cursor:pointer;
 }
 .dashboard .post_area .right{
 	width:51px;
-	background:url('images/dash_right.png')
+	background:url('images/dash_.gif') -566px no-repeat;
 }
+
 .dashboard .timeline{
 		padding-top:30px;
 }

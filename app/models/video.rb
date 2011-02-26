@@ -32,7 +32,8 @@ class Video < Post
 
         FETCH_SITES.each do |m|
           send m, io do |p, t, c|
-            self.player, self.thumb, self.content = p, t, c
+            self.player, self.thumb = p, t
+            self.content = c if self.content.blank?
           end
           return if valid?
         end

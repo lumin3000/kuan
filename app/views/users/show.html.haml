@@ -1,16 +1,79 @@
-%h1 Home
-- flash.each do |k, v| 
+- content_for :head do
+  = stylesheet_link_tag 'post_display', 'dashboard'
+
+- flash.each do |k, v|
   %div{:class => "flash_users_#{k}"}= v
 
-.edit_user= link_to "修改账户信息", edit_user_path(current_user)
-
-= render 'shared/current_user_blogs', :default_blog => @blog
-
-.link_to_followings= link_to "关注#{@user.subs.count}个页面", followings_path
-
-.default_blog= @blog.title
-
-.link_to_followers= link_to "被#{@blog.followers_count}个人关注", followers_blog_path(@blog)
-
-- @posts.each do |p|
-  = render_post p
+.header
+  %a.logo{href: "/home"}
+  .dash_navigator
+    %a{href: edit_user_path(current_user)}设置
+    &nbsp;| 邀请好友加入&nbsp;
+    %input.invite{readonly: true, value: "/signup/#{current_user.inv_code}"}
+    %a.logout{href: "/signout"}
+.dashboard
+  .menu
+    .dash_operation
+      .my_follow
+        %a{href: "/followings"}
+          %span.menu_arraw &nbsp;
+          %span.icon_follow &nbsp;
+          %span.text_follow
+            关注了
+            = @user.subs.count
+            个页面
+        %a{href: "#"}
+          %span.icon_config &nbsp;
+      %hr
+    .my_pages
+      - @blogs.each do |b|
+        %a.selector{href: "/home/#{b.uri}"}= b.title
+    .page_operation
+      %div
+        %span.icon_posts &nbsp;
+        %span
+          %a{href: fucking_url_for(@blog)}= @blog.title
+      %div
+        %span.icon_followed &nbsp;
+        %span
+          %a{href: "#"}
+            = "#{@blog.followers_count}人关注"
+      %div
+        %span.icon_config &nbsp;
+        %span
+          %a{href: "#"} 自定义
+      -#
+        %div
+          %span.icon_remove &nbsp;
+          %span
+            %a{href: "#"} 删除
+      %div
+        %span.icon_view &nbsp;
+        %span
+          %a{href: fucking_url_for(@blog)} 查看
+  .main
+    .head
+      .head_avatar<
+        %a{href: fucking_url_for(@user.primary_blog)}<
+          %img{src: "/images/test002.jpg"}
+      .post_area
+        .left
+        .text
+        .picture
+        .link
+        .video
+        .right
+    .timeline
+      - @posts.each do |p|
+        .article
+          .avatar
+            .image<
+              %a{href: fucking_url_for(p.blog)}<
+                %img{src: "/images/test002.jpg"}
+            %div<
+              %a.page_name{href: fucking_url_for(p.blog)}= p.blog.title
+          .content= render_post p
+.page_control
+  %a.page_left{href: "#"} &#8592; 过去的
+  .page_number
+  %a.page_right{href: "#"}以前的 &#8594;

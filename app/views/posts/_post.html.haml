@@ -1,9 +1,15 @@
 - js 'post_display'
-%div[post]{:class => type}
+%div[post]{:class => post.type}
+  .content_head
   .content_body
     = render partial: sub_template, object: post
   .content_footer
-    = post.created_at
-    = link_to "编辑", "/posts/#{post.id}/edit"
-    = link_to "删除", "/posts/#{post.id}", :confirm => "确定删除?", 
-      :method => :delete, :remote => true
+    .left<
+      %span.writer_name<
+        %a{href: "#"}= post.author.name
+      %span.update_time= post.created_at
+    .right
+      - if @user && post.editable_by?(@user)
+        = link_to "编辑", "/posts/#{post.id}/edit"
+        = link_to "删除", "/posts/#{post.id}", :confirm => "确定删除?", 
+          :method => :delete, :remote => true
