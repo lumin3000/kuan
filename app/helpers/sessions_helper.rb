@@ -2,7 +2,7 @@
 module SessionsHelper
 
   def sign_in(user)
-    cookies.permanent.signed[:token] = [user.id, user.salt]
+    cookies.permanent.signed[:token] = { :value => [user.id, user.salt], :domain => "."+request.domain}
     current_user = user
   end
 
