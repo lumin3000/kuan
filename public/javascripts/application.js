@@ -259,7 +259,7 @@ K.post = (function(){
         var box_url = $('box_url');
         tar_tog_url.addEvent('click', function(){
             tar_tog_url.hide();
-            tar_tog_local.setStyle('display', 'inline');
+            tar_tog_local.show();
             box_file.hide();
             box_url.show();
             OverText.instances.each(function(item){
@@ -267,7 +267,7 @@ K.post = (function(){
             });
         });
         tar_tog_local.addEvent('click', function(){
-            tar_tog_url.setStyle('display', 'inline');
+            tar_tog_url.show();
             tar_tog_local.hide();
             box_file.show();
             box_url.hide();
