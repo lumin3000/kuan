@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Pics < Post
   field :content
   embeds_many :photos
@@ -25,5 +26,7 @@ class Pics < Post
     super(attrs)
   end
 
-  validates_length_of :photos, :minimum => 1
+  validates_length_of :photos, 
+    :minimum => 1,
+    :too_short => "请先上传图片"
 end

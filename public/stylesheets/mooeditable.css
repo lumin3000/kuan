@@ -238,6 +238,21 @@
 }
 
 
+/*jerry add*/
+.mooeditable-container{
+	border:0px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+}
+
+.mooeditable-ui-toolbar
+{
+	-moz-border-radius:8px 8px 0px 0px;
+	-webkit-border-radius:8px 8px 0px 0px;
+	border-radius:8px 8px 0px 0px;
+	background:#eee;
+}
 
 /* forecolor */
 .mooeditable-ui-toolbar .forecolor-item .button-icon{
