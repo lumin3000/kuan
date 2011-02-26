@@ -1,12 +1,25 @@
-%h1= link_to @blog.title, root_url(:subdomain => @blog.uri)
-
-- if signed_in?
-  - if custom_auth? @blog
-    .link_to_custom= link_to "自定义", edit_blog_path(@blog)
-  - if follow? @blog
-    .link_to_unfollow = link_to "取消关注"
-  - else
-    .link_to_follow = link_to "关注"
-
-- @posts.each do |p|
-  = render_post p
+!!!
+%html
+  %head
+    %link{rel: "shortcut icon", href: "/images/favicon.ico"}
+    %title= @blog.title
+    = stylesheet_link_tag 'blog_show'
+    = stylesheet_link_tag 'post_display'
+    = javascript_include_tag 'mootools-core', 'rails', 'mootools-more'
+    = javascript_include_tag 'application'
+    = javascript_include_tag 'post_display'
+  %body
+    #wrapper
+      #title
+        %a{href: root_url(:subdomain => @blog.uri)}
+          =@blog.title
+      #content
+        - @posts.each do |p|
+          = render_post p
+        #navigation
+          = pagination(@posts)
+      #sidebar
+        #top
+          #avatar
+            %a{href: root_url(:subdomain => @blog.uri)}
+              %img{src: @blog.icon.url_for(:large)}

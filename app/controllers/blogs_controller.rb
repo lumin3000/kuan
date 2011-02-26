@@ -44,6 +44,7 @@ class BlogsController < ApplicationController
     else
       @posts = [Post.find(post_id)]
     end
+    render :layout => false
   end
 
   def followers
