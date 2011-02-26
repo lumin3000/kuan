@@ -14,7 +14,7 @@ Kuan::Application.routes.draw do
   end
 
   resources :movings, :only => [:new, :create]
-  
+
   match "/posts/new/:type" => "posts#new"
 
   match '/signup/:code', :to => 'users#new', :as => :signup
@@ -27,12 +27,17 @@ Kuan::Application.routes.draw do
 
   match '/followings', :to => 'users#followings'
 
-  match '/blog/:uri', :to => 'blogs#show'
-  match '/blog/:uri/post/:post_id', :to => 'blogs#show'
-  match '/blog/:uri/page/:page', :to => 'blogs#show'
-
   match '/signin', :to => 'sessions#new'
-  match '/signout', :to => 'sessions#destroy' 
+  match '/signout', :to => 'sessions#destroy'
+
+  require 'constraints/subdomain'
+  constraints(Subdomain) do
+    match '/' => 'blogs#show'
+    match '/page/:page' => 'blogs#show'
+    match '/post/:post_id' => 'blogs#show'
+  end
+
+  root :to => "users#show"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
