@@ -71,7 +71,7 @@
   .main
     .head
       .head_avatar<
-        %a{href: fucking_url_for(@user.primary_blog)}<
+        %a{href: root_url(:subdomain => @user.primary_blog.uri)}<
           =image_tag @user.primary_blog.icon.url_for(:medium)
       .post_area
         .left
@@ -85,7 +85,7 @@
         .article
           .avatar
             .image<
-              %a{href: url_for(p.blog)}<
+              %a{href: root_url(:subdomain => p.blog.uri)}<
                 =image_tag p.blog.icon.url_for(:medium)
             %div<
               %a.page_name{href: url_for(p.blog)}= p.blog.title
