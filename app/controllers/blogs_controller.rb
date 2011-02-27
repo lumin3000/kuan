@@ -23,7 +23,9 @@ class BlogsController < ApplicationController
   end
 
   def update
-    if @blog.update_attributes params[:blog]
+    p = params[:blog]
+    p.delete :icon if p[:icon].blank?
+    if @blog.update_attributes p
       flash[:success] = "页面信息更新成功"
       redirect_to home_path
     else
