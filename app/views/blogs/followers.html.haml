@@ -13,7 +13,4 @@
       .fo_name
         %a{ :href => root_url(:subdomain => blog.uri) }
           = user.name
-      - unless blog.edited?(current_user)
-        %a{ :href => "/blogs/#{blog.id}/follow_toggle", :data => {:method => "post", :remote => "true"} }
-          .btn_unfollow{ :style => (current_user.all_blogs.include?(blog) ? "" : "display:none") }
-          .btn_follow{ :style => (current_user.all_blogs.include?(blog) ? "display:none" : "") }
+      = follow_tag blog

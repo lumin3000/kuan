@@ -12,6 +12,4 @@
       .fo_name
         %a{ :href => root_url(:subdomain => blog.uri) }
           = blog.title
-      %a{ :href => "/blogs/#{blog.id}/follow_toggle", :data => {:method => "post", :remote => "true"} }
-        .btn_unfollow
-        .btn_follow{ :style => "display:none" }
+      = follow_tag blog
