@@ -286,6 +286,7 @@ K.post = (function(){
         $$('.rich_editor_starter').addEvent('click', function(){
             this.hide();
             K.render_editor($('content'));
+            $('box_text').addClass('rich_text');
             return false;
         });
         if($('tar_tog_textarea')){
