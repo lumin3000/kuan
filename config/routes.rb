@@ -16,6 +16,7 @@ Kuan::Application.routes.draw do
   resources :movings, :only => [:new, :create]
 
   match "/posts/new/:type" => "posts#new"
+  match "/posts/new/:type/to/:blog_uri" => "posts#new"
 
   match '/signup/:code', :to => 'users#new', :as => :signup
 

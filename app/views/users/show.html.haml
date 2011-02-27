@@ -73,10 +73,11 @@
           =image_tag @user.primary_blog.icon.url_for(:medium)
       .post_area
         .left
-        %a.text{href: "/posts/new/text"}
-        %a.picture{href: "/posts/new/pics"}
-        %a.link{href: "/posts/new/link"}
-        %a.video{href: "/posts/new/video"}
+        - trailing_post_url = "/to/#{@blog.uri}"
+        %a.text{href: "/posts/new/text#{trailing_post_url}"}
+        %a.picture{href: "/posts/new/pics#{trailing_post_url}"}
+        %a.link{href: "/posts/new/link#{trailing_post_url}"}
+        %a.video{href: "/posts/new/video#{trailing_post_url}"}
         .right
     .timeline
       - @posts.each do |p|
