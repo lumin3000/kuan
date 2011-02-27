@@ -36,41 +36,46 @@ K.file_uploader = new Class({
         this.setOptions(options);
         var tar = $(this.options.tar);
         if(tar == null){
+            this.file_box = new Element('div', {
+            }).setStyles({
+                'display':'inline'
+            }).inject(this.file, 'before');
+            this.file.inject(this.file_box);
+        }else{
+            /*
             tar = new Element('a', {
                 'html':'上传',
                 'href':'#'
+            });*/
+            var tar_size = tar.getComputedSize();
+            
+            this.file_box_outer = new Element('div', {
+            }).inject(this.file, 'before').setStyles({
+                'height':30,
+                'width':120,
+                'display':'inline'
             });
+            
+            this.file_box = new Element('span', {
+            }).inject(this.file_box_outer).setStyles({
+                'overflow':'hidden',
+                'position':'absolute',
+                'height':tar_size.totalHeight,
+                'width':tar_size.totalWidth,
+                'font-size':12
+            });
+            this.file.setStyles({
+                'position':'absolute',
+                'z-index':'100',
+                'margin-left':'-180px',
+                'font-size':30,
+                'margin-top':'-5px',
+                'opacity':0,
+                'filter':'alpha(opacity=0)',
+                'visibility':'visible'
+            }).inject(this.file_box);
+            tar.inject(this.file_box);
         }
-        var tar_size = tar.getComputedSize();
-        this.file_box_outer = new Element('div', {
-        }).inject(this.file, 'before').setStyles({
-            'height':30,
-            'width':120,
-            'display':'inline'
-            //not working
-            //'height':tar_size.totalHeight, 
-            //'width':tar_size.totalWidth
-        });
-        
-        this.file_box = new Element('span', {
-        }).inject(this.file_box_outer).setStyles({
-            'overflow':'hidden',
-            'position':'absolute',
-            'height':tar_size.totalHeight,
-            'width':tar_size.totalWidth,
-            'font-size':12
-        });
-        this.file.setStyles({
-            'position':'absolute',
-            'z-index':'100',
-            'margin-left':'-180px',
-            'font-size':30,
-            'margin-top':'-5px',
-            'opacity':0,
-            'filter':'alpha(opacity=0)',
-            'visibility':'visible'
-        }).inject(this.file_box);
-        tar.inject(this.file_box);
         this.file_clone = this.file.clone();
         this.file.destroy();
         this.build_file();
