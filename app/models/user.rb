@@ -122,6 +122,10 @@ class User
       map {|f| f.blog}
   end
 
+  def all_blogs
+    followings.map {|f| f.blog}
+  end
+
   def auth_for(blog)
     f = followings.where(:blog_id => blog._id).first
     f.nil? ? nil : f.auth

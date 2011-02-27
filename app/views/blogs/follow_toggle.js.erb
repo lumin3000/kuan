@@ -1,0 +1,9 @@
+if($('blog_<%= @blog.id %>')){
+  if(<%= @follow %>){
+    $('blog_<%= @blog.id %>').getElement('.btn_unfollow').show();
+    $('blog_<%= @blog.id %>').getElement('.btn_follow').hide();
+  }else{
+    $('blog_<%= @blog.id %>').getElement('.btn_unfollow').hide();
+    $('blog_<%= @blog.id %>').getElement('.btn_follow').show();
+  }
+}

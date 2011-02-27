@@ -53,7 +53,7 @@ class UsersController < ApplicationController
 
   def followings
     @blogs = @user.subs
-    render :layout => "account"
+    render :layout => "blogs"
   end
 
   private
