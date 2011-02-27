@@ -37,7 +37,8 @@ class UsersController < ApplicationController
       cond = {:blog_id.in => @blogs.map {|b| b.id}}
       @at_dashboard = true
     end
-    @posts = Post.paginate pagination.update({:conditions => cond})
+    @posts = Post.desc(:created_at)
+      .paginate pagination.update({:conditions => cond})
   end
 
   def edit
