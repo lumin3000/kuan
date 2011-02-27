@@ -157,7 +157,7 @@ K.file_uploader = new Class({
 K.editor = null;
 K.render_editor = function(el){
     var textarea = $(el);
-    var w  = textarea.getStyle('width').toInt() + 15;
+    var w  = textarea.getStyle('width').toInt() + 35;
     var h  = textarea.getStyle('height').toInt() - 50;
     K.editor = new MooEditable(textarea, {
         'actions':'toggleview | bold italic underline strikethrough | createlink unlink | urlimage ',
@@ -286,8 +286,8 @@ K.post = (function(){
         }
         $$('.rich_editor_starter').addEvent('click', function(){
             this.hide();
-            K.render_editor($('content'));
             $('box_text').addClass('rich_text');
+            K.render_editor($('content'));
             return false;
         });
         if($('tar_tog_textarea')){
