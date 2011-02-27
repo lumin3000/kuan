@@ -1,6 +1,10 @@
 - js 'post_display'
 %div[post]{:class => type}
   .content_head
+    - if @user && post.editable_by?(@user)
+      = link_to "删除", "/posts/#{post.id}", :confirm => "确定删除?", 
+        :method => :delete, :remote => true, :class => 'remove'
+      = link_to "编辑", "/posts/#{post.id}/edit", :class => 'edit'
   .content_body
     = render partial: sub_template, object: post
   .content_footer
@@ -10,7 +14,4 @@
           = post.author.name
       %span.update_time= post.created_at
     .right
-      - if @user && post.editable_by?(@user)
-        = link_to "编辑", "/posts/#{post.id}/edit"
-        = link_to "删除", "/posts/#{post.id}", :confirm => "确定删除?", 
-          :method => :delete, :remote => true
+      %a.open{href: root_url(subdomain: post.blog.uri) + "post/#{post.id}"}

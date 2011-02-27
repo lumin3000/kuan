@@ -2,10 +2,10 @@
 
 .middle_box.followers
   %h1
-    ="XXX人正在关注XXX"
+    ="#{@followers.length}人正在关注#{@blog.title}"
 
   - @followers.each do |user|
-    - blog = user.blogs.first
+    - blog = user.primary_blog
     .follower{ :id => "blog_#{blog.id}" }
       .avatar
         %a{ :href => root_url(:subdomain => blog.uri) }

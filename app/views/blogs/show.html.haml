@@ -8,8 +8,12 @@
     = javascript_include_tag 'mootools-core', 'rails', 'mootools-more'
     = javascript_include_tag 'application'
     = javascript_include_tag 'post_display'
-  %body
+  %body[@blog]
     #wrapper
+      .commands
+        %a.back_to_home{href: root_url(subdomain: 'www')}
+          回我的主页
+        = follow_tag @blog
       #title
         %a{href: root_url(:subdomain => @blog.uri)}
           =@blog.title

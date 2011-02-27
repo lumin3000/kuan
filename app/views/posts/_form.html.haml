@@ -24,6 +24,6 @@
                 %option{value: b.id}
                   = b.title
     %a.cancel{href: "/home"}
-    .send
+    %div{class: params[:action] == 'new' ? 'send' : 'save'}
       %button{type: "submit", value: "Commit"}
         SUBMIT
