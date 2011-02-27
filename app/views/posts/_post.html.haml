@@ -2,9 +2,9 @@
 %div[post]{:class => type}
   .content_head
     - if @user && post.editable_by?(@user)
-      = link_to "编辑", "/posts/#{post.id}/edit", :class => 'edit'
       %a.remove{ :href => "/posts/#{post.id}", :data => { :widget => "del", :parent => "tar_post" }}<
         删除
+      = link_to "编辑", "/posts/#{post.id}/edit", :class => 'edit'
   .content_body
     = render partial: sub_template, object: post
   .content_footer
