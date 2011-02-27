@@ -360,6 +360,9 @@ K.post = (function(){
 })();
 
 K.widgets = {}
+K.widgets.env = {
+  post_single: false
+}
 K.widgets.shrinked = function(elem) {
   var context = elem
     , triggers = context.getElements(context.get('data-trigger'))
@@ -381,6 +384,9 @@ K.widgets.fixHover = (function() {
 })()
 
 document.addEvent('domready', function(){
+  if(document.body.hasClass('post_single')){
+      K.widgets.env.post_single = true
+  }
   var KEY = 'data-widget'
   $$('[' + KEY + ']').each(function(e){
     var type = e.get(KEY)
@@ -453,4 +459,8 @@ K.widgets.video = function(el){
     };
     
     init_video();
+    
+    if(K.widgets.env.post_single){
+        el.getElement('.video_tar_open').fireEvent('click');
+    }
 }
