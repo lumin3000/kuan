@@ -23,7 +23,7 @@
               - @target_blogs.each do |b|
                 %option{value: b.id}
                   = b.title
-    .cancel
+    %a.cancel{href: "/home"}
     .send
       %button{type: "submit", value: "Commit"}
         SUBMIT
