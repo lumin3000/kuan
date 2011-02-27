@@ -12,5 +12,5 @@
     .right
       - if @user && post.editable_by?(@user)
         = link_to "编辑", "/posts/#{post.id}/edit"
-        = link_to "删除", "/posts/#{post.id}", :confirm => "确定删除?", 
-          :method => :delete, :remote => true
+        %a{ :href => "/posts/#{post.id}", :data => { :widget => "del", :parent => "tar_post" }}<
+          删除

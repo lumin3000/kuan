@@ -40,14 +40,17 @@ class PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
-    if not @post.editable_by? @user
-      render :status => :forbidden, :text => "放开那帖子"
+    if(@post.nil? || !(@post.editable_by? @user))
+      render :text => {
+        status: "error",
+        message: "删除失败"
+      }.to_json
       return
     end
     @post.destroy
-    respond_to do |format|
-      format.js
-    end
+    render :text => {
+      status: "success"
+    }.to_json
   end
 
   private

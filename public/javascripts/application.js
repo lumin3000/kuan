@@ -434,3 +434,27 @@ document.addEvent('domready', function(){
     func && func(e)
   })
 })
+
+K.widgets.del = function(el){
+    el.addEvent('click', function(e){
+        var el = this;
+        var link = el.get('href');
+        var parent = el.getParent('.'+el.get('data-parent'));
+        new Request.JSON({
+            url: link,
+            method: 'delete',
+            data: {},
+            onSuccess: function(result){
+                if(result.status == 'success'){
+                    parent.destroy();
+                }else{
+                    alert(result.message);
+                }
+            },
+            onFailure: function(){
+                alert('删除失败');
+            }
+        }).send();
+        e.stop();
+    });
+}
