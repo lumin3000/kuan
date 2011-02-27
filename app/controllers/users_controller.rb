@@ -46,6 +46,11 @@ class UsersController < ApplicationController
   end
 
   def update
+    if(params[:user][:password].blank? && params[:user][:password_confirmation].blank?)
+       params[:user].delete(:password)
+       params[:user].delete(:password_confirmation)
+    end
+
     if @user.update_attributes params[:user]
       flash[:success] = "账户信息更新成功"
       redirect_to home_path

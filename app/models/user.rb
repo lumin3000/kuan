@@ -28,16 +28,18 @@ class User
     :case_sensitive => false, 
     :message => "此邮箱已被使用"
 
-  validates_presence_of :password, :message => "请输入密码"
+  validates_presence_of :password, :message => "请输入密码", :on => :create
+  validates_presence_of :password_confirmation, :message => "请再次输入密码", :on => :create
+  validates_confirmation_of :password, :message => "两次密码不统一"
+
   validates_length_of :password,
     :minimum => 5,
     :maximum => 10,
     :too_short => "最少%{count}个字",
-    :too_long => "最多%{count}个字"
-  validates_confirmation_of :password, :message => "两次密码不统一"
-  validates_presence_of :password_confirmation, :message => "请再次输入密码"
+  :too_long => "最多%{count}个字", :unless => Proc.new { |a| a.password.blank? }
 
-  before_save :encrypt_password
+  before_save :encrypt_password, :unless => Proc.new { |a| a.password.blank? }
+  
   before_save :email_downcase
 
   def has_password?(password)

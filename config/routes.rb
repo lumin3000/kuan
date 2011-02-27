@@ -12,9 +12,6 @@ Kuan::Application.routes.draw do
       post :follow_toggle
     end
   end
-  post "/blogs/follow/:id" => "blogs#follow"
-  post "/blogs/unfollow/:id" => "blogs#unfollow"
-
 
   resources :movings, :only => [:new, :create]
 
