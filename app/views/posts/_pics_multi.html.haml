@@ -5,7 +5,7 @@
     %li.photo{class: c}
       %img{src: i.url_for(:small), data: { l: i.url_for(:large), o: i.url_for(:original), title: p.desc, }}
 %p.total_num= "共#{pics_multi.photos.length}图"
-%p.desc= pics_multi.content
+%p.desc!= pics_multi.content
 - if not @slide_template_provided then
   - @slide_template_provided = true
   %div{style: "display: none;"}
