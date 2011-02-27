@@ -299,8 +299,11 @@ a.page_name
 
 .page_control
   float: right
+  position: relative
   width: 276px
   margin-right: 11px
+  height: 26px
+  @include clear_fix
 
   a, .page_number
     float: left
@@ -314,6 +317,11 @@ a.page_name
     color: white
     font-size: 14px
     text-align: center
+
+  .page_right
+    position: absolute
+    top: 0
+    right: 0
 
   .page_number
     width: 60px

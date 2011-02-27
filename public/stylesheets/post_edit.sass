@@ -185,10 +185,9 @@
     float: right
     background: url('/images/post_cancel.gif')
 
-  .send
+  .send, .save
     @include big_button
     margin-left: 195px
-    background: url('/images/post_send.gif')
 
     button
       background: none
@@ -197,6 +196,12 @@
       width: 100%
       cursor: pointer
       @include hide_text
+
+  .send
+    background: url('/images/post_send.gif')
+
+  .save
+    background: url('/images/post_save.gif')
 
   .post_error
     font-size: 12px

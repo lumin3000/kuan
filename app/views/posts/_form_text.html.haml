@@ -1,12 +1,14 @@
 - @post_type = capture do
   文字
+- should_hide_title = post.title.blank?
 - content_for :form do
   .option_text
-    %a.new_title_starter.slight{href: "#"}<
-      +新建标题
-    = content_for :content_toggle
+    - if should_hide_title
+      %a.new_title_starter.slight{href: "#"}<
+        +新建标题
+      = content_for :content_toggle
 
-  .title_text{ style: "display:none;" }
+  .title_text{ style: should_hide_title ? "display: none" : "" }
     = label_tag :title, "标题(可选)"
     = text_field_tag :title, post.title
   = content_for :content_area

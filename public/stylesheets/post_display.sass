@@ -1,7 +1,47 @@
 @import 'base'
 
+.content
+  margin-left: 86px
+  width: 600px
+  @include border-radius(15px)
+  border: 1px solid #dcdcdc
+  overflow: hidden
+
+.content_head
+  @include single_line(50px)
+  padding: 0px 25px
+
 .content_body
+  padding: 0px 50px
+  font-size: 14px
   @include clear_fix
+
+.content_footer
+  padding: 20px 15px 0px 15px
+  @include single_line(30px)
+
+  .left
+    width: 200px
+    float: left
+
+  .middle
+    margin-left: 200px
+    margin-right: 100px
+
+
+  .right
+    width: 100px
+    float: right
+
+
+.writer_name a
+  color: #888888
+  font-size: 14px
+
+.update_time
+  font-size: 10px
+  font-family: Arial, Verdana
+  color: #888888
 
 .hidden
   display: none
@@ -175,3 +215,32 @@
   height: 33px
   opacity: 0.8
   background: transparent url(/images/post_video_play.gif) no-repeat
+
+@mixin post_button
+  @include size(16px, 16px)
+  @include hide_text
+  background-image: url('/images/post_btn.gif')
+  background-repeat: no-repeat
+  margin: 16px
+  margin-right: 0
+  float: right
+  display: inline
+
+.post
+  .remove, .open, .edit
+    @include post_button
+
+  .open
+    background-position: -80px -20px
+    &:hover
+      background-position: -80px 0
+
+  .edit
+    background-position: -40px -20px
+    &:hover
+      background-position: -40px 0
+
+  .remove
+    background-position: -60px -20px
+    &:hover
+      background-position: -60px 0
