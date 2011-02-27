@@ -90,5 +90,4 @@
             %div<
               %a.page_name{href: url_for(p.blog)}= p.blog.title
           .content= render_post p
-
-= pagination(@posts)
+    = pagination(@posts)

@@ -22,7 +22,9 @@ module ApplicationHelper
     ".kuandom.com"
   end
 
-  def pagination(collection)
+  def pagination(collection, options = {})
+    options = { :per_page => 2, }.update(options)
+
     if m = %r{page/(\d+)/?$}.match(request.url)
       current_page, base_url = m[1].to_i(10), m.pre_match
     else
@@ -34,6 +36,6 @@ module ApplicationHelper
       :current_page => current_page,
       :base_url => base_url,
       :collection => collection,
-    }
+    }.update(options)
   end
 end
