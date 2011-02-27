@@ -22,8 +22,11 @@ class Blog
   validates_presence_of :uri,
     :message => "请输入链接"
   validates_format_of :uri,
-    :with => /^[0-9a-z-]{4,30}$/i,
-    :message => "链接格式不正确"
+    :with => /^[0-9a-z-]$/i,
+    :message => "网址仅限字母、数字与“-”"
+  validates_length_of :uri,
+    :within => 4..30,
+    :message => '网址长度应在4-30个字符之间'
   validates_uniqueness_of :uri,
     :case_sensitive => false,
     :message => "此链接已被使用"

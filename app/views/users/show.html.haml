@@ -13,7 +13,7 @@
   .dash_navigator
     %a{href: edit_user_path(current_user)}设置
     &nbsp;| 邀请好友加入&nbsp;
-    - invite_url = "#{root_url}signup/#{current_user.inv_code}"
+    - invite_url = "#{root_url(:subdomain => 'www')}signup/#{current_user.inv_code}"
     %input.invite{readonly: true, value: invite_url}><
     &nbsp;|&nbsp;
     %a.logout{href: "/signout"}><

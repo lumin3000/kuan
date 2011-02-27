@@ -38,11 +38,12 @@ class BlogsController < ApplicationController
     render '404', :status => 404 and return if @blog.nil?
     post_id = params[:post_id]
     if post_id.nil?
-      @posts = Post.desc(:created_at).paginate({
-        :conditions => {:blog_id => @blog.id},
-        :page => params[:page] || 1,
-        :per_page => 2,
-      })
+      @posts = Post.desc(:created_at).where({:blog_id => @blog.id})
+        .paginate({
+          :page => params[:page] || 1,
+          :per_page => 2,
+        })
+
     else
       @posts = [Post.find(post_id)]
     end
