@@ -11,12 +11,12 @@
 
 - content_for :head, do
   = stylesheet_link_tag "post_edit", "mooeditable"
-  - js 'mooeditable.local', 'mooeditable'
+  - js 'mooeditable', 'mooeditable.local'
   :javascript
     document.addEvent('domready', function(){
       K.post.init()
     });
-    
+
 - content_for :site_layout, "site_middle_size"
 
 = render :file => 'layouts/application'

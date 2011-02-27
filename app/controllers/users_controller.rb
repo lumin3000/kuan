@@ -23,19 +23,20 @@ class UsersController < ApplicationController
   #param :uri: 显示指定uri的blog的信息和帖子列表，否则使用默认页面
   def show
     @blog = @user.primary_blog
-    @blogs = @user.blogs
+    @blogs = @user.all_blogs
     pagination = {
       :page => params[:page] || 1,
       :per_page => 2,
     }
-    if !params[:uri].blank?
+    @at_dashboard = params[:uri].blank?
+    if !@at_dashboard
       param_blog = Blog.where(:uri => params[:uri]).first
       @blog = @user.blogs.include?(param_blog) ? param_blog : @blog
       cond = {:blog_id => @blog.id}
     else
       cond = {:blog_id.in => @blogs.map {|b| b.id}}
     end
-    @posts = Post.paginate pagination.update({:conditions => cond})
+    @posts = Post.desc(:created_at).where(cond).paginate(pagination)
   end
 
   def edit
@@ -43,6 +44,11 @@ class UsersController < ApplicationController
   end
 
   def update
+    if(params[:user][:password].blank? && params[:user][:password_confirmation].blank?)
+       params[:user].delete(:password)
+       params[:user].delete(:password_confirmation)
+    end
+
     if @user.update_attributes params[:user]
       flash[:success] = "账户信息更新成功"
       redirect_to home_path
@@ -53,7 +59,7 @@ class UsersController < ApplicationController
 
   def followings
     @blogs = @user.subs
-    render :layout => "account"
+    render :layout => "blogs"
   end
 
   private

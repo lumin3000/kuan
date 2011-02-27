@@ -2,30 +2,30 @@
 - @sub_title_class = "register_title"
 
 = form_for(@user, :url => users_path, :html => {:class => 'register'}) do |f|
-  .nick_box<
+  .nick_box
     = f.label :name, '用户名'
     = f.text_field :name
-  .error<
+  .error
     &nbsp;
     = @user.errors[:name].first
-  .email_box<
+  .email_box
     = f.label :email, '邮箱'
     = f.text_field :email
-  .error<
+  .error
     &nbsp;
     = @user.errors[:email].first
-  .password_box<
+  .password_box
     = f.label :password, '密码'
     = f.password_field :password
-  .error<
+  .error
     &nbsp;
     = @user.errors[:password].first
-  .password_box<
+  .password_box
     = f.label :password_confirmation, '确认密码'
     = f.password_field :password_confirmation
-  .error<
+  .error
     &nbsp;
     = @user.errors[:password_confirmation].first
   = hidden_field_tag 'code', @inv_user.inv_code
-  .submit_box<
+  .submit_box
     = f.submit " "

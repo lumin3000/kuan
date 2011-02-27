@@ -23,7 +23,9 @@ class BlogsController < ApplicationController
   end
 
   def update
-    if @blog.update_attributes params[:blog]
+    p = params[:blog]
+    p.delete :icon if p[:icon].blank?
+    if @blog.update_attributes p
       flash[:success] = "页面信息更新成功"
       redirect_to home_path
     else
@@ -36,11 +38,12 @@ class BlogsController < ApplicationController
     render '404', :status => 404 and return if @blog.nil?
     post_id = params[:post_id]
     if post_id.nil?
-      @posts = Post.paginate({
-        :conditions => {:blog_id => @blog.id},
-        :page => params[:page] || 1,
-        :per_page => 2,
-      })
+      @posts = Post.desc(:created_at).where({:blog_id => @blog.id})
+        .paginate({
+          :page => params[:page] || 1,
+          :per_page => 2,
+        })
+
     else
       @posts = [Post.find(post_id)]
     end
@@ -52,9 +55,18 @@ class BlogsController < ApplicationController
   end
 
   def follow_toggle
+    @blog = Blog.find(params[:id])
     redirect_to home_path if @blog.nil?
-    follow?(@blog) ? @user.unfollow!(@blog) : @user.follow!(@blog)
-    redirect_to blog_path, :uri => @blog.uri
+    if follow?(@blog)
+      @user.unfollow!(@blog)
+      now_follow = false
+    else
+      @user.follow!(@blog)
+      now_follow = true
+    end
+    respond_to do |format|
+      format.js { @follow = now_follow }
+    end
   end
 
   private

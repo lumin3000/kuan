@@ -1,23 +1,23 @@
 = form_for(@blog, :html => { :class => "middle_box new_page" }) do |f|
-  %h1<
+  %h1
     新建页面
-  %h2<
-    按兴趣的不同
-  .page_name<
+  %h2
+    我们建议同一页面只发布你的某一方面兴趣，通过宽岛独特的多页面设计，展示自己的不同侧面，例如，你是摄影师，又喜欢分享好听的歌曲，不如建立两个页面，一个用来放摄影照片，一个则用来分享好音乐。
+  .page_name
     = f.label :title, "页面名称"
     = f.text_field :title
-  .error<
+  .error
     &nbsp;
     = @blog.errors[:title].first
-  .page_url<
+  .page_url
     = f.label :uri, "自定义网址"
     = f.text_field :uri
-    %span<
+    %span
       = server_name
-  .error<
-    %span.suggestion<
+  .error
+    %span.suggestion
       (网址随时都可以修改)
     &nbsp;
     = @blog.errors[:uri].first
-  .submit_box<
+  .submit_box
     = f.submit " "

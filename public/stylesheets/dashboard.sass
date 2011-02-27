@@ -43,9 +43,9 @@ a.page_name
       cursor: pointer
 
 
-  .menu_arraw
+  .menu_arrow
     @include dashboard_sidebar_button
-    background: url('/images/icons.gif') -14px -14px
+    background: url('/images/icons.gif') -28px -14px
 
 
   .icon_create
@@ -58,7 +58,7 @@ a.page_name
 
   .icon_follow
     @include dashboard_sidebar_button
-    background: url('/images/icons.gif') 0px -14px
+    background: url('/images/icons.gif') 0px 0
 
 
   .icon_follow2
@@ -80,7 +80,6 @@ a.page_name
   .icon_remove
     @include dashboard_sidebar_button
     background: url('/images/icons.gif') -70px 0px
-
 
   .icon_post
     @include dashboard_sidebar_button
@@ -108,12 +107,10 @@ a.page_name
       margin-left: -18px
       margin-bottom: 16px
 
-
     .create_page
       margin-bottom: 2px
       margin-top: 5px
       font-size: 12px
-
 
   .main
     width: 700px
@@ -166,6 +163,18 @@ a.page_name
 
   .timeline
     padding-top: 30px
+
+.highlight_following .menu_arrow
+  background: url('/images/icons.gif') -14px -14px
+
+.highlight_following .icon_follow
+  background: url('/images/icons.gif') 0px -14px
+
+.real_fucking_following
+  visibility: hidden
+
+.hover .real_fucking_following
+  visibility: visible
 
 .my_pages
   position: relative
@@ -288,11 +297,15 @@ a.page_name
     padding: 0px 50px
     font-size: 14px
 
-.page_control 
-  margin-left: 413px
+.page_control
+  float: right
+  position: relative
+  width: 276px
+  margin-right: 11px
+  height: 26px
+  @include clear_fix
 
-  a, .page_control .page_number
-    display: block
+  a, .page_number
     float: left
     text-decoration: none
 
@@ -304,6 +317,11 @@ a.page_name
     color: white
     font-size: 14px
     text-align: center
+
+  .page_right
+    position: absolute
+    top: 0
+    right: 0
 
   .page_number
     width: 60px

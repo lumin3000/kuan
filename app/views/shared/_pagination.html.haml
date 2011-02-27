@@ -1,6 +1,7 @@
 .page_control
   - if current_page > 1
     %a.page_left{href: "#{base_url}/page/#{current_page - 1}"} &#8592; 过去的
-  .page_number= current_page
-  - if not collection.empty?
+  - if current_page != 1
+    .page_number= current_page
+  - if (!collection.empty? && collection.length >= per_page)
     %a.page_right{href: "#{base_url}/page/#{current_page + 1}"} 以前的 &#8594;

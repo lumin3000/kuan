@@ -1,17 +1,18 @@
-- @sub_title = '登陆宽岛, 分享兴趣爱好的根源'
+- @sub_title = '宽岛，每个人都是生活艺术家'
+- content_for :title, '登陆_宽岛'
 
-= form_for(:session, :url => sessions_path, :html => {:class => 'login'}) do |f|
-  .email_box<
+= form_for(:session, @user, :url => sessions_path, :html => {:class => 'login'}) do |f|
+  .email_box
     = f.label :email, '邮箱'
     = f.text_field :email
-  .error<
+  .error
     = flash[:email_error]
     &nbsp;
-  .password_box<
+  .password_box
     = f.label :password, '密码'
     = f.password_field :password
-  .error<
+  .error
     = flash[:password_error]
     &nbsp;
-  .submit_box<
+  .submit_box
     = f.submit " "

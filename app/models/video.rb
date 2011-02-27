@@ -11,7 +11,8 @@ class Video < Post
   field :content
   field :site
 
-  validates_presence_of :player, :url
+  validates_presence_of :url
+  validates_presence_of :player, :message =>  "不是正确的格式"
   attr_accessible :content, :url, :site, :thumb
 
   FETCH_SITES = [:youku, :tudou, :ku6]

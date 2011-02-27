@@ -1,5 +1,16 @@
-%h1 关注此页面的用户
+- content_for :title, "我关注的页面_宽岛"
 
-- @followers.each do |user|
-  .blog_followers
-    = user.name
+.middle_box.followers
+  %h1
+    ="#{@followers.length}人正在关注#{@blog.title}"
+
+  - @followers.each do |user|
+    - blog = user.primary_blog
+    .follower{ :id => "blog_#{blog.id}" }
+      .avatar
+        %a{ :href => root_url(:subdomain => blog.uri) }
+          %img{ :src => blog.icon.url_for(:meduim) }
+      .fo_name
+        %a{ :href => root_url(:subdomain => blog.uri) }
+          = user.name
+      = follow_tag blog

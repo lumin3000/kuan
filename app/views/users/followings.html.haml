@@ -1,14 +1,15 @@
 - content_for :title, "我关注的页面_宽岛"
 
-.following.middle_box
+.middle_box.following
   %h1
     ="我关注了#{@blogs.length}个页面"
 
   - @blogs.each do |blog|
-    .follower
+    .follower{ :id => "blog_#{blog.id}" }
       .avatar
-        %a{href: root_url(:subdomain => blog.uri)}
+        %a{ :href => root_url(:subdomain => blog.uri) }
+          %img{ :src => blog.icon.url_for(:meduim) }
       .fo_name
-        %a{href: root_url(:subdomain => blog.uri)}
+        %a{ :href => root_url(:subdomain => blog.uri) }
           = blog.title
-      .btn_unfollow
+      = follow_tag blog
