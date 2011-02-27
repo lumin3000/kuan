@@ -1,7 +1,7 @@
 - @sub_title = '宽岛，每个人都是生活艺术家'
 - content_for :title, '登陆_宽岛'
 
-= form_for(:session, :url => sessions_path, :html => {:class => 'login'}) do |f|
+= form_for(:session, @user, :url => sessions_path, :html => {:class => 'login'}) do |f|
   .email_box<
     = f.label :email, '邮箱'
     = f.text_field :email

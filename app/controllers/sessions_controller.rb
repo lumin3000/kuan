@@ -14,6 +14,7 @@ class SessionsController < ApplicationController
       when :password
         flash.now[:password_error] = "密码错误，请重新输入"
       end
+      @user = User.new params[:session]
       return render 'new'
     end
 
