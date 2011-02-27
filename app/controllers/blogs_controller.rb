@@ -37,6 +37,7 @@ class BlogsController < ApplicationController
     find_by_uri request.subdomain
     render '404', :status => 404 and return if @blog.nil?
     post_id = params[:post_id]
+    @single_post = ! post_id.nil?
     if post_id.nil?
       @posts = Post.desc(:created_at).where({:blog_id => @blog.id})
         .paginate({
