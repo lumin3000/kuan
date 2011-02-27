@@ -161,7 +161,8 @@ K.render_editor = function(el){
     var h  = textarea.getStyle('height').toInt() - 50;
     K.editor = new MooEditable(textarea, {
         'actions':'toggleview | bold italic underline strikethrough | createlink unlink | urlimage ',
-        'dimensions':{x:w,y:h}
+        'dimensions':{x:w,y:h},
+        'rootElement':''
     });
 }
 
