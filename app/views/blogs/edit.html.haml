@@ -1,29 +1,29 @@
 = form_for(@blog, :html => { :class => "middle_box new_page edit_page" }) do |f|
-  %h1<
+  %h1
     设置页面
-  .page_name<
+  .page_name
     = f.label :title, "页面名称"
     = f.text_field :title
-  .error<
+  .error
     &nbsp;
     = @blog.errors[:title].first
-  .page_url<
+  .page_url
     = f.label :uri, "自定义网址"
     = f.text_field :uri
-    %span<
+    %span
       = server_name
-  .error<
-    %span.suggestion<
+  .error
+    %span.suggestion
       (网址随时都可以修改)
     &nbsp;
     = @blog.errors[:uri].first
-  .page_logo<
-    %label<
+  .page_logo
+    %label
       %img#blog_icon_img{ :src => @blog.icon.url_for(:medium) }
     = f.hidden_field :icon, :id => "blog_icon_id", :value => @blog.icon.id
     %input{ :type => 'file', :id => 'image_uploader', :name => 'file', :autocomplete => 'off' }
     %span#blog_icon_feed
-  .submit_box.edit_box<
+  .submit_box.edit_box
     = f.submit " "
 :javascript
   document.addEvent('domready', function(){
