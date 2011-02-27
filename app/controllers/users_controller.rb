@@ -23,7 +23,7 @@ class UsersController < ApplicationController
   #param :uri: 显示指定uri的blog的信息和帖子列表，否则使用默认页面
   def show
     @blog = @user.primary_blog
-    @blogs = @user.all_blogs
+    @blogs = @user.blogs
     pagination = {
       :page => params[:page] || 1,
       :per_page => 2,
@@ -34,7 +34,7 @@ class UsersController < ApplicationController
       @blog = @user.blogs.include?(param_blog) ? param_blog : @blog
       cond = {:blog_id => @blog.id}
     else
-      cond = {:blog_id.in => @blogs.map {|b| b.id}}
+      cond = {:blog_id.in => @user.all_blogs.map {|b| b.id}}
     end
     @posts = Post.desc(:created_at).where(cond).paginate(pagination)
   end
