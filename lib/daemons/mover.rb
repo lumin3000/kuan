@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-# You might want to change this
 ENV["RAILS_ENV"] ||= "production"
 
 require File.dirname(__FILE__) + "/../../config/application"
@@ -12,9 +11,8 @@ Signal.trap("TERM") do
 end
 
 while($running) do
-  
-  # Replace this with your code
-  Rails.logger.auto_flushing = true
-  Rails.logger.info "This daemon is still running at #{Time.now}.\n"
-  sleep 10
+  require 'moving/mover'
+  Rails.logger.info "Mover still running at #{Time.now}.\n"
+  Mover.run
+  sleep 600
 end

@@ -12,7 +12,7 @@ class Video < Post
   field :site
 
   validates_presence_of :player, :url
-  attr_accessible :content, :url
+  attr_accessible :content, :url, :site, :thumb
 
   FETCH_SITES = [:youku, :tudou, :ku6]
 

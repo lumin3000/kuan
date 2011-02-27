@@ -4,10 +4,14 @@ require 'open-uri'
 
 class Moving
   include Mongoid::Document
-
+  include Mongoid::Timestamps
+  
   field :from_uri
   field :to_uri
+  field :trans_cur, :type => Integer, :default => 0
   referenced_in :user
+
+  attr_accessible :trans_cur
 
   validate do |m|
     begin
