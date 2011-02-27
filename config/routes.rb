@@ -37,11 +37,12 @@ Kuan::Application.routes.draw do
   constraints(Subdomain) do
     match '/' => 'blogs#show'
     match '/followers' => 'blogs#followers'
-    match '/page/:page' => 'blogs#show'
+    match '/page/:page' => 'blogs#show', :page => /\d+/
     match '/post/:post_id' => 'blogs#show'
   end
 
   root :to => "users#show"
+  match '/page/:page', :to => 'users#show', :page => /\d+/
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

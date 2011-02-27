@@ -56,7 +56,7 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 .header a.logo{
 	display:block;
 	border:0;
-	width:210px;
+	width:270px;
 	height:46px;
 	background:url('images/logo.gif');
 	float:left;
@@ -64,7 +64,7 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 
 .header .navigator
 {
-	margin-left:210px;
+	margin-left:270px;
 	text-align:right;
 }
 
@@ -93,7 +93,7 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 .header .dash_navigator .logout{
 	display:inline-block;
 	padding:0px;
-	background:url('images/icons.gif') -56px -14px;
+	background:url('images/icons.gif') -80px -20px;
 	overflow:hidden;
 	width:14px;
 	height:14px;
@@ -512,7 +512,7 @@ form.edit_page .submit_box input{
 	height:14px;
 	margin-top:30px;
 	margin-right:20px;
-	background:url('images/icons.gif') -84px -14px;
+	background:url('images/icons.gif') -120px -20px;
 	overflow:hidden;
 	cursor:move;
 }
@@ -538,7 +538,7 @@ form.edit_page .submit_box input{
 	width:14px;
 	height:14px;
 	margin-top:10px;
-	background:url('images/icons.gif') -70px -14px;
+	background:url('images/icons.gif') -100px -20px;
 	overflow:hidden;
 }
 .post .image_url_starter{
@@ -639,7 +639,7 @@ form.edit_page .submit_box input{
 	display: inline-block;
 	width:14px;
 	height:14px;
-	background:url('images/icons.gif') -14px -14px;
+	background:url('images/icons.gif') -20px -20px;
 	overflow:hidden;
 }
 
@@ -647,7 +647,7 @@ form.edit_page .submit_box input{
 	display: inline-block;
 	width:14px;
 	height:14px;
-	background:url('images/icons.gif') -14px 0px;
+	background:url('images/icons.gif') -20px 0px;
 	overflow:hidden;	
 }
 .dashboard .text_follow{
@@ -659,7 +659,7 @@ form.edit_page .submit_box input{
 	display: inline-block;
 	width:14px;
 	height:14px;
-	background:url('images/icons.gif') 0px -14px;
+	background:url('images/icons.gif') 0px -20px;
 	overflow:hidden;
 }
 
@@ -675,7 +675,7 @@ form.edit_page .submit_box input{
 	display: inline-block;
 	width:14px;
 	height:14px;
-	background:url('images/icons.gif') -42px 0px;
+	background:url('images/icons.gif') -60px 0px;
 	overflow:hidden;
 }
 	
@@ -683,7 +683,7 @@ form.edit_page .submit_box input{
 	display: inline-block;
 	width:14px;
 	height:14px;
-	background:url('images/icons.gif') -56px 0px;
+	background:url('images/icons.gif') -80px 0px;
 	overflow:hidden;
 }
 
@@ -691,7 +691,7 @@ form.edit_page .submit_box input{
 	display: inline-block;
 	width:14px;
 	height:14px;
-	background:url('images/icons.gif') -70px 0px;
+	background:url('images/icons.gif') -100px 0px;
 	overflow:hidden;
 }
 
@@ -699,7 +699,7 @@ form.edit_page .submit_box input{
 	display: inline-block;
 	width:14px;
 	height:14px;
-	background:url('images/icons.gif') -98px 0px;
+	background:url('images/icons.gif') -140px 0px;
 	overflow:hidden;
 }
 
@@ -707,7 +707,7 @@ form.edit_page .submit_box input{
 	display: inline-block;
 	width:14px;
 	height:14px;
-	background:url('images/icons.gif') -98px 0px;
+	background:url('images/icons.gif') -140px -20px;
 	overflow:hidden;
 }
 .dashboard .dash_operation{
@@ -908,6 +908,63 @@ form.edit_page .submit_box input{
 	margin-bottom:5px;
 	background:url('images/avatar.jpg')
 }
+.article .content_head{
+	margin-right:-10px;
+}
+.article .content_head a, .article .content_footer .right a{
+	display:block;
+	float:right;
+	width:16px;
+	height:16px;
+	overflow:hidden;
+	margin:16px 0px 16px 16px;
+}
+.article .content_head .fave{
+	background:url('images/post_btn.gif') 0px -20px;
+}
+.article .content_head a.fave:hover{
+	background:url('images/post_btn.gif');
+}
+
+.article .content_head .repost{
+	background:url('images/post_btn.gif') -20px -20px;
+}
+
+.article .content_head a.repost:hover{
+	background:url('images/post_btn.gif') -20px 0px;
+}
+
+.article .content_head .edit{
+	background:url('images/post_btn.gif') -40px -20px;
+}
+
+.article .content_head a.edit:hover{
+	background:url('images/post_btn.gif') -40px 0px;
+}
+
+.article .content_head a.remove{
+	background:url('images/post_btn.gif') -60px -20px;
+}
+.article .content_head a.remove:hover{
+	background:url('images/post_btn.gif') -60px 0px;
+}
+
+.article .content_footer .right .open{
+	background:url('images/post_btn.gif') -80px -20px;
+}
+
+.article .content_footer .right a.open:hover{
+	background:url('images/post_btn.gif') -80px 0px;
+}
+
+.article .content_footer .right a.reply{
+	background:url('images/post_btn.gif') -100px -20px;
+}
+.article .content_footer .right a.reply:hover{
+	background:url('images/post_btn.gif') -100px 0px;
+}
+
+
 
 
 .article .content{

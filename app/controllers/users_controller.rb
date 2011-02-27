@@ -32,8 +32,10 @@ class UsersController < ApplicationController
       param_blog = Blog.where(:uri => params[:uri]).first
       @blog = @user.blogs.include?(param_blog) ? param_blog : @blog
       cond = {:blog_id => @blog.id}
+      @at_dashboard = false
     else
       cond = {:blog_id.in => @blogs.map {|b| b.id}}
+      @at_dashboard = true
     end
     @posts = Post.paginate pagination.update({:conditions => cond})
   end

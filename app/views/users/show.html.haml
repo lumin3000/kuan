@@ -13,21 +13,23 @@
   .dash_navigator
     %a{href: edit_user_path(current_user)}设置
     &nbsp;| 邀请好友加入&nbsp;
-    %input.invite{readonly: true, value: "/signup/#{current_user.inv_code}"}><
+    - invite_url = "#{root_url}signup/#{current_user.inv_code}"
+    %input.invite{readonly: true, value: invite_url}><
     &nbsp;|&nbsp;
     %a.logout{href: "/signout"}><
 .dashboard
   .menu
     .dash_operation
-      .my_follow
-        %a{href: "/followings"}
-          %span.menu_arraw &nbsp;
+      - highlight_following = (@at_dashboard ? 'highlight_following' : '')
+      .my_follow{data: {widget: 'fixHover'}, class: highlight_following}
+        %a{href: "/home"}
+          %span.menu_arrow &nbsp;
           %span.icon_follow &nbsp;
           %span.text_follow
             关注了
             = @user.subs.count
             个页面
-        %a{href: "#"}
+        %a.real_fucking_following{href: "/followings"}
           %span.icon_config &nbsp;
       %hr
     .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
@@ -90,5 +92,4 @@
             %div<
               %a.page_name{href: url_for(p.blog)}= p.blog.title
           .content= render_post p
-
-= pagination(@posts)
+    = pagination(@posts)
