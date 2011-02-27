@@ -9,4 +9,5 @@ class Text < Post
   validates_length_of :content,
     :minimum => 1,
     :too_short => "写点什么吧",
+    :if => 'title.blank?'
 end
