@@ -43,9 +43,9 @@ a.page_name
       cursor: pointer
 
 
-  .menu_arraw
+  .menu_arrow
     @include dashboard_sidebar_button
-    background: url('/images/icons.gif') -14px -14px
+    background: url('/images/icons.gif') -28px -14px
 
 
   .icon_create
@@ -58,7 +58,7 @@ a.page_name
 
   .icon_follow
     @include dashboard_sidebar_button
-    background: url('/images/icons.gif') 0px -14px
+    background: url('/images/icons.gif') 0px 0
 
 
   .icon_follow2
@@ -163,6 +163,12 @@ a.page_name
 
   .timeline
     padding-top: 30px
+
+.highlight_following .menu_arrow
+  background: url('/images/icons.gif') -14px -14px
+
+.highlight_following .icon_follow
+  background: url('/images/icons.gif') 0px -14px
 
 .real_fucking_following
   visibility: hidden

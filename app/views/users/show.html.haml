@@ -20,9 +20,10 @@
 .dashboard
   .menu
     .dash_operation
-      .my_follow{data: {widget: 'fixHover'}}
+      - highlight_following = (@at_dashboard ? 'highlight_following' : '')
+      .my_follow{data: {widget: 'fixHover'}, class: highlight_following}
         %a{href: "/home"}
-          %span.menu_arraw &nbsp;
+          %span.menu_arrow &nbsp;
           %span.icon_follow &nbsp;
           %span.text_follow
             关注了
