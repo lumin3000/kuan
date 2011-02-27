@@ -409,6 +409,17 @@ K.widgets.shrinked = function(elem) {
   })
 }
 
+K.widgets.fixHover = (function() {
+  var events = {
+        mouseenter: toggle
+      , mouseleave: toggle
+      }
+  return function(elem) { elem.addEvents(events) }
+  function toggle() {
+    $(this).toggleClass('hover')
+  }
+})()
+
 document.addEvent('domready', function(){
   var KEY = 'data-widget'
   $$('[' + KEY + ']').each(function(e){

@@ -20,15 +20,15 @@
 .dashboard
   .menu
     .dash_operation
-      .my_follow
-        %a{href: "/followings"}
+      .my_follow{data: {widget: 'fixHover'}}
+        %a{href: "/home"}
           %span.menu_arraw &nbsp;
           %span.icon_follow &nbsp;
           %span.text_follow
             关注了
             = @user.subs.count
             个页面
-        %a{href: "#"}
+        %a.real_fucking_following{href: "/followings"}
           %span.icon_config &nbsp;
       %hr
     .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
