@@ -1,9 +1,9 @@
-- @sub_title = "修改账户信息"
+- @sub_title = '帐户设置_宽岛'
 - content_for :title, @sub_title
 
 = form_for(@user, :html => {:class => 'middle_box'}) do |f|
   %h1
-    账户设置
+    帐户设置
   .nick_box
     = f.label :name, '用户名'
     = f.text_field :name

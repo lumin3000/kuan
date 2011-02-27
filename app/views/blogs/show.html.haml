@@ -8,7 +8,7 @@
     = javascript_include_tag 'mootools-core', 'rails', 'mootools-more'
     = javascript_include_tag 'application'
     = javascript_include_tag 'post_display'
-  %body[@blog]
+  %body[@blog]{class: @single_post ? 'post_single' : 'post_list'}
     #wrapper
       .commands
         %a.back_to_home{href: root_url(subdomain: 'www')}

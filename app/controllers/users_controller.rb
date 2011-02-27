@@ -50,7 +50,7 @@ class UsersController < ApplicationController
     end
 
     if @user.update_attributes params[:user]
-      flash[:success] = "账户信息更新成功"
+      flash[:success] = "帐户信息更新成功"
       redirect_to home_path
     else
       render 'edit', :layout => "account"
