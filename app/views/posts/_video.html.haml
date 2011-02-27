@@ -1,18 +1,19 @@
-.video_thumb{ :style => (!!@default_open ? "display:none" : "") }
-  %a.video_tar_open{ :href => video.player }       
-    %img{ :src => video.thumb }     
-    .video_thumb_play<
-      &nbsp;
-.video_full{ :style => (!@default_open ? "display:none" : "") }
-  %span
-    %a.video_tar_close{ :href => "#" }<
-      收起
-  - unless video.site.nil?
-    %span                        
-      来自:                      
-      %a{ :href => video.url }<  
-        = video.site             
-  .video_player  
-%p<
+%div{ :data => { :widget => "video" } }
+  .video_thumb
+    %a.video_tar_open{ :href => video.player }       
+      %img{ :src => video.thumb }     
+      .video_thumb_play<
+        &nbsp;
+  .video_full{ :style => "display:none" }
+    %span
+      %a.video_tar_close{ :href => "#" }<
+        收起
+    - unless video.site.nil?
+      %span                        
+        来自:                      
+        %a{ :href => video.url }<  
+          = video.site             
+    .video_player  
+%div
   = video.content
    

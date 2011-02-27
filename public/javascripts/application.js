@@ -359,52 +359,6 @@ K.post = (function(){
     };
 })();
 
-K.posts = (function(){
-    var init_flash = function(path, el){
-        K.log('init_flash');
-        new Swiff(path, {
-            width: 440,
-            height: 360,
-            container: el,
-            params: {
-                wMode: 'opaque'
-            },
-            vars: {
-                isShowRelatedVideo: false,
-                showAd: 0,
-                isAutoPlay: true, 
-                playMovie: true, 
-                UserID: ''
-            }
-        });
-    };
-    var init_video = function(){
-        $$('.video_tar_open').addEvent('click', function(){
-            var p = this.getParent('.post');
-            p.getElement('.video_thumb').hide();
-            p.getElement('.video_full').show();
-            if(!p.getElement('object')){
-                init_flash(
-                    p.getElement('.video_tar_open').get('href'), 
-                    p.getElement('.video_player')
-                );
-            }
-            return false;
-        })
-        $$('.video_tar_close').addEvent('click', function(){
-            var p = this.getParent('.post');
-            p.getElement('.video_thumb').show();
-            p.getElement('.video_full').hide();
-        })
-    };
-
-    return {
-        init: function(){
-            init_video();
-        }
-    };
-})();
-
 K.widgets = {}
 K.widgets.shrinked = function(elem) {
   var context = elem
@@ -457,4 +411,46 @@ K.widgets.del = function(el){
         }).send();
         e.stop();
     });
+}
+
+K.widgets.video = function(el){
+    var init_flash = function(path, el){
+        K.log('init_flash');
+        new Swiff(path, {
+            width: 440,
+            height: 360,
+            container: el,
+            params: {
+                wMode: 'opaque'
+            },
+            vars: {
+                isShowRelatedVideo: false,
+                showAd: 0,
+                isAutoPlay: true, 
+                playMovie: true, 
+                UserID: ''
+            }
+        });
+    };
+    var init_video = function(){
+        el.getElement('.video_tar_open').addEvent('click', function(){
+            var p = this.getParent('.post');
+            p.getElement('.video_thumb').hide();
+            p.getElement('.video_full').show();
+            if(!p.getElement('object')){
+                init_flash(
+                    p.getElement('.video_tar_open').get('href'), 
+                    p.getElement('.video_player')
+                );
+            }
+            return false;
+        })
+        el.getElement('.video_tar_close').addEvent('click', function(){
+            var p = this.getParent('.post');
+            p.getElement('.video_thumb').show();
+            p.getElement('.video_full').hide();
+        })
+    };
+    
+    init_video();
 }
