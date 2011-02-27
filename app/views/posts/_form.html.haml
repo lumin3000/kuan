@@ -21,7 +21,7 @@
             -# 发布至:
             %select#blog_id{name: 'blog_id', data: {widget: 'prettySelect'}}
               - @target_blogs.each do |b|
-                %option{value: b.id}
+                %option{value: b.id, selected: b == @default_target_blog}
                   = b.title
     %a.cancel{href: "/home"}
     %div{class: params[:action] == 'new' ? 'send' : 'save'}
