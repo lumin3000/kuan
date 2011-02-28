@@ -32,7 +32,7 @@ module ApplicationHelper
   end
 
   def pagination(collection, options = {})
-    options = { :per_page => 2, }.update(options)
+    options = { :per_page => 10, }.update(options)
 
     if m = %r{page/(\d+)/?$}.match(request.url)
       current_page, base_url = m[1].to_i(10), m.pre_match

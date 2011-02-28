@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     @blogs = @user.blogs
     pagination = {
       :page => params[:page] || 1,
-      :per_page => 2,
+      :per_page => 10,
     }
     @at_dashboard = params[:uri].blank?
     if !@at_dashboard

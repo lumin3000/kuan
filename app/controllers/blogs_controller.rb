@@ -44,7 +44,7 @@ class BlogsController < ApplicationController
       @posts = Post.desc(:created_at).where({:blog_id => @blog.id})
         .paginate({
           :page => params[:page] || 1,
-          :per_page => 2,
+          :per_page => 10,
         })
 
     else
