@@ -127,10 +127,22 @@ a.page_name
     float: left
     background: url('/images/default_icon_medium.gif')
 
+    a
+      @include border-radius(15px)
+      overflow: hidden
+      position: relative
+      z-index: 2
+
+    img
+      @include size(60px, 60px)
+      display: block
+      position: relative
+      z-index: 1
 
   .post_area
     margin-left: 72px
     background-color: #65b7fc
+    text-decoration: none
 
     div, a
       height: 100px
