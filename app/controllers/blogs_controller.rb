@@ -34,7 +34,7 @@ class BlogsController < ApplicationController
 
   def show
     find_by_uri request.subdomain
-    render '404', :status => 404 and return if @blog.nil?
+    render 'shared/404', :status => 404, :layout => false and return if @blog.nil?
     if not @blog.open_to?(current_user)
       render :text => "Not for ya", :status => :forbidden and return
     end

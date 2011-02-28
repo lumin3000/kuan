@@ -92,7 +92,7 @@ class Blog
 
   class << self
     def find_by_uri!(uri)
-      return self.find(:first, :conditions => {:uri => uri})
+      self.find(:first, :conditions => {:uri => uri})
     end
   end
 end
