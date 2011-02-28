@@ -57,12 +57,12 @@ class Moving
   def from_uri= (from) 
     return if from.blank?
     from = "http://#{from}" if from !~ /^http:\/\//
-    from = "#{from}.kuantu.com" if from !~ /\.kuantu\.com$/
+    from = "#{from}.kuantu.com" if from !~ /\.kuantu\.com\/?$/
     super from
   end
 
   def to_uri= (to)
-    m = /^http:\/\/([a-z0-9]+)\.kuantu\.com$/.match to
+    m = /^http:\/\/([a-z0-9]+)\.kuantu\.com\/?$/.match to
     m.nil? ? super(to) : super(m[1])
   end
 
