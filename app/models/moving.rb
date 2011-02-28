@@ -13,26 +13,36 @@ class Moving
 
   attr_accessible :user, :from_uri, :to_uri, :trans_cur
 
-  validate do |m|
-    begin
-      open m.from_uri
-    rescue Exception => e
-      errors.add(:base, "此地址已经无效") if e.message != "403 "
-    end
-  end
-  validate do |m|
-    b = Blog.where(:uri => m.to_uri).first
-    errors.add(:exist, "目标地址已被占用，请输入新的目标地址") unless m.user.own? b
-  end
   validates_presence_of :from_uri, :to_uri
 
+  def from_uri_valid?
+    begin
+      open from_uri
+    rescue Exception => e
+      if e.message != "403 "
+        errors.add(:base, "此地址已经无效")
+        return false
+      end
+    end
+    true
+  end
+
   def save
+    return false unless from_uri_valid?
+
     if not Moving.where(:from_uri => from_uri, :to_uri => to_uri).empty?
       return (trans_cur > 0) ? super : true
     end
 
     blog = Blog.where(:uri => to_uri).first
-    super unless blog.nil? 
+    if not blog.nil?
+      if not user.own? blog
+        errors.add(:exist, "目标地址已被占用，请输入新的目标地址")
+        return false
+      else
+        return super
+      end
+    end
     
     blog = Blog.new(:title => to_uri, :uri => to_uri)
     if not blog.save
