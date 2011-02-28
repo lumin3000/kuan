@@ -1060,6 +1060,13 @@ form.edit_page .submit_box input{
 	color:red;
 }
 
+.the_kt_gear .success {
+	line-height:45px;
+	color:#68879F;
+	font-size:14px;
+	font-weight:bold;
+}
+
 .the_kt_gear .error input{
 	border:1px solid;
 	border-color:#C4C7BD #EFEFEF #F2F2F2 #D2D5CA;

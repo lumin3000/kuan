@@ -39,7 +39,14 @@ class Blog
 
   DEFAULT_ICON = Image.new
   DEFAULT_ICON.define_singleton_method :url_for do |version|
-    "/images/default_blog_icon.jpg"
+    case version
+    when :large
+      "/images/default_icon_large.gif"
+    when :medium
+      "/images/default_icon_medium.gif"
+    when :small
+      "/images/default_icon_small.gif"
+    end
   end
   DEFAULT_ICON.define_singleton_method :id do
     nil
