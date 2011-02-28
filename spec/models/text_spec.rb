@@ -39,7 +39,7 @@ describe Text do
     end
   end
 
-  describe "Given an empty blog post" do
+  describe "Given an empty blog post having title" do
     subject do
       Text.new @params.update({
         content: "",
@@ -47,8 +47,8 @@ describe Text do
       })
     end
 
-    it "should not validate" do
-      should_not be_valid
+    it "should be validate" do
+      should be_valid
     end
   end
 
