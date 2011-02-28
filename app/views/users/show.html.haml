@@ -66,7 +66,7 @@
         %span.icon_view &nbsp;
         %span
           %a{href: root_url(:subdomain => @blog.uri)} 查看
-  .main
+  .main{ :data => { :widget => "sugar" } }
     .head
       .head_avatar<
         %a{href: root_url(:subdomain => @user.primary_blog.uri)}<

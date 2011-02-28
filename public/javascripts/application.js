@@ -385,7 +385,7 @@ K.widgets.fixHover = (function() {
 })()
 
 document.addEvent('domready', function(){
-  if(document.body.hasClass('post_single')){
+  if($(document.body).hasClass('post_single')){
       K.widgets.env.post_single = true
   }
   var KEY = 'data-widget'
@@ -419,6 +419,36 @@ K.widgets.del = function(el){
         e.stop();
     });
 }
+
+K.widgets.sugar = (function(){
+    var init_flag = false;
+    function init(){
+        var el = new Element('div', {
+            'html':'<img src="/images/top.gif" title="到顶部" />'
+        }).setStyles({
+            'position':'fixed','right':20,'bottom':20,'cursor':'pointer'
+        }).inject($(document.body)).fade('hide');
+        if(Browser.ie6){
+            return;
+        }
+        window.addEvent('scroll', function(){
+	    if(window.getScrollTop()>window.getHeight()){
+	        el.fade('in');
+	    }else{
+                el.fade('out');
+	    }
+        });
+        el.addEvent('click', function(){
+	    new Fx.Scroll(window).toTop();
+        });
+    }
+    return function(){
+        if(!init_flag){
+            init();
+            init_flag = true;
+        }
+    };
+})();
 
 K.widgets.video = function(el){
     var init_flash = function(path, el){
