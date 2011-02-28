@@ -1,0 +1,46 @@
+@import 'lib'
+
+.the_kt_gear
+  .weburl
+    clear: both
+    width: 500px
+    padding: 5px 0 5px 20px
+    font-size: 20px
+    @include single_line(45px)
+    @include border_radius(8px)
+    border: 1px solid $pink
+    background: #fff
+
+
+    input
+      border: 0
+      @include single_line(40px)
+      font-size: 20px
+      width: 360px
+
+  .submiter
+    text-align: center
+    margin: 30px 0px
+
+    input
+      @include hide_text
+      @include size(130px, 30px)
+      background: url('/images/post_image_url.gif') no-repeat
+      cursor: pointer
+      overflow: hidden
+      border: 0
+
+  .error
+    line-height: 45px
+    color: red
+
+    input
+      border: 1px solid
+      border-color: #C4C7BD #EFEFEF #F2F2F2 #D2D5CA
+      padding: 2px
+
+  .success
+    line-height: 45px
+    color: $green
+    font-size: 14px
+    font-weight: bold

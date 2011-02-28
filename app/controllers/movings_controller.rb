@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 class MovingsController < ApplicationController
+  layout 'minimal'
+
   before_filter :signin_auth
   
   def new

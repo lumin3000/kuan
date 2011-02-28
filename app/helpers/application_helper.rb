@@ -10,6 +10,15 @@ module ApplicationHelper
     end
   end
 
+  def css(*files)
+    @css = [] if @css.nil?
+    files.each do |f|
+      @css << capture do
+        f
+      end
+    end
+  end
+
   def use_header(t)
     if(t.nil?)
       render partial: "layouts/header"
