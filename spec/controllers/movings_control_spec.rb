@@ -20,11 +20,11 @@ describe MovingsController do
     end
   end
 
-  describe "POST 'create'" do
+  describe "POST 'create'" do 
 
     before :each do
       @blog = Blog.create(:uri => "lintb_new", :title => "lintb_new")
-      @user.follow! @blog, "founder"
+      @user.follow! @blog, "founder" 
       @attr = {:from_uri => "lintb"}
     end
 
