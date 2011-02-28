@@ -31,7 +31,7 @@ class Mover
   def moving=(moving)
     @moving = moving
     @from_uri = moving.from_uri
-    m = /^http:\/\/([a-z0-9]+)\.kuantu\.com$/.match @from_uri
+    m = /^http:\/\/([a-z0-9]+)\.kuantu\.com\/?$/.match @from_uri
     @from = m[1]
   end
 

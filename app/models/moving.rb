@@ -30,8 +30,8 @@ class Moving
   def save
     return false unless from_uri_valid?
 
-    if not Moving.where(:from_uri => from_uri, :to_uri => to_uri).empty?
-      return (trans_cur > 0) ? super : true
+    if trans_cur > 0
+      return super
     end
 
     blog = Blog.where(:uri => to_uri).first
@@ -40,7 +40,11 @@ class Moving
         errors.add(:exist, "目标地址已被占用，请输入新的目标地址")
         return false
       else
-        return super
+        if Moving.where(:from_uri => from_uri, :to_uri => to_uri).empty?
+          return super
+        else
+          return true
+        end
       end
     end
     

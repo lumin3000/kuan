@@ -9,12 +9,12 @@
   .weburl
     = f.label :from_uri, '网址'
     = f.text_field :from_uri
-  - if flash.now[:success]
-    .success= flash.now[:success]
-  - elsif @moving.errors[:base].any?
+  - if @moving.errors[:base].any?
     .error= @moving.errors.full_messages.first
   - elsif @moving.errors[:exist].any?
     .error
       = @moving.errors[:exist].first
       = f.text_field :to_uri
+  - elsif flash.now[:success]
+    .success= flash.now[:success]
   .submiter= f.submit "提交"
