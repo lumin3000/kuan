@@ -100,6 +100,10 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 }
 
 /********footer*********/
+.footer{
+	color:gray;text-align:center;
+	padding:20px;
+}
 
 /*******middle_box********/
 
@@ -1085,3 +1089,4 @@ form.edit_page .submit_box input{
 	border-color:#C4C7BD #EFEFEF #F2F2F2 #D2D5CA;
 	padding:2px;
 }
+
