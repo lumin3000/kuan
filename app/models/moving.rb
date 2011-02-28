@@ -11,7 +11,7 @@ class Moving
   field :trans_cur, :type => Integer, :default => 0
   referenced_in :user
 
-  attr_accessible :trans_cur, :user, :from_uri, :to_uri
+  attr_accessible :user, :from_uri, :to_uri
 
   validate do |m|
     begin
@@ -32,13 +32,13 @@ class Moving
     blog = Blog.where(:uri => to_uri).first
     super unless blog.nil? 
     
-    blog = Blog.create(:title => to_uri, :uri => to_uri)
-    return errors.add(:exist, "请使用有效的新目标地址") if blog.nil?
+    blog = Blog.new(:title => to_uri, :uri => to_uri)
+    return errors.add(:exist, "请使用有效的新目标地址") unless blog.save
     user.follow! blog, "founder"
     super 
   end
 
-  def from_uri= (from)
+  def from_uri= (from) 
     return if from.blank?
     from = "http://#{from}" if from !~ /^http:\/\//
     from = "#{from}.kuantu.com" if from !~ /\.kuantu\.com$/
@@ -48,6 +48,10 @@ class Moving
   def to_uri= (to)
     m = /^http:\/\/([a-z0-9]+)\.kuantu\.com$/.match to
     m.nil? ? super(to) : super(m[1])
+  end
+
+  def update_trans_cur(trans_cur)
+    self.update_attributes(:trans_cur => trans_cur)
   end
 
 end
