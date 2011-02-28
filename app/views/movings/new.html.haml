@@ -11,10 +11,10 @@
     = f.text_field :from_uri
   - if flash.now[:success]
     .error= flash.now[:success]
+  - elsif @moving.errors[:base].any?
+    .error= @moving.errors.full_messages.first
   - elsif @moving.errors[:exist].any?
     .error
       = @moving.errors[:exist].first
       = f.text_field :to_uri
-  - elsif @moving.errors.any?
-    .error= @moving.errors.full_messages.first
   .submiter= f.submit "提交"

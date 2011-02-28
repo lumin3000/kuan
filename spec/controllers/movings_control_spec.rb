@@ -34,12 +34,14 @@ describe MovingsController do
         response.should render_template 'new'
         flash.now[:success].should_not be_blank
       end.should change(Moving, :count).by(1) 
+    end
 
+    it "should be fail" do
       lambda do
-        post 'create', :moving => @attr
-        response.should render_template 'new' 
-      end.should_not change(Moving, :count)
-    end 
+        post 'create', :moving => @attr.merge(:from_uri => "http://ture.kuantu.com")
+        response.should render_template 'new'
+      end.should_not change(Moving, :count).by(1) 
+    end
 
   end
 

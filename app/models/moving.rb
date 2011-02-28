@@ -15,9 +15,9 @@ class Moving
 
   validate do |m|
     begin
-      open m.from_uri {}
+      open m.from_uri
     rescue Exception => e
-      errors.add(:base, "请输入有效地址") if e.message != "403 "
+      errors.add(:base, "此地址已经无效") if e.message != "403 "
     end
   end
   validate do |m|
@@ -27,18 +27,21 @@ class Moving
   validates_presence_of :from_uri, :to_uri
 
   def save
-    if not Moving.where(:from_uri => from_uri, :to_uri => to_uri).empty? 
-      super if trans_cur > 0
-      return
+    if not Moving.where(:from_uri => from_uri, :to_uri => to_uri).empty?
+      return (trans_cur > 0) ? super : true
     end
 
     blog = Blog.where(:uri => to_uri).first
     super unless blog.nil? 
     
     blog = Blog.new(:title => to_uri, :uri => to_uri)
-    return errors.add(:exist, "请使用有效的新目标地址") unless blog.save
-    user.follow! blog, "founder"
-    super 
+    if not blog.save
+      errors.add(:exist, "请使用有效的新目标地址")
+      false
+    else
+      user.follow! blog, "founder"
+      super 
+    end
   end
 
   def from_uri= (from) 
