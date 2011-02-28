@@ -10,7 +10,7 @@
     = f.label :from_uri, '网址'
     = f.text_field :from_uri
   - if flash.now[:success]
-    .error= flash.now[:success]
+    .success= flash.now[:success]
   - elsif @moving.errors[:base].any?
     .error= @moving.errors.full_messages.first
   - elsif @moving.errors[:exist].any?
