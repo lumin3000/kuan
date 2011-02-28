@@ -175,7 +175,6 @@ class Mover
 
   def trans
     trans_cur = @moving.trans_cur
-    Rails.logger.info "Trans from #{trans_cur}"
     @posts.find({"uri"=>@from, "postid"=>{"$gt" => trans_cur}}, :sort=>["postid", :asc]).each do |post|
       begin
         trans_post post
@@ -183,10 +182,13 @@ class Mover
       end
       trans_cur = post["postid"]
     end
-    Rails.logger.info "Trans to #{trans_cur}"
-    moving = Moving.where(:from_uri => @from_uri, :to_uri => @moving.to_uri).first
-    moving.trans_cur = trans_cur
-    moving.save!
+    
+    if trans_cur > @moving.trans_cur
+      Rails.logger.info "Trans to #{trans_cur}"
+      moving = Moving.where(:from_uri => @from_uri, :to_uri => @moving.to_uri).first
+      moving.trans_cur = trans_cur
+      moving.save!
+    end
   end
 
   class << self
