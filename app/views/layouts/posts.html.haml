@@ -5,7 +5,7 @@
       %a{href: "/"}回我的主页
   .post
     = yield
-  .footer
+  = render :partial => 'shared/footer'
 
   - content_for :title, (@action + @post_type.strip + "_宽岛")
 
