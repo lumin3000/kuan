@@ -193,19 +193,17 @@
     @include big_button
     margin-left: 195px
 
-    button
-      background: none
-      border: 0
-      height: 100%
-      width: 100%
-      cursor: pointer
-      @include hide_text
-
   .send
-    background: url('/images/post_send.gif')
+    input
+      @include big_button
+      border: 0
+      background: url('/images/post_send.gif')
 
   .save
-    background: url('/images/post_save.gif')
+    input
+      @include big_button
+      border: 0
+      background: url('/images/post_save.gif')
 
   .post_error
     font-size: 12px
