@@ -98,7 +98,6 @@ K.file_uploader = new Class({
         });
     },
     start: function(){
-        K.log('start')
         if(this.file.get('disabled') == true || this.file.value == ''){
             return false;
         }
@@ -131,7 +130,6 @@ K.file_uploader = new Class({
             this.options.onStart();
     },
     cancel: function(){
-        K.log('cancel')
     },
     complete: function(){
         K.log('complete')
@@ -148,7 +146,6 @@ K.file_uploader = new Class({
         this.file.set('disabled', false);
     },
     success: function(v){
-        K.log('success')
         this.options.onSuccess &&
             this.options.onSuccess(v);
     }
@@ -422,7 +419,6 @@ K.widgets.del = function(el){
 
 K.widgets.video = function(el){
     var init_flash = function(path, el){
-        K.log('init_flash');
         new Swiff(path, {
             width: 440,
             height: 360,
