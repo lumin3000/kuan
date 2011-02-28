@@ -745,12 +745,25 @@ form.edit_page .submit_box input{
 	height:100px;
 	clear:both;
 }
-.dashboard .head_avatar{
+.dashboard .head_avatar a{
 	width:60px;
 	height:60px;
 	border:1px solid gray;
 	float:left;
-	background:url('images/avatar.jpg');
+	-moz-border-radius:15px; 
+	-webkit-border-radius:15px; 
+	border-radius:15px;
+	overflow:hidden;
+	position:relative;
+	z-index:2;
+	/*background:url('images/avatar.jpg');*/
+}
+.dashboard .head_avatar img{
+	display:block;
+	position:relative;
+	width:60px;
+	height:60px;
+	z-index:1;
 }
 
 .dashboard .post_area {
@@ -918,6 +931,7 @@ form.edit_page .submit_box input{
 	height:16px;
 	overflow:hidden;
 	margin:16px 0px 16px 16px;
+	text-decoration:none;
 }
 .article .content_head .fave{
 	background:url('images/post_btn.gif') 0px -20px;
@@ -978,7 +992,6 @@ form.edit_page .submit_box input{
 }
 .article .content_head{
 	height:50px;
-	line-height:50px;
 	padding:0px 25px;
 }
 
@@ -1074,7 +1087,8 @@ form.edit_page .submit_box input{
 }
 
 
-
-
+/*error 404*/
+.e404 {display:block;background:url('images/404.jpg') no-repeat;width:700px;height:605px;margin:auto;}
+.e404_words{width:500px;font-size:20px;margin:auto;}
 
 	
