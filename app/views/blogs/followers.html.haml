@@ -9,7 +9,7 @@
     .follower{ :id => "blog_#{blog.id}" }
       .avatar
         %a{ :href => root_url(:subdomain => blog.uri) }
-          %img{ :src => blog.icon.url_for(:meduim) }
+          %img{ :src => blog.icon.url_for(:medium) }
       .fo_name
         %a{ :href => root_url(:subdomain => blog.uri) }
           = user.name
