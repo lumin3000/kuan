@@ -15,6 +15,32 @@ a.page_name
   font-weight: bold
   line-height: 1.5
 
+.dash_navigator
+  margin-left: $logo-width
+  text-align: right
+  padding-top: 10px
+  padding-right: 6px
+  font-size: 12px
+  line-height: 14px
+  color: $light-gray
+
+  a, input
+    color: $light-gray
+
+  .invite
+    width: 180px
+    border: 1px solid
+    border-color: #C4C7BD #EFEFEF #F2F2F2 #D2D5CA
+    padding: 2px
+
+  .logout
+    display: inline-block
+    padding: 0px
+    background: url('/images/icons.gif') -80px -20px
+    overflow: hidden
+    width: 14px
+    height: 14px
+
 .dashboard
   margin-top: 24px
   @include clear_fix
@@ -24,7 +50,7 @@ a.page_name
     width: 186px
     padding-left: 14px
     float: right
-    overflow: hidden
+    height: 500px
 
     a
       color: $light-gray
@@ -47,9 +73,6 @@ a.page_name
     @include dashboard_sidebar_button
     background: url('/images/icons.gif') -40px -20px
 
-  .icon_create
-    background: url('/images/icons.gif') -14px 0px
-
   .text_follow
     display: inline-block
     width: 134px
@@ -58,11 +81,6 @@ a.page_name
   .icon_follow
     @include dashboard_sidebar_button
     background: url('/images/icons.gif') 0 0
-
-
-  .icon_follow2
-    @include dashboard_sidebar_button
-    background: url('/images/icons.gif') 0px 0px
 
   .icon_posts
     @include dashboard_sidebar_button
