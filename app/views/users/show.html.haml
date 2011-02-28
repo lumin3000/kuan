@@ -47,12 +47,12 @@
         %span.icon_posts &nbsp;
         %span
           %a{href: "/home/#{@blog.uri}"}
-            = "#{@blog.total_post_num}篇文章"
+            ! #{@blog.total_post_num}篇文章
       %div
         %span.icon_followed &nbsp;
         %span
           %a{href: followers_blog_path(@blog)}
-            = "#{@blog.followers_count}人关注"
+            ! #{@blog.followers_count}人关注
       %div
         %span.icon_config &nbsp;
         %span

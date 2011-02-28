@@ -1085,10 +1085,3 @@ form.edit_page .submit_box input{
 	border-color:#C4C7BD #EFEFEF #F2F2F2 #D2D5CA;
 	padding:2px;
 }
-
-
-/*error 404*/
-.e404 {display:block;background:url('images/404.jpg') no-repeat;width:700px;height:605px;margin:auto;}
-.e404_words{width:500px;font-size:20px;margin:auto;}
-
-	
