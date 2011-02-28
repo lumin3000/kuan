@@ -76,7 +76,6 @@ class Mover
   end
 
   def fetch_by_time(time)
-    Rails.logger.info "fetch_by_time uri #{@from} time #{time}"
     k = 0
     begin
       url = URI.parse("#{@from_uri}/rss/pubtime/#{time}")
@@ -90,13 +89,14 @@ class Mover
     end
     case res
     when Net::HTTPSuccess
-      doc = Nokogiri::XML body
+      doc = Nokogiri::HTML body
+      Rails.logger.info "doc #{url} "+doc.xpath('//item').length.to_s
       doc.xpath('//item').each do |item|
         id = item.at_xpath('postid').text.to_i
         type = item.at_xpath('resourcetype').text.to_i
-        rawpost = item.at_xpath('rawPost').text
-        pubtime = item.at_xpath('rawPubtime').text.to_i
-        email = item.at_xpath('rawEmail').text
+        rawpost = item.at_xpath('rawpost').text
+        pubtime = item.at_xpath('rawpubtime').text.to_i
+        email = item.at_xpath('rawemail').text
         content = fetch_post id,type,rawpost
         post = {
           :uri => @from,

@@ -24,10 +24,10 @@ end
 
 describe "posts/edit.html.haml" do
   it "edit form" do
-    for po in Post.subclasses
+    Post.subclasses.each do |po|
       @post = Factory.build(po.name.downcase.to_sym)
       stub_template "posts/_#{po.name.downcase}" => ""
-      render
+      render 
       assert_select "div"
       unless @post[:content].nil?
         rendered.should contain(@post[:content])

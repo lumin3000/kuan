@@ -23,6 +23,9 @@
     = f.hidden_field :icon, :id => "blog_icon_id", :value => @blog.icon.id
     %input{ :type => 'file', :id => 'image_uploader', :name => 'file', :autocomplete => 'off' }
     %span#blog_icon_feed
+  .toggle_private
+    = f.check_box :private
+    = f.label :private, "设置为私密页面"
   .submit_box.edit_box
     = f.submit " "
 :javascript

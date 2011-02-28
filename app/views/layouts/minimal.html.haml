@@ -1,0 +1,8 @@
+- content_for :content, do
+  .header
+    %a.logo{href: "/"}
+    .dash_navigator
+      %a{href: "/"}回我的主页
+  = yield
+
+= render :file => 'layouts/application'

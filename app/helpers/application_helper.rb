@@ -10,6 +10,15 @@ module ApplicationHelper
     end
   end
 
+  def css(*files)
+    @css = [] if @css.nil?
+    files.each do |f|
+      @css << capture do
+        f
+      end
+    end
+  end
+
   def use_header(t)
     if(t.nil?)
       render partial: "layouts/header"
@@ -23,7 +32,7 @@ module ApplicationHelper
   end
 
   def pagination(collection, options = {})
-    options = { :per_page => 2, }.update(options)
+    options = { :per_page => 10, }.update(options)
 
     if m = %r{page/(\d+)/?$}.match(request.url)
       current_page, base_url = m[1].to_i(10), m.pre_match

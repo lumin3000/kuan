@@ -2,8 +2,7 @@
 class BlogsController < ApplicationController
   before_filter :signin_auth, :except => [:show]
   before_filter :custom_auth, :only => [:edit, :update]
-  before_filter :find_by_uri,
-    :only => [:followers, :follow_toggle]
+  before_filter :find_by_uri, :only => [:followers, :follow_toggle]
 
   def new
     @blog = Blog.new
@@ -36,13 +35,16 @@ class BlogsController < ApplicationController
   def show
     find_by_uri request.subdomain
     render '404', :status => 404 and return if @blog.nil?
+    if not @blog.open_to?(current_user)
+      render :text => "Not for ya", :status => :forbidden and return
+    end
     post_id = params[:post_id]
     @single_post = ! post_id.nil?
     if post_id.nil?
       @posts = Post.desc(:created_at).where({:blog_id => @blog.id})
         .paginate({
           :page => params[:page] || 1,
-          :per_page => 2,
+          :per_page => 10,
         })
 
     else

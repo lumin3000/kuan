@@ -6,6 +6,12 @@ namespace :db do
     make_followings
   end
 
+  desc "Cold init the site with the only user"
+  task :coldinit => :environment do
+    Rake::Task['db:drop'].invoke
+    make_init
+  end
+
   desc "db:drop might be a better name for this"
   task :purge => :environment do
     User.db.collections.each do |c|
@@ -42,4 +48,12 @@ def make_followings
   User.all[1..10].each do |u|
     Blog.all[1..10].each {|b| u.follow! b, "follower"}
   end
+end
+
+def make_init
+  user = User.create!(:name => "lilu",
+                      :email => "l@k.org",
+                      :password => "password",
+                      :password_confirmation => "password")
+  user.create_primary_blog!
 end

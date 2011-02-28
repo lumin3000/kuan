@@ -6,10 +6,12 @@ class Blog
   field :title
   referenced_in :icon, :class_name => 'Image'
   field :primary, :type => Boolean, :default => false
+  field :private, :type => Boolean, :default => false
+
   references_many :followings
   references_many :posts
 
-  attr_accessible :uri, :title, :icon
+  attr_accessible :uri, :title, :icon, :private
 
   validates_presence_of :title, 
     :message => "请输入用户名"
@@ -57,7 +59,12 @@ class Blog
   end
 
   def edited?(user)
-    !user.followings.where(:blog_id => _id).excludes(:auth => "follower").empty?
+    !user.nil? &&
+      !user.followings.where(:blog_id => _id).excludes(:auth => "follower").empty?
+  end
+
+  def open_to?(user)
+    !self.private || self.edited?(user)
   end
 
   def customed?(user)

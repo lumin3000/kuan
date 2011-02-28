@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     @blogs = @user.blogs
     pagination = {
       :page => params[:page] || 1,
-      :per_page => 2,
+      :per_page => 10,
     }
     @at_dashboard = params[:uri].blank?
     if !@at_dashboard
@@ -34,7 +34,10 @@ class UsersController < ApplicationController
       @blog = @user.blogs.include?(param_blog) ? param_blog : @blog
       cond = {:blog_id => @blog.id}
     else
-      cond = {:blog_id.in => @user.all_blogs.map {|b| b.id}}
+      sub_id_list = @user.all_blogs.reduce [], do |list, blog|
+        if blog.open_to?(@user) then list << blog.id else list end
+      end
+      cond = {:blog_id.in => sub_id_list}
     end
     @posts = Post.desc(:created_at).where(cond).paginate(pagination)
   end
