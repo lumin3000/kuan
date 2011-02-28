@@ -185,7 +185,7 @@ class Mover
     end
     Rails.logger.info "Trans to #{trans_cur}"
     moving = Moving.where(:from_uri => @from_uri, :to_uri => @moving.to_uri).first
-    moving.trans_cur = 2
+    moving.trans_cur = trans_cur
     moving.save!
   end
 
