@@ -11,7 +11,7 @@ class Moving
   field :trans_cur, :type => Integer, :default => 0
   referenced_in :user
 
-  attr_accessible :user, :from_uri, :to_uri
+  attr_accessible :user, :from_uri, :to_uri, :trans_cur
 
   validate do |m|
     begin
@@ -27,7 +27,10 @@ class Moving
   validates_presence_of :from_uri, :to_uri
 
   def save
-    return unless Moving.where(:from_uri => from_uri, :to_uri => to_uri).empty?
+    if not Moving.where(:from_uri => from_uri, :to_uri => to_uri).empty? 
+      super if trans_cur > 0
+      return
+    end
 
     blog = Blog.where(:uri => to_uri).first
     super unless blog.nil? 
@@ -48,10 +51,6 @@ class Moving
   def to_uri= (to)
     m = /^http:\/\/([a-z0-9]+)\.kuantu\.com$/.match to
     m.nil? ? super(to) : super(m[1])
-  end
-
-  def update_trans_cur(trans_cur)
-    self.update_attributes(:trans_cur => trans_cur)
   end
 
 end
