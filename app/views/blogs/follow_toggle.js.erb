@@ -1,9 +1,13 @@
-if($('blog_<%= @blog.id %>')){
-  if(<%= @follow %>){
-    $('tar_follow_<%= @blog.id %>').getElement('.btn_unfollow').show()
-    $('tar_follow_<%= @blog.id %>').getElement('.btn_follow').hide()
-  }else{
-    $('tar_follow_<%= @blog.id %>').getElement('.btn_unfollow').hide()
-    $('tar_follow_<%= @blog.id %>').getElement('.btn_follow').show()
+;(function() {
+  var context = $('tar_follow_<%= @blog.id %>')
+  if (!context) return
+  var btnFollow = context.getElement('.btn_follow')
+    , btnUnfollow = context.getElement('.btn_unfollow')
+  if (<%= @follow %>) {
+    btnFollow && btnFollow.hide()
+    btnUnfollow && btnUnfollow.show()
+  } else {
+    btnFollow && btnFollow.show()
+    btnUnfollow && btnUnfollow.hide()
   }
-}
+})()
