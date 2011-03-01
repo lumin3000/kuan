@@ -72,15 +72,15 @@ class Blog
   end
 
   def followers_count
-    User.where("followings.blog_id" => _id,
-               "followings.auth.eq" => "follower").count
+    User.collection.find({"followings" => {"$elemMatch"=> {"blog_id"=>id,"auth"=>"follower"}}}).count
   end
 
   def followers
-    User.where("followings.blog_id" => _id,
-               "followings.auth.eq" => "follower")
-      .desc("followings.created_at").limit(100)
+    User.collection.find({"followings" => {"$elemMatch"=> {"blog_id"=>id,"auth"=>"follower"}}},
+                         :sort=>[["followings.created_at", -1]],
+                         :limit=>100).to_a
   end
+  
 
   def total_post_num
     Post.where(:blog_id => id).count
