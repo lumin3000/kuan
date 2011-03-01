@@ -6,6 +6,8 @@ class Post
 
   referenced_in :blog
   referenced_in :author, :class_name => 'User'
+  embeds_many :comments
+
   attr_accessible :blog, :author, :author_id, :blog_id, :created_at
 
   validates_presence_of :author_id

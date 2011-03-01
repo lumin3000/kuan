@@ -34,3 +34,7 @@ end
 
 Factory.define :image do |p|
 end
+
+Factory.define :comment do |p|
+  p.content 'this is a comment'
+end
