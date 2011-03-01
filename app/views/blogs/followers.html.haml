@@ -1,9 +1,10 @@
-- content_for :title, "我关注的页面_宽岛"
+- content_for :title, "关注#{@blog.title}的人_宽岛"
 
 .middle_box.followers
   %h1
     ="#{@followers.length}人正在关注#{@blog.title}"
 
+  - followed = current_user.all_blogs
   - @followers.each do |user|
     - blog = user.primary_blog
     .follower{ :id => "blog_#{blog.id}" }
@@ -13,4 +14,7 @@
       .fo_name
         %a{ :href => root_url(:subdomain => blog.uri) }
           = user.name
-      = follow_tag blog
+      - unless followed.include?(blog)
+        %a{:href => "/blogs/#{blog.id}/follow_toggle", :id => "tar_follow_#{blog.id}",
+          :data => {:method => "POST", :remote => "true"}}
+          .btn_follow
