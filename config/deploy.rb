@@ -14,8 +14,22 @@ namespace :deploy do
   task :start, :roles => :app do
     run "touch #{current_release}/tmp/restart.txt"
   end
+  
   task :stop do ; end
+  
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "touch #{current_release}/tmp/restart.txt}"
+    run "touch #{current_release}/tmp/restart.txt"
+  end
+
+  task :sass do
+    run "cd #{current_path} && rake RAILS_ENV=#{rails_env} sass:build"
   end
 end
+
+namespace :logs do
+  task :watch do
+    stream("tail -f #{current_path}/log/production.log")
+  end
+end
+
+before("deploy:restart", "deploy:sass") 
