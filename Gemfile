@@ -15,7 +15,6 @@ gem 'capistrano'
 group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'ZenTest'
   gem 'autotest'
   gem 'autotest-rails'
   gem 'spork', '~> 0.9.0.rc'

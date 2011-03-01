@@ -7,7 +7,7 @@ module SessionsHelper
   end
 
   def sign_out
-    cookies.delete(:token)
+    cookies.delete(:token, :domain => "."+request.domain)
     current_user = nil
   end
 

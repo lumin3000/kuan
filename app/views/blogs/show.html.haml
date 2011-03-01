@@ -27,3 +27,4 @@
           #avatar
             %a{href: root_url(:subdomain => @blog.uri)}
               %img{src: @blog.icon.url_for(:large)}
+    = render :partial => 'shared/analytics'

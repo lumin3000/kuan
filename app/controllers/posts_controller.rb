@@ -13,6 +13,7 @@ class PostsController < ApplicationController
 
   def create
     type = params.delete :type
+    params[:author_id] = current_user.id
     @post = Post.infer_type(type).new(params)
     if !@post.error && @post.save
       redirect_to home_path

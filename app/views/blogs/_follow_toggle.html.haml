@@ -1,4 +1,4 @@
-- unless blog.edited?(current_user)
+- unless current_user.nil? || blog.edited?(current_user)
   %a{ :href => "/blogs/#{blog.id}/follow_toggle", :id => "tar_follow_#{blog.id}", :data => {:method => "post", :remote => "true"} }
     .btn_unfollow{ :style => (current_user.all_blogs.include?(blog) ? "" : "display:none") }
     .btn_follow{ :style => (current_user.all_blogs.include?(blog) ? "display:none" : "") }

@@ -132,7 +132,6 @@ K.file_uploader = new Class({
     cancel: function(){
     },
     complete: function(){
-        K.log('complete')
         function on_success(v){
             cb && cb(v)
         }
@@ -320,7 +319,9 @@ K.post = (function(){
             init_editor()
 
             if($('photos_list')){
-                photo_item_template = Elements.from($('photo_template').value)[0]
+                var tmpl = $('photo_template').value;
+                tmpl = tmpl.replace(/&apos;/gm, '"');
+                photo_item_template = Elements.from(tmpl)[0]
                 init_photo_items()
                 if($('image_uploader') && $('photo_template')){
                     init_upload()

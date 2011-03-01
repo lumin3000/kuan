@@ -1,3 +1,5 @@
+@import 'lib'
+
 .new_page
   .page_name,
   .page_url
@@ -6,10 +8,8 @@
     font-size: 20px
     height: 45px
     line-height: 45px
-    -moz-border-radius: 8px
-    -webkit-border-radius: 8px
-    border-radius: 8px
-    border: 1px solid #cadbea
+    @include border-radius(8px)
+    border: 1px solid $pink
     background: #fff
 
     input
@@ -18,7 +18,10 @@
       line-height: 40px
       font-size: 20px
       width: 300px
-  
+
+  .page_url input
+    text-align: right
+
   .submit_box
     input
       display: block
@@ -28,7 +31,7 @@
       border: 0px
       cursor: pointer
       background: url('/images/create.gif')
-  
+
   .error
     padding-left: 8px
     line-height: 45px
@@ -38,37 +41,35 @@
     color: gray
 
 span.suggestion
-  color: #68879F
+  color: $green
 
 .edit_page
-  .submit_box input                             
-    background: url('/images/post_save.gif')    
-                                                
-  .page_logo                                    
-    width: 600px                                
-    padding: 15px 0 5px 20px                    
-    font-size: 20px                             
-    height: 85px                                
-    -moz-border-radius: 8px                     
-    -webkit-border-radius: 8px                  
-    border-radius: 8px                          
-    border: 1px solid #cadbea                   
-    background: #fff                            
-    margin-bottom: 30px                         
-                                                
-  .page_logo label                              
-    display: block                              
-    width: 60px                                 
-    height: 80px                                
-    float: left                                 
-    text-align: center                          
-    font-size: 14px                             
-                                                
-  .page_logo input                              
-    display: block                              
-    width: 200px                                
-    float: left                                 
-    margin: 20px 30px                           
+  .submit_box input
+    background: url('/images/post_save.gif')
+
+  .page_logo
+    width: 600px
+    padding: 15px 0 5px 20px
+    font-size: 20px
+    height: 85px
+    @include border-radius(8px)
+    border: 1px solid $pink
+    background: #fff
+    margin-bottom: 30px
+
+  .page_logo label
+    display: block
+    width: 60px
+    height: 80px
+    float: left
+    text-align: center
+    font-size: 14px
+
+  .page_logo input
+    display: block
+    width: 200px
+    float: left
+    margin: 20px 30px
 
 .followers,
 .following
@@ -78,10 +79,8 @@ span.suggestion
     font-size: 20px
     height: 70px
     line-height: 80px
-    -moz-border-radius: 8px
-    -webkit-border-radius: 8px
-    border-radius: 8px
-    border: 1px solid #cadbea
+    @include border-radius(8px)
+    border: 1px solid $pink
     background: #fff
     margin-bottom: 30px
 
