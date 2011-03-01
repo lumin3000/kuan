@@ -73,13 +73,13 @@ class Blog
 
   def followers_count
     User.where("followings.blog_id" => _id,
-               "followings.auth" => "follower").count
+               "followings.auth.eq" => "follower").count
   end
 
   def followers
     User.where("followings.blog_id" => _id,
-               "followings.auth" => "follower").
-      desc("followings.created_at").limit(100)
+               "followings.auth.eq" => "follower")
+      .desc("followings.created_at").limit(100)
   end
 
   def total_post_num
