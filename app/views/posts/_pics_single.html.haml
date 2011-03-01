@@ -2,4 +2,5 @@
 - image = photo.image
 %a{href: image.url_for(:original), target: "blank", title: photo.desc}
   = image_tag image.url_for(:large)
+%p= photo.desc
 %p!= pics_single.content
