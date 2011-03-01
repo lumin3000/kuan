@@ -22,7 +22,7 @@ namespace :deploy do
   end
 
   task :sass do
-    Sass::Plugin.force_update_stylesheets
+    run "cd #{current_path} && rake RAILS_ENV=production sass:build"
   end
 end
 
