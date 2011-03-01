@@ -5,7 +5,7 @@ describe "Following" do
   before :each do
     @user = Factory :user
     @blog = Factory :blog
-    @user.follow! @blog, "member"
+    @user.follow! @blog, "lord"
   end
 
   after :each do
@@ -78,6 +78,22 @@ describe "Following" do
       @blogf.followers.should be_include @user
       @user.subs.should be_include @blogf
       @user.auth_for(@blogf).should == "follower" 
+    end
+
+    it "should give the right followers" do
+      @blog.reload
+      @blog.followers.should be_empty
+      @blog.followers_count.should == 0
+      userm = Factory(:user, :email => Factory.next(:email))
+      userm.follow! @blog, "member"
+      userf = Factory(:user, :email => Factory.next(:email))
+      userf.follow! @blog
+      @blog.reload
+      @blog.followers.length.should == 1
+      @blog.followers.should include userf
+      @user.follow! @blogf
+      @blog.followers.length.should == 1
+      @blog.followers.should include userf
     end
 
   end
