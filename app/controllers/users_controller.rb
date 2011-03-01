@@ -4,6 +4,9 @@ class UsersController < ApplicationController
   before_filter :signup_auth, :only => [:new, :create]
 
   def new
+    if signed_in?
+      redirect_to '/home' and return
+    end
     @user = User.new
     render :layout => "user"
   end

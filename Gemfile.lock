@@ -131,7 +131,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  ZenTest
   autotest
   autotest-rails
   bson_ext
