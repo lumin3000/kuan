@@ -12,6 +12,9 @@ class Mover
     @grid = Mongo::GridFileSystem.new(@kdb)
     @cookie = login
     @posts = @kdb["posts"]
+
+    @@logger ||= Logger.new("#{Rails.root.to_s}/log/mover.log")
+    @@logger.info "Still running at #{Time.now}"
   end
 
   def login
@@ -47,12 +50,12 @@ class Mover
         when Net::HTTPSuccess
           @fs.put(body, {:filename=>hashid})
         else
-          Rails.logger.info "fetch_img  #{hashid} failed!"
+          @@logger.info "fetch_img  #{hashid} failed!"
         end
       end
     rescue Exception => e
       retry if (k+=1) <= 3
-      Rails.logger.info "fetch_img  #{hashid} #{e}"
+      @@logger.info "fetch_img  #{hashid} #{e}"
     end
   end
 
@@ -78,19 +81,21 @@ class Mover
   def fetch_by_time(time)
     k = 0
     begin
-      url = URI.parse("#{@from_uri}/rss/pubtime/#{time}")
+      from_uri_parse = @from_uri
+      from_uri_parse += '/' unless from_uri_parse.last == '/'
+      url = URI.parse("#{from_uri_parse}rss/pubtime/#{time}")
       req = Net::HTTP.new(url.host, url.port)
       req.open_timeout = req.read_timeout = 10
       headers = {"Cookie" => @cookie}
       res, body = req.get(url.path, headers)
     rescue Exception => e
       retry if (k+=1) <= 3
-      Rails.logger.info "fetch_by_time #{@from} time #{time} #{e}"
+      @@logger.info "fetch_by_time #{@from} time #{time} #{e}"
     end
     case res
     when Net::HTTPSuccess
       doc = Nokogiri::HTML body
-      Rails.logger.info "doc #{url} "+doc.xpath('//item').length.to_s
+      @@logger.info "doc #{url} "+doc.xpath('//item').length.to_s
       doc.xpath('//item').each do |item|
         id = item.at_xpath('postid').text.to_i
         type = item.at_xpath('resourcetype').text.to_i
@@ -112,12 +117,12 @@ class Mover
       end
       fetch_by_time(time) unless  doc.xpath('//item').length < 10
     else
-      Rails.logger.info "fetch_by_time uri #{@from} time #{time} failed!"
+      @@logger.info "fetch_by_time uri #{@from} time #{time} failed!"
     end
   end
 
   def fetch
-    Rails.logger.info "Fetch from #{@from}:"
+    @@logger.info "Fetch from #{@from}:"
     last = @posts.find_one({"uri"=>@from},:sort=>["pubtime",:desc])
     fetch_by_time((last)?last["pubtime"]:1)
   end
@@ -144,7 +149,7 @@ class Mover
   end
 
   def trans_post(post)
-    Rails.logger.info "Trans #{post['postid']} #{post['type']}"
+    @@logger.info "Trans #{post['postid']} #{post['type']}"
     post_new = case post["type"]
                when 1
                  Text.new(:content => post["post"])
@@ -181,13 +186,12 @@ class Mover
       rescue Exception => e
       end
       trans_cur = post["postid"]
-    end
-    
-    if trans_cur > @moving.trans_cur
-      Rails.logger.info "Trans to #{trans_cur}"
-      moving = Moving.where(:from_uri => @from_uri, :to_uri => @moving.to_uri).first
-      moving.trans_cur = trans_cur
-      moving.save!
+
+      if trans_cur > @moving.trans_cur
+        moving = Moving.where(:from_uri => @from_uri, :to_uri => @moving.to_uri).first
+        moving.trans_cur = trans_cur
+        moving.save!
+      end
     end
   end
 

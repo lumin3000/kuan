@@ -12,7 +12,6 @@ end
 
 while($running) do
   require 'moving/mover'
-  Rails.logger.info "Mover still running at #{Time.now}.\n"
   Mover.run
   sleep 60
 end
