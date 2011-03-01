@@ -6,9 +6,9 @@ set :deploy_to, "/var/kuan"
 set :use_sudo, false
 set :ssh_options, {:forward_agent => true}
 
-role :web, "kuandom.com"                                   # Your HTTP server, nginx
-role :app, "kuandom.com"                          # This may be the same as your `Web` server
-role :db,  "kuandom.com", :primary => true # This is where Rails migrations will run
+role :web, "kuandao.com"                                   # Your HTTP server, nginx
+role :app, "kuandao.com"                                   # This may be the same as your `Web` server
+role :db,  "kuandao.com", :primary => true                 # This is where Rails migrations will run
 
 namespace :deploy do
   task :start, :roles => :app do
