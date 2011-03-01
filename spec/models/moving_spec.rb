@@ -27,7 +27,7 @@ describe Moving do
 
     it "should accepted and create blog" do
       m = Moving.new(:from_uri => "http://lintb.kuantu.com", :to_uri => "http://lintb.kuantu.com", :user => @user)
-      m.save
+      m.save.should be_true
       m.reload  
       m.to_uri.should == "lintb"
       m.from_uri.should == "http://lintb.kuantu.com"
@@ -38,15 +38,15 @@ describe Moving do
     end
  
     it "should rejected" do 
-      [" " "sureinvalid"].each do |from|
+      [" " "sureinvalid" "http://ture.kuantu.com"].each do |from|
         m = Moving.new(:from_uri => from, :to_uri => @blog.uri, :user => @user)
-        m.should_not be_valid
+        m.should_not be_from_uri_valid
       end
 
       @user.unfollow! @blog
       @user.reload
       m = Moving.new(:from_uri => "lintb", :to_uri => @blog.uri, :user => @user)
-      m.should_not be_valid
+      m.save.should be_false
     end
   end
 

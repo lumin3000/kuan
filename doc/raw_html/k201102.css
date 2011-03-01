@@ -100,6 +100,10 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 }
 
 /********footer*********/
+.footer{
+	color:gray;text-align:center;
+	padding:20px;
+}
 
 /*******middle_box********/
 
@@ -1032,6 +1036,19 @@ form.edit_page .submit_box input{
 }
 
 
+/*****chat*****/
+
+.chat{width:544px; height:428px; margin:16px;padding:12px; border:1px solid #dcdcdc; background:#f4f4f4;}
+.chat a{font-size:14px;font-family:microsoft yahei;}
+.chat .c_name a{color:#676767;text-decoration:underline;}
+.chat .c_content{height:390px;overflow-y:auto;overflow-x:hidden;font-size:12px; font-family:microsoft yahei; color:#676767;padding:0;margin:0;}
+.chat .c_content .box{margin:0 0 12px 0;height:auto;}
+.chat .c_content .box div{margin:0 0 5px 0;}
+.chat .c_input{width:544px; height:30px; background-color:#ffffff;margin-top:10px;}
+.chat .c_input input{width:380px; height:30px;border:0;padding:0px;line-height:30px;font-size:14px;}
+.chat .c_submmiter{width:60px; height:30px;background-color:#009fff; float:right;line-height:30px;
+	               display:block;color:#ffffff;text-align:center;text-decoration:none;}
+	
 
 /****temp and gears*****/
 .the_kt_gear .weburl{
@@ -1085,3 +1102,4 @@ form.edit_page .submit_box input{
 	border-color:#C4C7BD #EFEFEF #F2F2F2 #D2D5CA;
 	padding:2px;
 }
+

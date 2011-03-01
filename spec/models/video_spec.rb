@@ -58,7 +58,7 @@ describe Video do
     @video.url = %(http://v.ku6.com/special/show_3306516/-FrZYUaTNSfGhlmG.html)
     @video.should be_valid
     @video.player.should == %(http://player.ku6.com/refer/-FrZYUaTNSfGhlmG/v.swf)
-    @video.content.should == "山寨新闻:艺考穿三点，是考试还是选美?(11.02.25) 在线观看 - 酷6视频专辑"
+    @video.content.should == "山寨新闻:艺考穿三点,是考试还是选美?(11.02.25) 在线观看 - 酷6视频专辑"
     @video.thumb.should == "http://i0.ku6img.com/encode/picpath/2011/2/24/19/1301645197570_98683_98683/2.jpg"
   end
 end

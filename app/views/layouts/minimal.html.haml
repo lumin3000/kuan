@@ -1,8 +1,9 @@
 - content_for :content, do
   .header
     %a.logo{href: "/"}
-    .dash_navigator
+    .navigator
       %a{href: "/"}回我的主页
   = yield
+  = render :partial => 'shared/footer'
 
 = render :file => 'layouts/application'
