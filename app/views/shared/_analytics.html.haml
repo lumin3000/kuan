@@ -1,0 +1,11 @@
+:javascript
+  window.document.addEvent("domready", function() {
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    new Asset.javascript(gaJsHost + "google-analytics.com/ga.js", {
+      onload: function() {
+        var pageTracker = _gat._getTracker("UA-8893573-3");
+        pageTracker._initData();
+        pageTracker._trackPageview();
+      }
+    });
+  });

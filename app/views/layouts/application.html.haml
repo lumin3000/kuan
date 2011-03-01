@@ -17,14 +17,4 @@
     #container{class: content_for?(:site_layout) ? yield(:site_layout) : "site"}
       = use_header(@header)
       = content_for?(:content) ? yield(:content) : yield
-    :javascript
-        window.document.addEvent("domready", function() {
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            new Asset.javascript(gaJsHost + "google-analytics.com/ga.js", {
-                onload: function() {
-                    var pageTracker = _gat._getTracker("UA-8893573-3");
-                    pageTracker._initData();
-                    pageTracker._trackPageview();
-                }
-            });
-        });
+    = render :partial => 'shared/analytics'
