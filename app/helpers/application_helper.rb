@@ -28,7 +28,7 @@ module ApplicationHelper
   end
 
   def server_name
-    ".kuandom.com"
+    ".kuandao.com"
   end
 
   def pagination(collection, options = {})
