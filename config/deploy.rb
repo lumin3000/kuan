@@ -22,7 +22,7 @@ namespace :deploy do
   end
 
   task :sass do
-    run "cd #{current_path} && /usr/local/rvm/gems/ruby-1.9.2-p180/bin/rake RAILS_ENV=production sass:build"
+    Sass::Plugin.force_update_stylesheets
   end
 end
 
