@@ -55,11 +55,11 @@ class Image
       next if not AVAIL_VERSIONS.include? version
       temp_dimen = self.calc_scale(orig_dimen, geometry)
       i = MiniMagick::Image.read(original_blob)
-      i.resize "#{temp_dimen[0]}x#{temp_dimen[1]}"
+      i.resize "#{temp_dimen[0]}x#{temp_dimen[1]}" if temp_dimen != orig_dimen
       w, h = i['dimensions']
       # os for offset
       os_w, os_h = self.calc_offset([w, h], geometry)
-      i.shave "#{os_w}x#{os_h}"
+      i.shave "#{os_w}x#{os_h}" if [os_w, os_h].any? {|n| n > 0}
       begin
         id = grid.put i.to_blob, :content_type => mime
         image.send "#{version}=", id
