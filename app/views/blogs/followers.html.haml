@@ -2,7 +2,7 @@
 
 .middle_box.followers
   %h1
-    ="#{@followers.length}人正在关注#{@blog.title}"
+    ="#{@blog.followers_count}人正在关注#{@blog.title}"
 
   - followed = current_user.all_blogs
   - @followers.each do |user|
