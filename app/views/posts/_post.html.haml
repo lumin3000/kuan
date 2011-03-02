@@ -14,5 +14,7 @@
           = post.author.name
       %span.update_time= post.created_at
     .right
-      %a.open{ :href => "/posts/#{post.id}/comments", :data => { :tgt => "comments" } }
+      %a.reply{ :href => "/posts/#{post.id}/comments", :data => { :tgt => "comments" } }<
+        = post.comments.count == 0 ? "" : post.comments.count
+        &nbsp;
       %a.open{ :href => blog_path(post.blog) + "post/#{post.id}", :target => "_blank" }

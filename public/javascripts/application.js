@@ -504,19 +504,67 @@ K.widgets.video = function(el){
 }
 
 K.tgt = {}
-K.tgt.comments = function(el){
-    var url = el.get('href')
-    var container = el.getParent('.post')
-    var comments_el = container.getElement('.chat')
-    if(comments_el){
-        comments_el.destroy()
-        return
-    }
-    new Request.HTML({
-        url: url,
-        method: 'get',
-        append: container,
-        onSuccess: function(){
+K.tgt.comments = function(){
+    var comments_el
+    var comments_target
+    var lock = false
+
+    return function(el){
+        if(lock)return
+        lock = true
+
+        var url = el.get('href')
+        var container = el.getParent('.post')
+        if(comments_el){
+            comments_el.destroy()
+            comments_el = null
+            if(comments_target.get('href') == url){
+                lock = false
+                return
+            }
         }
-    }).send()
-}
+        new Request.HTML({
+            url: url+'?r'+Number.random(1,999),
+            method: 'get',
+            append: container,
+            onSuccess: function(){
+                comments_el = container.getElement('.chat')
+                comments_target = el
+                lock = false
+            }
+        }).send()
+    }
+}()
+
+K.tgt.reply = function(){
+    var lock = false
+
+    return function(el){
+        var post = el.getParent('.post')
+        var chat = el.getParent('.chat')
+        var f = el.getParent('form')
+        var input = f.getElement('[name=content]')
+
+        if(lock)return
+        lock = true
+        input.set('disabled', true)
+        el.set('disabled', true)
+        
+        new Request.HTML({
+            url: f.get('action'),
+            method: 'post',
+            //append: post,
+            data: { content: input.value},
+            onSuccess: function(responseTree, responseElements){
+                var els = responseElements[0].getChildren()
+                chat.empty()
+                els.each(function(item){
+                    item.inject(chat)
+                })
+                chat.getElement('.c_content').scrollTo(0, 9999)
+                post.getElement('.reply').innerHTML = chat.getElement('[name=count]').value
+                lock = false
+            }
+        }).send()
+    }
+}()
