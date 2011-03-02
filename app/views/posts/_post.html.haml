@@ -14,4 +14,5 @@
           = post.author.name
       %span.update_time= post.created_at
     .right
+      %a.open{ :href => "/posts/#{post.id}/comments", :data => { :tgt => "comments" } }
       %a.open{ :href => root_url(subdomain: post.blog.uri) + "post/#{post.id}", :target => "_blank" }

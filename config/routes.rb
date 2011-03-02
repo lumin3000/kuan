@@ -1,7 +1,9 @@
 Kuan::Application.routes.draw do
   post "/upload/:type", :to => 'images#create'
 
-  resources :posts
+  resources :posts do
+    resources :comments
+  end
 
   resources :users, :except => [:index, :destroy] 
 

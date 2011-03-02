@@ -8,7 +8,7 @@ class Post
   referenced_in :author, :class_name => 'User'
   embeds_many :comments
 
-  attr_accessible :blog, :author, :author_id, :blog_id, :created_at
+  attr_accessible :blog, :author, :author_id, :blog_id, :created_at, :comments
 
   validates_presence_of :author_id
   validates_presence_of :blog_id, :message => "请选择要发布到的页面"

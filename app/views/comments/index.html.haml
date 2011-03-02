@@ -1,0 +1,17 @@
+.chat
+  .c_content
+    - @post.comments.each do |comment|
+      .box
+        %div<
+          %span.c_name<
+            %a{ :href => "" }<
+              = comment.author.name
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          %span
+            = comment.created_at
+        %div<
+          = comment.content
+  .c_input
+    = form_tag(post_comments_path, :method => "post") do |f|
+      %input{ :type => "text", :name => "content" }
+      %input{ :type => "submit" }

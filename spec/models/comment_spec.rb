@@ -13,5 +13,9 @@ describe Comment do
       @comment.content = ""
       @comment.should_not be_valid
     end
+    it "should reject too long content" do
+      @comment.content = "a"*1001
+      @comment.should_not be_valid
+    end
   end
 end
