@@ -19,8 +19,8 @@ describe User do
   describe "name validations" do
     it "should reject unvalid names" do
       names = [" ",
-               "a"*11,
-               "这一个超过十个字的名字"]
+               "a"*41,
+               "这一个超过四十个字的名字于是我得打上去很多字毕竟ruby是支持utf8的啊啊啊够了"]
       names.each do |n|
         @user.name = n
         @user.should_not be_valid
