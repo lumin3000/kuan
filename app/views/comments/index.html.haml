@@ -14,4 +14,4 @@
   .c_input
     = form_tag(post_comments_path, :method => "post") do |f|
       %input{ :type => "text", :name => "content" }
-      %input{ :type => "submit" }
+      %input.c_submitter{ :type => "submit", :value => "回复" }

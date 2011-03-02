@@ -392,6 +392,16 @@ document.addEvent('domready', function(){
       , func = K.widgets[type]
     func && func(e)
   })
+
+  $(document.body).addEvent('click', function(e){
+      var tgt = e.target.get('data-tgt')
+      var func
+      if(tgt){
+        func = K.tgt[tgt]
+        func && func(e.target)
+        e.stop()
+      }
+  })
 })
 
 K.widgets.del = function(el){
@@ -491,4 +501,22 @@ K.widgets.video = function(el){
     if(K.widgets.env.post_single){
         el.getElement('.video_tar_open').fireEvent('click')
     }
+}
+
+K.tgt = {}
+K.tgt.comments = function(el){
+    var url = el.get('href')
+    var container = el.getParent('.post')
+    var comments_el = container.getElement('.chat')
+    if(comments_el){
+        comments_el.destroy()
+        return
+    }
+    new Request.HTML({
+        url: url,
+        method: 'get',
+        append: container,
+        onSuccess: function(){
+        }
+    }).send()
 }
