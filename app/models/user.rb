@@ -15,7 +15,7 @@ class User
   validates_presence_of :name, :message => "请输入用户名"
   validates_length_of :name,
     :minimum => 1,
-    :maximum => 10,
+    :maximum => 40,
     :too_short => "最少%{count}个字",
     :too_long => "最多%{count}个字"
 

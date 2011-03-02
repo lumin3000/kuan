@@ -14,7 +14,7 @@ class Blog
   attr_accessible :uri, :title, :icon, :private
 
   validates_presence_of :title, 
-    :message => "请输入用户名"
+    :message => "请输入页面名字"
   validates_length_of :title,
     :minimum => 1,
     :maximum => 40,
