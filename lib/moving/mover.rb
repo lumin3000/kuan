@@ -35,7 +35,11 @@ class Mover
     @moving = moving
     @from_uri = moving.from_uri
     m = /^http:\/\/([a-z0-9]+)\.kuantu\.com\/?$/.match @from_uri
-    @from = m[1]
+    @from = m[1] unless m.nil?
+  end
+
+  def valid?
+    !@from.nil?
   end
 
   def fetch_img(hashid)
@@ -198,10 +202,14 @@ class Mover
   class << self
     def run
       mover = Mover.new
+      logger = Logger.new("#{Rails.root.to_s}/log/mover_monitor.log")
       Moving.asc(:created_at).each do |moving|
+        logger.info "begin #{moving.from_uri} #{moving.to_uri}"
         mover.moving = moving
+        continue unless mover.valid?
         mover.fetch
         mover.trans
+        logger.info "end #{moving.from_uri} #{moving.to_uri}"
       end
     end
   end
