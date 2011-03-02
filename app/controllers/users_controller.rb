@@ -3,6 +3,8 @@ class UsersController < ApplicationController
   before_filter :signin_auth, :only => [:show, :edit, :update, :followings]
   before_filter :signup_auth, :only => [:new, :create]
 
+  SIGNUP_FOLLOW_BLOGS = %w[kuaniao]
+
   def new
     if signed_in?
       redirect_to '/home' and return
@@ -15,8 +17,17 @@ class UsersController < ApplicationController
     @user = User.new params[:user]
     return (render 'new', :layout => "user") if !@user.save
 
+    #create primary blog 
     @user.create_primary_blog!
+
+    #follow inviter's blog
     @inv_user.blogs.each {|b| @user.follow! b}
+
+    #follow administrator's blog
+    SIGNUP_FOLLOW_BLOGS.each do |uri|
+      blog = Blog.find_by_uri! uri
+      @user.follow! blog unless blog.nil?
+    end
 
     sign_in @user
     flash[:success] = "欢迎注册"
