@@ -2,8 +2,8 @@
 Factory.define :user do |user|
   user.name "testuser"
   user.email "u1@k.com"
-  user.password "foobar"
-  user.password_confirmation "foobar"
+  user.password "foobarbazbal"
+  user.password_confirmation "foobarbazbal"
   user.followings []
 end
 

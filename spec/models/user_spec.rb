@@ -74,7 +74,7 @@ describe User do
     end
 
     it "should reject short or long passwords" do
-      ps = ["a"*4, "a"*11]
+      ps = ["a"*4, "a"*33]
       ps.each do |p|
         @user.password = @user.password_confirmation = p
         @user.should_not be_valid
