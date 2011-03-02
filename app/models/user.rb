@@ -163,7 +163,7 @@ class User
     require 'pinyin'
     uri = PinYin.instance.to_pinyin(name).downcase.ljust(4,'k')
     return uri if Blog.where(:uri => uri).empty?
-    uri + (Blog.where(:uri => /^#{uri}/).reduce(0) do |max, b|
+    uri + (Blog.where(:uri => /^#{uri}([0-9]*)$/).reduce(0) do |max, b|
              n = b.uri.match(/^#{uri}([0-9]*)$/)[1].to_i
              (n > max) ? n : max
            end.to_i+1).to_s

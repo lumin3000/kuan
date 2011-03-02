@@ -187,6 +187,8 @@ describe UsersController do
 
       it "should change uri when uri exist" do
         Factory(:blog, :uri => "dupuri")
+        #very important! for creating this blog
+        Factory(:blog, :uri => "dupurixxx")
         post :create, :user => @attr.merge(:name => "dupuri"), :code => @code
         user = User.where(:email => @attr[:email]).first
         user.primary_blog.uri.should == "dupuri1"
