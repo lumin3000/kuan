@@ -8,41 +8,43 @@ Kuan::Application.routes.draw do
   resources :users, :except => [:index, :destroy] 
 
   resources :sessions, :only => [:new, :create, :destroy]
-  resources :blogs do
+  resources :blogs, :only => [:new, :create], do
     member do
-      get :followers
       post :follow_toggle
     end
   end
 
   resources :movings, :only => [:new, :create]
 
-  match "/posts/new/:type" => "posts#new"
-  match "/posts/new/:type/to/:blog_uri" => "posts#new"
+  get "/posts/new/:type" => "posts#new"
+  get "/posts/new/:type/to/:blog_uri" => "posts#new"
 
-  match '/signup/:code', :to => 'users#new', :as => :signup
+  get '/signup/:code', :to => 'users#new', :as => :signup
 
   # FIXME: How to make it DRY?
-  match '/home', :to => 'users#show'
-  match '/home/page/:page', :to => 'users#show', :page => /\d+/
-  match '/home/:uri', :to => 'users#show'
-  match '/home/:uri/page/:page', :to => 'users#show', :page => /\d+/
+  get '/home', :to => 'users#show'
+  get '/home/page/:page', :to => 'users#show', :page => /\d+/
+  get '/page/:page', :to => 'users#show', :page => /\d+/
+  get '/home/:uri', :to => 'users#show'
+  get '/home/:uri/page/:page', :to => 'users#show', :page => /\d+/
 
-  match '/followings', :to => 'users#followings'
+  get '/followings', :to => 'users#followings'
 
-  match '/signin', :to => 'sessions#new'
-  match '/signout', :to => 'sessions#destroy'
+  get '/signin', :to => 'sessions#new'
+  get '/signout', :to => 'sessions#destroy'
 
   require 'constraints/subdomain'
   constraints(Subdomain) do
-    match '/' => 'blogs#show'
-    match '/followers' => 'blogs#followers'
-    match '/page/:page' => 'blogs#show', :page => /\d+/
-    match '/post/:post_id' => 'blogs#show'
+    get '/' => 'blogs#show'
+    put '/' => 'blogs#update'
+    get '/followers' => 'blogs#followers'
+    get '/edit' => 'blogs#edit'
+    post '/blogs/:id/follow_toggle' => 'blogs#follow_toggle'
+    get '/page/:page' => 'blogs#show', :page => /\d+/
+    get '/post/:post_id' => 'blogs#show'
   end
 
-  root :to => "users#show"
-  match '/page/:page', :to => 'users#show', :page => /\d+/
+  root :to => 'users#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

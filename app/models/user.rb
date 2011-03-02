@@ -34,7 +34,7 @@ class User
 
   validates_length_of :password,
     :minimum => 5,
-    :maximum => 10,
+    :maximum => 32,
     :too_short => "最少%{count}个字",
   :too_long => "最多%{count}个字", :unless => Proc.new { |a| a.password.blank? }
 
