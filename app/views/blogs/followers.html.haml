@@ -9,7 +9,7 @@
     - blog = user.primary_blog
     .follower{ :id => "blog_#{blog.id}" }
       .avatar
-        %a{ :href => url_for(blog) }
+        %a{ :href => blog_path(blog) }
           %img{ :src => blog.icon.url_for(:medium) }
       .fo_name
         %a{ :href => blog_path(blog) }

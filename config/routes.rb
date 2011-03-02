@@ -24,7 +24,6 @@ Kuan::Application.routes.draw do
   # FIXME: How to make it DRY?
   get '/home', :to => 'users#show'
   get '/home/page/:page', :to => 'users#show', :page => /\d+/
-  get '/page/:page', :to => 'users#show', :page => /\d+/
   get '/home/:uri', :to => 'users#show'
   get '/home/:uri/page/:page', :to => 'users#show', :page => /\d+/
 
@@ -45,6 +44,7 @@ Kuan::Application.routes.draw do
   end
 
   root :to => 'users#show'
+  get '/page/:page', :to => 'users#show', :page => /\d+/
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

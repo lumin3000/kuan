@@ -1,3 +1,22 @@
+Element.implement({
+  delegate: function(type, selector, fn) {
+    if (typeOf(fn) != 'function') {
+      throw new Error('Must provide a callback function')
+    }
+    this.addEvent(type, function(e) {
+      var target = $(e.target)
+      if (target.match(selector)) return fn.call(this, e)
+
+      while (target != this && !target.match(selector)) {
+        target = target.getParent()
+      }
+      e.target = target
+      fn.call(this, e)
+    })
+    return this
+  }
+})
+
 K = {
   log: function() {
     if (typeof console != "undefined") {

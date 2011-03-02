@@ -9,7 +9,7 @@
   .dash_navigator
     %a{href: edit_user_path(current_user)}设置
     &nbsp;| 邀请好友加入&nbsp;
-    - invite_url = "/signup/#{current_user.inv_code}"
+    - invite_url = "#{fucking_root}signup/#{current_user.inv_code}"
     %input.invite{readonly: true, value: invite_url, onclick: "this.select();"}><
     &nbsp;|&nbsp;
     %a.logout{ :href => "/signout", :data => { :confirm => "确定登出?" } }><
