@@ -132,7 +132,6 @@ K.file_uploader = new Class({
     cancel: function(){
     },
     complete: function(){
-        K.log('complete')
         function on_success(v){
             cb && cb(v)
         }
