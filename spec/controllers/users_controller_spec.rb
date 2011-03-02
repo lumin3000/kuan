@@ -200,15 +200,18 @@ describe UsersController do
         user.primary_blog.uri.should == "dupuri13"
       end
 
-      it "should follow inv_user's blogs" do
+      it "should follow inv_user's open blogs" do
         bf = Factory(:blog, :uri => "invuri")
         @user.follow! bf, "founder"
         bm = Factory(:blog, :uri => "invuri2")
         @user.follow! bm, "member"
+        bp = Factory(:blog, :uri => "private-blog-you-wont-see", :private => true)
+        @user.follow! bp, "founder"
         post :create, :user => @attr, :code => @code
         user = User.where(:email => @attr[:email]).first
         user.subs.should be_include bf
         user.subs.should be_include bm
+        user.subs.should_not be_include bp
       end
 
       it "should follow administrator's blogs" do

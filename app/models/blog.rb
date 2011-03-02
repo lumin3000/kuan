@@ -67,6 +67,10 @@ class Blog
     !self.private || self.edited?(user)
   end
 
+  def private?()
+    self.private
+  end
+
   def customed?(user)
     !user.followings.where(:blog_id => _id).any_in(:auth => ["founder", "lord"]).empty?
   end

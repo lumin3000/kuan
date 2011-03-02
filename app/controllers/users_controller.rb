@@ -19,9 +19,8 @@ class UsersController < ApplicationController
 
     #create primary blog 
     @user.create_primary_blog!
-
-    #follow inviter's blog
-    @inv_user.blogs.each {|b| @user.follow! b}
+    #follow inviter's open blogs
+    @inv_user.blogs.each {|b| @user.follow! b unless b.private?}
 
     #follow administrator's blog
     SIGNUP_FOLLOW_BLOGS.each do |uri|
