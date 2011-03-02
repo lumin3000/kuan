@@ -78,7 +78,7 @@ class Blog
   def followers
     User.collection.find({"followings" => {"$elemMatch"=> {"blog_id"=>id,"auth"=>"follower"}}},
                          :sort=>[["followings.created_at", -1]],
-                         :limit=>100).to_a
+                         :limit=>200).to_a
   end
   
 
