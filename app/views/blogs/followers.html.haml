@@ -9,10 +9,10 @@
     - blog = user.primary_blog
     .follower{ :id => "blog_#{blog.id}" }
       .avatar
-        %a{ :href => root_url(:subdomain => blog.uri) }
+        %a{ :href => url_for(blog) }
           %img{ :src => blog.icon.url_for(:medium) }
       .fo_name
-        %a{ :href => root_url(:subdomain => blog.uri) }
+        %a{ :href => blog_path(blog) }
           = user.name
       - unless followed.include?(blog)
         %a{:href => "/blogs/#{blog.id}/follow_toggle", :id => "tar_follow_#{blog.id}",

@@ -9,7 +9,7 @@
   .dash_navigator
     %a{href: edit_user_path(current_user)}设置
     &nbsp;| 邀请好友加入&nbsp;
-    - invite_url = "#{root_url(:subdomain => 'www')}signup/#{current_user.inv_code}"
+    - invite_url = "/signup/#{current_user.inv_code}"
     %input.invite{readonly: true, value: invite_url, onclick: "this.select();"}><
     &nbsp;|&nbsp;
     %a.logout{ :href => "/signout", :data => { :confirm => "确定登出?" } }><
@@ -65,11 +65,11 @@
       %div
         %span.icon_view &nbsp;
         %span
-          %a{href: root_url(:subdomain => @blog.uri)} 查看
+          %a{href: blog_path(@blog)} 查看
   .main{ :data => { :widget => "sugar" } }
     .head
       .head_avatar<
-        %a{href: root_url(:subdomain => @user.primary_blog.uri)}<
+        %a{href: blog_path(@user.primary_blog)}<
           =image_tag @user.primary_blog.icon.url_for(:medium)
       .post_area
         .left
@@ -84,10 +84,10 @@
         .article.tar_post
           .avatar
             .image<
-              %a{href: root_url(:subdomain => p.blog.uri)}<
+              %a{href: blog_path(p.blog)}<
                 =image_tag p.blog.icon.url_for(:medium)
             %div<
-              %a.page_name{href: url_for(p.blog)}= p.blog.title
+              %a.page_name{href: blog_path(p.blog)}= p.blog.title
           .content= render_post p
     = pagination(@posts)
 = render :partial => 'shared/footer'

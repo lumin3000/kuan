@@ -7,9 +7,9 @@
   - @blogs.each do |blog|
     .follower{ :id => "blog_#{blog.id}" }
       .avatar
-        %a{ :href => root_url(:subdomain => blog.uri) }
+        %a{ :href => blog_path(blog) }
           %img{ :src => blog.icon.url_for(:medium) }
       .fo_name
-        %a{ :href => root_url(:subdomain => blog.uri) }
+        %a{ :href => blog_path(blog) }
           = blog.title
       = follow_tag blog

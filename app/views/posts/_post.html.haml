@@ -10,8 +10,8 @@
   .content_footer
     .left<
       %span.writer_name<
-        %a{href: root_url(:subdomain => post.author.primary_blog.uri)}
+        %a{href: blog_path(post.author.primary_blog)}
           = post.author.name
       %span.update_time= post.created_at
     .right
-      %a.open{ :href => root_url(subdomain: post.blog.uri) + "post/#{post.id}", :target => "_blank" }
+      %a.open{ :href => blog_path(post.blog) + "post/#{post.id}", :target => "_blank" }

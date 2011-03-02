@@ -2,7 +2,7 @@
 class BlogsController < ApplicationController
   before_filter :signin_auth, :except => [:show]
   before_filter :custom_auth, :only => [:edit, :update]
-  before_filter :find_by_uri, :only => [:followers, :follow_toggle]
+  before_filter :find_by_uri, :only => [:followers, :update]
 
   def new
     @blog = Blog.new
@@ -58,8 +58,8 @@ class BlogsController < ApplicationController
   end
 
   def follow_toggle
-    @blog = Blog.find(params[:id])
-    redirect_to home_path if @blog.nil?
+    @blog = Blog.find params[:id]
+    render 'shared/404', :status => 404 and return if @blog.nil?
     if follow?(@blog)
       @user.unfollow!(@blog)
       now_follow = false
@@ -80,6 +80,6 @@ class BlogsController < ApplicationController
   end
 
   def find_by_uri(uri = nil)
-    @blog = Blog.find_by_uri!(uri || params[:id])
+    @blog = Blog.find_by_uri!(uri || params[:id] || request.subdomain)
   end
 end

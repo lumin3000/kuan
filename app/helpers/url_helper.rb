@@ -11,4 +11,29 @@ module UrlHelper
     end
     super
   end
+
+  # Private!
+  def url_for_blog_(blog)
+    raise "fffffffuuuuuuuuuuuuu" if blog.nil?
+    root_url(:subdomain => blog.uri)
+  end
+
+  alias blog_path url_for_blog_
+
+  def edit_blog_path(blog)
+    url_for_blog_(blog) + 'edit'
+  end
+
+  def followers_blog_path(blog)
+    url_for_blog_(blog) + 'followers'
+  end
+
+  def follow_toggle_blog_path(blog)
+    url_for_blog_(blog) + 'follow_toggle'
+  end
+
+  def fucking_root
+    root_url(:subdomain => 'www')
+  end
+
 end
