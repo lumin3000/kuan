@@ -9,9 +9,7 @@ class Comment
 
   validates_presence_of :content, :message => "回复不能为空"
   validates_length_of :content,
-    :minium => 1,
-    :maximum => 1000,
-    :too_short => "写几个字吧",
-    :too_long => "最多%{count}个字"
+    :minimum => 1,
+    :too_short => "写几个字吧"
 
 end
