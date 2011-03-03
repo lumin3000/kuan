@@ -5,7 +5,7 @@
       .box
         %div<
           %span.c_name<
-            %a{ :href => "" }<
+            %a{ :href => blog_path(comment.author.primary_blog) }<
               = comment.author.name
           &nbsp;&nbsp;&nbsp;
           %span.c_date<
