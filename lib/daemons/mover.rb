@@ -13,5 +13,5 @@ end
 while($running) do
   require 'moving/mover'
   Mover.run
-  sleep 60
+  sleep 1800
 end
