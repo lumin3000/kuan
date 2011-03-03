@@ -1104,3 +1104,10 @@ form.edit_page .submit_box input{
 	padding:2px;
 }
 
+
+
+.e403 { display: block; background: url('images/403.gif') no-repeat; width: 700px; height: 500px; margin: auto; }
+.e404 { display: block; background: url('images/404.jpg') no-repeat; width: 700px; height: 605px; margin: auto; }
+.e500 { display: block; background: url('images/500.gif') no-repeat; width: 700px; height: 500px; margin: auto; }
+.e404_words, .e403_words, .e500_words { width: 500px; font-size: 20px; margin: auto; }
+
