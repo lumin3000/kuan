@@ -40,7 +40,7 @@ class BlogsController < ApplicationController
     end
     post_id = params[:post_id]
     @single_post = ! post_id.nil?
-    if post_id.nil?
+    if !@single_post
       @posts = Post.desc(:created_at).where({:blog_id => @blog.id})
         .paginate({
           :page => params[:page] || 1,
@@ -49,6 +49,7 @@ class BlogsController < ApplicationController
 
     else
       @posts = [Post.find(post_id)]
+      @post = @posts.first
     end
     render :layout => false
   end
