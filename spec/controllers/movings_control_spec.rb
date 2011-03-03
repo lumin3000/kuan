@@ -25,7 +25,7 @@ describe MovingsController do
     before :each do
       @blog = Blog.create(:uri => "lintb_new", :title => "lintb_new")
       @user.follow! @blog, "founder" 
-      @attr = {:from_uri => "lintb"}
+      @attr = {:from_uri => "deviantart13"}
     end
 
     it "should be successful" do

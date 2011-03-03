@@ -285,7 +285,7 @@
     max-height: 390px
     overflow-y: auto
     overflow-x: hidden
-    color: #676767
+    color: #1d1d1d
     padding: 0
     margin: 0
 
@@ -295,12 +295,14 @@
 
       div
         margin: 0 0 5px 0
+
   .c_input
     width: 544px
     height: 30px
-    background-color: #ffffff
+    background-color: #009fff
     margin-top: 10px
-    border: 0
+    border: 1px solid #1d1d1d
+    overflow: hidden
     
     form
       border: 0
@@ -308,19 +310,30 @@
       padding: 0
 
     input
-      width: 478px
+      width: 100%
       height: 30px
       border: 0
-      padding: 0px
+      padding: 0
+      margin: 0
       line-height: 30px
+      font-size: 18px
+    
+    .txt
+      width: 470px
+      background-color: white
+      padding-top: 1px
+      padding-left: 8px
+      border-right: 1px solid black
+      float: left
 
     .c_submitter
       width: 60px
-      height: 30px
-      background-color: #009fff
-      line-height: 30px
-      color: #ffffff
-      text-align: center
-      text-decoration: none
-      cursor: pointer
-      border: 0
+      float: left
+      
+      input
+        width: 65px
+        _line-height: 38px
+        background-color: #009fff
+        color: #ffffff
+        text-align: center
+        cursor: pointer
