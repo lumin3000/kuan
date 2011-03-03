@@ -73,6 +73,9 @@ class Post
       tree = Nokogiri::HTML.fragment(content)
       tree.traverse do |n|
         case n.type
+        when N::TEXT_NODE
+          next if has_parent?(n, 'a')
+          n.replace Nokogiri::HTML.fragment(ActionView::Helpers::TextHelper::auto_link(n.to_html))
         when N::ELEMENT_NODE
           n.unlink unless TAG_WHITE_LIST.include? n.name
           n.each do |k, v|
@@ -82,6 +85,13 @@ class Post
         end
       end
       tree.to_html
+    end
+
+    def has_parent?(node, parent_name)
+      while node = node.parent
+        return true if node.name == parent_name
+      end
+      false
     end
   end
 

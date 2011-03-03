@@ -78,9 +78,33 @@ EOF
     end
 
     it "should clean it up" do
-      @post.save
+      @post.save!
       @post.reload
       @post.content.should == @expected
+    end
+  end
+
+  describe "given a raw url post" do
+    before :each do
+      @orig_content = 'http://g.cn'
+      @expected = '<a href="http://g.cn">http://g.cn</a>'
+      @post.content = @orig_content
+      @post.save!
+      @post.reload
+    end
+
+    it "should wrap <a> around it" do
+      @post.content.should == @expected
+    end
+
+    describe "but not again!" do
+      it "should do nothing further" do
+        content = @post.content
+        @post.content = content
+        @post.save!
+        @post.reload
+        @post.content.should == content
+      end
     end
   end
 end
