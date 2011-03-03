@@ -1,2 +1,2 @@
-= link_to link.title, link.url
+= link_to (link.title.blank? ? link.url : link.title), link.url
 %p!= link.content
