@@ -75,7 +75,7 @@ class Post
         case n.type
         when N::TEXT_NODE
           next if has_parent?(n, 'a')
-          n.replace Nokogiri::HTML.fragment(ActionView::Helpers::TextHelper::auto_link(n.to_html))
+          n.replace Nokogiri::HTML.fragment(auto_link!(n.to_html))
         when N::ELEMENT_NODE
           n.unlink unless TAG_WHITE_LIST.include? n.name
           n.each do |k, v|
@@ -85,6 +85,14 @@ class Post
         end
       end
       tree.to_html
+    end
+
+    def auto_link!(str)
+      links = URI.extract str
+      links.each do |link|
+        str[link] = "<a href=\"#{link}\">#{link}</a>"
+      end
+      str
     end
 
     def has_parent?(node, parent_name)
