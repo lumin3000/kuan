@@ -416,9 +416,9 @@ document.addEvent('domready', function(){
       var tgt = e.target.get('data-tgt')
       var func
       if(tgt){
+        e.stop()
         func = K.tgt[tgt]
         func && func(e.target)
-        e.stop()
       }
   })
 })
@@ -549,6 +549,7 @@ K.tgt.comments = function(){
             onSuccess: function(){
                 comments_el = container.getElement('.chat')
                 comments_target = el
+                container.getElement('.reply').innerHTML = comments_el.getElement('[name=count]').value
                 lock = false
             }
         }).send()
@@ -565,6 +566,9 @@ K.tgt.reply = function(){
         var input = f.getElement('[name=content]')
 
         if(lock)return
+        if(input.value == ''){
+            input.highlight()
+        }
         lock = true
         input.set('disabled', true)
         el.set('disabled', true)

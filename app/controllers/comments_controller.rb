@@ -11,8 +11,9 @@ class CommentsController < ApplicationController
   def create
     @post = Post.find(params[:post_id])
     redirect_to home_path if @post.nil?
-    @comment = @post.comments.create({ :content => params[:content], :author_id => current_user.id})
-    if @comment.save
+    @comment = Comment.new(:content => params[:content], :author_id => current_user.id)
+    if @comment.valid?
+      @post.comments << @comment
       render "comments/index"
     else
       render "comments/index"
