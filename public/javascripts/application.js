@@ -548,13 +548,22 @@ K.tgt.comments = function(){
             append: container,
             onSuccess: function(){
                 comments_el = container.getElement('.chat')
+                K.set_max_height(comments_el.getElement('.c_content'))
                 comments_target = el
-                container.getElement('.reply').innerHTML = comments_el.getElement('[name=count]').value
+                if(comments_el.getElement('[name=count]').value > 0){
+                    container.getElement('.reply').innerHTML = comments_el.getElement('[name=count]').value
+                }
                 lock = false
             }
         }).send()
     }
 }()
+
+K.set_max_height = function(el){
+    if(!el.getStyle('max-height') && el.getSize().y > 390){
+        el.setStyle('height', 390)
+    }
+}
 
 K.tgt.reply = function(){
     var lock = false
@@ -584,8 +593,12 @@ K.tgt.reply = function(){
                 els.each(function(item){
                     item.inject(chat)
                 })
+                K.set_max_height(chat.getElement('.c_content'))
                 chat.getElement('.c_content').scrollTo(0, 9999)
-                post.getElement('.reply').innerHTML = chat.getElement('[name=count]').value
+                if(chat.getElement('[name=count]').value > 0){
+                  post.getElement('.reply').innerHTML = chat.getElement('[name=count]').value                
+                }
+
                 lock = false
             }
         }).send()
