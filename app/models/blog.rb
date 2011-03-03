@@ -24,8 +24,8 @@ class Blog
   validates_presence_of :uri,
     :message => "请输入链接"
   validates_format_of :uri,
-    :with => /^[0-9a-z-]+$/i,
-    :message => "网址仅限字母、数字与“-”"
+    :with => /^[0-9a-z-]+$/,
+    :message => "网址仅限小写字母、数字与“-”"
   validates_length_of :uri,
     :within => 4..30,
     :message => '网址长度应在4-30个字符之间'

@@ -4,7 +4,7 @@ require 'spec_helper'
 describe Blog do
 
   before :each do
-    @blog = Factory :blog
+    @blog = Blog.create(:uri=>"blog-uri", :title=>"blog title")
   end
 
   after :each do
@@ -16,6 +16,7 @@ describe Blog do
     it "should reject unvalid uri" do
       uris = ["中文是不可以",
               'sho',
+              'Silen',
               'a'*31,
               "_forbid",
               ""]
@@ -35,6 +36,8 @@ describe Blog do
 
     it "should accept valid uri" do
       @blog.uri = "validuri"
+      @blog.should be_valid
+      @blog.uri = "valid-uri"
       @blog.should be_valid
     end 
 
