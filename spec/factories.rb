@@ -19,7 +19,7 @@ Factory.define :blank_user do |user|
 end
 
 Factory.define :blog do |blog|
-  blog.uri "blog-uri"
+  blog.uri "bloguri"
   blog.title "blog title"
 end
 
