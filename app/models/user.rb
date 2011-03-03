@@ -7,6 +7,7 @@ class User
   field :salt
   field :encrypted_password
   embeds_many :followings
+  embeds_many :comment_notices
   references_many :posts
 
   attr_accessor :password, :code

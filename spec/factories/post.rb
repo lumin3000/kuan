@@ -37,4 +37,5 @@ end
 
 Factory.define :comment do |p|
   p.content 'this is a comment'
+  p.association :author, :factory => :user
 end
