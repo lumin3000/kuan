@@ -88,7 +88,7 @@ class Image
   def url_for(version = :original)
     if AVAIL_VERSIONS.include? version
       id = self.send version
-      "/gridfs/#{id}" if not id.nil?
+      "/files/#{id}" if not id.nil?
     end
   end
 
