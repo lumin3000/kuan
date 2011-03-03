@@ -19,20 +19,20 @@ describe Moving do
       @user.follow! @blog, "founder"
     end
     
-    it "should accepted own blog" do
+    it "should accepted own blog" do 
       %w[kuantu1 lintb lintb.kuantu.com http://lintb.kuantu.com].each do |from|
         Moving.new(:from_uri => from, :to_uri => @blog.uri, :user => @user).should be_valid
       end
     end
 
     it "should accepted and create blog" do
-      m = Moving.new(:from_uri => "http://lintb.kuantu.com", :to_uri => "http://lintb.kuantu.com", :user => @user)
+      m = Moving.new(:from_uri => "http://deviantart13.kuantu.com", :to_uri => "deviant", :user => @user)
       m.save.should be_true
       m.reload  
-      m.to_uri.should == "lintb"
-      m.from_uri.should == "http://lintb.kuantu.com"
+      m.to_uri.should == "deviant"
+      m.from_uri.should == "http://deviantart13.kuantu.com"
       m.user.should == @user
-      blog = Blog.where(:uri => "lintb").first
+      blog = Blog.where(:uri => "deviant").first
       blog.should_not be_nil
       @user.should be_own blog
     end
