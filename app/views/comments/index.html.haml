@@ -11,7 +11,7 @@
           %span.c_date<
             = comment.created_at
         %div<
-          = comment.content
+          = auto_link h(comment.content)
           
   .c_input
     = form_tag( post_comments_path, :method => "post", :autocomplete => "off" ) do |f|
