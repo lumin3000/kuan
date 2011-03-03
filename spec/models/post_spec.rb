@@ -73,12 +73,13 @@ EOF
   describe "funcky url?" do
     before :each do
       @orig_content = '<img src="j&amp;97;vascript:alert(document.cookie) />"'
-      @expected = '<img />'
+      @expected = '<img src="">'
       @post.content = @orig_content
     end
 
     it "should clean it up" do
-      pending "not quite sure how to make it"
+      @post.save
+      @post.reload
       @post.content.should == @expected
     end
   end
