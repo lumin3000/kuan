@@ -36,7 +36,7 @@ class BlogsController < ApplicationController
     find_by_uri request.subdomain
     render 'shared/404', :status => 404, :layout => false and return if @blog.nil?
     if not @blog.open_to?(current_user)
-      render :text => "Not for ya", :status => :forbidden and return
+      render 'shared/403', :status => 403, :layout => false and return
     end
     post_id = params[:post_id]
     @single_post = ! post_id.nil?
