@@ -10,10 +10,10 @@ Kuan::Application.configure do
   config.action_controller.perform_caching = true
 
   # Specifies the header that your server uses for sending files
-  config.action_dispatch.x_sendfile_header = "X-Sendfile"
+  # config.action_dispatch.x_sendfile_header = "X-Sendfile"
 
   # For nginx:
-  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
+  config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
 
   # If you have no front-end server that supports something like X-Sendfile,
   # just comment this out and Rails will serve the files
@@ -23,6 +23,7 @@ Kuan::Application.configure do
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
+  config.logger = Logger.new(config.paths.log.first, 'weekly')
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
@@ -35,7 +36,7 @@ Kuan::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Disable delivery errors, bad email addresses will be ignored
-  # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = false
 
   # Enable threaded mode
   # config.threadsafe!
