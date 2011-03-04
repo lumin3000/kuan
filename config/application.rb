@@ -55,6 +55,6 @@ module Kuan
       hostname: 'localhost',
       port: 27017,
       database: "kuan_#{Rails.env}",
-      prefix: 'gridfs'
+      prefix: 'files'
   end
 end
