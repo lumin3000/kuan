@@ -56,7 +56,7 @@ describe Pics do
       @post.photos.length.should == 3
       @post.photos[0].desc.should be_empty
       @post.photos[0].image.should be_kind_of(Image)
-      @post.content.should be_empty
+      @post.content.should be_nil
     end
   end
 

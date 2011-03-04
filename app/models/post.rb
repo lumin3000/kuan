@@ -69,6 +69,7 @@ class Post
     N = Nokogiri::XML::Node
 
     def tag_filter(content)
+      return nil if content.blank?
       raise "Expecting a string" unless content.kind_of? String
       tree = Nokogiri::HTML.fragment(content)
       tree.traverse do |n|
