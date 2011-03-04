@@ -15,10 +15,10 @@
           回我的主页
         = follow_tag @blog
         - if @single_post && @post.editable_by?(current_user)
-          %a.remove{href: "/posts/#{@post.id}",
+          %a.remove{href: "/posts/#{@post.id}", title: "删除",
             data: {widget: "del", callback: "redirect"}}
             删除
-          %a.edit{href: "/posts/#{@post.id}/edit"} 编辑
+          %a.edit{href: "/posts/#{@post.id}/edit", title: "编辑"} 编辑
       #title
         %a{href: blog_path(@blog)}
           =@blog.title
