@@ -4,6 +4,7 @@ class Pics < Post
   embeds_many :photos
 
   attr_accessible :photos, :content
+  before_validation :sanitize_content
 
   def update_attributes(attrs = {})
     photos = attrs.delete :photos

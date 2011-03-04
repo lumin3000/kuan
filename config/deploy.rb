@@ -1,10 +1,11 @@
 set :application, "kuan"
 set :repository,  "git@github.com:sjerrys/kuan.git"
-
 set :scm, :git
+set :user, "kuandev"
+set :ssh_options, {:forward_agent => true}
+set :deploy_via, :remote_cache
 set :deploy_to, "/var/kuan"
 set :use_sudo, false
-set :ssh_options, {:forward_agent => true}
 
 role :web, "kuandao.com"                                   # Your HTTP server, nginx
 role :app, "kuandao.com"                                   # This may be the same as your `Web` server

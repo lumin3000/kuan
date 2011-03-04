@@ -28,7 +28,7 @@ describe Image, "create_from_original" do
       url = @image.url_for :original
       url.should_not be_nil
       url.should =~ /#{@image.original.to_s}/
-      url.should =~ /gridfs/
+      url.should =~ /files/
 
       url_large = @image.url_for :large
       url_large.should_not be_nil

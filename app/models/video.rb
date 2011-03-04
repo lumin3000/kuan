@@ -11,6 +11,8 @@ class Video < Post
   field :content
   field :site
 
+  before_validation :sanitize_content
+
   validates_presence_of :url
   validates_presence_of :player, :message =>  "不是正确的格式"
   attr_accessible :content, :url, :site, :thumb

@@ -659,6 +659,15 @@ form.edit_page .submit_box input{
 		width:134px;
 		line-height:14px;
 }
+
+.dashboard .icon_reply{
+	display: inline-block;
+	width:14px;
+	height:14px;
+	background:url('images/icons.gif') -160px 0px;
+	overflow:hidden;
+}
+
 .dashboard .icon_follow{
 	display: inline-block;
 	width:14px;
@@ -729,9 +738,18 @@ form.edit_page .submit_box input{
 	overflow:hidden
 }
 
+
 .dashboard .dash_operation .my_follow{
 	margin-left:-18px;
-	margin-bottom:16px;
+	margin-bottom:10px;
+}
+.dashboard .dash_operation .my_reply{
+	margin-bottom:10px;
+	margin-top:10px;
+}
+
+.dashboard .dash_operation .my_reply .new{
+	color:#ff9933;
 }
 
 .dashboard .dash_operation .create_page{
@@ -1103,4 +1121,30 @@ form.edit_page .submit_box input{
 	border-color:#C4C7BD #EFEFEF #F2F2F2 #D2D5CA;
 	padding:2px;
 }
+
+/*reply_list*/
+.reply_list h1{
+	margin:30px 0px;
+	color:#009fff;
+}
+
+.reply_list h1 a{
+	font-size:12px;
+	text-decoration:underline;
+	cursor:pointer;
+}
+
+div.new_reply .content_footer .right a.reply{
+	background:url('images/post_btn.gif') -100px -60px;
+}
+
+div.new_reply .content_footer .right a.reply:hover
+{
+	background:url('images/post_btn.gif') -100px -40px;
+}	
+
+.e403 { display: block; background: url('images/403.gif') no-repeat; width: 700px; height: 500px; margin: auto; }
+.e404 { display: block; background: url('images/404.jpg') no-repeat; width: 700px; height: 605px; margin: auto; }
+.e500 { display: block; background: url('images/500.gif') no-repeat; width: 700px; height: 500px; margin: auto; }
+.e404_words, .e403_words, .e500_words { width: 500px; font-size: 20px; margin: auto; }
 

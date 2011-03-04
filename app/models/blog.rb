@@ -3,13 +3,14 @@ class Blog
   include Mongoid::Document
   include Mongoid::Timestamps
   field :uri
+  index :uri, :unique => true
   field :title
   referenced_in :icon, :class_name => 'Image'
   field :primary, :type => Boolean, :default => false
   field :private, :type => Boolean, :default => false
 
   references_many :followings
-  references_many :posts
+  references_many :posts, :index => true
 
   attr_accessible :uri, :title, :icon, :private
 
@@ -65,6 +66,10 @@ class Blog
 
   def open_to?(user)
     !self.private || self.edited?(user)
+  end
+
+  def accept?(user)
+    !self.primary
   end
 
   def private?()

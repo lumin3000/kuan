@@ -50,4 +50,18 @@ describe Blog do
     end
   end
 
+  describe "Following logic" do
+    describe "Given a blog which is primary" do
+      before :all do
+        @user = Factory :user, :name => "peanucock", :email => Factory.next(:email)
+        @primary_blog = @user.create_primary_blog!
+        @guest = Factory :user, :name => "passenger", :email => Factory.next(:email)
+      end
+
+      it "shouldn't accept any other user to join" do
+        @primary_blog.accept?(@guest).should be_false
+      end
+    end
+  end
+
 end

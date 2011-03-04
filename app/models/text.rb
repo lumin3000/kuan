@@ -10,4 +10,6 @@ class Text < Post
     :minimum => 1,
     :too_short => "写点什么吧",
     :if => 'title.blank?'
+
+  before_validation :sanitize_content
 end

@@ -9,6 +9,7 @@ class Link < Post
   attr_accessible :url, :title, :content
 
   before_validation :convert_to_http
+  before_validation :sanitize_content
 
   validates_presence_of :url,
     :message => "请输入链接"
