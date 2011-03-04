@@ -68,6 +68,10 @@ class Blog
     !self.private || self.edited?(user)
   end
 
+  def accept?(user)
+    !self.primary
+  end
+
   def private?()
     self.private
   end
