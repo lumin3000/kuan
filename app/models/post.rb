@@ -6,9 +6,10 @@ class Post
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  referenced_in :blog
-  referenced_in :author, :class_name => 'User'
+  referenced_in :blog, :index => true
+  referenced_in :author, :class_name => 'User', :index => true
   embeds_many :comments
+  index :created_at
 
   attr_accessible :blog, :author, :author_id, :blog_id, :created_at, :comments
 

@@ -4,10 +4,12 @@ class User
   include Mongoid::Timestamps
   field :name
   field :email
+  index :email, :unique => true
   field :salt
   field :encrypted_password
   embeds_many :followings
-  references_many :posts
+  index "followings.blog_id"
+  references_many :posts, :index => true
 
   attr_accessor :password, :code
   attr_accessible :name, :email, :password, :password_confirmation
