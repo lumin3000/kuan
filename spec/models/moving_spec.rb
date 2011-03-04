@@ -34,7 +34,7 @@ describe Moving do
       m.user.should == @user
       blog = Blog.where(:uri => "deviant").first
       blog.should_not be_nil
-      @user.should be_own blog
+      blog.should be_customed @user
     end
  
     it "should rejected" do 

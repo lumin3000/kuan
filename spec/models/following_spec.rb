@@ -77,7 +77,6 @@ describe "Following" do
       @blogf.reload
       @blogf.followers.should be_include @user
       @user.subs.should be_include @blogf
-      @user.auth_for(@blogf).should == "follower" 
     end
 
     it "should give the right followers" do

@@ -36,7 +36,7 @@ class Moving
 
     blog = Blog.where(:uri => to_uri).first
     if not blog.nil?
-      if not user.own? blog
+      if not blog.customed? user
         errors.add(:exist, "目标地址已被占用，请输入新的目标地址")
         return false
       else
