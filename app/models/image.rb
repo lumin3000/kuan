@@ -29,6 +29,13 @@ class Image
     [(-width) / 2, (-height) / 2]
   end
 
+  def self.create_from_default(defaults)
+    image = Image.new()
+    image.define_singleton_method(:url_for) { |ver| defaults[ver] }
+    image.define_singleton_method(:id) { nil }
+    image
+  end
+
   def self.create_from_original(file, process_spec = {})
     image = Image.new()
 

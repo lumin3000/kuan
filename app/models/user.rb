@@ -45,10 +45,6 @@ class User
   
   before_save :email_downcase
 
-  def has_password?(password)
-    encrypted_password == encrypt(password)
-  end
-
   class << self
     def authenticate(email, password)
       user  = User.where(:email => email).first
@@ -70,10 +66,16 @@ class User
     end
   end
 
+  def has_password?(password)
+    encrypted_password == encrypt(password)
+  end
+
   #invitation code
   def inv_code
     _id.to_s.to_i(16).to_s(32)
   end
+
+  #user and blog's relationships
 
   #primary blog = user's default blog
   def create_primary_blog!
@@ -85,12 +87,8 @@ class User
     blog
   end
 
-  def primary_blog
-    followings.where(:auth => "lord").first.blog
-  end
-
   def follow!(blog, auth="follower")
-    f = followings.where(:blog_id => blog._id).first
+    f = followings.where(:blog_id => blog.id).first
     if f.nil?
       followings << Following.new(:blog => blog, :auth => auth)
     else
@@ -102,7 +100,14 @@ class User
     followings.where(:blog_id => blog._id).destroy
   end
 
-  #all editable blogs, lord > founder > member > follower
+  #Getting user's blogs 
+
+  #The user should have and only have one primary blog
+  def primary_blog
+    followings.where(:auth => "lord").first.blog
+  end
+
+  #All editable blogs, lord > founder > member > follower
   def blogs
     followings.excludes(:auth => "follower").sort do |a, b|
       next 0 if a.auth == b.auth
@@ -112,14 +117,7 @@ class User
     end.map {|f| f.blog}
   end
 
-  #owning blog as lord or founder
-  def own?(blog)
-    followings.where(:auth.in => %w"lord founder").any? do |f|
-      f.blog == blog
-    end
-  end
-
-  #subs = subscriptions = follow blogs
+  #All following blogs
   def subs
     #waitting for piginate
     followings.where(:auth => "follower").
