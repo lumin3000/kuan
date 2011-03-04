@@ -12,4 +12,13 @@ class Comment
     :minimum => 1,
     :too_short => "写几个字吧"
 
+  after_create :notify_watchers
+
+  protected
+  
+  def notify_watchers
+    unless self.post.nil?
+      self.post.notify_watchers self
+    end
+  end
 end

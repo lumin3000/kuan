@@ -54,6 +54,20 @@ class Post
     self.author == user || user.own?(self.blog)
   end
 
+  def notify_watchers(comment)
+    watchers = self.watchers
+    watchers.delete comment.author
+    watchers.each do |w|
+      w.insert_unread_comments_notices!(self)
+    end
+  end
+
+  def watchers
+    watchers =  self.comments.map {|f| f.author}
+    watchers << self.author
+    watchers.uniq
+  end
+
   private
 
   def posted_to_editable_blogs

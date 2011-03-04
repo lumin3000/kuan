@@ -19,5 +19,4 @@ class CommentsController < ApplicationController
       render "comments/index"
     end
   end
-
 end

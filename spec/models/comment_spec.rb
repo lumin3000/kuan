@@ -15,4 +15,30 @@ describe Comment do
       @comment.should_not be_valid
     end
   end
+
+  describe "notice watchers when usre comment a post" do
+    before :each do
+      @blog = Factory.create(:blog_unique)
+      @user = Factory.create(:user_unique)
+      @user.follow! @blog, "lord"
+      @comment_author = Factory.create(:user_unique)
+      @post = Factory.build(:text)
+      @post.author = @user
+      @post.blog = @blog
+      @post.save!
+    end
+      
+    it "should notice post author" do
+
+      length = @user.unread_comments_notices.length
+      @new_comment = Comment.new
+      @new_comment.post = @post
+      @new_comment.author = @comment_author
+      @new_comment.post.should_not be_nil
+      @new_comment.content = "just content"
+      @post.watchers.should be_include(@user)
+      @new_comment.save.should be_true
+      @user.unread_comments_notices.length.should == length + 1
+    end
+  end
 end

@@ -134,19 +134,33 @@ class User
     f.nil? ? nil : f.auth
   end
 
-  def insert_unread_comments_notices(post)
-    f = comments_notices.where( :post_id => post.id )
-    if(f.length > 0)
-      f.destroy
+  def unread_comments_notices
+    comments_notices.where(:unread => true)
+  end
+  
+  def count_unread_comments_notices
+    unread_comments_notices.count
+  end
+
+  def insert_unread_comments_notices!(post)
+    c = comments_notices.where( :post_id => post.id )
+    if(c.length > 0)
+      c.destroy
     end
     comments_notices << CommentsNotice.new(:post => post)
   end
 
-  def unread_comments_notices
-    comments_notices.where(:unread => true)
+  def read_one_comments_notice!(post)
+    c = comments_notices.where( :post_id => post.id ).first
+    unless c.nil?
+      c.update_attributes :unread => false
+    end
   end
 
   def read_all_comments_notices!
+    unread_comments_notices.each do |c|
+      c.update_attributes( :unread => false )
+    end
   end
 
   private
