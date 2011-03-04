@@ -5,9 +5,6 @@ describe Comment do
     @comment = Factory :comment
   end
 
-  after :each do
-  end
-
   describe "content validations" do
     it "should not blank" do
       @comment.content = nil

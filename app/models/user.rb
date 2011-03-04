@@ -7,7 +7,7 @@ class User
   field :salt
   field :encrypted_password
   embeds_many :followings
-  embeds_many :comment_notices
+  embeds_many :comments_notices
   references_many :posts
 
   attr_accessor :password, :code
@@ -134,6 +134,21 @@ class User
     f.nil? ? nil : f.auth
   end
 
+  def insert_unread_comments_notices(post)
+    f = comments_notices.where( :post_id => post.id )
+    if(f.length > 0)
+      f.destroy
+    end
+    comments_notices << CommentsNotice.new(:post => post)
+  end
+
+  def unread_comments_notices
+    comments_notices.where(:unread => true)
+  end
+
+  def read_all_comments_notices!
+  end
+
   private
 
   def email_downcase
@@ -169,4 +184,5 @@ class User
              (n > max) ? n : max
            end.to_i+1).to_s
   end
+
 end
