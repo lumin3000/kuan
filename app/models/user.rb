@@ -140,6 +140,10 @@ class User
     comments_notices.where(:unread => true)
   end
   
+  def comments_notices_list(pagination)
+    comments_notices.desc(:created_at).paginate(pagination)
+  end
+
   def count_unread_comments_notices
     unread_comments_notices.count
   end

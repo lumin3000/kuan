@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class UsersController < ApplicationController
-  before_filter :signin_auth, :only => [:show, :edit, :update, :followings]
+  before_filter :signin_auth, :only => [:show, :edit, :update, :followings, :buzz, :read_all_comments_notices]
   before_filter :signup_auth, :only => [:new, :create]
 
   SIGNUP_FOLLOW_BLOGS = %w[kuaniao]
@@ -53,6 +53,21 @@ class UsersController < ApplicationController
       cond = {:blog_id.in => sub_id_list}
     end
     @posts = Post.desc(:created_at).where(cond).paginate(pagination)
+    @unread_comments_notices = current_user.count_unread_comments_notices
+  end
+
+  def buzz
+    pagination = {
+      :page => params[:page] || 1,
+      :per_page => 2,
+    }
+    @buzz_list = current_user.comments_notices_list(pagination)
+    @unread_count = current_user.unread_comments_notices
+  end
+
+  def read_all_comments_notices
+    current_user.read_all_comments_notices!
+    redirect_to home_path
   end
 
   def edit

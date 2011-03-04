@@ -7,19 +7,37 @@ describe CommentsNotice do
     @user = Factory.build(:user_unique, :followings => [@following] )
 
     # @post = Factory.build(:post, :author => @user, :blog => @blog)
-    @post = Post.new
-
+    @post = Factory.build(:text)
     @comments_notice = Factory.build(:comments_notice, :post => @post)
     @read_comments_notice = Factory.build(:read_comments_notice, :post => @post)
     # @comment.post = @post
   end
-
 
   describe "unread comments notices list" do
     it "should get unread comments notices" do
       @user.comments_notices = [@comments_notice, @read_comments_notice]
       @user.unread_comments_notices.length.should == 1
     end
+  end
+
+  describe "given comments notices list" do
+    before :each do
+      @user.insert_unread_comments_notices!(@post)
+      @new_post = Factory.build(:text)
+      @user.save!
+      @user.insert_unread_comments_notices!(@new_post)
+      @user.save!
+      @pagination = {
+        :page => 1,
+        :per_page => 999,
+      }
+    end
+
+    # it "should order in desc" do
+    #   @user.reload
+    #   @user.comments_notices.first.post.should == @post
+    #   @user.comments_notices_list(@pagination)[0].post.should == @new_post
+    # end
   end
 
   describe "count unread comments notices" do
