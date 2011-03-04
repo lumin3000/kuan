@@ -66,6 +66,10 @@ class Blog
     %(follower) == auth_for(user)
   end
 
+  def unfollowed?(user)
+    auth_for(user).blank?
+  end
+
   def edited?(user)
     %w[lord founder member].include? auth_for(user)
   end

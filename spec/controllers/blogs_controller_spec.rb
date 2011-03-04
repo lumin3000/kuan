@@ -201,9 +201,11 @@ describe BlogsController do
     it "should add followers" do
       controller.sign_in @user
       post :follow_toggle, :id => @blog.id
-      controller.should be_follow @blog
+      @user.reload
+      @blog.should be_followed @user
       post :follow_toggle, :id => @blog.id
-      controller.should_not be_follow @blog
+      @user.reload
+      @blog.should_not be_followed @user
     end
   end
 end
