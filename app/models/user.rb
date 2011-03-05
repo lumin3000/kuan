@@ -101,12 +101,6 @@ class User
     followings.where(:blog_id => blog._id).destroy
   end
 
-  #Messages
-
-  def receive_message(message)
-    messages << message 
-  end
-
   #Getting user's blogs 
 
   #The user should have and only have one primary blog
@@ -140,6 +134,27 @@ class User
     f = followings.where(:blog_id => blog._id).first
     f.nil? ? nil : f.auth
   end
+
+  #Messages operations
+
+  MESSAGES_LIMIT = 100
+  def receive_message!(message)
+    messages.where(:sender_id => message.sender.id,
+                   :blog_id => message.blog.id,
+                   :type => message.type).destroy
+    messages << message
+    messages.first.delete if messages.length > MESSAGES_LIMIT
+  end
+
+  def read_message!(message)
+    messages.find(message.id).update_attributes :unread => false
+  end
+
+  def read_all_messages!
+    messages.each {|m| read_message! m}
+  end
+
+  #Comments' notices operations
 
   def unread_comments_notices
     comments_notices.where(:unread => true)

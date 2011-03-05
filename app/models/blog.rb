@@ -98,7 +98,7 @@ class Blog
                           :blog => self,
                           :type => "join") 
     founders.each do |founder|
-      founder.receive_message message
+      founder.receive_message! message
     end
     true
   end

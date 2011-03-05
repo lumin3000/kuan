@@ -108,7 +108,6 @@ describe CommentsNotice do
       @post_more = Factory.build(:text)
       @user.insert_unread_comments_notices!(@post_more)
       @length_more = @user.comments_notices.length
-
     end
     
     it "should not save more than 100 comments notices" do
