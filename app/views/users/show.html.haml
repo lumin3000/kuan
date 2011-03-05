@@ -37,6 +37,7 @@
               %span.new
                 = "(#{@unread_comments_notices}新)"
             我的回复
+      %hr
     .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
       %a.selector{href: "/home/#{@blog.uri}"}
         = @blog.title

@@ -562,6 +562,9 @@ K.tgt.comments = function(){
                 if(comments_el.getElement('[name=count]').value > 0){
                     container.getElement('.reply').innerHTML = comments_el.getElement('[name=count]').value
                 }
+                if(comments_target.getParent('.new_reply')){
+                    comments_target.getParent('.new_reply').removeClass('new_reply')
+                }
                 lock = false
             }
         }).send()
