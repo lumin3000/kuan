@@ -44,8 +44,9 @@ class Blog
     end
   end
 
+  alias_method :old_icon_get, :icon
   def icon
-    @icon || Image.create_from_default(DEFAULT_ICONS)
+    old_icon_get || Image.create_from_default(DEFAULT_ICONS)
   end
 
   def followers_count

@@ -47,7 +47,9 @@ describe Blog do
     end
 
     it "should use the set icon" do
-      @blog.icon = Image.new
+      @blog.icon = Image.create!
+      @blog.save!
+      @blog.reload
       @blog.icon.url_for(:large).should_not == "/images/default_icon_large.gif"
     end
   end
