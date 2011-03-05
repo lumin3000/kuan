@@ -11,7 +11,7 @@
   %h1<
     回复&nbsp;
     - if @unread_count > 0
-      %a{ :href => "/readall", :data => { :widget => "del",
+      %a{ :href => "/buzz/readall", :data => { :widget => "rest", :md => "put",
       :callback => "redirect" } }<
         全部标识为已读
     

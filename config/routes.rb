@@ -30,7 +30,7 @@ Kuan::Application.routes.draw do
   get '/followings', :to => 'users#followings'
   get '/buzz', :to => 'users#buzz'
   get '/buzz/page/:page', :to => 'users#buzz', :page => /\d+/
-  delete '/readall', :to => 'users#read_all_comments_notices'
+  put '/buzz/readall', :to => 'users#read_all_comments_notices'
 
 
   get '/signin', :to => 'sessions#new'

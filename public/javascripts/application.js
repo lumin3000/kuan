@@ -423,39 +423,49 @@ document.addEvent('domready', function(){
   })
 })
 
-K.widgets.del = function() {
+K.widgets.rest = function() {
   var callbackDict = {
     redirect: function(response) {
       var target = response && response.location
       if (target) window.location = target
+    },
+    del: function(response, el){
+      var parent = el.getParent('.'+el.get('data-parent'))
+      parent && parent.destroy()
     }
   }
 
   return function(el){
     var callback = callbackDict[el.get('data-callback') || "default"]
-      , method = el.get('data-method') || 'delete'
+      , method = el.get('data-md') || 'post'
     el.addEvent('click', function(e){
       e.stop()
       var link = el.get('href')
-      var parent = el.getParent('.'+el.get('data-parent'))
       new Request.JSON({
         url: link,
         method: method,
         onSuccess: function(response){
           if (callback) {
-            callback(response)
+            callback(response, el)
           } else {
-            parent && parent.destroy()
+            alert('操作成功')
           }
         },
         onFailure: function(){
-          alert('删除失败')
+          alert('操作失败')
         }
       }).send()
     })
   }
 }()
-
+/*
+K.widgets.del = (function(){
+    return function(el){
+        K.widgets.rest(el, function(){
+        })
+    }
+})()
+*/
 K.widgets.sugar = (function(){
     var init_flag = false;
     function init(){

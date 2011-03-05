@@ -3,7 +3,7 @@
   .content_head
     - if @user && post.editable_by?(@user)
       %a.remove{ :href => "/posts/#{post.id}", :title => '删除',
-        :data => { :widget => "del", :parent => "tar_post" }}<
+        :data => { :widget => "rest", :callback => "del", :md => "delete", :parent => "tar_post" }}<
         删除
       = link_to "编辑", "/posts/#{post.id}/edit", :class => 'edit', :title => '编辑'
   .content_body
