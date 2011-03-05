@@ -59,7 +59,7 @@ class UsersController < ApplicationController
   def buzz
     pagination = {
       :page => params[:page] || 1,
-      :per_page => 2,
+      :per_page => 10,
     }
     @buzz_list = current_user.comments_notices_list(pagination)
     @unread_count = current_user.unread_comments_notices

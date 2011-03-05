@@ -94,21 +94,36 @@ describe CommentsNotice do
     end
   end
 
-  describe "comments post" do
+  describe "limit user comments notices in database" do
     before :each do
+      @post_first = Factory.build(:text)
+      @user.insert_unread_comments_notices!(@post_first)
+      @length1 = @user.comments_notices.length
+      98.times do |i|
+        @user.insert_unread_comments_notices!(Factory.build(:text))
+      end
+      @length99 = @user.comments_notices.length
+      @user.insert_unread_comments_notices!(Factory.build(:text))
+      @length100 = @user.comments_notices.length
+      @post_more = Factory.build(:text)
+      @user.insert_unread_comments_notices!(@post_more)
+      @length_more = @user.comments_notices.length
+
+    end
+    
+    it "should not save more than 100 comments notices" do
+      @length1.should == 1
+      @length99.should == 99
+      @length100.should == 100
+      @length_more.should == 100
     end
 
-    it "should notice post auther" do
-      @comment = Factory.build :comment
+    it "should remove first comments notice" do
+      @user.comments_notices.first.post.should_not == @post_first
     end
 
-    it "should notice other users who commented before" do
-    end
-
-    it "should not notice self" do
-    end
-
-    it "should not notice more than once" do
+    it "should include last comments notice" do
+      @user.comments_notices.last.post.should == @post_more
     end
   end
 end
