@@ -10,6 +10,7 @@ class User
   embeds_many :followings
   embeds_many :comments_notices
   index "followings.blog_id"
+  embeds_many :messages
   references_many :posts, :index => true
 
   attr_accessor :password, :code
@@ -98,6 +99,12 @@ class User
 
   def unfollow!(blog)
     followings.where(:blog_id => blog._id).destroy
+  end
+
+  #Messages
+
+  def receive_message(message)
+    messages << message 
   end
 
   #Getting user's blogs 

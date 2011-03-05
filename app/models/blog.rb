@@ -8,11 +8,12 @@ class Blog
   referenced_in :icon, :class_name => 'Image'
   field :primary, :type => Boolean, :default => false
   field :private, :type => Boolean, :default => false
+  field :canjoin, :type => Boolean, :default => false
 
   references_many :followings
   references_many :posts, :index => true
 
-  attr_accessible :uri, :title, :icon, :private
+  attr_accessible :uri, :title, :icon, :private, :canjoin
 
   validates_presence_of :title,
   :message => "请输入页面名字"
@@ -33,6 +34,9 @@ class Blog
   validates_uniqueness_of :uri,
   :case_sensitive => false,
   :message => "此链接已被使用"
+  validate do |blog|
+    errors.add(:base, "默认主页不可以被申请加入") if blog.primary? and blog.canjoin?
+  end
 
   DEFAULT_ICONS = {:large => "/images/default_icon_large.gif",
     :medium => "/images/default_icon_medium.gif",
@@ -59,6 +63,11 @@ class Blog
                          :limit=>200).to_a
   end
 
+  def founders
+    User.collection.find({"followings" => {"$elemMatch"=> {"blog_id"=>id,"auth"=>"founder"}}},
+                         :sort=>[["followings.created_at", -1]]).to_a
+  end
+
   def total_post_num
     Post.where(:blog_id => id).count
   end
@@ -81,6 +90,17 @@ class Blog
 
   def open_to?(user)
     not self.private or edited?(user)
+  end
+
+  def applied(sender)
+    return false unless canjoin?
+    message = Message.new(:sender => sender,
+                          :blog => self,
+                          :type => "join") 
+    founders.each do |founder|
+      founder.receive_message message
+    end
+    true
   end
 
   def to_param

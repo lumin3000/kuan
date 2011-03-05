@@ -9,7 +9,7 @@ describe Blog do
 
   after :each do
     Blog.delete_all
-  end 
+  end
 
   describe "uri validation" do
     it "should reject unvalid uri" do
@@ -38,7 +38,7 @@ describe Blog do
       @blog.should be_valid
       @blog.uri = "valid-uri"
       @blog.should be_valid
-    end 
+    end
   end
 
   describe "default icon" do
@@ -61,19 +61,19 @@ describe Blog do
     end
   end
 
-  describe "find_by_uri" do
-    it "should find the correct blog" do
-      Blog.find_by_uri!(@blog.uri).should == @blog
+  describe "canjoin validation" do
+    it "should not be joined for primary blog" do
+      user = Factory :user
+      blog = user.create_primary_blog!
+      blog.canjoin = true
+      blog.should_not be_valid
+      user.delete
     end
   end
 
-  describe "Following logic" do
-    describe "Given a blog which is primary" do
-      before :all do
-        @user = Factory :user, :name => "peanucock", :email => Factory.next(:email)
-        @primary_blog = @user.create_primary_blog!
-        @guest = Factory :user, :name => "passenger", :email => Factory.next(:email)
-      end
+  describe "find_by_uri" do
+    it "should find the correct blog" do
+      Blog.find_by_uri!(@blog.uri).should == @blog
     end
   end
 
