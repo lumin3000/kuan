@@ -44,16 +44,16 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
     if(@post.nil? || !(@post.editable_by? @user))
-      render :text => {
-        status: "error",
-        message: "删除失败"
-      }.to_json
+      respond_to do |format|
+        format.json {render :status => 403, :nothing => true}
+      end
       return
     end
+    blog = @post.blog
     @post.destroy
-    render :text => {
-      status: "success"
-    }.to_json
+    respond_to do |format|
+      format.json { render :text => {status: "success", location: root_url}.to_json }
+    end
   end
 
   private

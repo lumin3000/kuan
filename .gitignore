@@ -19,3 +19,4 @@ doc/app
 /Gemfile.lock
 
 /public/stylesheets/*.css
+.sass-cache

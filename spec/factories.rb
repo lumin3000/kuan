@@ -27,32 +27,38 @@ Factory.sequence :uri do |u|
   "bloguri-#{u}"
 end
 
-Factory.define :following do |f|
-  f.auth "member"
-  f.association :blog
+Factory.define :blog_unique, :parent => :blog do |blog|
+  blog.uri { Factory.next(:uri) }
 end
 
-Factory.define :blog_primary, :class => :blog do |p|
-  p.uri Factory.next(:uri)
+Factory.define :following do |f|
+  f.auth "member"
+  f.association :blog, :factory => :blog_unique
+end
+
+Factory.define :blog_primary, :parent => :blog_unique do |p|
   p.title "我的博客"
   p.primary true
 end
 
-Factory.define :blog_other, :class => :blog do |p|
-  p.uri Factory.next(:uri)
+Factory.define :blog_other, :parent => :blog_unique do |p|
   p.title "子博客"
   p.primary false
 end
 
 Factory.define :following_lord, :parent => :following do |p|
   p.auth "lord"
-  p.association :blog
 end
 
-Factory.define :user2, :class => :user do |user|
+Factory.define :user_unique, :class => :user do |user|
   user.name "testuser"
-  user.email Factory.next(:email)
+  user.email { Factory.next(:email) }
   user.password "foobar"
   user.password_confirmation "foobar"
-  user.followings {|items| [items.association(:blog_primary), items.association(:blog_other)]}
+  #user.followings {|items| [items.association(:blog_primary), items.association(:blog_other)]}
 end
+
+Factory.define :user_with_blogs, :parent => :user_unique do |user|
+  user.followings {|items| [items.association(:following_lord)]}
+end
+

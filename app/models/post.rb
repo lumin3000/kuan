@@ -6,9 +6,10 @@ class Post
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  referenced_in :blog
-  referenced_in :author, :class_name => 'User'
+  referenced_in :blog, :index => true
+  referenced_in :author, :class_name => 'User', :index => true
   embeds_many :comments
+  index :created_at
 
   attr_accessible :blog, :author, :author_id, :blog_id, :created_at, :comments
 
@@ -69,6 +70,7 @@ class Post
     N = Nokogiri::XML::Node
 
     def tag_filter(content)
+      return nil if content.blank?
       raise "Expecting a string" unless content.kind_of? String
       tree = Nokogiri::HTML.fragment(content)
       tree.traverse do |n|
@@ -114,7 +116,22 @@ class Post
   end
 
   def editable_by?(user)
-    self.author == user || user.own?(self.blog)
+    return false if user.nil?
+    author == user || blog.customed?(user)
+  end
+
+  def notify_watchers(comment)
+    watchers = self.watchers
+    watchers.delete comment.author
+    watchers.each do |w|
+      w.insert_unread_comments_notices!(self)
+    end
+  end
+
+  def watchers
+    watchers =  self.comments.map {|f| f.author}
+    watchers << self.author
+    watchers.uniq
   end
 
   private

@@ -1,0 +1,30 @@
+- content_for :head do
+  = stylesheet_link_tag 'post_display', 'dashboard', 'buzz'
+
+.header
+  %a.logo{href: "/home"}
+  .navigator
+    %a.back_to_home{href: fucking_root}
+      回我的主页
+
+.reply_list
+  %h1<
+    我的回复&nbsp;
+    %a{ :href => "/readall", :data => { :widget => "del",
+    :callback => "redirect" } }<
+      全部标识为已读
+    
+  .timeline{ :data => { :widget => "sugar" } }
+    - @buzz_list.each do |b|
+      - if p = b.post
+        .article{ :class => (b.unread? ? "new_reply" : "") }
+          .avatar
+            .image<
+              %a{href: blog_path(p.blog)}<
+                =image_tag p.blog.icon.url_for(:medium)
+            %div<
+              %a.page_name{href: blog_path(p.blog)}= p.blog.title
+          .content= render_post p
+  = pagination(@buzz_list)
+
+= render :partial => 'shared/footer'

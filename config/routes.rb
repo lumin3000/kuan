@@ -28,6 +28,10 @@ Kuan::Application.routes.draw do
   get '/home/:uri/page/:page', :to => 'users#show', :page => /\d+/
 
   get '/followings', :to => 'users#followings'
+  get '/buzz', :to => 'users#buzz'
+  get '/buzz/page/:page', :to => 'users#buzz', :page => /\d+/
+  delete '/readall', :to => 'users#read_all_comments_notices'
+
 
   get '/signin', :to => 'sessions#new'
   get '/signout', :to => 'sessions#destroy'

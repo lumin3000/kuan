@@ -2,7 +2,7 @@
 class BlogsController < ApplicationController
   before_filter :signin_auth, :except => [:show]
   before_filter :custom_auth, :only => [:edit, :update]
-  before_filter :find_by_uri, :only => [:followers, :update]
+  before_filter :find_by_uri, :only => [:followers, :show]
 
   def new
     @blog = Blog.new
@@ -33,22 +33,23 @@ class BlogsController < ApplicationController
   end
 
   def show
-    find_by_uri request.subdomain
+    find_by_uri
     render 'shared/404', :status => 404, :layout => false and return if @blog.nil?
     if not @blog.open_to?(current_user)
       render 'shared/403', :status => 403, :layout => false and return
     end
     post_id = params[:post_id]
     @single_post = ! post_id.nil?
-    if post_id.nil?
+    if !@single_post
       @posts = Post.desc(:created_at).where({:blog_id => @blog.id})
         .paginate({
-          :page => params[:page] || 1,
-          :per_page => 10,
-        })
+                    :page => params[:page] || 1,
+                    :per_page => 10,
+                  })
 
     else
       @posts = [Post.find(post_id)]
+      @post = @posts.first
     end
     render :layout => false
   end
@@ -60,11 +61,11 @@ class BlogsController < ApplicationController
   def follow_toggle
     @blog = Blog.find params[:id]
     render 'shared/404', :status => 404 and return if @blog.nil?
-    if follow?(@blog)
-      @user.unfollow!(@blog)
+    if @blog.followed? current_user
+      current_user.unfollow! @blog
       now_follow = false
-    else
-      @user.follow!(@blog)
+    elsif @blog.unfollowed? current_user
+      current_user.follow! @blog
       now_follow = true
     end
     respond_to do |format|
@@ -76,7 +77,7 @@ class BlogsController < ApplicationController
 
   def custom_auth
     find_by_uri
-    redirect_to home_path unless custom_auth? @blog
+    redirect_to home_path unless @blog.customed? current_user
   end
 
   def find_by_uri(uri = nil)

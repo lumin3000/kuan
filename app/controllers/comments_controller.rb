@@ -4,8 +4,7 @@ class CommentsController < ApplicationController
 
   def index
     @post = Post.find(params[:post_id])
-    puts params[:post_id]
-    puts @post.comments
+    current_user.read_one_comments_notice! @post
   end
 
   def create
@@ -19,5 +18,4 @@ class CommentsController < ApplicationController
       render "comments/index"
     end
   end
-
 end

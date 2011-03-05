@@ -4,10 +4,13 @@ class User
   include Mongoid::Timestamps
   field :name
   field :email
+  index :email, :unique => true
   field :salt
   field :encrypted_password
   embeds_many :followings
-  references_many :posts
+  embeds_many :comments_notices
+  index "followings.blog_id"
+  references_many :posts, :index => true
 
   attr_accessor :password, :code
   attr_accessible :name, :email, :password, :password_confirmation
@@ -42,10 +45,6 @@ class User
   
   before_save :email_downcase
 
-  def has_password?(password)
-    encrypted_password == encrypt(password)
-  end
-
   class << self
     def authenticate(email, password)
       user  = User.where(:email => email).first
@@ -67,10 +66,16 @@ class User
     end
   end
 
+  def has_password?(password)
+    encrypted_password == encrypt(password)
+  end
+
   #invitation code
   def inv_code
     _id.to_s.to_i(16).to_s(32)
   end
+
+  #user and blog's relationships
 
   #primary blog = user's default blog
   def create_primary_blog!
@@ -82,12 +87,8 @@ class User
     blog
   end
 
-  def primary_blog
-    followings.where(:auth => "lord").first.blog
-  end
-
   def follow!(blog, auth="follower")
-    f = followings.where(:blog_id => blog._id).first
+    f = followings.where(:blog_id => blog.id).first
     if f.nil?
       followings << Following.new(:blog => blog, :auth => auth)
     else
@@ -99,7 +100,14 @@ class User
     followings.where(:blog_id => blog._id).destroy
   end
 
-  #all editable blogs, lord > founder > member > follower
+  #Getting user's blogs 
+
+  #The user should have and only have one primary blog
+  def primary_blog
+    followings.where(:auth => "lord").first.blog
+  end
+
+  #All editable blogs, lord > founder > member > follower
   def blogs
     followings.excludes(:auth => "follower").sort do |a, b|
       next 0 if a.auth == b.auth
@@ -109,14 +117,7 @@ class User
     end.map {|f| f.blog}
   end
 
-  #owning blog as lord or founder
-  def own?(blog)
-    followings.where(:auth.in => %w"lord founder").any? do |f|
-      f.blog == blog
-    end
-  end
-
-  #subs = subscriptions = follow blogs
+  #All following blogs
   def subs
     #waitting for piginate
     followings.where(:auth => "follower").
@@ -131,6 +132,39 @@ class User
   def auth_for(blog)
     f = followings.where(:blog_id => blog._id).first
     f.nil? ? nil : f.auth
+  end
+
+  def unread_comments_notices
+    comments_notices.where(:unread => true)
+  end
+  
+  def comments_notices_list(pagination)
+    comments_notices.desc(:created_at).paginate(pagination)
+  end
+
+  def count_unread_comments_notices
+    unread_comments_notices.count
+  end
+
+  def insert_unread_comments_notices!(post)
+    c = comments_notices.where( :post_id => post.id )
+    c.destroy if c.length > 0
+    comments_notices.shift if comments_notices.length > 99
+    
+    comments_notices << CommentsNotice.new(:post => post)
+  end
+
+  def read_one_comments_notice!(post)
+    c = comments_notices.where( :post_id => post.id ).first
+    unless c.nil?
+      c.update_attributes :unread => false
+    end
+  end
+
+  def read_all_comments_notices!
+    unread_comments_notices.each do |c|
+      c.update_attributes( :unread => false )
+    end
   end
 
   private
@@ -168,4 +202,5 @@ class User
              (n > max) ? n : max
            end.to_i+1).to_s
   end
+
 end

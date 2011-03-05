@@ -2,9 +2,10 @@
 %div[post]{:class => type}
   .content_head
     - if @user && post.editable_by?(@user)
-      %a.remove{ :href => "/posts/#{post.id}", :data => { :widget => "del", :parent => "tar_post" }}<
+      %a.remove{ :href => "/posts/#{post.id}", :title => '删除',
+        :data => { :widget => "del", :parent => "tar_post" }}<
         删除
-      = link_to "编辑", "/posts/#{post.id}/edit", :class => 'edit'
+      = link_to "编辑", "/posts/#{post.id}/edit", :class => 'edit', :title => '编辑'
   .content_body
     = render partial: sub_template, object: post
   .content_footer
@@ -16,4 +17,5 @@
     .right
       %a.reply{ :href => "/posts/#{post.id}/comments", :data => { :tgt => "comments" } }<
         = post.comments.count == 0 ? " " : post.comments.count
-      %a.open{ :href => blog_path(post.blog) + "post/#{post.id}", :target => "_blank" }
+      %a.open{ :href => blog_path(post.blog) + "post/#{post.id}", :target => "_blank",
+        title: '展开' }

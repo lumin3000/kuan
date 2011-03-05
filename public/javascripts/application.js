@@ -423,29 +423,38 @@ document.addEvent('domready', function(){
   })
 })
 
-K.widgets.del = function(el){
+K.widgets.del = function() {
+  var callbackDict = {
+    redirect: function(response) {
+      var target = response && response.location
+      if (target) window.location = target
+    }
+  }
+
+  return function(el){
+    var callback = callbackDict[el.get('data-callback') || "default"]
+      , method = el.get('data-method') || 'delete'
     el.addEvent('click', function(e){
-        var el = this
-        var link = el.get('href')
-        var parent = el.getParent('.'+el.get('data-parent'))
-        new Request.JSON({
-            url: link,
-            method: 'delete',
-            data: {},
-            onSuccess: function(result){
-                if(result.status == 'success'){
-                    parent.destroy()
-                }else{
-                    alert(result.message)
-                }
-            },
-            onFailure: function(){
-                alert('删除失败')
-            }
-        }).send()
-        e.stop()
+      e.stop()
+      var link = el.get('href')
+      var parent = el.getParent('.'+el.get('data-parent'))
+      new Request.JSON({
+        url: link,
+        method: method,
+        onSuccess: function(response){
+          if (callback) {
+            callback(response)
+          } else {
+            parent && parent.destroy()
+          }
+        },
+        onFailure: function(){
+          alert('删除失败')
+        }
+      }).send()
     })
-}
+  }
+}()
 
 K.widgets.sugar = (function(){
     var init_flag = false;
@@ -552,6 +561,9 @@ K.tgt.comments = function(){
                 comments_target = el
                 if(comments_el.getElement('[name=count]').value > 0){
                     container.getElement('.reply').innerHTML = comments_el.getElement('[name=count]').value
+                }
+                if(comments_target.getParent('.new_reply')){
+                    comments_target.getParent('.new_reply').removeClass('new_reply')
                 }
                 lock = false
             }
