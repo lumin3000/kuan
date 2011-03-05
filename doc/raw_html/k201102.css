@@ -182,8 +182,51 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	background:url('images/post_save.gif');
 }
 
-/******follow and befollow*****/
-.followers .follower, .following .follower{
+/******** .messages ********/
+ .messages .message{
+	width:550px;
+	padding:15px 0 5px 20px;
+	font-size:14px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #cadbea;
+	background:#fff;
+	margin-bottom:30px;
+
+}
+
+.messages .avatar{
+	width:62px;
+	height:62px;
+	float:left;
+        margin-bottom:8px
+}
+
+.messages .avatar_name a{
+    font-weight:bold;
+    color:#f93
+}
+
+.messages .content{
+    margin:0px 100px 10px 75px;
+}
+
+.messages .operation{
+    float:right;
+    width:80px;
+    text-align:right;
+    padding-right:18px;
+    font-size:14px;
+}
+
+.messages .operation a{
+    color:#68879F;
+    text-decoration:underline
+}
+
+/******follow and befollow and members*****/
+.followers .follower, .following .follower, .members .member{
 	width:550px;
 	padding:15px 0 5px 20px;
 	font-size:20px;
@@ -198,12 +241,12 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	
 }
 
-.followers .avatar, .following .avatar {
+.followers .avatar, .following .avatar, .members .avatar{
 	width:62px;
 	height:62px;
 	float:left;
 }
-.followers .avatar .image, .following .avatar .image{
+.members .avatar .image{
 	width:60px;
 	height:60px;
 	border:1px solid gray;
@@ -211,7 +254,7 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	background:url('images/avatar.jpg')
 }
 
-.followers .fo_name, .following .fo_name{
+.followers .fo_name, .following .fo_name, .members .member_name{
 	font-weight:bold;
 	line-height:60px;
 	font-size:14px;
@@ -222,8 +265,22 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	overflow:hidden;
 }
 
-.followers .fo_name a, .following .fo_name a{
+.members .member_name{
+  width:320px
+}
+
+.followers .fo_name a, .following .fo_name a, .members .member_name a{
 	color:#f93;
+}
+
+.members .admin, .members .member_operation, .members .upgrade, .members .kick{
+  font-size:14px;
+  color:#68879F;
+  text-align:center;
+  line-height:70px
+}
+.members .upgrade, .members .kick{
+  text-decoration:underline
 }
 
 .following .btn_unfollow{
@@ -245,6 +302,50 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	cursor:pointer;
 	overflow:hidden;
 }
+/*****new_contributor*****/
+.new_contributor .apply_words{
+	width:550px;
+	padding:10px;
+	font-size:20px;
+	height:180px;
+	line-height:45px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #cadbea;
+	background:#fff;
+	margin-bottom:30px;
+}
+.new_contributor .apply_words textarea{
+  width:550px;
+  height:170px;
+  padding:5px;
+  border:0px;
+  font-size:18px
+}
+
+.new_contributor .submit_box input {
+	display:block;
+	margin:auto;
+	width:150px;
+	height:44px;
+	border:0px;
+	cursor:pointer;
+}
+
+.new_contributor .submit_box input{
+	background:url('images/post_apply.gif');
+}
+
+.new_contributor .new_contributor_processed{
+  font-size:20px;
+  color:#68AADB;
+  margin:80px 0px 120px 0px;
+  line-height:200%
+}
+
+.new_contributor .new_contributor_processed a{text-decoration:underline}
+
 /*****new page and edit page****/
 .new_page .page_name, .new_page .page_url{
 	width:600px;
@@ -698,6 +799,15 @@ form.edit_page .submit_box input{
 	height:14px;
 	background:url('images/icons.gif') -80px 0px;
 	overflow:hidden;
+}
+
+.dashboard .icon_members{
+	display: inline-block;
+	width:14px;
+	height:14px;
+	background:url('images/icons.gif') -180px 0px;
+	overflow:hidden;	
+	
 }
 
 .dashboard .icon_remove{
