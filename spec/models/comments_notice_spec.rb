@@ -5,12 +5,26 @@ describe CommentsNotice do
     @blog = Factory.build(:blog_unique)
     @following = Factory.build(:following_lord, :blog => @blog)
     @user = Factory.build(:user_unique, :followings => [@following] )
-
-    # @post = Factory.build(:post, :author => @user, :blog => @blog)
     @post = Factory.build(:text)
+    @user.save
+    @blog.save
+    @post.author = @user
+    @post.blog = @blog
+    @post.save
+
+    @post_new = Factory.build(:text)
+    @post_new.author = @user
+    @post_new.blog = @blog
+    @post_new.save
+
+    @post_old = Factory.build(:text)
+    @post_old.author = @user
+    @post_old.blog = @blog
+    @post_old.save
+
     @comments_notice = Factory.build(:comments_notice, :post => @post)
     @read_comments_notice = Factory.build(:read_comments_notice, :post => @post)
-    # @comment.post = @post
+    @old_comments_notice = Factory.build(:old_comments_notice, :post => @post_old)
   end
 
   describe "unread comments notices list" do
@@ -22,22 +36,24 @@ describe CommentsNotice do
 
   describe "given comments notices list" do
     before :each do
-      @user.insert_unread_comments_notices!(@post)
-      @new_post = Factory.build(:text)
-      @user.save!
-      @user.insert_unread_comments_notices!(@new_post)
-      @user.save!
+      
+      @user.comments_notices << @old_comments_notice
+      @user.comments_notices << @comments_notice
+
+      @user.save
+      @user.reload
       @pagination = {
         :page => 1,
+        :order => "created_at DESC",
         :per_page => 999,
       }
     end
 
-    # it "should order in desc" do
-    #   @user.reload
-    #   @user.comments_notices.first.post.should == @post
-    #   @user.comments_notices_list(@pagination)[0].post.should == @new_post
-    # end
+    it "should order in desc" do
+      @user.comments_notices.first.post.should == @post_old
+      tmp = @user.comments_notices_list(@pagination)
+      tmp.first.post.should == @post
+    end
   end
 
   describe "count unread comments notices" do
@@ -98,15 +114,18 @@ describe CommentsNotice do
     before :each do
       @post_first = Factory.build(:text)
       @user.insert_unread_comments_notices!(@post_first)
+      @user.reload
       @length1 = @user.comments_notices.length
       98.times do |i|
         @user.insert_unread_comments_notices!(Factory.build(:text))
       end
+      @user.reload
       @length99 = @user.comments_notices.length
       @user.insert_unread_comments_notices!(Factory.build(:text))
+      @user.reload
       @length100 = @user.comments_notices.length
-      @post_more = Factory.build(:text)
-      @user.insert_unread_comments_notices!(@post_more)
+      @user.insert_unread_comments_notices!(@post_new)
+      @user.reload
       @length_more = @user.comments_notices.length
 
     end
@@ -123,26 +142,14 @@ describe CommentsNotice do
     end
 
     it "should include last comments notice" do
-      @user.comments_notices.last.post.should == @post_more
+      @user.comments_notices.last.post.should == @post_new
     end
   end
 
   describe "bind with post" do
     it "related comments notices should not exist after post deleted" do
-      @user.save
-      @blog.save
-      @post.author = @user
-      @post.blog = @blog
-      @post.save
-      @notice = CommentsNotice.new(:post => @post)
-      @user.comments_notices << @notice
-
-      @post_new = Factory.build(:text)
-      @post.author = @user
-      @post.blog = @blog
-      @post_new.save
-      @notice_new = CommentsNotice.new(:post => @post_new)
-      @user.comments_notices << @notice_new
+      @user.insert_unread_comments_notices!(@post)
+      @user.insert_unread_comments_notices!(@post_new)
 
       @user.reload
       @user.comments_notices.length.should == 2

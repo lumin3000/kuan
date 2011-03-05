@@ -66,3 +66,7 @@ end
 Factory.define :read_comments_notice, :parent => :comments_notice do |p|
   p.unread false
 end
+
+Factory.define :old_comments_notice, :parent => :comments_notice do |p|
+  p.created_at 1.hour.ago
+end
