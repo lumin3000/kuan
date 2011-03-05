@@ -10,7 +10,8 @@
 .reply_list
   %h1<
     我的回复&nbsp;
-    %a{ :href => "/readall" }<
+    %a{ :href => "/readall", :data => { :widget => "del",
+    :callback => "redirect" } }<
       全部标识为已读
     
   .timeline{ :data => { :widget => "sugar" } }

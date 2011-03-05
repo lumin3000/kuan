@@ -67,7 +67,9 @@ class UsersController < ApplicationController
 
   def read_all_comments_notices
     current_user.read_all_comments_notices!
-    redirect_to home_path
+    respond_to do |format|
+      format.json { render :text => {status: "success", location: home_path}.to_json }
+    end
   end
 
   def edit

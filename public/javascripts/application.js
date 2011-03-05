@@ -433,13 +433,14 @@ K.widgets.del = function() {
 
   return function(el){
     var callback = callbackDict[el.get('data-callback') || "default"]
-
+      , method = el.get('data-method') || 'delete'
     el.addEvent('click', function(e){
+      e.stop()
       var link = el.get('href')
       var parent = el.getParent('.'+el.get('data-parent'))
       new Request.JSON({
         url: link,
-        method: 'delete',
+        method: method,
         onSuccess: function(response){
           if (callback) {
             callback(response)
@@ -451,7 +452,6 @@ K.widgets.del = function() {
           alert('删除失败')
         }
       }).send()
-      e.stop()
     })
   }
 }()
