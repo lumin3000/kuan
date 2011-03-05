@@ -427,7 +427,7 @@ K.widgets.rest = function() {
   var callbackDict = {
     redirect: function(response) {
       var target = response && response.location
-      if (target) 
+      if (target) window.location = target
     },
     del: function(response, el){
       var parent = el.getParent('.'+el.get('data-parent'))
