@@ -24,6 +24,6 @@
             %div<
               %a.page_name{href: blog_path(p.blog)}= p.blog.title
           .content= render_post p
-  = pagination(@buzz_list, { :per_page => 2 })
+  = pagination(@buzz_list)
 
 = render :partial => 'shared/footer'
