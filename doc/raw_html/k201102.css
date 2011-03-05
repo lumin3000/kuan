@@ -204,8 +204,10 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 }
 
 .messages .avatar_name a{
-    font-weight:bold;
     color:#f93
+}
+.messages .avatar_name{
+	font-weight:bold;
 }
 
 .messages .content{
@@ -223,6 +225,11 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 .messages .operation a{
     color:#68879F;
     text-decoration:underline
+}
+
+.messages div.new div.text{
+	font-weight:bold;
+	
 }
 
 /******follow and befollow and members*****/
