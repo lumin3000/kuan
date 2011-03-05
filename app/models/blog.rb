@@ -92,8 +92,12 @@ class Blog
     not self.private or edited?(user)
   end
 
+  def applied?(user)
+    not primary? and canjoin? and not edited?(user)
+  end
+
   def applied(sender)
-    return false unless canjoin?
+    return false unless applied? sender
     message = Message.new(:sender => sender,
                           :blog => self,
                           :type => "join") 
