@@ -18,6 +18,9 @@ class Post
 
   validate :posted_to_editable_blogs, :if => :new_record?
 
+  before_destroy :clean_comments_notices
+
+
   def haml_object_ref
     "post"
   end
@@ -135,6 +138,13 @@ class Post
   end
 
   private
+
+  def clean_comments_notices
+    watchers.each do |u|
+      u.comments_notices.destroy_all(:conditions => { :post_id => self.id })
+    end
+  end
+
 
   def posted_to_editable_blogs
     return if author_id.nil? || blog_id.nil?

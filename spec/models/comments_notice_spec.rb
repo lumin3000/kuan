@@ -126,4 +126,30 @@ describe CommentsNotice do
       @user.comments_notices.last.post.should == @post_more
     end
   end
+
+  describe "bind with post" do
+    it "related comments notices should not exist after post deleted" do
+      @user.save
+      @blog.save
+      @post.author = @user
+      @post.blog = @blog
+      @post.save
+      @notice = CommentsNotice.new(:post => @post)
+      @user.comments_notices << @notice
+
+      @post_new = Factory.build(:text)
+      @post.author = @user
+      @post.blog = @blog
+      @post_new.save
+      @notice_new = CommentsNotice.new(:post => @post_new)
+      @user.comments_notices << @notice_new
+
+      @user.reload
+      @user.comments_notices.length.should == 2
+      @post.destroy
+      @user.reload
+      @user.comments_notices.length.should == 1
+
+    end
+  end
 end
