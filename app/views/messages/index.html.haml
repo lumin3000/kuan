@@ -1,0 +1,33 @@
+- content_for :head do
+  = stylesheet_link_tag 'dashboard'
+
+.header
+  %a.logo{href: "/home"}
+  .navigator
+    %a.back_to_home{href: fucking_root}
+      回我的主页
+
+.messages
+  %h1= %(共#{@unread_count}条新消息)
+  - @messages.each do |m|
+    .message{class: (m.unread? ? "new" : "")}
+      .avatar
+        %a{href: blog_path(m.sender.primary_blog)}<
+          =image_tag m.sender.icon.url_for :medium
+      .operation
+        - if m.done?
+          %div 已通过
+        - elsif m.ignored?
+          %div 已忽略
+        - else
+          %div
+            %a{href: "/messages/#{m.id}/done", data: {method: "put", remote: "true"}} 通过
+          %div
+            %a{href: "/messages/#{m.id}/ignore", data: {method: "put", remote: "true"}} 忽略
+      .content
+        .avatar_name 
+          %a{href: blog_path(m.sender.primary_blog)}= m.sender.name
+        .text= %(申请加入#{m.blog.title})
+        .clear_fix
+  = pagination(@messages)    
+= render :partial => 'shared/footer'

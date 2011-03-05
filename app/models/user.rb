@@ -108,6 +108,10 @@ class User
     followings.where(:auth => "lord").first.blog
   end
 
+  def icon
+    primary_blog.icon
+  end
+
   #All editable blogs, lord > founder > member > follower
   def blogs
     followings.excludes(:auth => "follower").sort do |a, b|

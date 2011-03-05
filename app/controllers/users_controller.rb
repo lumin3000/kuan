@@ -72,15 +72,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def messages
-    pagination = {
-      :page => params[:page] || 1,
-      :per_page => 10,
-    }
-    @messages = current_user.messages.reverse.paginate pagination
-    @unread_count = current_user.messages.unreads.count
-  end
-
   def edit
     render :layout => "account"
   end

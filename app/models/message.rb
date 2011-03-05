@@ -3,6 +3,7 @@ class Message
   field :type
   field :unread, :type => Boolean, :default => true
   field :done, :type => Boolean, :default => false
+  field :ignored, :type => Boolean, :default => false
   field :sender_id
   referenced_in :blog
   embedded_in :user, :inverse_of => :messages
