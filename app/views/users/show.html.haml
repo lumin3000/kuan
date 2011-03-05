@@ -33,10 +33,10 @@
           %span.icon_reply<
             &nbsp;
           %span.text_follow<
-            - if @unread_comments_notices > 0
+            - if @count_unread_comments_notices > 0
               %span.new
-                = "(#{@unread_comments_notices}新)"
-            我的回复
+                = "(#{@count_unread_comments_notices}新)"
+            回复
       %hr
     .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
       %a.selector{href: "/home/#{@blog.uri}"}

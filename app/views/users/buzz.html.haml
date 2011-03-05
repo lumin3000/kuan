@@ -9,10 +9,11 @@
 
 .reply_list
   %h1<
-    我的回复&nbsp;
-    %a{ :href => "/readall", :data => { :widget => "del",
-    :callback => "redirect" } }<
-      全部标识为已读
+    回复&nbsp;
+    - if @unread_count > 0
+      %a{ :href => "/readall", :data => { :widget => "del",
+      :callback => "redirect" } }<
+        全部标识为已读
     
   .timeline{ :data => { :widget => "sugar" } }
     - @buzz_list.each do |b|

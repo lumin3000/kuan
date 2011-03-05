@@ -53,7 +53,7 @@ class UsersController < ApplicationController
       cond = {:blog_id.in => sub_id_list}
     end
     @posts = Post.desc(:created_at).where(cond).paginate(pagination)
-    @unread_comments_notices = current_user.count_unread_comments_notices
+    @count_unread_comments_notices = current_user.count_unread_comments_notices
   end
 
   def buzz
@@ -62,7 +62,7 @@ class UsersController < ApplicationController
       :per_page => 10,
     }
     @buzz_list = current_user.comments_notices_list(pagination)
-    @unread_count = current_user.unread_comments_notices
+    @unread_count = current_user.count_unread_comments_notices
   end
 
   def read_all_comments_notices
