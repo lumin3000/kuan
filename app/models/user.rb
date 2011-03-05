@@ -149,7 +149,7 @@ class User
   def insert_unread_comments_notices!(post)
     c = comments_notices.where( :post_id => post.id )
     c.destroy if c.length > 0
-    comments_notices.shift if comments_notices.length > 99
+    comments_notices.first.delete if comments_notices.length > 99
     
     comments_notices << CommentsNotice.new(:post => post)
   end
