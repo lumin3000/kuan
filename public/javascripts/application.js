@@ -427,7 +427,7 @@ K.widgets.rest = function() {
   var callbackDict = {
     redirect: function(response) {
       var target = response && response.location
-      if (target) window.location = target
+      if (target) 
     },
     del: function(response, el){
       var parent = el.getParent('.'+el.get('data-parent'))
@@ -458,14 +458,7 @@ K.widgets.rest = function() {
     })
   }
 }()
-/*
-K.widgets.del = (function(){
-    return function(el){
-        K.widgets.rest(el, function(){
-        })
-    }
-})()
-*/
+
 K.widgets.sugar = (function(){
     var init_flag = false;
     function init(){
