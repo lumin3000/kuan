@@ -18,7 +18,7 @@
   .timeline{ :data => { :widget => "sugar" } }
     - @buzz_list.each do |b|
       - if p = b.post
-        .article{ :class => (b.unread? ? "new_reply" : "") }
+        .article.tar_post{ :class => (b.unread? ? "new_reply" : "") }
           .avatar
             .image<
               %a{href: blog_path(p.blog)}<
