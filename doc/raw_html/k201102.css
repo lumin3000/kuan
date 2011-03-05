@@ -762,7 +762,7 @@ form.edit_page .submit_box input{
 	background:url('images/icons.gif') -20px 0px;
 	overflow:hidden;	
 }
-.dashboard .text_follow{
+.dashboard .text_follow, .dashboard .text_reply, .dashboard .text_message{
 		display: inline-block;
 		width:134px;
 		line-height:14px;
@@ -797,6 +797,14 @@ form.edit_page .submit_box input{
 	width:14px;
 	height:14px;
 	background:url('images/icons.gif') -60px 0px;
+	overflow:hidden;
+}
+
+.dashboard .icon_message{
+	display: inline-block;
+	width:14px;
+	height:14px;
+	background:url('images/icons.gif') -180px -20px;
 	overflow:hidden;
 }
 	
@@ -860,12 +868,12 @@ form.edit_page .submit_box input{
 	margin-left:-18px;
 	margin-bottom:10px;
 }
-.dashboard .dash_operation .my_reply{
+.dashboard .dash_operation .my_reply, .dashboard .dash_operation .my_message{
 	margin-bottom:10px;
 	margin-top:10px;
 }
 
-.dashboard .dash_operation .my_reply .new{
+.dashboard .dash_operation .my_reply .new, .dashboard .dash_operation .my_message .new{
 	color:#ff9933;
 }
 
