@@ -95,6 +95,18 @@ describe "Following" do
       @blog.followers.should include userf
     end
 
+    it "should give the right founders" do
+      @user.follow! @blogf, "founder"
+      @user.reload
+      @blogf.founders.should include @user
+    end
+
+    it "should give the right members" do
+      @user.follow! @blogf, "member"
+      @user.reload
+      @blogf.members.should include @user
+    end
+
   end
 
   describe "user unfollowing" do
