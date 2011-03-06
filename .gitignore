@@ -15,6 +15,7 @@ tmp/*
 doc/api
 doc/app
 .autotest
+.watchr
 
 /Gemfile.lock
 
