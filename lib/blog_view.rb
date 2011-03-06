@@ -1,7 +1,14 @@
+module ObjectView
+  def self.wrap(obj)
+    view_class = (obj.class.name + "View").constantize
+    view_class.new(obj)
+  end
+end
+
 class BlogView < Mustache
   def initialize(blog, extra = {})
     @blog = blog
-    @posts = extra[:posts]
+    @posts = extra[:posts] && extra[:posts].map {|p| ObjectView.wrap(p)}
     self.template = blog.custom_html
   end
 
@@ -18,4 +25,32 @@ class BlogView < Mustache
   def posts
     @posts
   end
+end
+
+class TextView
+  extend Forwardable
+
+  def initialize(text)
+    @text = text
+  end
+
+  def_delegators :@text, :title, :content
+
+  def text
+    self
+  end
+
+  def author
+    ObjectView.wrap(@text.author)
+  end
+end
+
+class UserView
+  extend Forwardable
+
+  def initialize(user)
+    @user = user
+  end
+
+  def_delegators :@user, :name
 end

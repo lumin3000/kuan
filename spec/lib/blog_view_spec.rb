@@ -27,16 +27,22 @@ describe BlogView do
   {{/posts}}
 EOF
       @text = Factory.build :text, :content => 'howdy ho!'
-      @text_wrapper = {:text => @text}
-      @posts = [@text_wrapper]
+      @posts = [@text]
+      @view = BlogView.new @blog, :posts => @posts
     end
 
     it "should be able to render" do
-      @view = BlogView.new @blog, :posts => @posts
       rendered = @view.render
       rendered.should be_include 'Hello'
       rendered.should be_include @blog.title
       rendered.should be_include @text.content
+    end
+
+    it "should wrap models with curresponding view" do
+      text = @view.posts[0]
+      text.should be_instance_of TextView
+      author = text.author
+      author.should be_instance_of UserView
     end
 
     describe "when a cracker tries to call method on model" do
@@ -45,11 +51,10 @@ EOF
           raise "Shit hits the fan!"
         end
         @blog.custom_html = "YEEEEEEEhaa~ {{#posts}}{{#text}}{{shit}}{{/text}}{{/posts}}"
-        @view = BlogView.new @blog, :posts => [@text_wrapper]
+        @view = BlogView.new @blog, :posts => [@text]
       end
 
       it "shouldn't break" do
-        pending "waiting for wrapper"
         rendered = @view.render
         rendered.should == "YEEEEEEEhaa~ "
       end
