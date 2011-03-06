@@ -68,6 +68,11 @@ class Blog
                          :sort=>[["followings.created_at", -1]]).to_a
   end
 
+  def members
+    User.collection.find({"followings" => {"$elemMatch"=> {"blog_id"=>id,"auth"=>"member"}}},
+                         :sort=>[["followings.created_at", -1]]).to_a
+  end
+
   def total_post_num
     Post.where(:blog_id => id).count
   end
@@ -89,7 +94,11 @@ class Blog
   end
 
   def open_to?(user)
-    not self.private or edited?(user)
+    not private? or edited?(user)
+  end
+
+  def canexit?(user)
+    not customed?(user) or founders.length > 1
   end
 
   def applied?(user)

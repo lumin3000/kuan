@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 class BlogsController < ApplicationController
   before_filter :signin_auth, :except => [:show]
-  before_filter :custom_auth, :only => [:edit, :update]
-  before_filter :find_by_uri, :only => [:followers, :show, :apply]
+  before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick]
+  before_filter :editor_auth, :only => [:followers, :editors]
+  before_filter :find_by_uri, :only => [:show, :apply]
 
   def new
     @blog = Blog.new
@@ -54,6 +55,10 @@ class BlogsController < ApplicationController
     render :layout => false
   end
 
+  def editors
+    @editors = @blog.founders + @blog.members
+  end
+  
   def followers
     @followers = @blog.followers
   end
@@ -78,11 +83,34 @@ class BlogsController < ApplicationController
     redirect_to root_url
   end
 
+  def upgrade
+    user = params[:user]
+    user.follow! @blog, "founder"
+  end
+
+  def kick
+    user = params[:user]
+    user.unfollow! unless @blog.customed? user
+  end
+
+  def exit
+    find_by_uri
+    current_user.unfollow! @blog if @blog.canexit? current_user 
+    respond_to do |format|
+      format.js 
+    end
+  end
+
   private
 
   def custom_auth
     find_by_uri
     redirect_to home_path unless @blog.customed? current_user
+  end
+
+  def editor_auth
+    find_by_uri
+    redirect_to home_path unless @blog.edited? current_user
   end
 
   def find_by_uri(uri = nil)

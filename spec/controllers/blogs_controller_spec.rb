@@ -176,6 +176,7 @@ describe BlogsController do
       user2.follow! blog_primary2, "lord"
       user1.follow! @blog
       user2.follow! @blog
+      @user.follow! @blog, "member"
       get :followers, :id => @blog.to_param
       response.should have_selector("div",
                                     :content => user1.name)

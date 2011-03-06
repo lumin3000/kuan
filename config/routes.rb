@@ -45,6 +45,7 @@ Kuan::Application.routes.draw do
     get '/' => 'blogs#show'
     put '/' => 'blogs#update'
     get '/followers' => 'blogs#followers'
+    get '/editors' => 'blogs#editors'
     get '/edit' => 'blogs#edit'
     post '/blogs/:id/follow_toggle' => 'blogs#follow_toggle'
     post '/apply' => 'blogs#apply'
