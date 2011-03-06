@@ -16,10 +16,12 @@ class Blog
     :order_by => { :posted_at => :desc },
     :limit => 500
 
+  field :custom_html
+
   references_many :followings
   references_many :posts, :index => true
 
-  attr_accessible :uri, :title, :icon, :private, :canjoin, :posted_at
+  attr_accessible :uri, :title, :icon, :private, :canjoin, :posted_at, :custom_html
 
   validates_presence_of :title,
   :message => "请输入页面名字"

@@ -11,6 +11,7 @@ gem 'mini_magick'
 gem 'nokogiri'
 gem 'daemons'
 gem 'capistrano'
+gem 'mustache'
 
 group :development, :test do
   gem 'rspec'
