@@ -168,11 +168,8 @@ class User
     comments_notices << CommentsNotice.new(:post => post)
   end
 
-  def read_one_comments_notice!(post)
+  def get_comments_notice(post)
     c = comments_notices.where( :post_id => post.id ).first
-    unless c.nil?
-      c.update_attributes :unread => false
-    end
   end
 
   def read_all_comments_notices!
