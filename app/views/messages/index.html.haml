@@ -1,0 +1,14 @@
+- content_for :head do
+  = stylesheet_link_tag 'dashboard'
+
+.header
+  %a.logo{href: "/home"}
+  .navigator
+    %a.back_to_home{href: fucking_root}
+      回我的主页
+
+.messages
+  %h1= %(共#{@unread_count}条新消息)
+  = render @messages
+  = pagination @messages
+= render partial: 'shared/footer'

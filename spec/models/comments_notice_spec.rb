@@ -127,7 +127,6 @@ describe CommentsNotice do
       @user.insert_unread_comments_notices!(@post_new)
       @user.reload
       @length_more = @user.comments_notices.length
-
     end
     
     it "should not save more than 100 comments notices" do

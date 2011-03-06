@@ -208,4 +208,18 @@ describe BlogsController do
       @blog.should_not be_followed @user
     end
   end
+
+  describe "POST 'apply'" do
+
+    it "should send apply messages" do
+      controller.sign_in @user
+      blog_founder = Factory(:user, :email => Factory.next(:email))
+      blog_founder.follow! @blog, "founder"
+      @blog.canjoin = true
+      @blog.save
+      post :apply, :id => @blog.to_param
+      blog_founder.reload
+      blog_founder.messages.first.should_not be_blank
+    end
+  end  
 end

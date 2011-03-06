@@ -294,7 +294,6 @@ describe UsersController do
         response.should redirect_to home_path
       end
     end
-
   end
 
 end

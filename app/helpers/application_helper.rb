@@ -27,10 +27,6 @@ module ApplicationHelper
     end
   end
 
-  def server_name
-    ".kuandao.com"
-  end
-
   def pagination(collection, options = {})
     options = { :per_page => 10, }.update(options)
 
