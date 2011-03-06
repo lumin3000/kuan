@@ -30,7 +30,7 @@ describe Comment do
       
     it "should notice post author" do
 
-      length = @user.comments_notices.unread.count
+      length = @user.comments_notices.unreads.count
       @new_comment = Comment.new
       @new_comment.post = @post
       @new_comment.author = @comment_author
@@ -38,7 +38,7 @@ describe Comment do
       @new_comment.content = "just content"
       @post.watchers.should be_include(@user)
       @new_comment.save.should be_true
-      @user.comments_notices.unread.count.should == length + 1
+      @user.comments_notices.unreads.count.should == length + 1
     end
   end
 end

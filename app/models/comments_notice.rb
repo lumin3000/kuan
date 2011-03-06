@@ -7,9 +7,10 @@ class CommentsNotice
 
   embedded_in :user, :inverse_of => :comments_notices
 
-  scope :unread, where(:unread => true) do
-    def count
-      size
-    end
+  scope :unreads, where(:unread => true)
+
+  def read!
+    update_attributes :unread => false
   end
+
 end

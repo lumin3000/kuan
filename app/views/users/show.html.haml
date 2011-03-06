@@ -33,9 +33,9 @@
           %span.icon_reply<
             &nbsp;
           %span.text_follow<
-            - if current_user.comments_notices.unread.count > 0
+            - if current_user.comments_notices.unreads.count > 0
               %span.new
-                = "(#{current_user.comments_notices.unread.count}新)"
+                = "(#{current_user.comments_notices.unreads.count}新)"
             回复
       %hr
     .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}

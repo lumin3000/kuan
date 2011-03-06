@@ -15,35 +15,35 @@ describe Post do
     end
       
     it "should notice post author" do
-      length = @user.comments_notices.unread.count
+      length = @user.comments_notices.unreads.count
       @comment = Factory.build(:comment, :post => @post, :author => @comment_author)
       @post.notify_watchers(@comment)
-      @user.comments_notices.unread.count.should == length + 1
+      @user.comments_notices.unreads.count.should == length + 1
     end
 
     it "should notice other comment user" do
       @comment_old = Factory.build(:comment, :post => @post, :author => @comment_user)
-      length = @comment_user.comments_notices.unread.count
+      length = @comment_user.comments_notices.unreads.count
       @comment = Factory.build(:comment, :post => @post, :author => @comment_author)
       @post.notify_watchers(@comment)
-      @comment_user.comments_notices.unread.count.should == length + 1
+      @comment_user.comments_notices.unreads.count.should == length + 1
     end
 
     it "should not notice self" do
       @comment_old = Factory.build(:comment, :post => @post, :author => @comment_user)
-      length = @comment_author.comments_notices.unread.count
+      length = @comment_author.comments_notices.unreads.count
       @comment = Factory.build(:comment, :post => @post, :author => @comment_author)
       @post.notify_watchers(@comment)
-      @comment_author.comments_notices.unread.count.should == length
+      @comment_author.comments_notices.unreads.count.should == length
     end
 
     it "should not notice same user twice" do
       Factory.build(:comment, :post => @post, :author => @comment_user)
       Factory.build(:comment, :post => @post, :author => @comment_user)
-      length = @comment_user.comments_notices.unread.count
+      length = @comment_user.comments_notices.unreads.count
       @comment = Factory.build(:comment, :post => @post, :author => @comment_author)
       @post.notify_watchers(@comment)
-      @comment_user.comments_notices.unread.count.should == length + 1
+      @comment_user.comments_notices.unreads.count.should == length + 1
     end
 
     it "should list all watchers" do

@@ -176,8 +176,8 @@ class User
   end
 
   def read_all_comments_notices!
-    comments_notices.unread.each do |c|
-      c.update_attributes( :unread => false )
+    comments_notices.unreads.each do |c|
+      c.read!
     end
   end
 

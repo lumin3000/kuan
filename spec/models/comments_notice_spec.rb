@@ -31,15 +31,15 @@ describe CommentsNotice do
     it "should provide unread" do
       @user.comments_notices << @comments_notice
       @user.comments_notices << @read_comments_notice
-      @user.comments_notices.unread.should be_include @comments_notice
-      @user.comments_notices.unread.should_not be_include @read_comments_notice
+      @user.comments_notices.unreads.should be_include @comments_notice
+      @user.comments_notices.unreads.should_not be_include @read_comments_notice
     end
 
     it "should provide unread count" do
-      @user.comments_notices.unread.count.should == 0
+      @user.comments_notices.unreads.count.should == 0
       @user.comments_notices << @comments_notice
       @user.comments_notices << @read_comments_notice
-      @user.comments_notices.unread.count.should == 1
+      @user.comments_notices.unreads.count.should == 1
     end
   end
 
@@ -85,18 +85,19 @@ describe CommentsNotice do
     end
   end
 
-  describe "mark as one notice as read" do
-    it "should set user's one notice unread = false" do
+  describe "read notice" do
+    it "should set unread = false" do
       @post = Post.new
       @new_comments_notice = Factory.build(:comments_notice, :post => @post)
 
       @user.comments_notices = [ @comments_notice, 
                                 @read_comments_notice,
                                 @new_comments_notice ]
-
-      length = @user.comments_notices.unread.count
-      @user.read_one_comments_notice! @post
-      @user.comments_notices.unread.count.should == length - 1
+      @user.reload
+      length = @user.comments_notices.unreads.count
+      @user.comments_notices.last.read!
+      @user.reload
+      @user.comments_notices.unreads.count.should == length - 1
     end
   end
 
@@ -106,9 +107,11 @@ describe CommentsNotice do
                                 @comments_notice, 
                                 @read_comments_notice,
                                 @comments_notice]
-      @user.comments_notices.unread.count.should > 0
+      @user.reload
+      @user.comments_notices.unreads.count.should > 0
       @user.read_all_comments_notices!
-      @user.comments_notices.unread.count.should == 0
+      @user.reload
+      @user.comments_notices.unreads.count.should == 0
     end
   end
 
