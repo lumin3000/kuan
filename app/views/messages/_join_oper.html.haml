@@ -4,6 +4,8 @@
   %div 已忽略
 - else
   %div
-    %a{href: "/messages/#{message.id}/doing", data: {method: "post", remote: "true"}} 通过
+    %a{href: "/messages/#{message.id}/doing", data: { widget: "rest", md: "put",
+      callback: "replace", parent: "operation" }} 通过
   %div
-    %a{href: "/messages/#{message.id}/ignore", data: {method: "post", remote: "true"}} 忽略
+    %a{href: "/messages/#{message.id}/ignore", data: { widget: "rest", md: "put",
+      callback: "replace", parent: "operation" }} 忽略

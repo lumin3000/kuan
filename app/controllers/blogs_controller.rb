@@ -80,7 +80,9 @@ class BlogsController < ApplicationController
 
   def apply
     @blog.applied current_user
-    redirect_to root_url
+    respond_to do |format|
+      format.json { render :json => {status: "success", message: "申请成功" } }
+    end
   end
 
   def upgrade

@@ -429,9 +429,30 @@ K.widgets.rest = function() {
       var target = response && response.location
       if (target) window.location = target
     },
+    refresh: function(response){
+        window.location = window.location
+    },
     del: function(response, el){
       var parent = el.getParent('.'+el.get('data-parent'))
       parent && parent.destroy()
+    },
+    del_self: function(response, el){
+      el.destroy()
+    },
+    replace: function(response, el){
+      if(el.get('data-parent')){
+        var parent = el.getParent('.'+el.get('data-parent'))
+        parent.empty()
+        parent.innerHTML = response.message
+      }else{
+        new Element('span', {
+          'html': response.message
+        }).inject(el, 'after')
+        el.destroy()
+      }
+    },
+    flash: function(response){
+        
     }
   }
 

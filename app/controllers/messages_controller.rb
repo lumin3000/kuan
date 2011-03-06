@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class MessagesController < ApplicationController
   before_filter :signin_auth
   before_filter :find_message, :only => [:ignore, :done]
@@ -15,14 +16,14 @@ class MessagesController < ApplicationController
   def ignore
     @message.ignore! unless @message.nil?
     respond_to do |format|
-      format.js 
+      format.json { render :json => {status: "success", message: "已忽略"}}
     end
   end
 
   def doing
     @message.doing! unless @message.nil?
     respond_to do |format|
-      format.js 
+      format.json { render :json => {status: "success", message: "已通过"}}
     end
   end
 
