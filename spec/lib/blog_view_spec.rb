@@ -55,7 +55,6 @@ EOF
       end
 
       it "shouldn't break" do
-        pending "wrapper failing"
         rendered = @view.render
         rendered.should == "YEEEEEEEhaa~ "
       end

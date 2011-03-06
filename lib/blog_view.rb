@@ -2,19 +2,21 @@ module ObjectView
   def self.wrap(obj)
     (obj.class.name + "View").constantize.new(obj)
   end
+
+  def respond_to?(method)
+    self.class.public_instance_methods(false).include? method
+  end
 end
 
 class BlogView < Mustache
+  include UrlHelper
+  include ObjectView
+
   def initialize(blog, extra = {})
     @blog = blog
     @posts = extra[:posts] && extra[:posts].map {|p| ObjectView.wrap(p)}
+    @request = extra[:request]
     self.template = blog.custom_html.blank? ? blog.template.html : blog.custom_html
-  end
-
-  AVAIL_FIELDS = %w{title posts}.map {|str| str.to_sym}
-
-  def respond_to?(method)
-    AVAIL_FIELDS.include?(method)
   end
 
   def title
@@ -28,6 +30,7 @@ end
 
 class TextView
   extend Forwardable
+  include ObjectView
 
   def initialize(text)
     @text = text
@@ -46,6 +49,7 @@ end
 
 class UserView
   extend Forwardable
+  include ObjectView
 
   def initialize(user)
     @user = user
