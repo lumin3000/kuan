@@ -133,17 +133,9 @@ class User
     f = followings.where(:blog_id => blog._id).first
     f.nil? ? nil : f.auth
   end
-
-  def unread_comments_notices
-    comments_notices.where(:unread => true)
-  end
   
   def comments_notices_list(pagination)
     comments_notices.desc(:created_at).paginate(pagination)
-  end
-
-  def count_unread_comments_notices
-    unread_comments_notices.count
   end
 
   def insert_unread_comments_notices!(post)
@@ -162,7 +154,7 @@ class User
   end
 
   def read_all_comments_notices!
-    unread_comments_notices.each do |c|
+    comments_notices.unread.each do |c|
       c.update_attributes( :unread => false )
     end
   end

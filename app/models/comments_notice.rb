@@ -6,4 +6,10 @@ class CommentsNotice
   referenced_in :post
 
   embedded_in :user, :inverse_of => :comments_notices
+
+  scope :unread, where(:unread => true) do
+    def count
+      size
+    end
+  end
 end

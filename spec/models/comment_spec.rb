@@ -16,7 +16,7 @@ describe Comment do
     end
   end
 
-  describe "notice watchers when usre comment a post" do
+  describe "notice watchers when user comment a post" do
     before :each do
       @blog = Factory.create(:blog_unique)
       @user = Factory.create(:user_unique)
@@ -30,7 +30,7 @@ describe Comment do
       
     it "should notice post author" do
 
-      length = @user.unread_comments_notices.length
+      length = @user.comments_notices.unread.count
       @new_comment = Comment.new
       @new_comment.post = @post
       @new_comment.author = @comment_author
@@ -38,7 +38,7 @@ describe Comment do
       @new_comment.content = "just content"
       @post.watchers.should be_include(@user)
       @new_comment.save.should be_true
-      @user.unread_comments_notices.length.should == length + 1
+      @user.comments_notices.unread.count.should == length + 1
     end
   end
 end

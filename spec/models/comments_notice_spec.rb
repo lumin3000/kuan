@@ -27,10 +27,19 @@ describe CommentsNotice do
     @old_comments_notice = Factory.build(:old_comments_notice, :post => @post_old)
   end
 
-  describe "unread comments notices list" do
-    it "should get unread comments notices" do
-      @user.comments_notices = [@comments_notice, @read_comments_notice]
-      @user.unread_comments_notices.length.should == 1
+  describe "comments_notiecs scope" do
+    it "should provide unread" do
+      @user.comments_notices << @comments_notice
+      @user.comments_notices << @read_comments_notice
+      @user.comments_notices.unread.should be_include @comments_notice
+      @user.comments_notices.unread.should_not be_include @read_comments_notice
+    end
+
+    it "should provide unread count" do
+      @user.comments_notices.unread.count.should == 0
+      @user.comments_notices << @comments_notice
+      @user.comments_notices << @read_comments_notice
+      @user.comments_notices.unread.count.should == 1
     end
   end
 
@@ -53,13 +62,6 @@ describe CommentsNotice do
       @user.comments_notices.first.post.should == @post_old
       tmp = @user.comments_notices_list(@pagination)
       tmp.first.post.should == @post
-    end
-  end
-
-  describe "count unread comments notices" do
-    it "should get unread comments notices count" do
-      @user.comments_notices = [@comments_notice, @read_comments_notice]
-      @user.count_unread_comments_notices.should == 1
     end
   end
 
@@ -92,9 +94,9 @@ describe CommentsNotice do
                                 @read_comments_notice,
                                 @new_comments_notice ]
 
-      length = @user.unread_comments_notices.length
+      length = @user.comments_notices.unread.count
       @user.read_one_comments_notice! @post
-      @user.unread_comments_notices.length.should == length - 1
+      @user.comments_notices.unread.count.should == length - 1
     end
   end
 
@@ -104,9 +106,9 @@ describe CommentsNotice do
                                 @comments_notice, 
                                 @read_comments_notice,
                                 @comments_notice]
-      @user.unread_comments_notices.length.should > 0
+      @user.comments_notices.unread.count.should > 0
       @user.read_all_comments_notices!
-      @user.unread_comments_notices.length.should == 0
+      @user.comments_notices.unread.count.should == 0
     end
   end
 

@@ -10,7 +10,7 @@
 .reply_list
   %h1<
     回复&nbsp;
-    - if @unread_count > 0
+    - if current_user.comments_notices.unread.count > 0
       %a{ :href => "/buzz/readall", :data => { :widget => "rest", :md => "put",
       :callback => "redirect" } }<
         全部标识为已读
