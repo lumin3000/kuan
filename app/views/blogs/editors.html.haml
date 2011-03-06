@@ -1,0 +1,6 @@
+- content_for :title, "成员管理_宽岛"
+
+.middle_box.members
+  %h1
+    ="#{@blog.title}共#{@editors.length}位成员"
+  = render :partial => "editor", :collection => @editors

@@ -1,0 +1,18 @@
+.member
+  .avatar
+    %a{ :href => blog_path(editor.primary_blog) }
+      %img{ :src => editor.icon.url_for(:medium) }
+  .member_name
+    %a{ :href => blog_path(editor.primary_blog) }
+      = editor.name
+  .member_operation  
+    - if @blog.customed? editor
+      %span.admin 管理员
+    - elsif @blog.customed? current_user
+      %a{:href => "/blogs/#{@blog.id}/upgrade", :class => "upgrade", :user => editor, :data => {:method => "POST", :remote => "true"}}
+        升为管理员
+      %a{:href => "/blogs/#{@blog.id}/kick", :class => "kick", :user => editor, :data => {:method => "POST", :remote => "true"}}
+        移除
+    - if editor == current_user and @blog.canexit? current_user
+      %a{:href => "/blogs/#{@blog.id}/exit", :class => "exit", :data => {:method => "POST", :remote => "true"}}
+        退出

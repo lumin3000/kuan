@@ -280,13 +280,13 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	color:#f93;
 }
 
-.members .admin, .members .member_operation, .members .upgrade, .members .kick{
+.members .admin, .members .member_operation, .members .upgrade, .members .kick, .member .exit{
   font-size:14px;
   color:#68879F;
   text-align:center;
   line-height:70px
 }
-.members .upgrade, .members .kick{
+.members .upgrade, .members .kick, .member .exit{
   text-decoration:underline
 }
 
