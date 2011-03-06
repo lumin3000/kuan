@@ -1,5 +1,5 @@
 - content_for :head do
-  = stylesheet_link_tag 'dashboard'
+  = stylesheet_link_tag 'messages'
 
 .header
   %a.logo{href: "/home"}
@@ -7,7 +7,7 @@
     %a.back_to_home{href: fucking_root}
       回我的主页
 
-.messages
+.middle_box.messages
   %h1= %(共#{@unread_count}条新消息)
   = render @messages
   = pagination @messages
