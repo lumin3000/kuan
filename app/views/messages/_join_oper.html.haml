@@ -1,0 +1,9 @@
+- if message.done?
+  %div 已通过
+- elsif message.ignored?
+  %div 已忽略
+- else
+  %div
+    %a{href: "/messages/#{message.id}/done", data: {method: "put", remote: "true"}} 通过
+  %div
+    %a{href: "/messages/#{message.id}/ignore", data: {method: "put", remote: "true"}} 忽略
