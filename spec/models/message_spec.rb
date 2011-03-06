@@ -9,6 +9,7 @@ describe "Message" do
     @user.follow! @blog, "founder"
     @sender = Factory(:user, :email => Factory.next(:email))
     @blog.canjoin = true
+    @blog.save!
   end
 
   after :each do
@@ -93,13 +94,13 @@ describe "Message" do
     end
     
     it "should change unread status" do
-      @user.read_message! @first_message
+      @first_message.read!
       @user.reload
       @user.messages.first.should_not be_unread
     end
 
     it "should give the correct unread counts" do
-      @user.read_message! @first_message
+      @first_message.read!
       @user.reload
       @user.messages.unreads.count.should == 1
       @user.messages.unreads.first.should == @second_message
@@ -112,6 +113,29 @@ describe "Message" do
       @user.messages.first.should_not be_unread
       @user.messages.second.should_not be_unread
     end
+  end
+
+  describe "ignore and doing message" do
+    before :each do
+      @blog.applied @sender
+      @user.reload
+      @first_message = @user.messages.first
+    end
+
+    it "should ignore message" do
+      @first_message.ignore!
+      @user.reload
+      @user.messages.find(@first_message.id).should be_ignored
+    end
+
+    it "should doing message" do
+      @first_message.doing!
+      @user.reload
+      @user.messages.find(@first_message.id).should be_done
+      @sender.reload
+      @blog.should be_edited @sender
+    end
+
   end
 
 end

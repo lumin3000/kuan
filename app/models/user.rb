@@ -150,12 +150,8 @@ class User
     messages.first.delete if messages.length > MESSAGES_LIMIT
   end
 
-  def read_message!(message)
-    messages.find(message.id).update_attributes :unread => false
-  end
-
   def read_all_messages!
-    messages.each {|m| read_message! m}
+    messages.each {|m| m.read!} 
   end
 
   #Comments' notices operations

@@ -17,4 +17,22 @@ class Message
   def sender
     User.find(sender_id) unless sender_id.nil?
   end
+
+  def read!
+    update_attributes :unread => false 
+  end
+
+  def ignore!
+    update_attributes :ignored => true
+  end
+
+  def doing!
+    return if done?
+    send type
+    update_attributes :done => true
+  end
+
+  def join
+    sender.follow! blog, "member" if blog.applied?(sender) and blog.customed?(user)
+  end
 end
