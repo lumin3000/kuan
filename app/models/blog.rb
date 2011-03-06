@@ -17,6 +17,7 @@ class Blog
     :limit => 500
 
   field :custom_html
+  referenced_in :template, :class_name => 'CustomTemplate'
 
   references_many :followings
   references_many :posts, :index => true

@@ -1,7 +1,6 @@
 module ObjectView
   def self.wrap(obj)
-    view_class = (obj.class.name + "View").constantize
-    view_class.new(obj)
+    (obj.class.name + "View").constantize.new(obj)
   end
 end
 
@@ -9,7 +8,7 @@ class BlogView < Mustache
   def initialize(blog, extra = {})
     @blog = blog
     @posts = extra[:posts] && extra[:posts].map {|p| ObjectView.wrap(p)}
-    self.template = blog.custom_html
+    self.template = blog.custom_html.blank? ? blog.template.html : blog.custom_html
   end
 
   AVAIL_FIELDS = %w{title posts}.map {|str| str.to_sym}
