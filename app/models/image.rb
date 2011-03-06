@@ -18,7 +18,7 @@ class Image
     max = [scale_w, scale_h].max
     scale = [max, 1].min
     from.map do |n|
-      (n * scale).round
+      (n * scale).floor
     end
   end
 

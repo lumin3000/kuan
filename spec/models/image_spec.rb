@@ -62,6 +62,7 @@ describe Image, "scaling calculation" do
       @data = [
         [[1000, 1000], [500, 800], [800, 800]],
         [[600, 600], [60, 0], [60, 60]],
+        [[609, 600], [60, 60], [60, 60]],
       ]
       @data.each do |d|
         Image.calc_scale(d[0], d[1]).should == d[2]
