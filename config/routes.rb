@@ -48,6 +48,10 @@ Kuan::Application.routes.draw do
     get '/editors' => 'blogs#editors'
     get '/edit' => 'blogs#edit'
     post '/blogs/:id/follow_toggle' => 'blogs#follow_toggle'
+    put '/blogs/upgrade/:user' => 'blogs#upgrade'
+    delete '/blogs/kick/:user' => 'blogs#kick'
+    delete '/blogs/exit' => 'blogs#exit'
+
     put '/apply' => 'blogs#apply'
     get '/page/:page' => 'blogs#show', :page => /\d+/
     get '/post/:post_id' => 'blogs#show'

@@ -72,8 +72,10 @@ span.suggestion
     margin: 20px 30px
 
 .followers,
-.following
-  .follower
+.following,
+.members
+  .follower,
+  .member
     width: 550px
     padding: 15px 0 5px 20px
     font-size: 20px
@@ -96,7 +98,8 @@ span.suggestion
       margin-bottom: 5px
       background: url('/images/avatar.jpg')
 
-  .fo_name
+  .fo_name,
+  .member_name
     font-weight: bold
     line-height: 60px
     font-size: 14px
@@ -126,3 +129,16 @@ span.suggestion
     float: left
     cursor: pointer
     overflow: hidden
+
+.members
+  .member_name
+    width: 320px
+
+  .admin, .member_operation, .upgrade, .kick, .exit
+    font-size: 14px
+    color: #68879F
+    text-align: center
+    line-height: 70px
+
+  .upgrade, .kick, .exit
+    text-decoration: underline

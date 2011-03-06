@@ -86,20 +86,26 @@ class BlogsController < ApplicationController
   end
 
   def upgrade
-    user = params[:user]
+    user = User.find params[:user]
     user.follow! @blog, "founder"
+    respond_to do |format|
+      format.json { render :json => {status: "success", message: "管理员" } }
+    end
   end
 
   def kick
-    user = params[:user]
-    user.unfollow! unless @blog.customed? user
+    user = User.find params[:user]
+    user.unfollow! @blog unless @blog.customed? user
+    respond_to do |format|
+      format.json { render :json => {status: "success" } }
+    end
   end
 
   def exit
     find_by_uri
     current_user.unfollow! @blog if @blog.canexit? current_user 
     respond_to do |format|
-      format.js 
+      format.json { render :json => {status: "success", location: home_path } }
     end
   end
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class MessagesController < ApplicationController
   before_filter :signin_auth
-  before_filter :find_message, :only => [:ignore, :done]
+  before_filter :find_message, :only => [:ignore, :doing]
   
   def index
     limit = 10
