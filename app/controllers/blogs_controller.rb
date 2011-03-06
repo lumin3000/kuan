@@ -2,7 +2,7 @@
 class BlogsController < ApplicationController
   before_filter :signin_auth, :except => [:show]
   before_filter :custom_auth, :only => [:edit, :update]
-  before_filter :find_by_uri, :only => [:followers, :show]
+  before_filter :find_by_uri, :only => [:followers, :show, :apply]
 
   def new
     @blog = Blog.new
@@ -71,6 +71,11 @@ class BlogsController < ApplicationController
     respond_to do |format|
       format.js { @follow = now_follow }
     end
+  end
+
+  def apply
+    @blog.applied current_user
+    redirect_to root_url
   end
 
   private

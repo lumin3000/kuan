@@ -32,6 +32,10 @@ Kuan::Application.routes.draw do
   get '/buzz/page/:page', :to => 'users#buzz', :page => /\d+/
   put '/buzz/readall', :to => 'users#read_all_comments_notices'
 
+  get '/messages', :to => 'messages#index'
+  get '/messages/page/:page', :to => 'messages#index', :page => /\d+/
+  post '/messages/:id/doing', :to => 'messages#doing'
+  post '/messages/:id/ignore', :to => 'messages#ignore'
 
   get '/signin', :to => 'sessions#new'
   get '/signout', :to => 'sessions#destroy'
@@ -43,6 +47,7 @@ Kuan::Application.routes.draw do
     get '/followers' => 'blogs#followers'
     get '/edit' => 'blogs#edit'
     post '/blogs/:id/follow_toggle' => 'blogs#follow_toggle'
+    post '/apply' => 'blogs#apply'
     get '/page/:page' => 'blogs#show', :page => /\d+/
     get '/post/:post_id' => 'blogs#show'
   end

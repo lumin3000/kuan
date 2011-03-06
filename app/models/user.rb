@@ -10,6 +10,7 @@ class User
   embeds_many :followings
   embeds_many :comments_notices
   index "followings.blog_id"
+  embeds_many :messages
   references_many :posts, :index => true
 
   attr_accessor :password, :code
@@ -107,6 +108,10 @@ class User
     followings.where(:auth => "lord").first.blog
   end
 
+  def icon
+    primary_blog.icon
+  end
+
   #All editable blogs, lord > founder > member > follower
   def blogs
     followings.excludes(:auth => "follower").sort do |a, b|
@@ -133,6 +138,23 @@ class User
     f = followings.where(:blog_id => blog._id).first
     f.nil? ? nil : f.auth
   end
+
+  #Messages operations
+
+  MESSAGES_LIMIT = 100
+  def receive_message!(message)
+    messages.where(:sender_id => message.sender.id,
+                   :blog_id => message.blog.id,
+                   :type => message.type).destroy
+    messages << message
+    messages.first.delete if messages.length > MESSAGES_LIMIT
+  end
+
+  def read_all_messages!
+    messages.each {|m| m.read!} 
+  end
+
+  #Comments' notices operations
   
   def comments_notices_list(pagination)
     comments_notices.desc(:created_at).paginate(pagination)
