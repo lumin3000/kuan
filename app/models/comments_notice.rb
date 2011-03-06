@@ -8,6 +8,7 @@ class CommentsNotice
   embedded_in :user, :inverse_of => :comments_notices
 
   scope :unreads, where(:unread => true)
+  scope :get_by_post, lambda { |post| { :where => { :post_id => post.id} } }
 
   def read!
     update_attributes :unread => false
