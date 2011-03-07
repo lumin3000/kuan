@@ -85,7 +85,7 @@ class BlogsController < ApplicationController
 
   def apply_entry
     unless @blog.applied?(current_user)
-      render 'shared/404', :status => 404, :layout => false and return
+      render 'shared/403', :status => 403, :layout => false and return
     end
 
     render "apply", :layout => "apply"
