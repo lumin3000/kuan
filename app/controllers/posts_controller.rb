@@ -4,22 +4,18 @@ class PostsController < ApplicationController
   before_filter :signin_auth
 
   def new
-    @type = params[:type] || Post.default_type
-    @post = Post.infer_type(@type).new
-    @post.type = @type
+    @post = Post.new params
     get_target_blogs
   end
 
   def create
-    type = params.delete :type
-    params[:author_id] = current_user.id
-    @post = Post.infer_type(type).new(params)
-    if !@post.error && @post.save
+    params[:author] = current_user
+    @post = Post.new params
+    if @post.save
       redirect_to home_path
     else
       get_target_blogs
-      @default_target_blog = @post.blog || @user.primary_blog
-      return render 'new'
+      render 'new'
     end
   end
 
@@ -46,15 +42,13 @@ class PostsController < ApplicationController
   end
 
   def recreate
-    type = params.delete :type
-    params[:author] = current_user
     params[:parent] = Post.find params.delete(:parent_id)
-    @post = Post.infer_type(type).new(params)
+    params[:author] = current_user
+    @post = Post.new params
     if @post.save
       redirect_to home_path
     else
       get_target_blogs
-      @default_target_blog = @post.blog || @user.primary_blog
       render 'renew'
     end
   end
@@ -82,10 +76,10 @@ class PostsController < ApplicationController
   end
 
   def get_default_target
-    @default_target_blog = if params[:blog_uri].blank?
-      current_user.primary_blog
-    else
-      Blog.find_by_uri! params[:blog_uri]
-    end
+    @default_target_blog = @post.blog || if params[:blog_uri].blank?
+                               current_user.primary_blog
+                             else
+                               Blog.find_by_uri!(params[:blog_uri])
+                             end
   end
 end

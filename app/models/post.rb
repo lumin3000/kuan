@@ -24,38 +24,22 @@ class Post
   validate :posted_to_editable_blogs, :if => :new_record?
 
   before_destroy :clean_comments_notices
+  before_create :type_setter
   after_create :ancestor_reposts_inc
 
   def haml_object_ref
     "post"
   end
 
-  def type=(t)
-    self._type = t.capitalize
-  end
-
   def type
     self._type.downcase
-  end
-
-  def self.infer_type(t)
-    klass = Object.const_get t.capitalize
-    if self.subclasses.include? klass
-      klass
-    else
-      nil
-    end
-  end
-
-  def self.default_type
-    "text"
   end
 
   # about the repost , parent and ancestor
   def parent=(parent)
     self.created_at = self.updated_at = Time.now
     return if parent.nil?
-    self.parent_id = parent.id 
+    self.parent_id = parent.id
     self.ancestor_id = parent.ancestor.nil? ? parent.id : parent.ancestor.id
   end
 
@@ -66,7 +50,14 @@ class Post
   def ancestor
     return nil if ancestor_id.nil?
     a = Post.criteria.id(ancestor_id).first
-    a ||= parent 
+    a ||= parent
+  end
+
+  def self.new(args = {}) 
+    type = args.delete :type
+    return super if type.nil? 
+    klass = Object.const_get type.capitalize
+    (self.subclasses.include? klass) ? klass.new(args) : nil
   end
 
   class << self
@@ -135,12 +126,6 @@ class Post
   def photos(*args)
   end
 
-  # Also stubbed
-  def error
-  end
-  def error=
-  end
-
   def editable_by?(user)
     return false if user.nil?
     author == user || blog.customed?(user)
@@ -162,12 +147,15 @@ class Post
 
   private
 
+  def type_setter
+    self._type = self.class.to_s
+  end
+  
   def clean_comments_notices
     watchers.each do |u|
       u.comments_notices.destroy_all(:conditions => { :post_id => self.id })
     end
   end
-
 
   def posted_to_editable_blogs
     return if author_id.nil? || blog_id.nil?
@@ -189,4 +177,5 @@ class Post
       end
     end
   end
+  
 end
