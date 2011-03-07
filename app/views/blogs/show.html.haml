@@ -20,7 +20,7 @@
             删除
           %a.edit{href: "/posts/#{@post.id}/edit", title: "编辑"} 编辑
         - if @blog.applied? current_user
-          %a.apply{href: blog_path(@blog)+"apply", title: "申请加入",
+          %a.btn_apply{href: blog_path(@blog)+"apply", title: "申请加入",
             :data => { :widget => "rest", :callback => "del_self", :md => "put" }} 申请加入
       #title
         %a{href: blog_path(@blog)}
