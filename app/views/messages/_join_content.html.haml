@@ -1,5 +1,6 @@
 .avatar_name
   %a{href: blog_path(message.sender.primary_blog)}= message.sender.name
-  = %(申请加入#{message.blog.title})
+  申请加入
+  %a{href: blog_path(message.blog)}= message.blog.title
 .text
   = message.content
