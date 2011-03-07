@@ -16,15 +16,15 @@ class Moving
   validates_presence_of :from_uri, :to_uri
 
   def from_uri_valid?
-    begin
-      open from_uri
-    rescue Exception => e
-      if e.message != "403 "
-        errors.add(:base, "此地址已经无效")
-        return false
-      end
-    end
-    true
+    # begin
+    #   open from_uri
+    # rescue Exception => e
+    #   if e.message != "403 "
+    #     errors.add(:base, "此地址已经无效")
+    #     return false
+    #   end
+    # end
+    not from_uri.blank?
   end
 
   def save
