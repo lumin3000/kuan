@@ -62,6 +62,11 @@ class Blog
     old_icon_get || Image.create_from_default(DEFAULT_ICONS)
   end
 
+  alias_method :old_template_get, :template
+  def template
+    old_template_get || CustomTemplate::DEFAULT
+  end
+
   def followers_count
     User.collection.find({"followings" => {"$elemMatch"=> {"blog_id"=>id,"auth"=>"follower"}}}).count
   end

@@ -39,20 +39,31 @@ class BlogsController < ApplicationController
     if not @blog.open_to?(current_user)
       render 'shared/403', :status => 403, :layout => false and return
     end
+
+    url_template = "http://%%s.%s%s/" % [request.domain, request.port_string]
+    view_context = {
+      :url_template => url_template,
+      :base_url => url_template % @blog.uri,
+    }
     post_id = params[:post_id]
     @single_post = ! post_id.nil?
     if !@single_post
+      pagination = {
+        :page => params[:page] || 1,
+        :per_page => 10,
+      }
+      view_context[:pagination] = pagination
       @posts = Post.desc(:created_at).where({:blog_id => @blog.id})
-        .paginate({
-                    :page => params[:page] || 1,
-                    :per_page => 10,
-                  })
+        .paginate(pagination)
 
     else
       @posts = [Post.find(post_id)]
       @post = @posts.first
     end
-    render :layout => false
+    view_context.update :posts => @posts
+
+    view = BlogView.new @blog, view_context
+    render :text => view.render
   end
 
   def editors

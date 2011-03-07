@@ -1,21 +1,26 @@
 module ObjectView
-  def self.wrap(obj)
-    (obj.class.name + "View").constantize.new(obj)
+  def self.wrap(obj, extra = {})
+    (obj.class.name + "View").constantize.new(obj, extra)
   end
 
   def respond_to?(method)
-    self.class.public_instance_methods(false).include? method
+    klass = self.class
+    begin
+      return true if klass.public_instance_methods(false).include? method
+      klass = klass.superclass
+    end while klass.name[-4..-1] == 'View'
+    false
   end
 end
 
 class BlogView < Mustache
-  include UrlHelper
   include ObjectView
 
   def initialize(blog, extra = {})
     @blog = blog
-    @posts = extra[:posts] && extra[:posts].map {|p| ObjectView.wrap(p)}
-    @request = extra[:request]
+    @posts = extra[:posts] && extra[:posts].map {|p| ObjectView.wrap(p, extra)}
+    @url_template = extra[:url_template]
+    @extra = extra
     self.template = blog.custom_html.blank? ? blog.template.html : blog.custom_html
   end
 
@@ -26,34 +31,26 @@ class BlogView < Mustache
   def posts
     @posts
   end
+
+  def url
+    @extra[:base_url]
+  end
+
+  def home_url
+    @url_template % 'www'
+  end
+
+  def icon_180
+    @blog.icon.url_for(:large)
+  end
+
+  def icon_60
+    @blog.icon.url_for(:medium)
+  end
+
+  def icon_24
+    @blog.icon.url_for(:small)
+  end
 end
 
-class TextView
-  extend Forwardable
-  include ObjectView
-
-  def initialize(text)
-    @text = text
-  end
-
-  def_delegators :@text, :title, :content
-
-  def text
-    self
-  end
-
-  def author
-    ObjectView.wrap(@text.author)
-  end
-end
-
-class UserView
-  extend Forwardable
-  include ObjectView
-
-  def initialize(user)
-    @user = user
-  end
-
-  def_delegators :@user, :name
-end
+Dir[Rails.root.join('lib/object_view/*.rb')].each {|f| require f}
