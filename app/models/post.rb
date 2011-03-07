@@ -35,13 +35,6 @@ class Post
     self._type.downcase
   end
 
-  def self.new(args = {}) 
-    type = args.delete :type
-    return super if type.nil? 
-    klass = Object.const_get type.capitalize
-    (self.subclasses.include? klass) ? klass.new(args) : nil
-  end
-
   # about the repost , parent and ancestor
   def parent=(parent)
     self.created_at = self.updated_at = Time.now
@@ -58,6 +51,13 @@ class Post
     return nil if ancestor_id.nil?
     a = Post.criteria.id(ancestor_id).first
     a ||= parent
+  end
+
+  def self.new(args = {}) 
+    type = args.delete :type
+    return super if type.nil? 
+    klass = Object.const_get type.capitalize
+    (self.subclasses.include? klass) ? klass.new(args) : nil
   end
 
   class << self
