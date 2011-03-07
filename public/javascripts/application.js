@@ -654,3 +654,73 @@ K.tgt.reply = function(){
         }).send()
     }
 }()
+
+K.widgets.tab = (function() {
+  var ACTIVATION_CLASS = 'activated'
+    , Tab = new Class({
+        Implements: [Events]
+      , initialize: function(label, content) {
+          this.label = label
+          if (content) this.mountContent(content)
+          this.activated = false
+        }
+      , mountContent: function(content) {
+          var self = this
+          this.content = content
+          this.label.addEvent('click', function(e) {
+            e.stop()
+            self.toggle()
+          })
+          return this
+        }
+      , toggle: function() {
+          if (this.activated) this.deactivate()
+          else this.activate()
+        }
+      , activate: function() {
+          this.activated = true
+          this.label.addClass(ACTIVATION_CLASS)
+          this.content.addClass(ACTIVATION_CLASS)
+          this.fireEvent("activate")
+          return this
+        }
+      , deactivate: function() {
+          this.activated = false
+          this.label.removeClass(ACTIVATION_CLASS)
+          this.content.removeClass(ACTIVATION_CLASS)
+          this.fireEvent("deactivate")
+          return this
+        }
+      })
+
+    , TabSet = new Class({
+        initialize: function(tabs) {
+          tabs.each(this.listenTab, this)
+          this.tabs = tabs
+          this.activated = {deactivate: function() {}}
+        }
+      , listenTab: function(tab) {
+          var tabSet = this
+          tab.addEvent('activate', function() {
+            tabSet.activated.deactivate()
+            tabSet.activated = this
+          })
+        }
+      })
+  TabSet.buildFrom = function(labels, contents) {
+    var tabs = []
+    labels.each(function(label, index) {
+      var tab = new Tab(label, contents[index])
+      tabs.push(tab)
+    })
+    return new TabSet(tabs)
+  }
+
+  return function(labelList) {
+    var labels = labelList.getChildren()
+      , contentsHolder = document.getElement(labelList.get("data-tabContents"))
+      , contents = contentsHolder.getChildren()
+    // Expose to global
+    customizePanel = TabSet.buildFrom(labels, contents)
+  }
+})()

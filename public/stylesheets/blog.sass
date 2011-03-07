@@ -1,5 +1,9 @@
 @import 'lib'
 
+*
+  margin: 0
+  padding: 0
+
 .new_page
   .page_name,
   .page_url
@@ -142,3 +146,28 @@ span.suggestion
 
   .upgrade, .kick, .exit
     text-decoration: underline
+
+
+#blog_custom_forms .blog_info
+  padding: 1.2em
+    font-size: 12px
+    line-height: 16px
+
+  label, input
+    margin-top: 12px
+    margin-bottom: 12px
+    height: 16px
+
+  input
+    @include inline_block
+
+  label,
+  .page_name input
+    display: block
+
+.customize_navigation
+  @include clear_fix
+
+  li
+    float: left
+    display: inline

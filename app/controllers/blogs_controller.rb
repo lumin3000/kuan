@@ -21,6 +21,7 @@ class BlogsController < ApplicationController
   end
 
   def edit
+    render :layout => 'application'
   end
 
   def update
