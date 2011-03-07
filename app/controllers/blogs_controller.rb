@@ -3,7 +3,7 @@ class BlogsController < ApplicationController
   before_filter :signin_auth, :except => [:show]
   before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick]
   before_filter :editor_auth, :only => [:followers, :editors]
-  before_filter :find_by_uri, :only => [:show, :apply]
+  before_filter :find_by_uri, :only => [:show, :apply, :apply_entry]
 
   def new
     @blog = Blog.new
@@ -79,10 +79,12 @@ class BlogsController < ApplicationController
   end
 
   def apply
-    @blog.applied current_user
-    respond_to do |format|
-      format.json { render :json => {status: "success", message: "申请成功" } }
-    end
+    @blog.applied(current_user, params[:content])
+    render "apply_processed", :layout => "apply"
+  end
+
+  def apply_entry
+    render "apply", :layout => "apply"
   end
 
   def upgrade

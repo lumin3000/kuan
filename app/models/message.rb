@@ -1,6 +1,7 @@
 class Message
   include Mongoid::Document
   field :type
+  field :content
   field :unread, :type => Boolean, :default => true
   field :done, :type => Boolean, :default => false
   field :ignored, :type => Boolean, :default => false

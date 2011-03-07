@@ -218,7 +218,7 @@ describe BlogsController do
       blog_founder.follow! @blog, "founder"
       @blog.canjoin = true
       @blog.save
-      post :apply, :id => @blog.to_param
+      post :apply, :uri => @blog.to_param
       blog_founder.reload
       blog_founder.messages.first.should_not be_blank
     end

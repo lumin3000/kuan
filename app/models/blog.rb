@@ -105,10 +105,11 @@ class Blog
     not primary? and canjoin? and not edited?(user)
   end
 
-  def applied(sender)
+  def applied(sender, content = nil)
     return false unless applied? sender
     message = Message.new(:sender => sender,
                           :blog => self,
+                          :content => content,
                           :type => "join") 
     founders.each do |founder|
       founder.receive_message! message

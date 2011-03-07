@@ -41,6 +41,8 @@ Kuan::Application.routes.draw do
   get '/signout', :to => 'sessions#destroy'
 
   get '/blogs/:uri/editors' => 'blogs#editors'
+  get '/blogs/:uri/apply' => 'blogs#apply_entry'
+  post '/blogs/:uri/apply' => 'blogs#apply'
   put '/blogs/:uri/upgrade/:user' => 'blogs#upgrade'
   delete '/blogs/:uri/kick/:user' => 'blogs#kick'
   delete '/blogs/:uri/exit' => 'blogs#exit'
@@ -52,7 +54,6 @@ Kuan::Application.routes.draw do
     get '/followers' => 'blogs#followers'
     get '/edit' => 'blogs#edit'
     post '/blogs/:id/follow_toggle' => 'blogs#follow_toggle'
-    put '/apply' => 'blogs#apply'
     get '/page/:page' => 'blogs#show', :page => /\d+/
     get '/post/:post_id' => 'blogs#show'
   end

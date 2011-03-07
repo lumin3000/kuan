@@ -1,0 +1,11 @@
+- content_for :title, "申请加入#{@blog.title}_宽岛"
+
+%form.middle_box.new_contributor{ :action => "/blogs/#{@blog.uri}/apply", :method => "post" }
+  %h1<
+    = "申请加入#{@blog.title}"
+  %h2<
+    页面管理员需要验证你的身份，请输入你的请求信息
+  .apply_words
+    %textarea{ :name => "content" }
+  .submit_box
+    %input{ :type => "submit", :value => " " }
