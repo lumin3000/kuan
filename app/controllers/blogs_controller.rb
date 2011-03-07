@@ -4,6 +4,7 @@ class BlogsController < ApplicationController
   before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick]
   before_filter :editor_auth, :only => [:followers, :editors]
   before_filter :find_by_uri, :only => [:show, :apply, :apply_entry]
+  before_filter :blog_display, :only => [:show, :preview]
 
   def new
     @blog = Blog.new
@@ -33,37 +34,18 @@ class BlogsController < ApplicationController
     end
   end
 
+  def preview
+    build_view_context
+    template_str = params[:template]
+    view = BlogView.new @blog, @view_context
+    view.template = template_str
+    render :text => view.render
+  end
+
   def show
-    find_by_uri
-    render 'shared/404', :status => 404, :layout => false and return if @blog.nil?
-    if not @blog.open_to?(current_user)
-      render 'shared/403', :status => 403, :layout => false and return
-    end
-
-    url_template = "http://%%s.%s%s/" % [request.domain, request.port_string]
-    view_context = {
-      :url_template => url_template,
-      :base_url => url_template % @blog.uri,
-    }
-    post_id = params[:post_id]
-    @single_post = ! post_id.nil?
-    view_context[:post_single] = @single_post
-    if !@single_post
-      pagination = {
-        :page => params[:page] || 1,
-        :per_page => 10,
-      }
-      view_context[:pagination] = pagination
-      @posts = Post.desc(:created_at).where({:blog_id => @blog.id})
-        .paginate(pagination)
-
-    else
-      @posts = [Post.find(post_id)]
-      @post = @posts.first
-    end
-    view_context.update :posts => @posts
-
-    view = BlogView.new @blog, view_context
+    build_view_context
+    fetch_posts
+    view = BlogView.new @blog, @view_context
     render :text => view.render
   end
 
@@ -143,5 +125,41 @@ class BlogsController < ApplicationController
 
   def find_by_uri(uri = nil)
     @blog = Blog.find_by_uri!(uri || params[:uri] || params[:id] || request.subdomain)
+  end
+
+  def blog_display
+    find_by_uri
+    render 'shared/404', :status => 404, :layout => false and return if @blog.nil?
+    if not @blog.open_to?(current_user)
+      render 'shared/403', :status => 403, :layout => false and return
+    end
+  end
+
+  def build_view_context
+    url_template = "http://%%s.%s%s/" % [request.domain, request.port_string]
+    @view_context = {
+      :url_template => url_template,
+      :base_url => url_template % @blog.uri,
+    }
+    @post_id = params[:post_id]
+    @single_post = ! @post_id.nil?
+    @view_context[:post_single] = @single_post
+  end
+
+  def fetch_posts
+    if !@single_post
+      pagination = {
+        :page => params[:page] || 1,
+        :per_page => 10,
+      }
+      @view_context[:pagination] = pagination
+      @posts = Post.desc(:created_at).where({:blog_id => @blog.id})
+        .paginate(pagination)
+
+    else
+      @posts = [Post.find(@post_id)]
+      @post = @posts.first
+    end
+    @view_context.update :posts => @posts
   end
 end

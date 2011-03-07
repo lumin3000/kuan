@@ -70,6 +70,7 @@ Kuan::Application.routes.draw do
     post '/blogs/:id/follow_toggle' => 'blogs#follow_toggle'
     get '/page/:page' => 'blogs#show', :page => /\d+/
     get '/post/:post_id' => 'blogs#show'
+    post '/preview' => 'blogs#preview'
   end
 
   root :to => 'users#show'
