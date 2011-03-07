@@ -182,7 +182,11 @@ class Post
 
   def ancestor_reposts_inc
     unless ancestor.nil?
-      ancestor.inc :repost_count, 1
+      if ancestor.repost_count.nil?
+        ancestor.update_attributes(:repost_count => 0)
+      else
+        ancestor.inc :repost_count, 1
+      end
     end
   end
 end
