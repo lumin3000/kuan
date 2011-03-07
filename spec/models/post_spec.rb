@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe Post do
-  #pending "Abstract class, dunno what to do"
-
   describe "notice watchers when usre comment a post" do
     before :each do
       @blog = Factory.build(:blog_unique)
@@ -13,7 +11,7 @@ describe Post do
       @post = Post.new
       @post.author = @user
     end
-      
+
     it "should notice post author" do
       length = @user.comments_notices.unreads.count
       @comment = Factory.build(:comment, :post => @post, :author => @comment_author)
@@ -54,6 +52,41 @@ describe Post do
       watchers = @post.watchers
       watchers.should be_include(@post.author)
       watchers.should be_include(@comment_user)
+    end
+  end
+end
+
+describe Post, "reposting" do
+  before :each do
+    @blog = Factory :blog_unique
+    @user = Factory :user_unique
+    @user.follow! @blog, "lord"
+    @post = Text.new(:content => "For reposting")
+    @post.author = @user
+    @post.blog = @blog
+    @post.save
+    @re_blog = Factory :blog_unique
+    @re_user = Factory :user_unique
+    @re_user.follow! @re_blog, "founder"
+  end
+
+  describe "for success" do
+    before :each do
+      @repost = @post.repost
+      @repost.blog = @re_blog
+      @repost.author = @re_user
+      @repost.save 
+      @repost.reload
+    end
+
+    it "should create a new repost" do
+      @repost.should be_repost
+      @repost.parent.should == @post
+      @repost.ancestor.should == @post
+      @repost.content.should == @post.content
+      @repost.author.should == @re_user
+      @repost.blog.should == @re_blog
+      @repost.parent.blog.should == @blog
     end
   end
 end

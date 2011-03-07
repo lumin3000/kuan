@@ -11,6 +11,10 @@ class Post
   embeds_many :comments
   index :created_at
 
+  field :parent_id
+  field :ancestor_id
+  index :ancestor_id
+
   attr_accessible :blog, :author, :author_id, :blog_id, :created_at, :comments
 
   validates_presence_of :author_id
@@ -44,6 +48,35 @@ class Post
 
   def self.default_type
     "text"
+  end
+
+  # about the repost , parent and ancestor
+  def parent=(parent)
+    self.parent_id = parent.id
+  end
+
+  def parent
+    Post.find(parent_id) unless parent_id.nil?
+  end
+
+  def ancestor=(ancestor)
+    self.ancestor_id = ancestor.id
+  end
+
+  def ancestor
+    Post.find(ancestor_id) unless ancestor_id.nil?
+  end
+
+  def repost?
+    not parent_id.nil?
+  end
+
+  def repost
+    repost = self.dup
+    repost.created_at = Time.now
+    repost.parent = self
+    repost.ancestor = self.ancestor.nil? ? self : self.ancestor
+    repost
   end
 
   class << self

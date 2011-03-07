@@ -29,6 +29,9 @@ module PostsHelper
     if par[:id].nil?
       url = "/posts"
       m = :post
+    elsif not par[:parent].nil?
+      url = "/posts/recreate"
+      m = :post
     else
       url = "/posts/#{par[:id]}"
       m = :put

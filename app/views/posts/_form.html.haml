@@ -14,7 +14,7 @@
   .operation
     .page_selector
       .my_pages
-        - if @post.new_record?
+        - if @post.new_record? 
           %p
             -# 发布至:
             %select#blog_id{name: 'blog_id', data: {widget: 'prettySelect'}}

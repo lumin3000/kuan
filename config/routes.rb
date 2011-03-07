@@ -3,12 +3,16 @@ Kuan::Application.routes.draw do
 
   resources :posts do
     resources :comments
+    member do
+      get :renew
+      post :recreate
+    end
   end
 
   resources :users, :except => [:index, :destroy] 
 
   resources :sessions, :only => [:new, :create, :destroy]
-  resources :blogs, :only => [:new, :create], do
+  resources :blogs, :only => [:new, :create] do
     member do
       post :follow_toggle
     end
