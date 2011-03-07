@@ -1,7 +1,7 @@
 = render partial: sub_template, object: @post,
   as: :post
 
-= form_t params, do
+= form_t params do
   %h1<
     = "#{@action}#{@post_type}"
     - unless @post.errors.empty?
@@ -9,6 +9,8 @@
         = @post.errors.values.first.first
 
   = hidden_field_tag :type, @post.type
+  - if params[:action] == 'renew'
+    = hidden_field_tag :parent_id, @parent.id
 
   = content_for :form
   .operation

@@ -14,8 +14,9 @@ class Post
   field :parent_id
   field :ancestor_id
   index :ancestor_id
+  field :repost_count, :type => Integer, :default => 0
 
-  attr_accessible :blog, :author, :author_id, :blog_id, :created_at, :comments
+  attr_accessible :blog, :author, :author_id, :blog_id, :created_at, :comments, :parent
 
   validates_presence_of :author_id
   validates_presence_of :blog_id, :message => "请选择要发布到的页面"
@@ -23,7 +24,7 @@ class Post
   validate :posted_to_editable_blogs, :if => :new_record?
 
   before_destroy :clean_comments_notices
-
+  after_create :ancestor_reposts_inc
 
   def haml_object_ref
     "post"
@@ -52,31 +53,20 @@ class Post
 
   # about the repost , parent and ancestor
   def parent=(parent)
-    self.parent_id = parent.id
+    self.created_at = self.updated_at = Time.now
+    return if parent.nil?
+    self.parent_id = parent.id 
+    self.ancestor_id = parent.ancestor.nil? ? parent.id : parent.ancestor.id
   end
 
   def parent
-    Post.find(parent_id) unless parent_id.nil?
-  end
-
-  def ancestor=(ancestor)
-    self.ancestor_id = ancestor.id
+    Post.criteria.id(parent_id).first unless parent_id.nil?
   end
 
   def ancestor
-    Post.find(ancestor_id) unless ancestor_id.nil?
-  end
-
-  def repost?
-    not parent_id.nil?
-  end
-
-  def repost
-    repost = self.dup
-    repost.created_at = Time.now
-    repost.parent = self
-    repost.ancestor = self.ancestor.nil? ? self : self.ancestor
-    repost
+    return nil if ancestor_id.nil?
+    a = Post.criteria.id(ancestor_id).first
+    a ||= parent 
   end
 
   class << self
@@ -188,5 +178,11 @@ class Post
 
   def sanitize_content
     self.content = Post.tag_filter(self.content)
+  end
+
+  def ancestor_reposts_inc
+    unless ancestor.nil?
+      ancestor.inc :repost_count, 1
+    end
   end
 end

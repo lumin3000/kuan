@@ -40,12 +40,23 @@ class PostsController < ApplicationController
   end
 
   def renew
-    parent = Post.find params[:id]
-    @post = parent.repost
+    @parent = Post.find params[:id]
+    @post = @parent.dup
     get_target_blogs
   end
 
   def recreate
+    type = params.delete :type
+    params[:author] = current_user
+    params[:parent] = Post.find params.delete(:parent_id)
+    @post = Post.infer_type(type).new(params)
+    if @post.save
+      redirect_to home_path
+    else
+      get_target_blogs
+      @default_target_blog = @post.blog || @user.primary_blog
+      render 'renew'
+    end
   end
 
   def destroy

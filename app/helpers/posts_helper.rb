@@ -29,7 +29,7 @@ module PostsHelper
     if par[:id].nil?
       url = "/posts"
       m = :post
-    elsif not par[:parent].nil?
+    elsif par[:action] == "renew"
       url = "/posts/recreate"
       m = :post
     else

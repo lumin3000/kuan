@@ -5,6 +5,8 @@ Kuan::Application.routes.draw do
     resources :comments
     member do
       get :renew
+    end
+    collection do
       post :recreate
     end
   end

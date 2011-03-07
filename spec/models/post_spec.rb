@@ -72,21 +72,47 @@ describe Post, "reposting" do
 
   describe "for success" do
     before :each do
-      @repost = @post.repost
+      @repost = @post.dup
       @repost.blog = @re_blog
       @repost.author = @re_user
+      @repost.parent = @post
       @repost.save 
       @repost.reload
+      @repost_next = @repost.dup
+      @repost_next.parent = @repost
+      @repost_next.save
+      @repost_next.reload
     end
 
     it "should create a new repost" do
-      @repost.should be_repost
       @repost.parent.should == @post
       @repost.ancestor.should == @post
       @repost.content.should == @post.content
       @repost.author.should == @re_user
       @repost.blog.should == @re_blog
       @repost.parent.blog.should == @blog
+    end
+
+    it "should have a correct anccestor" do
+      @repost_next.parent.should == @repost
+      @repost_next.ancestor.should == @post
+    end
+
+    it "ancestor should have correct reposts count" do
+      @post.reload
+      @post.repost_count.should == 2
+    end
+
+    it "should not be repost when parent is deleted" do
+      @repost.delete
+      @repost_next.reload
+      @repost_next.parent.should be_nil
+    end
+
+    it "should use parent as ancestor when ancestor is deleted" do
+      @post.delete
+      @repost_next.reload
+      @repost_next.ancestor.should == @repost
     end
   end
 end
