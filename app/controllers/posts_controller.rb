@@ -7,7 +7,6 @@ class PostsController < ApplicationController
     @type = params[:type] || Post.default_type
     @post = Post.infer_type(@type).new
     @post.type = @type
-    get_default_target
     get_target_blogs
   end
 
@@ -21,7 +20,6 @@ class PostsController < ApplicationController
       get_target_blogs
       @default_target_blog = @post.blog || @user.primary_blog
       return render 'new'
-      #Rails.logger.debug @post.errors
     end
   end
 
@@ -38,6 +36,26 @@ class PostsController < ApplicationController
       redirect_to home_path
     else
       return render 'edit'
+    end
+  end
+
+  def renew
+    @parent = Post.find params[:id]
+    @post = @parent.dup
+    get_target_blogs
+  end
+
+  def recreate
+    type = params.delete :type
+    params[:author] = current_user
+    params[:parent] = Post.find params.delete(:parent_id)
+    @post = Post.infer_type(type).new(params)
+    if @post.save
+      redirect_to home_path
+    else
+      get_target_blogs
+      @default_target_blog = @post.blog || @user.primary_blog
+      render 'renew'
     end
   end
 
@@ -59,14 +77,13 @@ class PostsController < ApplicationController
   private
 
   def get_target_blogs
-    @target_blogs = @user.blogs
+    @target_blogs = current_user.blogs
     get_default_target
   end
 
-
   def get_default_target
     @default_target_blog = if params[:blog_uri].blank?
-      @user.primary_blog
+      current_user.primary_blog
     else
       Blog.find_by_uri! params[:blog_uri]
     end

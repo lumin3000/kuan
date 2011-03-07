@@ -6,6 +6,7 @@
         :data => { :widget => "rest", :callback => "del", :md => "delete", :parent => "tar_post" }}<
         删除
       = link_to "编辑", "/posts/#{post.id}/edit", :class => 'edit', :title => '编辑'
+    = link_to "转贴", "/posts/#{post.id}/renew", :class => 'repost', :title => '转贴'
   .content_body
     = render partial: sub_template, object: post
   .content_footer
@@ -19,3 +20,8 @@
         = post.comments.count == 0 ? " " : post.comments.count
       %a.open{ :href => blog_path(post.blog) + "post/#{post.id}", :target => "_blank",
         title: '展开' }
+    .middle
+      - unless post.parent.nil?
+        %a{ :href => blog_path(post.parent.blog) }
+          = post.parent.blog.title
+        &#8594;

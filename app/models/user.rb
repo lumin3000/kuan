@@ -124,10 +124,7 @@ class User
 
   #All following blogs
   def subs
-    #waitting for piginate
-    followings.where(:auth => "follower").
-      desc(:created_at).limit(100).
-      map {|f| f.blog}
+    followings.where(:auth => "follower").desc(:created_at).map {|f| f.blog}
   end
 
   def all_blogs
