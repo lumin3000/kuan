@@ -45,11 +45,13 @@
                 {{/author}}
               <span class='update_time'>{{create_date}}</span></div>
               <div class='right'>
-                <a class='reply' data-tgt='comments'
-                  href='{{url_for_comments}}'>{{comments_count}}</a>
+                <a class='reply' target='_blank' href='{{url}}'>{{comments_count}}</a>
                 <a class='open' href='{{url}}' target='_blank' title='展开'></a>
               </div>
             </div>
+            {{#post_single}}
+              {{{load_comments}}}
+            {{/post_single}}
           </div>
         {{/posts}}
         <div id='navigation'>

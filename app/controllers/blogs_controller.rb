@@ -47,6 +47,7 @@ class BlogsController < ApplicationController
     }
     post_id = params[:post_id]
     @single_post = ! post_id.nil?
+    view_context[:post_single] = @single_post
     if !@single_post
       pagination = {
         :page => params[:page] || 1,

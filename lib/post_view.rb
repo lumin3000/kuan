@@ -18,7 +18,7 @@ class PostView
   end
 
   def url_for_comments
-    self.url + "/comments"
+    (@extra[:url_template] % 'www') + "posts/#{@post.id}/comments"
   end
 
   def type

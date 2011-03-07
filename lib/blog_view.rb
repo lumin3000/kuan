@@ -32,6 +32,16 @@ class BlogView < Mustache
     @posts
   end
 
+  def post_single
+    @extra[:post_single]
+  end
+
+  def load_comments
+    <<EOF
+  <iframe border=0 width='594px' scrolling=NO style="overflow-x: hidden; overflow-y: scroll" src="#{@posts[0].url_for_comments}"></iframe>
+EOF
+  end
+
   def url
     @extra[:base_url]
   end
