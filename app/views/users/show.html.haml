@@ -32,11 +32,21 @@
         %a{ :href => "/buzz" }
           %span.icon_reply<
             &nbsp;
-          %span.text_follow<
+          %span.text_reply<
             - if current_user.comments_notices.unreads.count > 0
               %span.new
                 = "(#{current_user.comments_notices.unreads.count}新)"
             回复
+      %hr
+      .my_message
+        %a{ :href => "/messages" }
+          %span.icon_message<
+            &nbsp;
+          %span.text_message<
+            - if current_user.messages.unreads.count > 0
+              %span.new
+                = "(#{current_user.messages.unreads.count}新)"
+            消息
       %hr
     .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
       %a.selector{href: "/home/#{@blog.uri}"}
@@ -63,6 +73,12 @@
         %span
           %a{href: followers_blog_path(@blog)}
             ! #{@blog.followers_count}人关注
+      - if !@blog.primary && @blog.edited?(current_user)
+        %div
+          %span.icon_members &nbsp;
+          %span
+            %a{href: "/blogs/#{@blog.uri}/editors"}
+              ! 成员管理
       - if @blog.customed? current_user
         %div
           %span.icon_config &nbsp;
