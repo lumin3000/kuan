@@ -30,6 +30,7 @@
     .toggle_canjoin
       = f.check_box :canjoin
       = f.label :canjoin, "其他人可以申请加入你的博客"
+      = blog_apply_path @blog
   .submit_box.edit_box
     = f.submit " "
 :javascript
