@@ -465,6 +465,8 @@ K.widgets.rest = function() {
       new Request.JSON({
         url: link,
         method: method,
+        useSpinner: true,
+        spinnerTarget: el,
         onSuccess: function(response){
           if (callback) {
             callback(response, el)
@@ -579,6 +581,8 @@ K.tgt.comments = function(){
             url: url+'?r'+Number.random(1,999),
             method: 'get',
             append: container,
+            useSpinner: true,
+            spinnerTarget: el,
             onSuccess: function(){
                 comments_el = container.getElement('.chat')
                 K.set_max_height(comments_el.getElement('.c_content'))
@@ -621,8 +625,9 @@ K.tgt.reply = function(){
         new Request.HTML({
             url: f.get('action'),
             method: 'post',
-            //append: post,
             data: { content: input.value},
+            useSpinner: true,
+            spinnerTarget: el,
             onSuccess: function(responseTree, responseElements){
                 var els = responseElements[0].getChildren()
                 chat.empty()

@@ -1,6 +1,7 @@
 class Message
   include Mongoid::Document
   field :type
+  field :content
   field :unread, :type => Boolean, :default => true
   field :done, :type => Boolean, :default => false
   field :ignored, :type => Boolean, :default => false
@@ -8,7 +9,7 @@ class Message
   referenced_in :blog
   embedded_in :user, :inverse_of => :messages
   scope :unreads, where(:unread => true)
-  validates :type, :inclusion => {:in => %w[join]}
+  validates :type, :inclusion => {:in => %w[join join_feed]}
 
   def sender=(sender)
     self.sender_id = sender.id
@@ -30,6 +31,14 @@ class Message
     return if done?
     send type
     update_attributes :done => true
+  end
+
+  def feed!
+    message = Message.new(:sender => user,
+                          :blog => blog,
+                          :type => type+'_feed') 
+    sender.receive_message! message
+    message
   end
 
   def join

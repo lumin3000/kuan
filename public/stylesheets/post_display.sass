@@ -33,6 +33,9 @@
     width: 100px
     float: right
 
+  .middle,
+  .left
+    margin-top: 12px
 
 .writer_name a
   color: #888888
@@ -228,7 +231,7 @@
   text-decoration: none
 
 .post
-  .remove, .open, .edit, .reply
+  .remove, .open, .edit, .reply, .repost
     @include post_button
 
   .open
@@ -245,6 +248,11 @@
     background-position: -60px -20px
     &:hover
       background-position: -60px 0
+
+  .repost
+    background-position: -20px -20px
+    &:hover
+      background-position: -20px 0
 
   .reply
     text-indent: 0

@@ -21,7 +21,10 @@ class MessagesController < ApplicationController
   end
 
   def doing
-    @message.doing! unless @message.nil?
+    unless @message.nil? then
+      @message.doing!
+      @message.feed!
+    end
     respond_to do |format|
       format.json { render :json => {status: "success", message: "已通过"}}
     end

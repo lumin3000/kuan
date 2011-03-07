@@ -137,5 +137,18 @@ describe "Message" do
     end
 
   end
-
+  describe "send apply to join blog message"do
+    it "should send feed" do
+      @blog.applied(@sender)
+      @user.reload
+      @message = @user.messages.first
+      @message_feed = @message.feed!
+      @sender.reload
+      @sender.messages.should include @message_feed
+      @message_feed.should_not be_nil
+      @message_feed.sender.should == @user
+      @message_feed.blog.should == @blog
+      @message_feed.type.should == "join_feed"
+    end
+  end
 end

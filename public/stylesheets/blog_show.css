@@ -29,12 +29,12 @@ a img {
 }
 
 .commands .remove, .commands .edit,
-.back_to_home, .btn_unfollow, .btn_follow {
+.back_to_home, .btn_unfollow, .btn_follow, .btn_apply {
   text-indent: -9999px;
   margin-left: 10px;
   height: 20px;
 }
-.back_to_home, .btn_unfollow, .btn_follow {
+.back_to_home, .btn_unfollow, .btn_follow, .btn_apply {
   width: 80px;
 }
 .commands .remove, .commands .edit {
@@ -48,6 +48,9 @@ a img {
 }
 .btn_unfollow {
   background: url('/images/btn_unfollow.gif')
+}
+.btn_apply {
+  background: url('/images/btn_apply.gif')
 }
 .commands .remove {
   background: url('/images/btn_remove.gif')
