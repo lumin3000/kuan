@@ -13,18 +13,16 @@ class Mover
     @cookie = login
     @posts = @kdb["posts"]
 
-    @http = Net::HTTP::Proxy("li160-32.members.linode.com", 80)
-
     @@logger ||= Logger.new("#{Rails.root.to_s}/log/mover.log")
     @@logger.info "Still running at #{Time.now}"
   end
 
   def login
     url = URI.parse('http://www.kuantu.com/login')
-    req = @http::Post.new(url.path)
+    req = Net::HTTP::Proxy("li160-32.members.linode.com", 80)::Post.new(url.path)
     req.set_form_data({'useremail' => 'kuantu.web@gmail.com',
                         'userpassword' => 'vagaa.com'})
-    res = @http.new(url.host, url.port).start {|http| http.request(req) }
+    res = Net::HTTP::Proxy("li160-32.members.linode.com", 80).new(url.host, url.port).start {|http| http.request(req) }
     case res
     when Net::HTTPSuccess, Net::HTTPRedirection
       res['set-cookie'].split(', ').map {|c| c.split('; ')[0]}.join('; ')
@@ -49,7 +47,7 @@ class Mover
     return if @kdb["fs.files"].find_one(:filename=>hashid)
     k = 0
     begin
-      @http.start('img.kuantu.com') do |http|
+      Net::HTTP::Proxy("li160-32.members.linode.com", 80).start('img.kuantu.com') do |http|
         http.open_timeout = http.read_timeout = 20
         res,body = http.get '/files/'+hashid+'/o'
         case res
@@ -89,7 +87,7 @@ class Mover
       from_uri_parse = @from_uri
       from_uri_parse += '/' unless from_uri_parse.last == '/'
       url = URI.parse("#{from_uri_parse}rss/pubtime/#{time}")
-      req = @http.new(url.host, url.port)
+      req = Net::HTTP::Proxy("li160-32.members.linode.com", 80).new(url.host, url.port)
       req.open_timeout = req.read_timeout = 20
       headers = {"Cookie" => @cookie}
       res, body = req.get(url.path, headers)
