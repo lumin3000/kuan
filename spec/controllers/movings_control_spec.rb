@@ -38,7 +38,7 @@ describe MovingsController do
 
     it "should be fail" do
       lambda do
-        post 'create', :moving => @attr.merge(:from_uri => "http://ture.kuantu.com")
+        post 'create', :moving => @attr.merge(:from_uri => " ")
         response.should render_template 'new'
       end.should_not change(Moving, :count).by(1) 
     end

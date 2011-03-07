@@ -38,7 +38,7 @@ describe Moving do
     end
  
     it "should rejected" do 
-      [" " "sureinvalid" "http://ture.kuantu.com"].each do |from|
+      [" "].each do |from|
         m = Moving.new(:from_uri => from, :to_uri => @blog.uri, :user => @user)
         m.should_not be_from_uri_valid
       end
