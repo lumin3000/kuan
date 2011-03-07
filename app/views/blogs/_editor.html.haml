@@ -9,10 +9,10 @@
     - if @blog.customed? editor
       %span.admin 管理员
     - elsif @blog.customed? current_user
-      %a{:href => "/blogs/upgrade/#{editor.id}", :class => "upgrade", :data => { widget: "rest", md: "put", callback: "replace", parent: "member_operation" }}<
+      %a{:href => "/blogs/#{@blog.uri}/upgrade/#{editor.id}", :class => "upgrade", :data => { widget: "rest", md: "put", callback: "replace", parent: "member_operation" }}<
         升为管理员
-      %a{:href => "/blogs/kick/#{editor.id}", :class => "kick", :data => {widget: "rest", md: "delete", callback: "del", parent: "member" }}<
+      %a{:href => "/blogs/#{@blog.uri}/kick/#{editor.id}", :class => "kick", :data => {widget: "rest", md: "delete", callback: "del", parent: "member" }}<
         移除
     - if editor == current_user and @blog.canexit? current_user
-      %a{:href => "/blogs/exit", :class => "exit", :data => { widget: "rest", md: "delete", callback: "redirect" }}
+      %a{:href => "/blogs/#{@blog.uri}/exit", :class => "exit", :data => { widget: "rest", md: "delete", callback: "redirect" }}
         退出

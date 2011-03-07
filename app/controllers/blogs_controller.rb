@@ -122,6 +122,6 @@ class BlogsController < ApplicationController
   end
 
   def find_by_uri(uri = nil)
-    @blog = Blog.find_by_uri!(uri || params[:id] || request.subdomain)
+    @blog = Blog.find_by_uri!(uri || params[:uri] || params[:id] || request.subdomain)
   end
 end
