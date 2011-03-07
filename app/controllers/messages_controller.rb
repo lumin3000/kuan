@@ -22,10 +22,8 @@ class MessagesController < ApplicationController
 
   def doing
     unless @message.nil? then
-      @message.doing! 
-      @message.sender.receive_message! Message.new(:sender => current_user,
-                                                   :blog => @message.blog,
-                                                   :type => "joined") 
+      @message.doing!
+      @message.feed!
     end
     respond_to do |format|
       format.json { render :json => {status: "success", message: "已通过"}}
