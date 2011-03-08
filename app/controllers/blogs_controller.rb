@@ -37,9 +37,8 @@ class BlogsController < ApplicationController
 
   def preview
     build_view_context
-    template_str = params[:template]
+    @blog.use_template params[:blog]
     view = BlogView.new @blog, @view_context
-    view.template = template_str
     render :text => view.render
   end
 

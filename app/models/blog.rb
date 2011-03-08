@@ -134,6 +134,10 @@ class Blog
     uri.parameterize
   end
 
+  def use_template(params)
+    self.custom_html = params[:custom_html]
+  end
+
   private
 
   def auth_for(user)

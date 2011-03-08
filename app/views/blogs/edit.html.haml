@@ -41,13 +41,16 @@
           = f.check_box :canjoin
           = f.label :canjoin, "其他人可以申请加入你的博客" + (@blog.canjoin? ? "(#{blog_apply_path(@blog)})" : "")
       .submit_box.edit_box
-        %button#blog_submit{type: 'submit'} 提交
+        %button#blog_submit{type: 'submit'} 保存
 
   %li.template
     %form{action: '/preview', method: 'POST', target: 'preview'}
-      %textarea{name: 'template'}
+      %textarea{name: 'blog[custom_html]'}
         = @blog.custom_html
       %button{type: 'submit'} 预览
+      %button{type: 'submit', data: {widget: 'diverseSubmit',
+        action: blog_path(@blog), target: '', method: 'PUT'}}
+        保存
 
 %iframe#preview{name: 'preview', src: blog_path(@blog)}
 

@@ -723,6 +723,44 @@ K.widgets.tab = (function() {
       , index = parseInt(labelList.get('data-activateOnLoad'), 10)
     // Expose to global
     customizePanel = TabSet.buildFrom(labels, contents)
-    if (!isNaN(index)) customizePanel.tabs[index].activate()
+    if (!isNaN(index)) {
+      var tabToActivate = customizePanel.tabs[index]
+      if (tabToActivate) tabToActivate.activate()
+    }
   }
 })()
+
+K.widgets.diverseSubmit = function(button) {
+  var form = $(button.form)
+    , newTarget = button.get('data-target')
+    , newAction = button.get('data-action')
+    , newMethod = button.get('data-method')
+    , oldAction = form.action
+    , oldTarget = form.target
+    , overridingMethod = form.getElement('input[name=_method]')
+    , oldMethod = overridingMethod ? overridingMethod.get('value') : form.get('method')
+
+  if (!overridingMethod) {
+    overridingMethod = new Element('input', {
+      name: '_method'
+    , type: 'hidden'
+    , value: oldMethod
+    })
+    form.grab(overridingMethod)
+  }
+
+  button.addEvent('click', function(e) {
+    e.stop()
+    form.set({
+      action: newAction
+    , target: newTarget
+    })
+    overridingMethod.set('value', newMethod)
+    form.submit()
+    form.set({
+      action: oldAction
+    , target: oldTarget
+    })
+    overridingMethod.set('value', oldMethod)
+  })
+}
