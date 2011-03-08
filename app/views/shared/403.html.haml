@@ -9,4 +9,8 @@
   %a.e403{href: fucking_root}
   .e403_words<
     %a{href: fucking_root}<
-      您正在访问的是私密页面，请返回查看其他页面
+      - if @message.nil?
+        您正在访问的是私密页面
+      - else
+        = @message
+      ，请返回查看其他页面

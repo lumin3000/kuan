@@ -12,6 +12,10 @@ module UrlHelper
     super
   end
 
+  def blog_apply_path(blog)
+    root_url() + "blogs/#{blog.uri}/apply"
+  end
+
   # Private!
   def url_for_blog_(blog)
     raise "fffffffuuuuuuuuuuuuu" if blog.nil?

@@ -84,6 +84,12 @@ class BlogsController < ApplicationController
   end
 
   def apply_entry
+    render 'shared/404', :status => 404, :layout => false and return if @blog.nil?
+    unless @blog.applied?(current_user)
+      @message = "现在不能申请哦"
+      render 'shared/403', :status => 403, :layout => false and return
+    end
+
     render "apply", :layout => "apply"
   end
 
