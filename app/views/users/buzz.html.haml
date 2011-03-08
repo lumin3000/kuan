@@ -1,12 +1,3 @@
-- content_for :head do
-  = stylesheet_link_tag 'post_display', 'dashboard', 'buzz'
-
-.header
-  %a.logo{href: "/home"}
-  .navigator
-    %a.back_to_home{href: fucking_root}
-      回我的主页
-
 .reply_list
   %h1<
     回复&nbsp;
@@ -27,5 +18,3 @@
               %a.page_name{href: blog_path(p.blog)}= p.blog.title
           .content= render_post p
   = pagination(@buzz_list)
-
-= render :partial => 'shared/footer'
