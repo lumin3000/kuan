@@ -35,6 +35,15 @@
               {{#photo_single}}
                 {{content}}
               {{/photo_single}}
+
+              {{#link}}
+                <a href="{{url}}">{{title}}</a>
+                <p>{{content}}</p>
+              {{/link}}
+              {{#video}}
+                {{video_code_500}}
+                {{content}}
+              {{/video}}
             </div>
             <div class='content_footer'>
               <div class='left'>

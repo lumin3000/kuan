@@ -1,6 +1,12 @@
+require 'cgi'
+
 module ObjectView
   def self.wrap(obj, extra = {})
     (obj.class.name + "View").constantize.new(obj, extra)
+  end
+
+  def self.included(klass)
+    klass.extend(ClassMethods)
   end
 
   def respond_to?(method)
@@ -11,22 +17,52 @@ module ObjectView
     end while klass.name[-4..-1] == 'View'
     false
   end
+
+  module ClassMethods
+    def expose(prop_name, *fields)
+      fields.each do |f|
+        define_method(f) do
+          prop = instance_variable_get prop_name
+          prop.send(f).html_safe
+        end
+      end
+    end
+
+    def expose_with_h(prop_name, *fields)
+      fields.each do |f|
+        define_method(f) do
+          prop = instance_variable_get prop_name
+          value = prop.send f
+          value.nil? ? ''.html_safe : h(value)
+        end
+      end
+    end
+  end
+
+  private
+  # RAILS
+  def h(str)
+    str.html_safe? ? str : CGI.escapeHTML(str).html_safe
+  end
+  # Y U NO EASY TO REUSE
 end
 
 class BlogView < Mustache
   include ObjectView
+
+  def escapeHTML(str)
+    str.html_safe? ? str : CGI.escapeHTML(str)
+  end
 
   def initialize(blog, extra = {})
     @blog = blog
     @posts = extra[:posts] && extra[:posts].map {|p| ObjectView.wrap(p, extra)}
     @url_template = extra[:url_template]
     @extra = extra
-    self.template = blog.custom_html.blank? ? blog.template.html : blog.custom_html
+    self.template = blog.template_in_use
   end
 
-  def title
-    @blog.title
-  end
+  expose_with_h :@blog, :title
 
   def posts
     @posts

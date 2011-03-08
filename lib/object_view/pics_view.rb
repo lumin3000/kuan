@@ -1,9 +1,9 @@
 class PicsView < PostView
-  def_delegators :@post, :title, :content
+  expose :@post, :content
 
   def initialize(*)
     super
-    @first_photo = @post.photos[0]
+    @first_photo = @post.photos.first
   end
 
   def photo_single

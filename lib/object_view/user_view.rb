@@ -7,7 +7,7 @@ class UserView
     @extra = extra
   end
 
-  def_delegators :@user, :name
+  expose_with_h :@user, :name
 
   def url
     @primary_blog ||= @user.primary_blog

@@ -138,6 +138,10 @@ class Blog
     self.custom_html = params[:custom_html]
   end
 
+  def template_in_use
+    self.custom_html.blank? ? self.template.html : self.custom_html
+  end
+
   private
 
   def auth_for(user)

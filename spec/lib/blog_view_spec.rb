@@ -1,11 +1,12 @@
 require 'spec_helper'
+require 'cgi'
 
 describe BlogView do
   before :each do
     @blog = Factory.build :blog_unique
-    @view = BlogView.new @blog
     @text = Factory.build :text, :content => 'howdy ho!'
     @posts = [@text]
+    @view = BlogView.new @blog, :posts => @posts
   end
 
   it "should be safe to use" do
@@ -98,6 +99,38 @@ EOF
         @rendered.should be_include @anchor
         @rendered.should be_include @text.content
       end
+    end
+  end
+
+  describe "Now let's play with html shit" do
+    before :each do
+      @text.content = "<i>blah</i>"
+      @text.title = "<my world>"
+      @blog.title = ">.<"
+      @view.template = <<TPL
+  {{title}}
+  {{{title}}}
+  {{#posts}}
+    {{#text}}
+      {{title}}
+      {{content}}
+    {{/text}}
+  {{/posts}}
+TPL
+      @rendered = @view.render
+    end
+
+    it "should do escaping right" do
+      @view.title.should be_html_safe
+      @view.title.should == CGI.escapeHTML(@blog.title)
+      @rendered.should be_include(@view.title)
+      @rendered.should_not be_include(@blog.title)
+    end
+
+    it "should not escape fields which claimed safe" do
+      content = @view.posts[0].content
+      content.should be_html_safe
+      content.should == @text.content
     end
   end
 end

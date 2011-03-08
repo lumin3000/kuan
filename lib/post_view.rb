@@ -12,6 +12,7 @@ class PostView
   end
 
   def_delegator :@post, :created_at, :create_date
+  expose :@post, :type
 
   def url
     @extra[:base_url] + "post/#{@post.id}"
@@ -21,7 +22,4 @@ class PostView
     (@extra[:url_template] % 'www') + "posts/#{@post.id}/comments"
   end
 
-  def type
-    @post.type
-  end
 end
