@@ -88,7 +88,7 @@ class PostsController < ApplicationController
     @posts = current_user.favor_posts.reverse.slice skip, limit
     @posts ||= [] 
     @posts_count = current_user.favor_posts.count
-    render :layout => 'account'
+    render :layout => 'common'
   end
 
   def news

@@ -454,6 +454,9 @@ K.widgets.rest = function() {
     toggle: function(response, el){
       var clazz = el.get('data-class')
       var title = el.get('data-title')
+      el.set('data-class', el.get('class'))
+      el.set('data-title', el.get('title'))
+      el.innerHTML = title
       el.set('class', clazz)
       el.set('title', title)
     },
