@@ -91,6 +91,15 @@ class PostsController < ApplicationController
     render :layout => 'account'
   end
 
+  def news
+    pagination = {
+      :page => params[:page] || 1,
+      :per_page => 10,
+    }
+    @posts = Post.news(pagination)
+    render :layout => "default"
+  end
+
   private
 
   def get_target_blogs

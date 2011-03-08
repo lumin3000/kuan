@@ -1,0 +1,8 @@
+- content_for :head do
+  = stylesheet_link_tag 'post_display', 'dashboard'
+
+.latest
+  %h1 正在发生的事
+  .timeline
+    = render :partial => "posts/post_full", :collection => @posts, :as => :post
+      

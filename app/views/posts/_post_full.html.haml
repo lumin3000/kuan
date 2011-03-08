@@ -1,0 +1,8 @@
+.article.tar_post
+  .avatar
+    .image<
+      %a{href: blog_path(post.blog)}<
+        =image_tag post.blog.icon.url_for(:medium)
+    %div<
+      %a.page_name{href: blog_path(post.blog)}= post.blog.title
+  .content= render_post post

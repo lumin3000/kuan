@@ -1,0 +1,8 @@
+- @header = @footer = "main"
+- content_for :content, do
+  = yield
+  = render :partial => 'shared/footer'
+
+- content_for :site_layout, "site_middle_size"
+
+= render :file => 'layouts/application'

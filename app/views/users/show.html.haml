@@ -108,14 +108,6 @@
         %a.video{href: "/posts/new/video#{trailing_post_url}"}
         .right
     .timeline
-      - @posts.each do |p|
-        .article.tar_post
-          .avatar
-            .image<
-              %a{href: blog_path(p.blog)}<
-                =image_tag p.blog.icon.url_for(:medium)
-            %div<
-              %a.page_name{href: blog_path(p.blog)}= p.blog.title
-          .content= render_post p
+      = render :partial => "posts/post_full", :collection => @posts, :as => :post
     = pagination(@posts)
 = render :partial => 'shared/footer'
