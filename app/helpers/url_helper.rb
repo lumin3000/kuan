@@ -13,7 +13,7 @@ module UrlHelper
   end
 
   def blog_apply_path(blog)
-    root_url() + "blogs/#{blog.uri}/apply"
+    fucking_root() + "blogs/#{blog.uri}/apply"
   end
 
   # Private!
