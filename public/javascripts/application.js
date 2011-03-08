@@ -702,7 +702,7 @@ K.widgets.tab = (function() {
       , listenTab: function(tab) {
           var tabSet = this
           tab.addEvent('activate', function() {
-            tabSet.activated.deactivate()
+            if (this != tabSet.activated) tabSet.activated.deactivate()
             tabSet.activated = this
           })
         }
@@ -720,7 +720,9 @@ K.widgets.tab = (function() {
     var labels = labelList.getChildren()
       , contentsHolder = document.getElement(labelList.get("data-tabContents"))
       , contents = contentsHolder.getChildren()
+      , index = parseInt(labelList.get('data-activateOnLoad'), 10)
     // Expose to global
     customizePanel = TabSet.buildFrom(labels, contents)
+    if (!isNaN(index)) customizePanel.tabs[index].activate()
   }
 })()

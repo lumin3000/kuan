@@ -2,7 +2,8 @@
 - content_for :site_layout, 'blog_customization'
 
 .customize_panel
-  %ul.customize_navigation{data: {widget: 'tab', tabContents: '#blog_custom_forms'}}
+  %ul.customize_navigation{data: {widget: 'tab', tabContents: '#blog_custom_forms',
+    activateOnLoad: 1}}
     %li.blog_info 页面信息
     %li.template 模板
   .customize_commands
