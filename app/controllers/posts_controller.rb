@@ -64,8 +64,31 @@ class PostsController < ApplicationController
     blog = @post.blog
     @post.destroy
     respond_to do |format|
-      format.json { render :text => {status: "success", location: root_url}.to_json }
+      format.json { render :text => {:status => "success", :location => root_url}.to_json }
     end
+  end
+
+  def favor_toggle
+    @post = Post.find params[:id]
+    if @post.favored_by? current_user
+      current_user.del_favor_post! @post
+    else
+      current_user.add_favor_post! @post
+    end
+
+    respond_to do |format|
+      format.json { render :text => {:status => "success"}.to_json }
+    end
+  end
+
+  def favors
+    params[:page] ||= 1
+    limit = 10
+    skip = (params[:page].to_i-1)*10
+    @posts = current_user.favor_posts.reverse.slice skip, limit
+    @posts ||= [] 
+    @posts_count = current_user.favor_posts.count
+    render :layout => 'account'
   end
 
   private

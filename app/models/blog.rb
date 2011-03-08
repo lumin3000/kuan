@@ -110,12 +110,11 @@ class Blog
 
   def applied(sender, content = nil)
     return false unless applied? sender
-    message = Message.new(:sender => sender,
-                          :blog => self,
-                          :content => content,
-                          :type => "join") 
     founders.each do |founder|
-      founder.receive_message! message
+      founder.receive_message! Message.new(:sender => sender,
+                                           :blog => self,
+                                           :content => content,
+                                           :type => "join")
     end
     true
   end

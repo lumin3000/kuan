@@ -5,9 +5,11 @@ Kuan::Application.routes.draw do
     resources :comments
     member do
       get :renew
+      put :favor_toggle
     end
     collection do
       post :recreate
+      get :favors
     end
   end
 

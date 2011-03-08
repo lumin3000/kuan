@@ -11,6 +11,8 @@ class Message
   scope :unreads, where(:unread => true)
   validates :type, :inclusion => {:in => %w[join join_feed]}
 
+  LIMIT = 100
+  
   def sender=(sender)
     self.sender_id = sender.id
   end

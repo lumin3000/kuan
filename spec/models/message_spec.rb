@@ -14,7 +14,7 @@ describe "Message" do
 
   after :each do
     User.delete_all
-    Blog.delete_all
+    Blog.delete_all 
   end
 
   describe "send apply to join blog message"do
@@ -42,9 +42,9 @@ describe "Message" do
 
       it "should reject the same message" do
         @blog.applied(@sender)
-        @user.reload
+        @user.reload 
         @user.messages.count.should == 1
-      end
+      end 
 
       describe "messages length limit" do
         before :each do
@@ -68,6 +68,24 @@ describe "Message" do
         end
       end
     end
+
+    describe "multi founder apply" do
+      it "all founders should receive message" do
+        @blog.reload
+        founder_second = Factory(:user, :email => Factory.next(:email))
+        founder_second.follow! @blog, "founder"
+        founder_third = Factory(:user, :email => Factory.next(:email))
+        founder_third.follow! @blog, "founder"
+        @blog.applied @sender
+        @user.reload
+        @user.messages.first.should_not be_blank
+        @user.messages.first.sender.should == @sender
+        founder_second.reload
+        founder_second.messages.first.sender.should == @sender
+        founder_third.reload
+        founder_third.messages.first.sender.should == @sender
+      end
+    end
   end
 
   describe "get messages list" do
@@ -76,7 +94,7 @@ describe "Message" do
       @user.reload
       next_sender = Factory(:user, :email => Factory.next(:email))
       @blog.applied next_sender
-      @user.reload 
+      @user.reload
       @user.messages.reverse.first.sender.should == next_sender
       @user.messages.reverse.last.sender.should == @sender
     end
@@ -90,9 +108,9 @@ describe "Message" do
       @blog.applied Factory(:user, :email => Factory.next(:email))
       @user.reload
       @second_message = @user.messages.second
-      
+
     end
-    
+
     it "should change unread status" do
       @first_message.read!
       @user.reload
@@ -137,6 +155,7 @@ describe "Message" do
     end
 
   end
+
   describe "send apply to join blog message"do
     it "should send feed" do
       @blog.applied(@sender)

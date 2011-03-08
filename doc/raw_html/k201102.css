@@ -1080,6 +1080,9 @@ form.edit_page .submit_box input{
 	margin:16px 0px 16px 16px;
 	text-decoration:none;
 }
+.article .content_footer .middle, .article .content_footer .left{
+    margin-top:12px
+}
 .article .content_head .fave{
 	background:url('images/post_btn.gif') 0px -20px;
 }
@@ -1245,6 +1248,12 @@ form.edit_page .submit_box input{
 	border:1px solid;
 	border-color:#C4C7BD #EFEFEF #F2F2F2 #D2D5CA;
 	padding:2px;
+}
+
+/*lookaround*/
+.latest h1{
+	margin:30px 0px;
+	color:#009fff;	
 }
 
 /*reply_list*/
