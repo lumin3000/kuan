@@ -58,12 +58,15 @@ describe Post do
   describe "list news" do
     before :each do
       Post.delete_all
+      Blog.delete_all
 
       @blog = Factory.build(:blog_unique)
       @following = Factory.build(:following_lord, :blog => @blog)
       @blog_private = Factory.build(:blog_unique)
       @following_private = Factory.build(:following_lord, :blog => @blog_private)
-      @user = Factory.build(:user_unique, :followings => [@following, @following_private] )
+      @blog_new = Factory.build(:blog_unique)
+      @following_new = Factory.build(:following_lord, :blog => @blog_new)
+      @user = Factory.build(:user_unique, :followings => [@following, @following_private, @following_new] )
       @post = Factory.build(:text)
       @user.save
       @blog.save
@@ -71,29 +74,38 @@ describe Post do
       @blog_private.private = true
       @blog_private.save
 
+      @blog_new.save
+
       @post.author = @user
       @post.blog = @blog
       @post.created_at = 1.hour.ago
-      @post.save
+      @post.save!
+      @blog.reload
+      @pagination = {
+        :page => 1,
+        :order => "posted_at DESC",
+        :per_page => 999,
+      }
     end
     it "should order desc" do
-      pending
       @post_new = Factory.build(:text)
       @post_new.author = @user
-      @post_new.blog = @blog
-      @post_new.save
+      @post_new.blog = @blog_new
+      @post_new.save!
+      @blog_new.reload
 
-      Post.news.first.should == @post_new
-      Post.news.last.should == @post
+      @news = Post.news(@pagination)
+      @news.first.should == @post_new
+      @news.last.should == @post
     end
     it "should not show private" do
-      pending
       @post_private = Factory.build(:text)
       @post_private.author = @user
       @post_private.blog = @blog
       @post_private.save
 
-      Post.news.count.should == 1
+      @news = Post.news(@pagination)
+      @news.length.should == 1
     end
   end
 
@@ -126,6 +138,7 @@ describe Post, "reposting" do
     @post.save
     @re_blog = Factory :blog_unique
     @re_user = Factory :user_unique
+
     @re_user.follow! @re_blog, "founder"
   end
 

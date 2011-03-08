@@ -61,6 +61,14 @@ class Post
     (self.subclasses.include? klass) ? klass.new(args) : nil
   end
 
+  def self.news(pagination)
+    posts = []
+    Blog.public.order_by(:posted_at.desc).excludes(:posted_at => nil).paginate(pagination).each do |b|
+      posts << b.posts.first
+    end
+    posts
+  end
+
   class << self
     TAG_WHITE_LIST = %w{pre code tt a p s i b div span table thead tbody tfoot tr th td h1 h2 h3 h4 h5 h6 img strong em br hr ul ol li blockquote cite sub sup ins}
     ATTR_WHITE_LIST = %w{href title src style width height alt}
