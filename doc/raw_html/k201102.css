@@ -1513,6 +1513,17 @@ form.edit_page .submit_box input{
 	margin-left:3px
 }
 
+.customize .appearance .images a{
+	margin-left:3px;
+	text-decoration: none;
+	color:white;
+    background-color: #aaa;
+    border-color: #C8C8C8 #B6B6B6 #B6B6B6 #C8C8C8;
+    border-radius: 5px 5px 5px 5px;
+    font-size:14px;
+    padding:4px 7px;
+}
+
 .customize .appearance .booleans input{
 	font-size:18px;
 }
