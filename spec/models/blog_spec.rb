@@ -111,4 +111,75 @@ describe Blog do
       Blog.public.should include @blog_old
     end
   end
+
+  describe "list latest blogs" do
+    before :each do
+      Blog.delete_all
+    end
+    describe "only show public" do
+      it "should show public blogs" do
+        @blog = Factory.build(:blog_unique, :posted_at => Time.now)
+        @blog2 = Factory.build(:blog_unique, :posted_at => Time.now)
+        @blog.save
+        @blog2.save
+        Blog.latest.length.should == 2
+        Blog.latest.should include @blog
+        Blog.latest.should include @blog2
+      end
+      it "should not show private blogs" do
+        @blog = Factory.build(:blog_unique, :posted_at => Time.now)
+        @blog_private = Factory.build(:blog_unique, :private => true, :posted_at => Time.now)
+        @blog.save
+        @blog_private.save
+        Blog.latest.length.should == 1
+        Blog.latest.should include @blog
+        Blog.latest.should_not include @blog_private
+      end
+      it "should handle old data private is nil" do
+        @blog = Factory.build(:blog_unique, :posted_at => Time.now)
+        @blog_old = Factory.build(:blog_unique, :private => nil, :posted_at => Time.now)
+        @blog.save
+        @blog_old.save
+        Blog.latest.length.should == 2
+        Blog.latest.should include @blog
+        Blog.latest.should include @blog_old
+      end
+    end
+
+    describe "order" do
+      before :each do
+        Post.delete_all
+        Blog.delete_all
+   
+        @blog = Factory.build(:blog_unique)
+        @following = Factory.build(:following_lord, :blog => @blog)
+        @blog_new = Factory.build(:blog_unique)
+        @following_new = Factory.build(:following_lord, :blog => @blog_new)
+        @user = Factory.build(:user_unique, :followings => [@following, @following_new] )
+        @post = Factory.build(:text)
+        @user.save
+        @blog.save
+        @blog_new.save
+        @post.author = @user
+        @post.blog = @blog
+        @post.created_at = 1.hour.ago
+        @post.save!
+        @blog.reload
+      end
+      it "should order desc" do
+        @post_new = Factory.build(:text)
+        @post_new.author = @user
+        @post_new.blog = @blog_new
+        @post_new.save!
+        @blog_new.reload
+   
+        @latest = Blog.latest
+        @latest.first.should == @blog_new
+        @latest.last.should == @blog
+      end
+    end
+
+    it "should " do
+    end
+  end
 end

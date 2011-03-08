@@ -41,6 +41,8 @@ Kuan::Application.routes.draw do
   put '/buzz/readall', :to => 'users#read_all_comments_notices'
 
   get '/news', :to => 'posts#news'
+  get '/news/page/:page', :to => 'posts#news', :page => /\d+/
+
 
   get '/messages', :to => 'messages#index'
   get '/messages/page/:page', :to => 'messages#index', :page => /\d+/

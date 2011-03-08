@@ -12,6 +12,10 @@ class Blog
   field :posted_at, :type => Time
 
   scope :public, :excludes => { :private => true }
+  scope :latest, lambda { |start = 1, limit = 10| {
+      :where => { :private.ne => true, :posted_at.ne => nil },
+      :order_by => { :posted_at => :desc },
+    } }
 
   references_many :followings
   references_many :posts, :index => true
