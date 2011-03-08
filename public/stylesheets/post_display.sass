@@ -231,7 +231,7 @@
   text-decoration: none
 
 .post
-  .remove, .open, .edit, .reply, .repost
+  .remove, .open, .edit, .reply, .repost, .fave, .faved
     @include post_button
 
   .open
@@ -265,6 +265,17 @@
       color: #676767
       text-decoration: none
       background-position: -100px 0
+
+  .fave
+    background-position: 0 -20px
+    &:hover
+
+  .faved
+    background-position: 0 -60px
+    &:hover
+    background-position: 0 -40px
+
+    
 
 .post_single .open
   display: none

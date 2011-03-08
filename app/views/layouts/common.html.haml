@@ -3,6 +3,9 @@
   = yield
   = render :partial => 'shared/footer'
 
+- content_for :head, do
+  = stylesheet_link_tag "common"
+
 - content_for :site_layout, "site_middle_size"
 
 = render :file => 'layouts/application'

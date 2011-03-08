@@ -97,7 +97,7 @@ class PostsController < ApplicationController
       :per_page => 10,
     }
     @posts = Post.news(pagination)
-    render :layout => "default"
+    render :layout => "common"
   end
 
   private
