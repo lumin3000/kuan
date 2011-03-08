@@ -7,11 +7,15 @@
         删除
       = link_to "编辑", "/posts/#{post.id}/edit", :class => 'edit', :title => '编辑'
     = link_to "转贴", "/posts/#{post.id}/renew", :class => 'repost', :title => '转贴'
-    - favor_href, favor_data = "/posts/#{post.id}/favor_toggle", { :widget => "rest", :callback => "favor", :md => "put" }
+    - favor_href, favor_data = "/posts/#{post.id}/favor_toggle", { :widget => "rest", :callback => "toggle", :md => "put" }
     - if @user and post.favored_by? @user
-      %a{ :href => favor_href, :title => '取消收藏', :class => 'faved', :data => favor_data}<
+      - favor_data["class"] = "fave"
+      - favor_data["title"] = "收藏"
+      %a{ :href => favor_href, :title => '取消收藏', :class => 'faved', :data => favor_data }<
         取消收藏
     - else
+      - favor_data["class"] = "faved"
+      - favor_data["title"] = "取消收藏"
       %a{ :href => favor_href, :title => '收藏', :class => 'fave', :data => favor_data}<
         收藏
   .content_body

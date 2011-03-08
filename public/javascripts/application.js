@@ -451,6 +451,12 @@ K.widgets.rest = function() {
         el.destroy()
       }
     },
+    toggle: function(response, el){
+      var clazz = el.get('data-class')
+      var title = el.get('data-title')
+      el.set('class', clazz)
+      el.set('title', title)
+    },
     flash: function(response){
         
     }
