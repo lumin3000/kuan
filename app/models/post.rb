@@ -64,7 +64,7 @@ class Post
   def self.news(pagination)
     posts = []
     Blog.public.order_by(:posted_at.desc).excludes(:posted_at => nil).paginate(pagination).each do |b|
-      posts << b.posts.first
+      posts << b.posts.last
     end
     posts
   end
