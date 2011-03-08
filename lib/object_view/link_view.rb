@@ -1,6 +1,6 @@
 class LinkView < PostView
-  expose_with_h :@post, :title, :url
-  expose :@post, :content
+  expose :@post, :title, :url
+  expose_without_escape :@post, :content
 
   def link
     self

@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 class VideoView < PostView
-  expose :@post, :content
+  expose_without_escape :@post, :content
 
   def video
     self

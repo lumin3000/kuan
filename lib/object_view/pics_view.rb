@@ -1,5 +1,5 @@
 class PicsView < PostView
-  expose :@post, :content
+  expose_without_escape :@post, :content
 
   def initialize(*)
     super

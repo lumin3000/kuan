@@ -59,5 +59,6 @@ module Kuan
       prefix: 'files'
 
     config.autoload_paths << "#{Rails.root}/lib"
+    config.autoload_paths << "#{Rails.root}/lib/object_view"
   end
 end

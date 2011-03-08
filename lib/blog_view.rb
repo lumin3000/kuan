@@ -19,16 +19,17 @@ module ObjectView
   end
 
   module ClassMethods
-    def expose(prop_name, *fields)
+    def expose_without_escape(prop_name, *fields)
       fields.each do |f|
         define_method(f) do
           prop = instance_variable_get prop_name
-          prop.send(f).html_safe
+          value = prop.send(f)
+          value.nil? ? ''.html_safe : value.html_safe
         end
       end
     end
 
-    def expose_with_h(prop_name, *fields)
+    def expose(prop_name, *fields)
       fields.each do |f|
         define_method(f) do
           prop = instance_variable_get prop_name
@@ -62,7 +63,7 @@ class BlogView < Mustache
     self.template = blog.template_in_use
   end
 
-  expose_with_h :@blog, :title
+  expose :@blog, :title
 
   def posts
     @posts
@@ -86,16 +87,12 @@ EOF
     @url_template % 'www'
   end
 
-  def icon_180
-    @blog.icon.url_for(:large)
-  end
-
-  def icon_60
-    @blog.icon.url_for(:medium)
-  end
-
-  def icon_24
-    @blog.icon.url_for(:small)
+  { 180 => :large,
+    60 => :medium,
+    24 => :small, }.each do |k, v|
+    define_method("icon_#{k}") do
+      @blog.icon.url_for(v)
+    end
   end
 end
 

@@ -3,6 +3,6 @@ class TextView < PostView
     self
   end
 
-  expose_with_h :@post, :title
-  expose :@post, :content
+  expose :@post, :title
+  expose_without_escape :@post, :content
 end

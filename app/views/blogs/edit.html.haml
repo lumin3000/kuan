@@ -46,7 +46,7 @@
   %li.template
     %form{action: '/preview', method: 'POST', target: 'preview'}
       %textarea{name: 'blog[custom_html]'}
-        = @blog.custom_html
+        = @blog.template_in_use
       %button{type: 'submit'} 预览
       %button{type: 'submit', data: {widget: 'diverseSubmit',
         action: blog_path(@blog), target: '', method: 'PUT'}}
