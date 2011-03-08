@@ -10,14 +10,14 @@
     - favor_href, favor_data = "/posts/#{post.id}/favor_toggle", { :widget => "rest", :callback => "toggle", :md => "put" }
     - if @user and post.favored_by? @user
       - favor_data["class"] = "fave"
-      - favor_data["title"] = "收藏"
-      %a{ :href => favor_href, :title => '取消收藏', :class => 'faved', :data => favor_data }<
-        取消收藏
+      - favor_data["title"] = "喜欢"
+      %a{ :href => favor_href, :title => '不喜欢', :class => 'faved', :data => favor_data }<
+        不喜欢
     - else
       - favor_data["class"] = "faved"
-      - favor_data["title"] = "取消收藏"
-      %a{ :href => favor_href, :title => '收藏', :class => 'fave', :data => favor_data}<
-        收藏
+      - favor_data["title"] = "不喜欢"
+      %a{ :href => favor_href, :title => '喜欢', :class => 'fave', :data => favor_data}<
+        喜欢
   .content_body
     = render partial: sub_template, object: post
   .content_footer
