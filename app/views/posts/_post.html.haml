@@ -1,12 +1,19 @@
 - js 'post_display'
 %div[post]{:class => type}
   .content_head
-    - if @user && post.editable_by?(@user)
+    - if @user and post.editable_by? @user
       %a.remove{ :href => "/posts/#{post.id}", :title => '删除',
         :data => { :widget => "rest", :callback => "del", :md => "delete", :parent => "tar_post" }}<
         删除
       = link_to "编辑", "/posts/#{post.id}/edit", :class => 'edit', :title => '编辑'
     = link_to "转贴", "/posts/#{post.id}/renew", :class => 'repost', :title => '转贴'
+    - favor_href, favor_data = "/posts/#{post.id}/favor_toggle", { :widget => "rest", :callback => "favor", :md => "put" }
+    - if @user and post.favored_by? @user
+      %a{ :href => favor_href, :title => '取消收藏', :class => 'faved', :data => favor_data}<
+        取消收藏
+    - else
+      %a{ :href => favor_href, :title => '收藏', :class => 'fave', :data => favor_data}<
+        收藏
   .content_body
     = render partial: sub_template, object: post
   .content_footer

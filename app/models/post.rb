@@ -15,6 +15,7 @@ class Post
   field :ancestor_id
   index :ancestor_id
   field :repost_count, :type => Integer, :default => 0
+  field :favor_count, :type => Integer, :default => 0
 
   attr_accessible :blog, :author, :author_id, :blog_id, :created_at, :comments, :parent
 
@@ -53,9 +54,9 @@ class Post
     a ||= parent
   end
 
-  def self.new(args = {}) 
+  def self.new(args = {})
     type = args.delete :type
-    return super if type.nil? 
+    return super if type.nil?
     klass = Object.const_get type.capitalize
     (self.subclasses.include? klass) ? klass.new(args) : nil
   end
@@ -131,6 +132,18 @@ class Post
     author == user || blog.customed?(user)
   end
 
+  def favored_by?(user)
+    not user.nil? and user.favor_posts.include? self
+  end
+
+  def favor_count_inc
+    favor_count.nil? ? update_attributes(:favor_count => 1) : inc(:favor_count, 1)
+  end
+
+  def favor_count_dec
+    favor_count.nil? ? update_attributes(:favor_count => 0) : inc(:favor_count, -1)
+  end
+
   def notify_watchers(comment)
     watchers = self.watchers
     watchers.delete comment.author
@@ -150,7 +163,7 @@ class Post
   def type_setter
     self._type = self.class.to_s
   end
-  
+
   def clean_comments_notices
     watchers.each do |u|
       u.comments_notices.destroy_all(:conditions => { :post_id => self.id })
@@ -171,11 +184,11 @@ class Post
   def ancestor_reposts_inc
     unless ancestor.nil?
       if ancestor.repost_count.nil?
-        ancestor.update_attributes(:repost_count => 0)
+        ancestor.update_attributes(:repost_count => 1)
       else
         ancestor.inc :repost_count, 1
       end
     end
   end
-  
+
 end

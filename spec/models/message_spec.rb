@@ -14,7 +14,7 @@ describe "Message" do
 
   after :each do
     User.delete_all
-    Blog.delete_all
+    Blog.delete_all 
   end
 
   describe "send apply to join blog message"do
@@ -42,9 +42,9 @@ describe "Message" do
 
       it "should reject the same message" do
         @blog.applied(@sender)
-        @user.reload
+        @user.reload 
         @user.messages.count.should == 1
-      end
+      end 
 
       describe "messages length limit" do
         before :each do

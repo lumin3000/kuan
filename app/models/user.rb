@@ -8,9 +8,11 @@ class User
   field :salt
   field :encrypted_password
   embeds_many :followings
-  embeds_many :comments_notices
   index "followings.blog_id"
+  embeds_many :comments_notices
   embeds_many :messages
+  embeds_many :favors
+  index "favors.post_id"
   references_many :posts, :index => true
 
   attr_accessor :password, :code
@@ -136,15 +138,32 @@ class User
     f.nil? ? nil : f.auth
   end
 
+  #Favors operations
+  
+  def add_favor_post!(post)
+    return if post.nil?
+    del_favor_post! post
+    favors << Favor.new(:post => post)
+    favors.first.delete if favors.length > Favor::LIMIT
+    post.favor_count_inc 
+  end
+
+  def del_favor_post!(post)
+    post.favor_count_dec if favors.where(:post_id => post.id).destroy > 0
+  end
+
+  def favor_posts
+    favors.map {|f| f.post}
+  end
+
   #Messages operations
 
-  MESSAGES_LIMIT = 100
   def receive_message!(message)
     messages.where(:sender_id => message.sender.id,
                    :blog_id => message.blog.id,
                    :type => message.type).destroy
     messages << message
-    messages.first.delete if messages.length > MESSAGES_LIMIT
+    messages.first.delete if messages.length > Message::LIMIT
   end
 
   def read_all_messages!
