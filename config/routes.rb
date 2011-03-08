@@ -71,6 +71,8 @@ Kuan::Application.routes.draw do
   root :to => 'users#show'
   get '/page/:page', :to => 'users#show', :page => /\d+/
 
+  get '/posts/favors/page/:page' => 'posts#favors', :page => /\d+/
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
