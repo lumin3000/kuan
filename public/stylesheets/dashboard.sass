@@ -73,7 +73,10 @@ a.page_name
     @include dashboard_sidebar_button
     background: url('/images/icons.gif') -40px -20px
 
-  .text_follow
+  .text_follow,
+  .text_reply,
+  .text_message,
+  .text_collect
     display: inline-block
     width: 134px
     line-height: 14px
@@ -99,6 +102,13 @@ a.page_name
     width: 14px
     height: 14px
     background: url('/images/icons.gif') -160px 0px
+    overflow: hidden
+
+  .icon_collect
+    display: inline-block
+    width: 14px
+    height: 14px
+    background: url('/images/icons.gif') -40px 0px
     overflow: hidden
 
   .icon_posts
@@ -144,7 +154,8 @@ a.page_name
       margin-bottom: 16px
 
     .my_reply,
-    .my_message
+    .my_message,
+    .my_collect
       margin-bottom: 10px
       margin-top: 10px
 
