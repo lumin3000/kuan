@@ -96,6 +96,23 @@ describe Post do
       Post.news.count.should == 1
     end
   end
+
+  describe "create a post" do
+    it "should update blog posted_at" do
+      @blog = Factory.build(:blog_unique)
+      @following = Factory.build(:following_lord, :blog => @blog)
+      @user = Factory.build(:user_unique, :followings => [@following] )
+      @user.save!
+      @blog.save!
+      @post = Factory.build(:text)
+      @post.author = @user
+      @post.blog = @blog
+      @post.save!
+      @blog.reload
+      
+      @blog.posted_at.should == @post.created_at
+    end
+  end
 end
 
 describe Post, "reposting" do

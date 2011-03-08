@@ -9,13 +9,14 @@ class Blog
   field :primary, :type => Boolean, :default => false
   field :private, :type => Boolean, :default => false
   field :canjoin, :type => Boolean, :default => false
+  field :posted_at, :type => Time
 
   scope :public, :excludes => { :private => true }
 
   references_many :followings
   references_many :posts, :index => true
 
-  attr_accessible :uri, :title, :icon, :private, :canjoin
+  attr_accessible :uri, :title, :icon, :private, :canjoin, :posted_at
 
   validates_presence_of :title,
   :message => "请输入页面名字"

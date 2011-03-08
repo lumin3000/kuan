@@ -25,7 +25,7 @@ class Post
 
   before_destroy :clean_comments_notices
   before_create :type_setter
-  after_create :ancestor_reposts_inc
+  after_create :ancestor_reposts_inc, :update_blog
 
   def haml_object_ref
     "post"
@@ -146,6 +146,10 @@ class Post
   end
 
   private
+
+  def update_blog
+    blog.update_attributes(:posted_at => created_at)
+  end
 
   def type_setter
     self._type = self.class.to_s
