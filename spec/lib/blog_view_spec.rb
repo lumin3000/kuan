@@ -114,6 +114,7 @@ EOF
     {{#text}}
       {{title}}
       {{content}}
+      {{{content}}}
     {{/text}}
   {{/posts}}
 TPL
@@ -131,6 +132,8 @@ TPL
       content = @view.posts[0].content
       content.should be_html_safe
       content.should == @text.content
+      @rendered.should be_include content
+      @rendered.should_not be_include CGI.escapeHTML(content)
     end
   end
 end
