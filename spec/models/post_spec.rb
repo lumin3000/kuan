@@ -54,6 +54,48 @@ describe Post do
       watchers.should be_include(@comment_user)
     end
   end
+
+  describe "list news" do
+    before :each do
+      Post.delete_all
+
+      @blog = Factory.build(:blog_unique)
+      @following = Factory.build(:following_lord, :blog => @blog)
+      @blog_private = Factory.build(:blog_unique)
+      @following_private = Factory.build(:following_lord, :blog => @blog_private)
+      @user = Factory.build(:user_unique, :followings => [@following, @following_private] )
+      @post = Factory.build(:text)
+      @user.save
+      @blog.save
+
+      @blog_private.private = true
+      @blog_private.save
+
+      @post.author = @user
+      @post.blog = @blog
+      @post.created_at = 1.hour.ago
+      @post.save
+    end
+    it "should order desc" do
+      pending
+      @post_new = Factory.build(:text)
+      @post_new.author = @user
+      @post_new.blog = @blog
+      @post_new.save
+
+      Post.news.first.should == @post_new
+      Post.news.last.should == @post
+    end
+    it "should not show private" do
+      pending
+      @post_private = Factory.build(:text)
+      @post_private.author = @user
+      @post_private.blog = @blog
+      @post_private.save
+
+      Post.news.count.should == 1
+    end
+  end
 end
 
 describe Post, "reposting" do

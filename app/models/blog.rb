@@ -10,6 +10,8 @@ class Blog
   field :private, :type => Boolean, :default => false
   field :canjoin, :type => Boolean, :default => false
 
+  scope :public, :excludes => { :private => true }
+
   references_many :followings
   references_many :posts, :index => true
 
