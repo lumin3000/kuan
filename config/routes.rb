@@ -43,6 +43,7 @@ Kuan::Application.routes.draw do
   get '/news', :to => 'posts#news'
   get '/news/page/:page', :to => 'posts#news', :page => /\d+/
   get '/wall', :to => 'posts#wall'
+  get '/wall.:format', :to => 'posts#wall'
 
 
   get '/messages', :to => 'messages#index'

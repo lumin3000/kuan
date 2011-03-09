@@ -1,7 +1,9 @@
 - content_for :head do
   = stylesheet_link_tag 'post_display', 'dashboard'
 
-.latest
-  %h1 不准看
-  .timeline
-    = render :partial => "posts/post_full", :collection => @posts, :as => :post
+.wall
+  %h1 不准看!
+  
+  %div
+    - @posts.each do |p|
+      = render_brief p

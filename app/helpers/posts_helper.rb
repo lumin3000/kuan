@@ -13,6 +13,14 @@ module PostsHelper
       locals: { sub_template: template, type: type }
   end
 
+  def render_brief(p)
+    type = p.type
+    template = "posts/brief_#{type}"
+    render partial: "posts/brief", object: p,
+      locals: { sub_template: template, type: type },
+      as: :post
+  end
+
   def render_form(p)
     type = p.type
     template = "posts/form_#{type}"

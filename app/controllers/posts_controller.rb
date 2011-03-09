@@ -102,7 +102,11 @@ class PostsController < ApplicationController
 
   def wall
     @posts = Post.wall
-    render :layout => "common"
+    if params[:format] && params[:format] == "json"
+      render :json => {:status => "success", :location => root_url}
+    else
+      render :layout => "common"
+    end
   end
 
   private
