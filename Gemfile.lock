@@ -133,16 +133,16 @@ PLATFORMS
 DEPENDENCIES
   autotest
   autotest-rails
-  bson_ext (~> 1.2)
-  capistrano (~> 2.5)
-  daemons (~> 1.1)
+  bson_ext
+  capistrano
+  daemons
   factory_girl_rails
-  haml (~> 3.0)
-  haml-rails (~> 0.3)
-  mini_magick (~> 3.2)
-  mongo (~> 1.2)
+  haml
+  haml-rails
+  mini_magick
+  mongo
   mongoid (> 2.0.0.rc6)
-  nokogiri (~> 1.4)
+  nokogiri
   rails (~> 3.0)
   rspec
   rspec-rails

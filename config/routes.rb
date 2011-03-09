@@ -24,20 +24,15 @@ Kuan::Application.routes.draw do
 
   resources :movings, :only => [:new, :create]
 
-  get "/posts/new/:type" => "posts#new"
-  get "/posts/new/:type/to/:blog_uri" => "posts#new"
+  get "/posts/new/:type(/to/:blog_uri)" => "posts#new"
 
   get '/signup/:code', :to => 'users#new', :as => :signup
 
   # FIXME: How to make it DRY?
-  get '/home', :to => 'users#show'
-  get '/home/page/:page', :to => 'users#show', :page => /\d+/
-  get '/home/:uri', :to => 'users#show'
-  get '/home/:uri/page/:page', :to => 'users#show', :page => /\d+/
+  get '/home(/:uri)(/page/:page)', :to => 'users#show', :page => /\d+/
 
   get '/followings', :to => 'users#followings'
-  get '/buzz', :to => 'users#buzz'
-  get '/buzz/page/:page', :to => 'users#buzz', :page => /\d+/
+  get '/buzz(/page/:page)', :to => 'users#buzz', :page => /\d+/
   put '/buzz/readall', :to => 'users#read_all_comments_notices'
 
   get '/news', :to => 'posts#news'
@@ -46,8 +41,7 @@ Kuan::Application.routes.draw do
   get '/wall.:format', :to => 'posts#wall'
 
 
-  get '/messages', :to => 'messages#index'
-  get '/messages/page/:page', :to => 'messages#index', :page => /\d+/
+  get '/messages(/page/:page)', :to => 'messages#index', :page => /\d+/
   put '/messages/:id/doing', :to => 'messages#doing'
   put '/messages/:id/ignore', :to => 'messages#ignore'
 
