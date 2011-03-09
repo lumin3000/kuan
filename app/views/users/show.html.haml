@@ -8,6 +8,8 @@
 .header
   %a.logo{href: "/home"}
   .dash_navigator
+    %a{href: "/news"}随便看看
+    &nbsp;|&nbsp;
     %a{href: edit_user_path(current_user)}设置
     &nbsp;| 邀请好友加入&nbsp;
     - invite_url = "#{fucking_root}signup/#{current_user.inv_code}"
