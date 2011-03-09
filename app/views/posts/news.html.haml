@@ -5,4 +5,5 @@
   %h1 正在发生的事
   .timeline
     = render :partial => "posts/post_full", :collection => @posts, :as => :post
-  = pagination @posts
+
+  = pagination_standard  

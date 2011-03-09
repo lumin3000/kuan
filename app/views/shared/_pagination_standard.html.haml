@@ -1,0 +1,8 @@
+.page_control
+  - start_page.upto(show_page) do |i|
+    - if current_page == i
+      .current<
+        = i
+    -else
+      %a{href: "#{base_url}/page/#{i}"}<
+        = i
