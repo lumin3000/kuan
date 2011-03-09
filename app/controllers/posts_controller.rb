@@ -102,8 +102,8 @@ class PostsController < ApplicationController
 
   def wall
     @posts = Post.wall
-    if params[:format] && params[:format] == "json"
-      render :json => {:status => "success", :location => root_url}
+    if params[:format] && params[:format] == "html"
+      render partial: "posts/brief", collection: @posts, as: :post
     else
       render :layout => "common"
     end

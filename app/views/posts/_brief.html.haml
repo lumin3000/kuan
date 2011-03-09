@@ -1,4 +1,4 @@
-.item{ class: post.type }
+%li.item{ class: post.type }
   %a.open{ href: blog_path(post.blog) + "post/#{post.id}", target: "_blank",
     title: '' }
-    = render partial: sub_template, object: post, as: :post
+    = render partial: "posts/brief_#{post.type}", object: post, as: :post

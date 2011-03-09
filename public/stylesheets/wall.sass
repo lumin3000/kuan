@@ -1,13 +1,29 @@
 @import 'lib'
 
+*
+  margin: 0
+  padding: 0
+
+ul,dl
+  list-style: none
+
+img
+  border: 0
+
 .wall
   @include clear_fix
+
+  margin: 0
+  position: relative
 
   .list
     float: left
     width: 180px
     overflow: hidden
-    background: green
+ 
+    &.store
+      visibility: hidden
+      height: 0
 
   .item
     max-height: 240px
@@ -28,3 +44,29 @@
 
   .text
     padding: 8px
+    background: #009fff
+
+  .bg1
+    background: #0952f6
+  .bg2
+    background: #f70967
+  .bg3
+    background: #8409f7
+  .bg4
+    background: #00c21e
+  .bg5
+    background: #f6ad09
+  .bg6
+    background: #1e5578
+  .bg7
+    background: #535331
+  .bg8
+    background: #7b7d6f
+  .bg9
+    background: #3f758b
+  .bg10
+    background: #794c3d
+  .bg11
+    background: #ae9548
+  .bg12
+    background: #956db5
