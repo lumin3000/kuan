@@ -4,7 +4,7 @@ class VideoView < PostView
   expose_without_escape :@post, :content
 
   def video
-    self
+    true
   end
 
   def video_code_500

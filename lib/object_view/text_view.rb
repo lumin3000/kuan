@@ -1,6 +1,6 @@
 class TextView < PostView
   def text
-    self
+    true
   end
 
   expose :@post, :title

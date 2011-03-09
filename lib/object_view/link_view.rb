@@ -3,6 +3,10 @@ class LinkView < PostView
   expose_without_escape :@post, :content
 
   def link
-    self
+    true
+  end
+
+  def link_url
+    @post.url
   end
 end

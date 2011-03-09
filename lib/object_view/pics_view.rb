@@ -7,11 +7,11 @@ class PicsView < PostView
   end
 
   def photo_single
-    self if @post.photos.length == 1
+    @post.photos.length == 1
   end
 
   def photo_set
-    self unless self.photo_single
+    !self.photo_single
   end
 
 end

@@ -9,7 +9,7 @@ class UserView
 
   expose :@user, :name
 
-  def url
+  def user_url
     @primary_blog ||= @user.primary_blog
     @extra[:url_template] % @primary_blog.uri if @extra.has_key? :url_template
   end
