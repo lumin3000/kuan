@@ -123,6 +123,12 @@ EOF
       @blog.icon.url_for(v)
     end
   end
+
+  def define
+    Proc.new do |str|
+      @variables = self.class.parse_custom_vars(str)
+    end
+  end
 end
 
 Dir[Rails.root.join('lib/object_view/*.rb')].each {|f| require f}

@@ -139,6 +139,25 @@ TPL
       @rendered.should_not be_include CGI.escapeHTML(content)
     end
   end
+
+  describe "Given a template with {{#define}} block" do
+    before :each do
+      @template = <<TPL
+  {{#define}}
+    color foo aha #333
+  {{/define}}
+TPL
+      @blog.custom_html = @template
+      @blog.using_custom_html = true
+      @view = BlogView.new @blog, :posts => [@text]
+      @rendered = @view.render
+    end
+
+    it "should extract variables" do
+      variables = @view.instance_variable_get :@variables
+      variables.should be_kind_of Hash
+    end
+  end
 end
 
 describe "BlogView.parse_custom_vars" do
