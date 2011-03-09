@@ -996,6 +996,35 @@ form.edit_page .submit_box input{
 	color:#666;
 }
 
+.number_page_control {
+	text-align:right;
+	padding:30px 60px;
+}
+
+.number_page_control a{
+	text-decoration: none;
+	color:white;
+    background-color: #009FFF;
+    border-color: #C8C8C8 #B6B6B6 #B6B6B6 #C8C8C8;
+    border-radius: 5px 5px 5px 5px;
+    font-size:18px;
+    padding:10px;
+    font-weight: bold;
+    margin-left:5px;
+}
+
+.number_page_control a.clicked{
+	background:none;
+	border:0;
+	color:#444;
+}
+
+.number_page_control a:hover{
+	    background-color: #528ef2;
+	    color:white;
+}
+
+
 /****my_pages****/
 .my_pages a{
 	color:#8e9494;
