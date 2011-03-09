@@ -72,8 +72,9 @@ class Post
 
   def self.wall
     posts = []
-    Blog.latest(1, 300).sample(50).each do |b|
-      posts << b.posts.where(:_type.in => ["Text", "Pics"]).desc(:created_at).limit(10).sample
+    Blog.latest[0..200].sample(50).each do |b|
+      p = b.posts.where(:_type.in => ["Text", "Pics"]).desc(:created_at).limit(10)
+      posts << p.sample unless p.blank?
     end
     posts
   end
