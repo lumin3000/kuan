@@ -25,4 +25,3 @@ Kuan::Application.configure do
 
   config.logger = Logger.new(config.paths.log.first, 'weekly')
 end
-

@@ -2,15 +2,15 @@ source 'http://rubygems.org'
 
 gem 'rails', '~> 3.0'
 
-gem 'mongo', '~> 1.2'
-gem 'bson_ext', '~> 1.2'
+gem 'mongo'
+gem 'bson_ext'
 gem 'mongoid', '> 2.0.0.rc6'
-gem 'haml', '~> 3.0'
-gem 'haml-rails', '~> 0.3'
-gem 'mini_magick', '~> 3.2'
-gem 'nokogiri', '~> 1.4'
-gem 'daemons', '~> 1.1'
-gem 'capistrano', '~> 2.5'
+gem 'haml'
+gem 'haml-rails'
+gem 'mini_magick'
+gem 'nokogiri'
+gem 'daemons'
+gem 'capistrano'
 
 group :development, :test do
   gem 'rspec'
