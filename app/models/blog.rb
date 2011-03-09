@@ -17,6 +17,7 @@ class Blog
     :limit => 500
 
   field :using_custom_html, :type => Boolean, :default => false
+  field :custom_css
   field :custom_html
   referenced_in :template, :class_name => 'CustomTemplate'
 

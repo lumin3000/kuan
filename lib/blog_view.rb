@@ -94,7 +94,7 @@ class BlogView < Mustache
     self.template = blog.template_in_use
   end
 
-  expose :@blog, :title
+  expose :@blog, :title, :custom_css
 
   def posts
     @posts
