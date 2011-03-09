@@ -1,0 +1,165 @@
+<h2>语法</h2>
+
+<h3>填充变量</h3>
+
+<pre><code>{{title}} -- This is my blog!
+{{  title }} white space is okay~
+</code></pre>
+
+<h3>进入/退出section</h3>
+
+<p>进入section之后可以填充相应数据对象（post, user, etc.）的属性</p>
+
+<p>下面例子中，posts是一个循环section, section中的模板代码会应用于每一条post。而text是条件判断section，类型为"文字"的帖子才会进入该section并使用其中的代码。</p>
+
+<p>下层section中可以访问到上层中的字段/section</p>
+
+<pre><code>&lt;h1&gt;{{title}}&lt;/h1&gt; -- Title for blog
+{{#posts}}
+
+  {{#post_single}}
+    似乎只有一个帖子
+    &lt;!-- 已经进入posts section，但该section属于顶级作用域，仍可访问 --&gt;
+  {{/post_single}}
+
+  {{#text}}
+    &lt;h2&gt;{{title}}&lt;/h2&gt; &lt;!-- Title of text post --&gt;
+    {{content}} &lt;!-- Content of text post --&gt;
+    发帖时间：{{create_date}}
+  {{/text}}
+
+{{/posts}}
+</code></pre>
+
+<h2>字段们</h2>
+
+<h3>顶级作用域</h3>
+
+<h4>字段</h4>
+
+<ul>
+<li>title 博客标题</li>
+<li>url 博客首页（亦即帖子列表页）</li>
+<li>home_url "回到我的控制面板"链接</li>
+<li>icon_180 180x180博客图标链接</li>
+<li>icon_60 60x60博客图标链接</li>
+<li>icon_24 24x24博客图标链接</li>
+<li>pagination 分页代码</li>
+</ul>
+
+
+<h4>section</h4>
+
+<ul>
+<li>posts 循环展示每个帖子，帖子单页与列表页皆可用</li>
+<li>post_single 若当前页面为帖子单页会进入该section</li>
+</ul>
+
+
+<h3>posts section</h3>
+
+<p>posts section中的字段是各类帖子共享的</p>
+
+<h4>字段</h4>
+
+<ul>
+<li>create_date 帖子的发表时间</li>
+<li>type 帖子类型，为每种帖子单独写class时可用</li>
+<li>url 帖子单页链接</li>
+</ul>
+
+
+<h4>section</h4>
+
+<ul>
+<li>author 进入作者section，可访问帖子作者信息</li>
+</ul>
+
+
+<h3>text section</h3>
+
+<p>posts section下可用，"文字"类型的帖子可进入该section</p>
+
+<h4>字段</h4>
+
+<ul>
+<li>title 标题内容，可能为空</li>
+<li>content 正文内容，可能为空</li>
+</ul>
+
+
+<h3>photo_single section</h3>
+
+<p>posts section下可用，"图片"类型的帖子如果只有一张图片可进入该section</p>
+
+<h4>字段</h4>
+
+<ul>
+<li>content 描述内容，可能为空</li>
+</ul>
+
+
+<h4>section</h4>
+
+<ul>
+<li>photos 进入photos section循环访问每张图片信息(虽然只有一张)</li>
+</ul>
+
+
+<h3>photo_set section</h3>
+
+<p>posts section下可用，"图片"类型的帖子如果多于一张图片可进入该section</p>
+
+<h4>字段</h4>
+
+<ul>
+<li>content 描述内容，可能为空</li>
+</ul>
+
+
+<h4>section</h4>
+
+<ul>
+<li>photos 进入photos section循环访问每张图片信息</li>
+</ul>
+
+
+<h3>photos section</h3>
+
+<p>photo_single/photo_set section下可用</p>
+
+<h4>字段</h4>
+
+<ul>
+<li>desc 图片描述</li>
+<li>image_original 原始图片链接</li>
+<li>image_500 图片链接，宽度不超过500px</li>
+<li>image_180 180x300图片链接</li>
+<li>image_60 60x60图片链接</li>
+</ul>
+
+
+<h3>link section</h3>
+
+<p>posts section下可用，"链接"类型的帖子可进入该section</p>
+
+<h4>字段</h4>
+
+<ul>
+<li>title 标题内容，可能为空</li>
+<li>shared_url 推荐的链接URL</li>
+<li>content 描述内容，可能为空</li>
+</ul>
+
+
+<h3>video section</h3>
+
+<p>posts section下可用，"视频"类型的帖子可进入该section</p>
+
+<h4>字段</h4>
+
+<ul>
+<li>video_code_500 大坨视频代码，点击展开后宽度为500px</li>
+<li>content 描述内容，可能为空</li>
+</ul>
+
