@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'cgi'
 
 module ObjectView
@@ -128,6 +130,35 @@ EOF
     Proc.new do |str|
       @variables = self.class.parse_custom_vars(str)
     end
+  end
+
+  # Ad hoc inline template since we'd make this open to template authors
+  def pagination
+    return if not @extra[:pagination]
+    current_page = @extra[:pagination][:page]
+    per_page = @extra[:pagination][:per_page]
+
+    prev_page, cur_page_code = if current_page > 1
+      [ "<a class='page_left' href='/page/#{current_page - 1}'>&#8592; 过去的</a>",
+        "<div class='page_number'>#{current_page}</div>"
+      ]
+    else
+      ['', '']
+    end
+
+    next_page = if (!@posts.empty? && @posts.length >= per_page)
+      "<a class='page_right' href='/page/#{current_page + 1}' >以前的 &#8594;</a>"
+    else
+      ''
+    end
+
+    <<TPL.html_safe
+<div class="page_control">
+  #{prev_page}
+  #{cur_page_code}
+  #{next_page}
+</div>
+TPL
   end
 end
 

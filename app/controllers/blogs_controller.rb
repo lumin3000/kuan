@@ -148,8 +148,9 @@ class BlogsController < ApplicationController
 
   def fetch_posts
     if !@single_post
+      cur_page = params[:page].to_i
       pagination = {
-        :page => params[:page] || 1,
+        :page => cur_page > 1 ? cur_page : 1,
         :per_page => 10,
       }
       @view_context[:pagination] = pagination
