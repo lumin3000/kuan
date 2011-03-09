@@ -109,6 +109,30 @@ describe Post do
     end
   end
 
+  describe "list wall" do
+    before :each do
+      Post.delete_all
+      Blog.delete_all
+
+      @blog = Factory.build(:blog_unique)
+      @following = Factory.build(:following_lord, :blog => @blog)
+      @user = Factory.build(:user_unique, :followings => [@following] )
+      @post = Factory.build(:text)
+      @user.save
+      @blog.save
+
+      @post.author = @user
+      @post.blog = @blog
+      @post.save!
+      @blog.reload
+    end
+
+    it "should show posts" do
+      Post.wall.length.should > 0
+    end
+  end
+
+
   describe "create a post" do
     it "should update blog posted_at" do
       @blog = Factory.build(:blog_unique)

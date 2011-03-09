@@ -63,8 +63,16 @@ class Post
 
   def self.news(pagination)
     posts = []
-    Blog.public.order_by(:posted_at.desc).excludes(:posted_at => nil).paginate(pagination).each do |b|
+    Blog.latest.each do |b|
       posts << b.posts.last
+    end
+    posts
+  end
+
+  def self.wall
+    posts = []
+    Blog.latest(1, 300).sample(50).each do |b|
+      posts << b.posts.where(:_type.in => ["Text", "Pics"]).desc(:created_at).limit(10).sample
     end
     posts
   end

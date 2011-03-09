@@ -100,6 +100,11 @@ class PostsController < ApplicationController
     render :layout => "common"
   end
 
+  def wall
+    @posts = Post.wall
+    render :layout => "common"
+  end
+
   private
 
   def get_target_blogs

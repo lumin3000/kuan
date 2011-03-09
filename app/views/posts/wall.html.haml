@@ -1,0 +1,8 @@
+- content_for :head do
+  = stylesheet_link_tag 'post_display', 'dashboard'
+
+.latest
+  %h1 不准看
+  .timeline
+    = render :partial => "posts/post_full", :collection => @posts, :as => :post
+  = pagination @posts
