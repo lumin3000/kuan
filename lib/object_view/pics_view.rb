@@ -3,15 +3,20 @@ class PicsView < PostView
 
   def initialize(*)
     super
-    @first_photo = @post.photos.first
+    @photos = @post.photos.map do |p|
+      ObjectView.wrap p, @extra
+    end
   end
 
   def photo_single
-    @post.photos.length == 1
+    @photos.length == 1
   end
 
   def photo_set
     !self.photo_single
   end
 
+  def photos
+    @photos
+  end
 end

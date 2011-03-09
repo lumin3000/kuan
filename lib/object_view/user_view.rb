@@ -1,5 +1,4 @@
 class UserView
-  extend Forwardable
   include ObjectView
 
   def initialize(user, extra = {})

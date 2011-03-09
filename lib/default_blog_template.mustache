@@ -33,13 +33,25 @@
                 {{content}}
               {{/text}}
               {{#photo_single}}
+                {{#photos}}
+                  <img src="{{image_500}}" title="{{desc}}" />
+                {{/photos}}
                 {{content}}
               {{/photo_single}}
+
+              {{#photo_set}}
+                {{#photos}}
+                  <img src="{{image_500}}" title="{{desc}}" />
+                  <br />
+                {{/photos}}
+                {{content}}
+              {{/photo_set}}
 
               {{#link}}
                 <a href="{{link_url}}">{{title}}</a>
                 <p>{{content}}</p>
               {{/link}}
+
               {{#video}}
                 {{video_code_500}}
                 {{content}}
