@@ -9,7 +9,6 @@
     <script src="/javascripts/rails.js" type="text/javascript"></script>
     <script src="/javascripts/mootools-more.js" type="text/javascript"></script>
     <script src="/javascripts/application.js" type="text/javascript"></script>
-    <script src="/javascripts/post_display.js" type="text/javascript"></script>
   </head>
   <body>
     <div id="wrapper">
@@ -67,11 +66,10 @@
               <span class='update_time'>{{create_date}}</span></div>
               <div class='right'>
                 <a class='reply' target='_blank' href='{{url}}'>{{comments_count}}</a>
-                <a class='open' href='{{url}}' target='_blank' title='展开'></a>
               </div>
             </div>
             {{#post_single}}
-              {{{load_comments}}}
+              {{load_comments}}
             {{/post_single}}
           </div>
         {{/posts}}

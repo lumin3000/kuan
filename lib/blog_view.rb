@@ -104,12 +104,6 @@ class BlogView < Mustache
     @extra[:post_single]
   end
 
-  def load_comments
-    <<EOF
-  <iframe border=0 width='594px' scrolling=NO style="overflow-x: hidden; overflow-y: scroll" src="#{@posts[0].url_for_comments}"></iframe>
-EOF
-  end
-
   def url
     @extra[:base_url]
   end
@@ -130,6 +124,10 @@ EOF
     Proc.new do |str|
       @variables = self.class.parse_custom_vars(str)
     end
+  end
+
+  def post_single
+    @extra[:post_single]
   end
 
   # Ad hoc inline template since we'd make this open to template authors

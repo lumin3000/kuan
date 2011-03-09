@@ -140,6 +140,7 @@ class BlogsController < ApplicationController
     @view_context = {
       :url_template => url_template,
       :base_url => url_template % @blog.uri,
+      :controller => self,
     }
     @post_id = params[:post_id]
     @single_post = ! @post_id.nil?
