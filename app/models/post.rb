@@ -63,8 +63,8 @@ class Post
 
   def self.news(pagination)
     posts = []
-    Blog.latest.each do |b|
-      posts << b.posts.last
+    Blog.latest.paginate(pagination).each do |b|
+      posts << b.posts.desc(:created_at).limit(1).first
     end
     posts
   end

@@ -128,6 +128,7 @@ describe Post do
     end
 
     it "should show posts" do
+      Post.wall.first.class.should == Text
       Post.wall.length.should > 0
     end
   end
