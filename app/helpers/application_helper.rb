@@ -57,8 +57,8 @@ module ApplicationHelper
 
     if current_page < 4
       start_page = 1
-    elsif current_page > options.max_page - options.show_page + 4
-      start_page = options.max_page - options.show_page + 1
+    elsif current_page > options[:max_page] - options[:show_page] + 4
+      start_page = options[:max_page] - options[:show_page] + 1
     else
       start_page = current_page
     end

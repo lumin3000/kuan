@@ -116,3 +116,61 @@ a.logo
     padding: 3px 6px
     border-bottom-left-radius: 6px 6px
     border-bottom-right-radius: 6px 6px
+
+
+.page_control
+  float: right
+  position: relative
+  width: 276px
+  margin-right: 11px
+  height: 26px
+  @include clear_fix
+
+  a, .page_number
+    float: left
+    text-decoration: none
+
+  .page_left,
+  .page_right
+    @include single_line(26px)
+    width: 108px
+    background: #009fff
+    color: white
+    font-size: 14px
+    text-align: center
+
+  .page_right
+    position: absolute
+    top: 0
+    right: 0
+
+  .page_number
+    width: 60px
+    font-size: 22px
+    line-height: 26px
+    font-weight: bold
+    text-align: center
+    font-family: Helvetica,Arial,sans-serif
+    color: #666
+
+.number_page_control
+  text-align: right
+  padding: 30px 60px
+
+  a
+    text-decoration: none
+    color: white
+    background-color: #009FFF
+    border-color: #C8C8C8 #B6B6B6 #B6B6B6 #C8C8C8
+    border-radius: 5px 5px 5px 5px
+    font-size: 18px
+    padding: 10px
+    font-weight: bold
+    margin-left: 5px
+    &.clicked
+      background: none
+      border: 0
+      color: #444
+    &:hover
+      background-color: #528ef2
+      color: white
