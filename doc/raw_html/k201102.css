@@ -1306,13 +1306,13 @@ form.edit_page .submit_box input{
 	padding-right:10px;
 }
 .customize div.error{
-height:30px;
-font-size:12px;
-color:red;
-line-height:30px;
+	height:30px;
+	font-size:12px;
+	color:red;
+	line-height:30px;
 }
 
-.customize .nav input, .customize .themes input{
+.customize .nav input, .customize .themes input, .customize .reset{
     -moz-border-bottom-colors: none;
     -moz-border-image: none;
     -moz-border-left-colors: none;
@@ -1424,9 +1424,6 @@ line-height:30px;
 	overflow-x:hidden;
 }
 
-.customize .themes .edit{
-	
-}
 
 .customize .theme {
     float: left;
@@ -1471,6 +1468,94 @@ line-height:30px;
 	margin-top:15px;
 	background:#57c328;
 }
+
+.customize .appearance{
+	width:320px;
+	height:530px;
+	left:130px;	
+}
+
+.customize .appearance select{
+	font-size:18px;
+	width:130px
+}
+
+.customize .appearance .colors{
+	height:40px;
+	line-height:40px;
+	margin-bottom:10px;
+}
+
+.customize .appearance .color_pick {
+    border-color: #CCCCCC #AAAAAA #AAAAAA #CCCCCC;
+    border-radius: 5px 5px 5px 5px;
+    border-right: 1px solid #AAAAAA;
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    float: left;
+    height: 38px;
+    margin-right: 10px;
+    width: 50px;
+}
+
+.customize .appearance .fonts, .customize .appearance .booleans, .customize .appearance .images {
+	padding:8px 0px;
+}
+
+.customize .appearance .fonts span{
+	margin-right:3px
+}
+
+.customize .appearance .images input{
+	width:130px;
+	font-size:10px;
+	margin-left:3px
+}
+
+.customize .appearance .images a{
+	margin-left:3px;
+	text-decoration: none;
+	color:white;
+    background-color: #aaa;
+    border-color: #C8C8C8 #B6B6B6 #B6B6B6 #C8C8C8;
+    border-radius: 5px 5px 5px 5px;
+    font-size:14px;
+    padding:4px 7px;
+}
+
+.customize .appearance .booleans input{
+	font-size:18px;
+}
+
+.customize .appearance .booleans label{
+	margin-left:3px;
+}
+
+.customize .appearance .theme_defined{
+	height:480px;
+	overflow:auto;
+}
+
+.customize input.reset{
+	margin-top:15px;
+	display:block;
+}
+
+.customize .advanced{
+	width:320px;
+	height:100px;
+	left:225px;	
+}
+
+.customize .advanced .item{
+	padding:8px 0px
+}
+
+.customize .advanced .item label{
+margin-left:3px
+}
+
 
 
 
