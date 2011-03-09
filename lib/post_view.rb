@@ -15,11 +15,11 @@ class PostView
   expose :@post, :type
 
   def url
-    @extra[:base_url] + "post/#{@post.id}"
+    @extra[:base_url] + "post/#{@post.id}" if @extra.has_key? :base_url
   end
 
   def url_for_comments
-    (@extra[:url_template] % 'www') + "posts/#{@post.id}/comments"
+    (@extra[:url_template] % 'www') + "posts/#{@post.id}/comments" if @extra.has_key? :url_template
   end
 
 end

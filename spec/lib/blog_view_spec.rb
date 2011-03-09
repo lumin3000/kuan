@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'spec_helper'
 require 'cgi'
 
@@ -86,7 +88,7 @@ EOF
   {{/posts}}
 EOF
       @blog = Factory.build :blog_unique, :template => @template
-      @blog.custom_html = nil
+      @blog.using_custom_html = false
       @view = BlogView.new @blog, :posts => [@text]
     end
 
@@ -107,6 +109,7 @@ EOF
       @text.content = "<i>blah</i>"
       @text.title = "<my world>"
       @blog.title = ">.<"
+      @blog.using_custom_html = false
       @view.template = <<TPL
   {{title}}
   {{{title}}}
@@ -134,6 +137,44 @@ TPL
       content.should == @text.content
       @rendered.should be_include content
       @rendered.should_not be_include CGI.escapeHTML(content)
+    end
+  end
+end
+
+describe "BlogView.parse_custom_vars" do
+  describe "given a series of user defined vars" do
+    before :each do
+      @input = <<EOF
+  color   foo 	  背景色 #333 	
+  color   shit 	   3字段，被忽略
+  bool  show_comments 显示评论 1
+  undefined_type mess_you_up ahahahahahah blah
+EOF
+      @result = {
+        color: {
+          foo: {
+            desc: '背景色',
+            value: '#333',
+          }
+        },
+        bool: {
+          show_comments: {
+            desc: '显示评论',
+            value: true,
+          }
+        },
+        text: {
+
+        },
+        font: {
+
+        },
+      }
+    end
+
+    it "should parse it as expected" do
+      parsed = BlogView.parse_custom_vars @input
+      parsed.should == @result
     end
   end
 end

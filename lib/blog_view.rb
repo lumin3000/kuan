@@ -51,6 +51,35 @@ end
 class BlogView < Mustache
   include ObjectView
 
+  VALUE_PARSERS = {
+    bool: lambda { |v|
+      case v
+      when /1|true|on|yes/i
+        true
+      when /0|false|off|no/i
+        false
+      else
+        nil
+      end
+    },
+    color: lambda {|v| v}
+  }
+
+  def self.parse_custom_vars(str)
+    result = {color: {}, font: {}, text: {}, bool: {}}
+    str.split(/\r\n?|\n/).each do |rule|
+        pieces = rule.strip.split
+        next if pieces.length != 4
+        type = pieces[0].to_sym
+        next if not self::VALUE_PARSERS.has_key? type
+        result[type][pieces[1].to_sym] = {
+          desc: pieces[2],
+          value: self::VALUE_PARSERS[type].call(pieces[3]),
+        }
+      end
+    result
+  end
+
   def escapeHTML(str)
     str.html_safe? ? str : CGI.escapeHTML(str)
   end
@@ -84,7 +113,7 @@ EOF
   end
 
   def home_url
-    @url_template % 'www'
+    @url_template && @url_template % 'www'
   end
 
   { 180 => :large,
