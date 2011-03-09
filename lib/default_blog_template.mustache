@@ -33,14 +33,18 @@
               {{/text}}
               {{#photo_single}}
                 {{#photos}}
-                  <img src="{{image_500}}" title="{{desc}}" />
+                  <a target="_blank" href="{{image_original}}">
+                    <img src="{{image_500}}" title="{{desc}}" />
+                  </a>
                 {{/photos}}
                 {{content}}
               {{/photo_single}}
 
               {{#photo_set}}
                 {{#photos}}
-                  <img src="{{image_500}}" title="{{desc}}" />
+                  <a target="_blank" href="{{image_original}}">
+                    <img src="{{image_500}}" title="{{desc}}" />
+                  </a>
                   <br />
                 {{/photos}}
                 {{content}}

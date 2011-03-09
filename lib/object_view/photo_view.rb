@@ -15,4 +15,8 @@ class PhotoView
       @photo.image.url_for(v)
     end
   end
+
+  def image_original
+    @photo.image.url_for(:original)
+  end
 end
