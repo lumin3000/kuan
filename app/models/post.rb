@@ -64,7 +64,8 @@ class Post
   def self.news(pagination)
     posts = []
     Blog.latest.paginate(pagination).each do |b|
-      posts << b.posts.desc(:created_at).limit(1).first
+      post = b.posts.desc(:created_at).limit(1).first
+      posts << post if post.created_at == b.posted_at
     end
     posts
   end
