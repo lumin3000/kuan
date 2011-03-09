@@ -16,6 +16,7 @@ class Blog
     :order_by => { :posted_at => :desc },
     :limit => 500
 
+  field :using_custom_html, :type => Boolean, :default => false
   field :custom_html
   referenced_in :template, :class_name => 'CustomTemplate'
 
@@ -139,7 +140,7 @@ class Blog
   end
 
   def template_in_use
-    self.custom_html.blank? ? self.template.html : self.custom_html
+    self.using_custom_html? ? self.custom_html : self.template.html
   end
 
   private
