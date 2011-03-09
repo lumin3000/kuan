@@ -1,0 +1,30 @@
+@import 'lib'
+
+.wall
+  @include clear_fix
+
+  .list
+    float: left
+    width: 180px
+    overflow: hidden
+    background: green
+
+  .item
+    max-height: 240px
+    overflow: hidden
+
+    a
+      color: white
+      text-decoration: none
+      outline: none
+      display: block
+
+      img
+        width: 180px
+
+  .image
+    font-size: 0
+    line-height: 0
+
+  .text
+    padding: 8px

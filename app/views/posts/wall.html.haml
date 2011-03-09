@@ -1,9 +1,9 @@
 - content_for :head do
-  = stylesheet_link_tag 'post_display', 'dashboard'
+  = stylesheet_link_tag 'wall'
 
 .wall
   %h1 不准看!
   
-  %div
+  .list
     - @posts.each do |p|
       = render_brief p

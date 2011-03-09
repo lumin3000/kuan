@@ -1,3 +1,4 @@
-%a.open{ :href => blog_path(post.blog) + "post/#{post.id}", :target => "_blank",
-        title: '' }
-  = render partial: sub_template, object: post, as: :post
+.item{ class: post.type }
+  %a.open{ href: blog_path(post.blog) + "post/#{post.id}", target: "_blank",
+    title: '' }
+    = render partial: sub_template, object: post, as: :post
