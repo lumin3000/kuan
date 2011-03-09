@@ -3,7 +3,7 @@
 
 .latest
   %h1 正在发生的事
-  .timeline
+  .timeline{ :data => { :widget => "sugar" } }
     = render :partial => "posts/post_full", :collection => @posts, :as => :post
 
   = pagination_standard  
