@@ -88,7 +88,7 @@ K.wall = (function(){
                         K.wall.more();
                     }
                     inv();
-                }, 5000);
+                }, 18000);
             }
             inv();
             
