@@ -107,6 +107,12 @@ describe Post do
       @news = Post.news(@pagination)
       @news.length.should == 1
     end
+
+    it "should handle when all posts in blog was deleted" do
+      @post.destroy
+      @news = Post.news(@pagination)
+      @news.length.should == 0
+    end
   end
 
   describe "list wall" do
