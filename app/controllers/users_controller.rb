@@ -97,8 +97,8 @@ class UsersController < ApplicationController
   private
 
   def signup_auth
-    return render 'invalid_invitation' if params[:code].blank?
+    render 'shared/404', :status => 404 and return if params[:code].blank?
     @inv_user = User.find_by_code params[:code]
-    return render 'invalid_invitation' if @inv_user.nil?
+    render 'shared/404', :status => 404 if @inv_user.nil? 
   end
 end
