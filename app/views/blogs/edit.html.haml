@@ -38,8 +38,15 @@
     %span#blog_icon_feed
 
   %fieldset.template.menu
-    - @templates.each do |t|
-      = t.name
+    .pool
+      - @templates.each do |t|
+        .theme
+          %span
+            %img{src: t.thumbnail.url_for(:medium)}
+          .shadow
+          %div
+            %a{href: blog_path(t.author.primary_blog)}
+            = t.name
     = f.hidden_field :using_custom_html, :value => @blog.using_custom_html
     %textarea{name: 'blog[custom_html]'}
       = @blog.template_in_use
