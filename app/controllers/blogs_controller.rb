@@ -21,6 +21,7 @@ class BlogsController < ApplicationController
   end
 
   def edit
+    @templates = CustomTemplate.all
     render :layout => 'application'
   end
 

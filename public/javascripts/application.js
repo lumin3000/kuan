@@ -718,8 +718,8 @@ K.widgets.tab = (function() {
 
   return function(labelList) {
     var labels = labelList.getChildren()
-      , contentsHolder = document.getElement(labelList.get("data-tabContents"))
-      , contents = contentsHolder.getChildren()
+      , contentsHolder = document.getElement(labelList.get("data-contentsHolder"))
+      , contents = contentsHolder.getChildren(labelList.get("data-contents"))
       , index = parseInt(labelList.get('data-activateOnLoad'), 10)
     // Expose to global
     customizePanel = TabSet.buildFrom(labels, contents)
@@ -762,5 +762,14 @@ K.widgets.diverseSubmit = function(button) {
     , target: oldTarget
     })
     overridingMethod.set('value', oldMethod)
+  })
+}
+
+K.widgets.submit = function(button) {
+  var form = document.getElement(button.get('data-form'))
+  if (!form || form.nodeName.toLowerCase() != 'form') return
+  button.addEvent('click', function(e) {
+    e.stop()
+    form.submit()
   })
 }

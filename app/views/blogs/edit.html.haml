@@ -2,59 +2,62 @@
 - content_for :site_layout, 'blog_customization'
 
 .customize_panel
-  %ul.customize_navigation{data: {widget: 'tab', tabContents: '#blog_custom_forms',
-    activateOnLoad: 1}}
+  %ul.customize_navigation{data: {widget: 'tab', contentsHolder: 'form.edit_blog',
+    contents: 'fieldset', activateOnLoad: 0}}
     %li.blog_info 页面信息
     %li.template 模板
+    %li.advanced 高级选项
   .customize_commands
+    %a.save{href: "###", data: {widget: 'submit', form: '.edit_blog'}} 保存
+    %a.back{href: fucking_root} 取消
 
-%ul#blog_custom_forms
-  %li.blog_info
-    = form_for(@blog) do |f|
-      .page_name
-        = f.label :title, "页面名称"
-        = f.text_field :title
-      .error
-        &nbsp;
-        = @blog.errors[:title].first
-      .page_url
-        = f.label :uri, "自定义网址"
-        = f.text_field :uri
-        %span
+= form_for(@blog) do |f|
+  %fieldset.blog_info.menu
+    .page_name
+      = f.label :title, "名称"
+      %div
+        = f.text_field :title, class: 'title'
+    .error
+      &nbsp;
+      = @blog.errors[:title].first
+    .page_url
+      = f.label :uri, "自定义网址"
+      %div.who_did_this
+        = f.text_field :uri, class: 'link'
+        %span.root_domain
           = "."+request.domain
-      .error
-        %span.suggestion
-          (网址随时都可以修改)
-        &nbsp;
-        = @blog.errors[:uri].first
-      .page_logo
-        %label
-          %img#blog_icon_img{ :src => @blog.icon.url_for(:medium) }
-        = f.hidden_field :icon, :id => "blog_icon_id", :value => @blog.icon.id
-        %input{ :type => 'file', :id => 'image_uploader', :name => 'file', :autocomplete => 'off' }
-        %span#blog_icon_feed
-      .toggle_private
-        = f.check_box :private
-        = f.label :private, "设置为私密页面"
-      - unless @blog.primary?
-        .toggle_canjoin
-          = f.check_box :canjoin
-          = f.label :canjoin, "其他人可以申请加入你的博客" + (@blog.canjoin? ? "(#{blog_apply_path(@blog)})" : "")
-      .submit_box.edit_box
-        %button#blog_submit{type: 'submit'} 保存
+    .error
+      &nbsp;
+      = @blog.errors[:uri].first
+    %label
+      图标
+    %div
+      %img#blog_icon_img{ :src => @blog.icon.url_for(:medium) }
+      %input.image#image_uploader{ :type => 'file', :name => 'file', :autocomplete => 'off' }
+    = f.hidden_field :icon, :id => "blog_icon_id", :value => @blog.icon.id
+    %span#blog_icon_feed
 
-  %li.template
-    %form{action: '/preview', method: 'POST', target: 'preview'}
-      %textarea{name: 'blog[custom_html]'}
-        = @blog.template_in_use
-      %button{type: 'submit'} 预览
-      %button{type: 'submit', data: {widget: 'diverseSubmit',
-        action: blog_path(@blog), target: '', method: 'PUT'}}
-        保存
+  %fieldset.template.menu
+    - @templates.each do |t|
+      = t.name
+    = f.hidden_field :using_custom_html, :value => @blog.using_custom_html
+    %textarea{name: 'blog[custom_html]'}
+      = @blog.template_in_use
+    %button{data: {widget: 'diverseSubmit',
+      action: '/preview', target: 'preview', method: 'POST'}}
+      预览
+  %fieldset.advanced.menu
+    .toggle_private
+      = f.check_box :private
+      = f.label :private, '设置为私密页面'
+    -# unless @blog.primary?
+      .toggle_canjoin
+        = f.check_box :canjoin
+        = f.label :canjoin, "其他人可以申请加入你的博客" + (@blog.canjoin? ? "(#{blog_apply_path(@blog)})" : "")
 
 %iframe#preview{name: 'preview', src: blog_path(@blog)}
 
 :javascript
   document.addEvent('domready', function(){
     K.blog.init_upload_icon();
-  });
+  })

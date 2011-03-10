@@ -24,7 +24,8 @@ class Blog
   references_many :followings
   references_many :posts, :index => true
 
-  attr_accessible :uri, :title, :icon, :private, :canjoin, :posted_at, :custom_html
+  attr_accessible :uri, :title, :icon, :private, :canjoin, :posted_at, :custom_html,
+    :using_custom_html, :custom_css
 
   validates_presence_of :title,
   :message => "请输入页面名字"
