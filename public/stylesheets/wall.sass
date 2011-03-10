@@ -10,10 +10,33 @@ ul,dl
 img
   border: 0
 
+.site_max_size
+  background: black
+  overflow: hidden
+
+#wrapper
+  z-index: 999
+  margin: 0 auto
+  position: relative
+
+  .commands
+    position: absolute
+    top: 10px
+    right: 10px
+    a
+      float: right
+   
+  .back_to_home
+    text-indent: -9999px
+    margin-left: 10px
+    height: 20px
+    width: 80px
+    background: url('/images/btn_backhome.gif')
+
 .wall
   @include clear_fix
 
-  margin: 0
+  margin: 0 auto
   position: relative
 
   .list

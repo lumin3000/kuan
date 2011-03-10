@@ -30,7 +30,7 @@ K.wall = (function(){
             return;
         }
         if(el.hasClass('text')){
-            el.set('class', 'text');
+            el.set('class', 'item text');
         }
         el.inject(base_list);
     }
@@ -57,7 +57,7 @@ K.wall = (function(){
         }
     }
     function get_columns_count(){
-        return ((document.getSize().x-180)/180).floor().limit(1, 7);
+        return ((document.getSize().x-0)/180).floor().limit(1, 10);
     }
 
     return {
@@ -75,8 +75,9 @@ K.wall = (function(){
                     location.href = location.href;
                 }
             });
+            var first_line_count = ((base_list.getElements('li').length/columns.length).floor()-1).limit(3, 6);
+            console.log(first_line_count)
             
-            var first_line_count = 6;
             for(var i=0;i<cls*first_line_count;i++){
                 ins(columns[(i/first_line_count).floor()], true);
             }
@@ -87,7 +88,7 @@ K.wall = (function(){
                         K.wall.more();
                     }
                     inv();
-                }, 20000);
+                }, 5000);
             }
             inv();
             
@@ -123,3 +124,7 @@ K.wall = (function(){
         }
     };
 })();
+
+document.addEvent('domready', function(){
+    K.wall.init()
+});

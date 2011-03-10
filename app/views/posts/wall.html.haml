@@ -2,9 +2,12 @@
   = stylesheet_link_tag 'wall'
 - js 'wall'
 
+#wrapper
+  .commands
+    %a.back_to_home{href: fucking_root}
+      回我的主页
+
 .wall
-  %h1 不准看!
-  
   .list.store
     %ul
       = render partial: "posts/brief", collection: @posts, as: :post
