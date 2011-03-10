@@ -76,7 +76,6 @@ K.wall = (function(){
                 }
             });
             var first_line_count = ((base_list.getElements('li').length/columns.length).floor()-1).limit(3, 6);
-            console.log(first_line_count)
             
             for(var i=0;i<cls*first_line_count;i++){
                 ins(columns[(i/first_line_count).floor()], true);
