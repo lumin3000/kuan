@@ -65,7 +65,7 @@ class Post
     posts = []
     Blog.latest.paginate(pagination).each do |b|
       post = b.posts.desc(:created_at).limit(1).first
-      posts << post if post.created_at == b.posted_at
+      posts << post if not post.nil? and post.created_at == b.posted_at
     end
     posts
   end
