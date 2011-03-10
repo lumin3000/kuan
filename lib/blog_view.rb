@@ -123,6 +123,16 @@ class BlogView < Mustache
   def define
     Proc.new do |str|
       @variables = self.class.parse_custom_vars(str)
+      # `method_missing' rocks but we have to fall back to singleton method for now.
+      # See: https://github.com/defunkt/mustache/issues#issue/88
+      @variables.each do |type, values|
+        values.each do |name, hash|
+          self.define_singleton_method "#{type.to_s}_#{name.to_s}".to_sym, do
+            hash[:value]
+          end
+        end
+      end
+      ''
     end
   end
 
@@ -157,6 +167,11 @@ class BlogView < Mustache
   #{next_page}
 </div>
 TPL
+  end
+
+  def respond_to?(name)
+    return true if name.to_s =~ /^(?:color|bool|text|font)_/
+    super
   end
 end
 

@@ -146,6 +146,8 @@ TPL
   {{#define}}
     color foo aha #333
   {{/define}}
+
+  {{color_foo}}
 TPL
       @blog.custom_html = @template
       @blog.using_custom_html = true
@@ -156,6 +158,19 @@ TPL
     it "should extract variables" do
       variables = @view.instance_variable_get :@variables
       variables.should be_kind_of Hash
+      @view.should be_respond_to(:color_foo)
+      @rendered.should_not be_include('aha')
+      @rendered.should_not be_include('color')
+      @rendered.should_not be_include('foo')
+    end
+
+    it "should ... I'm running out of words" do
+    end
+
+    it "should insert variable" do
+      variables = @view.instance_variable_get :@variables
+      color_value = variables[:color][:foo][:value]
+      @rendered.should be_include(color_value)
     end
   end
 end
