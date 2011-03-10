@@ -105,7 +105,7 @@ class PostsController < ApplicationController
     if params[:format] && params[:format] == "html"
       render partial: "posts/brief", collection: @posts, as: :post
     else
-      render :layout => "wall"
+      render :layout => "application"
     end
   end
 
