@@ -6,7 +6,7 @@
     %div{:class => "#{k}"}= v
 
 .header
-  %a.logo{href: "/home"}
+  %a.logo{href: home_path}
   .dash_navigator
     %a{href: wall_posts_path}墙
     &nbsp;|&nbsp;
@@ -24,16 +24,16 @@
       %a{href: blog_path(@user.primary_blog)}<
         &nbsp;
     .head_menu
-      %a.my_follow{ href: "/followings", title: "我关注的"}<
+      %a.my_follow{ href: followings_path, title: "我关注的"}<
         %span 我关注的
       %a.my_collect{ href: favors_posts_path, title: "我喜欢的"}<
         %span 我喜欢的
-      %a.my_reply{ href: "/buzz", title: "回复"}<
+      %a.my_reply{ href: buzz_path, title: "回复"}<
         %span 回复
         - if current_user.comments_notices.unreads.count > 0
           = current_user.comments_notices.unreads.count
 
-      %a.my_message{ href: "/messages", title: "消息"}<
+      %a.my_message{ href: messages_path, title: "消息"}<
         %span 消息
         - if current_user.messages.unreads.count > 0
           = current_user.messages.unreads.count
@@ -47,13 +47,13 @@
       .right
     .head_txt<
       - unless @at_dashboard
-        %a{ href: "/home" }<
+        %a{ href: home_path }<
           &#8592; 我的主页
         = " > #{@blog.title}"
 
   .menu
     .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
-      %a.selector{href: "/home/#{@blog.uri}"}
+      %a.selector{href: home_path(@blog)}
         = @blog.title
       - @other_blogs = @blogs.reject {|b| b == @blog}
       .selector_open
@@ -62,7 +62,7 @@
         .selector_open_menu
           - @other_blogs.each do |b|
             %div
-              %a.other_blog{href: "/home/#{b.uri}"}<
+              %a.other_blog{href: home_path(b)}<
                 = b.title
         .selector_open_footer
           %a{href: new_blog_path} +新建页面
@@ -70,7 +70,7 @@
       %div
         %span.icon_posts &nbsp;
         %span
-          %a{href: "/home/#{@blog.uri}"}
+          %a{href: home_path(@blog)}
             ! #{@blog.total_post_num}篇文章
       %div
         %span.icon_followed &nbsp;
