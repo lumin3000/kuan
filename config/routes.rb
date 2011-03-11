@@ -21,7 +21,7 @@ Kuan::Application.routes.draw do
     get '/(page/:page)' => 'blogs#show', :page => /\d+/
     get '/edit' => 'blogs#edit'
     put '/' => 'blogs#update'
-    get '/post/:post_id' => 'blogs#show'
+    get '/posts/:post_id' => 'blogs#show'
     #Generating editor and follower resource would make more sense
     post '/follow_toggle' => 'blogs#follow_toggle'
     get '/followers' => 'blogs#followers'
@@ -35,7 +35,7 @@ Kuan::Application.routes.draw do
 
   post "/upload/:type", :to => 'images#create'
   
-  resources :posts do
+  resources :posts, :except => [:new, :index, :show] do
     resources :comments
     member do
       get :renew
@@ -43,25 +43,21 @@ Kuan::Application.routes.draw do
     end
     collection do
       post :recreate
-      get :favors
     end
   end
 
-  get "/posts/new/:type(/to/:blog_uri)" => "posts#new"
-
+  get "/posts/new/:type(/to/:blog_uri)" => "posts#new", :as => "new_post"
+  get '/news(/page/:page)', :to => 'posts#news', :page => /\d+/
+  get '/wall', :to => 'posts#wall'
+  get '/posts/favors(/page/:page)' => 'posts#favors', :page => /\d+/
+  
   get '/followings', :to => 'users#followings'
   get '/buzz(/page/:page)', :to => 'users#buzz', :page => /\d+/
   put '/buzz/readall', :to => 'users#read_all_comments_notices'
 
-  get '/news', :to => 'posts#news'
-  get '/news/page/:page', :to => 'posts#news', :page => /\d+/
-  get '/wall', :to => 'posts#wall'
-
   get '/messages(/page/:page)', :to => 'messages#index', :page => /\d+/
   put '/messages/:id/doing', :to => 'messages#doing'
   put '/messages/:id/ignore', :to => 'messages#ignore'
-
-  get '/posts/favors/page/:page' => 'posts#favors', :page => /\d+/
 
   resources :movings, :only => [:new, :create]
 

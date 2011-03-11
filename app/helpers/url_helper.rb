@@ -39,6 +39,10 @@ module UrlHelper
     url_for_blog_(blog) + 'editor/' + user.id.to_s
   end
 
+  def posts_blog_path(post)
+    url_for_blog_(post.blog) + "posts/#{post.id}"
+  end
+
   def fucking_root
     root_url(:subdomain => 'www')
   end
