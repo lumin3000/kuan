@@ -17,7 +17,7 @@
     - invite_url = "#{fucking_root}signup/#{current_user.inv_code}"
     %input.invite{readonly: true, value: invite_url, onclick: "this.select();"}><
     &nbsp;|&nbsp;
-    %a.logout{ :href => "/signout", :data => { :confirm => "确定登出?" } }><
+    %a.logout{ :href => signout_path, :data => { :confirm => "确定登出?" } }><
 .dashboard
   .head
     .head_avatar{style: "background:url(#{@user.primary_blog.icon.url_for(:medium)})"}<
@@ -37,22 +37,20 @@
         %span 消息
         - if current_user.messages.unreads.count > 0
           = current_user.messages.unreads.count
-        
+
     .post_area
       .left
-      - trailing_post_url = "/to/#{@blog.uri}"
-      %a.text{href: "/posts/new/text#{trailing_post_url}"}
-      %a.picture{href: "/posts/new/pics#{trailing_post_url}"}
-      %a.link{href: "/posts/new/link#{trailing_post_url}"}
-      %a.video{href: "/posts/new/video#{trailing_post_url}"}
+      %a.text{href: new_post_path("text", @blog)}
+      %a.picture{href: new_post_path("pics", @blog)}
+      %a.link{href: new_post_path("link", @blog)}
+      %a.video{href: new_post_path("video", @blog)}
       .right
-    
     .head_txt<
       - unless @at_dashboard
         %a{ href: "/home" }<
           &#8592; 我的主页
         = " > #{@blog.title}"
-      
+
   .menu
     .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
       %a.selector{href: "/home/#{@blog.uri}"}
@@ -67,7 +65,7 @@
               %a.other_blog{href: "/home/#{b.uri}"}<
                 = b.title
         .selector_open_footer
-          %a{href: "/blogs/new"} +新建页面
+          %a{href: new_blog_path} +新建页面
     .page_operation
       %div
         %span.icon_posts &nbsp;
@@ -83,7 +81,7 @@
         %div
           %span.icon_members &nbsp;
           %span
-            %a{href: "/blogs/#{@blog.uri}/editors"}
+            %a{href: editors_blog_path(@blog)}
               ! 成员管理
       - if @blog.customed? current_user
         %div

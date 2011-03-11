@@ -12,11 +12,6 @@ module UrlHelper
     super
   end
 
-  def blog_apply_path(blog)
-    fucking_root() + "blogs/#{blog.uri}/apply"
-  end
-
-  # Private!
   def url_for_blog_(blog)
     raise "fffffffuuuuuuuuuuuuu" if blog.nil?
     root_url(:subdomain => blog.uri)
@@ -33,7 +28,19 @@ module UrlHelper
   end
 
   def follow_toggle_blog_path(blog)
-    url_for_blog_(blog) + 'follow_toggle'
+    (request.subdomain == blog.uri) ? (url_for_blog_(blog)+'follow_toggle') : super
+  end
+
+  def editors_blog_path(blog)
+    url_for_blog_(blog) + 'editors'
+  end
+
+  def editor_blog_path(blog, user)
+    url_for_blog_(blog) + 'editor/' + user.id.to_s
+  end
+
+  def posts_blog_path(post)
+    url_for_blog_(post.blog) + "posts/#{post.id}"
   end
 
   def fucking_root

@@ -15,6 +15,6 @@
         %a{ :href => blog_path(blog) }
           = user.name
       - unless followed.include?(blog)
-        %a{:href => "/blogs/#{blog.id}/follow_toggle", :id => "tar_follow_#{blog.id}",
+        %a{:href => follow_toggle_blog_path(blog), :id => "tar_follow_#{blog.id}",
           :data => {:method => "POST", :remote => "true"}}
           .btn_follow
