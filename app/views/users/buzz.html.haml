@@ -5,7 +5,7 @@
   %h1<
     回复&nbsp;
     - if current_user.comments_notices.unreads.count > 0
-      %a{ :href => "/buzz/readall", :data => { :widget => "rest", :md => "put",
+      %a{ :href => buzz_readall_path, :data => { :widget => "rest", :md => "put",
       :callback => "redirect" } }<
         全部标识为已读
     
