@@ -152,10 +152,10 @@ describe Blog do
         Blog.delete_all
    
         @blog = Factory.build(:blog_unique)
-        @following = Factory.build(:following_lord, :blog => @blog)
         @blog_new = Factory.build(:blog_unique)
-        @following_new = Factory.build(:following_lord, :blog => @blog_new)
-        @user = Factory.build(:user_unique, :followings => [@following, @following_new] )
+        @user = Factory.build(:user_unique)
+        @user.follow! @blog, "lord"
+        @user.follow! @blog_new, "lord"
         @post = Factory.build(:text)
         @user.save
         @blog.save

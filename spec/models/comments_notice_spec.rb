@@ -22,9 +22,9 @@ describe CommentsNotice do
     @post_old.blog = @blog
     @post_old.save
 
-    @comments_notice = Factory.build(:comments_notice, :post => @post)
-    @read_comments_notice = Factory.build(:read_comments_notice, :post => @post)
-    @old_comments_notice = Factory.build(:old_comments_notice, :post => @post_old)
+    @comments_notice = CommentsNotice.new(:post => @post)
+    @read_comments_notice = CommentsNotice.new(:unread => false, :post => @post)
+    @old_comments_notice = CommentsNotice.new(:post => @post_old, :created_at => 1.hour.ago)
   end
 
   describe "comments_notiecs scope" do
@@ -88,7 +88,7 @@ describe CommentsNotice do
   describe "read notice" do
     it "should set unread = false" do
       @post = Post.new
-      @new_comments_notice = Factory.build(:comments_notice, :post => @post)
+      @new_comments_notice = CommentsNotice.new(:post => @post)
 
       @user.comments_notices = [ @comments_notice, 
                                 @read_comments_notice,

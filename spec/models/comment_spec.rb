@@ -30,14 +30,18 @@ describe Comment do
   describe "notice watchers when user comment a post" do
     it "should notice post author" do
       length = @user.comments_notices.unreads.count
+      @new_post = Factory.build(:text)
+      @new_post.author = @user
+      @new_post.blog = @blog
       @new_comment = Comment.new
-      @new_comment.post = @post
       @new_comment.author = @comment_author
-      @new_comment.post.should_not be_nil
       @new_comment.content = "just content"
+      @new_post.comments << @new_comment
+      @new_comment.post.should_not be_nil
       @post.watchers.should be_include(@user)
-      @new_comment.save.should be_true
-      @user.comments_notices.unreads.count.should == length + 1
+
+      @user.reload
+      @user.comments_notices.unreads.count.should == 1
     end
   end
 end

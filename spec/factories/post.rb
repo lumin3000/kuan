@@ -36,12 +36,6 @@ end
 
 Factory.define :pics, :parent => :post, :class => :pics do |p|
   p.content "this is pics content"
-  p.photos {|items| [items.association(:photo), items.association(:photo)]}
-end
-
-Factory.define :photo do |p|
-  p.desc "this is photo desc"
-  p.association :image
 end
 
 Factory.define :image do |p|
