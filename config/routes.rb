@@ -1,4 +1,9 @@
 Kuan::Application.routes.draw do
+
+
+  resources :sessions, :only => [:new, :create, :destroy]
+
+
   post "/upload/:type", :to => 'images#create'
 
   resources :posts do
@@ -14,8 +19,7 @@ Kuan::Application.routes.draw do
   end
 
   resources :users, :except => [:index, :destroy] 
-
-  resources :sessions, :only => [:new, :create, :destroy]
+  
   resources :blogs, :only => [:new, :create] do
     member do
       post :follow_toggle
