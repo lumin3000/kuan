@@ -94,6 +94,14 @@ class User
     f = followings.where(:blog_id => blog.id).first
     if f.nil?
       followings << Following.new(:blog => blog, :auth => auth)
+      if auth == "follower"
+        (blog.founders + blog.lord.to_a).each do |founder|
+          founder.receive_message! Message.new(:sender => self,
+                                             :blog => blog,
+                                             :type => "follow"
+                                             )
+        end
+      end
     else
       f.update_attributes :auth => auth
     end

@@ -3,11 +3,11 @@ require 'spec_helper'
 describe "Message" do
 
   before :each do
-    @user = Factory :user
-    @blog = Factory :blog
+    @user = Factory :user_unique
+    @blog = Factory :blog_unique
     @blog_primary = @user.create_primary_blog!
     @user.follow! @blog, "founder"
-    @sender = Factory(:user, :email => Factory.next(:email))
+    @sender = Factory(:user_unique, :email => Factory.next(:email))
     @blog.canjoin = true
     @blog.save!
   end
@@ -170,4 +170,27 @@ describe "Message" do
       @message_feed.type.should == "join_feed"
     end
   end
+
+  describe "follow a blog" do
+    it "should send messages to founders" do
+      @blog_member = Factory :blog_unique
+      @user.follow! @blog_member, "founder"
+      @blog_member.canjoin = true
+      @blog_member.save!
+      @user.reload
+      length = @user.messages.length
+      @new_user = Factory :user_unique
+      @new_user.follow! @blog_member
+      @user.reload
+      @user.messages.length.should == length + 1
+    end
+    it "should send messages to lord" do
+      length = @user.messages.length
+      @new_user = Factory :user_unique
+      @new_user.follow! @blog_primary
+      @user.reload
+      @user.messages.length.should == length + 1
+    end
+  end
+
 end

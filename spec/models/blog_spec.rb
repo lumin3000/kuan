@@ -178,8 +178,14 @@ describe Blog do
         @latest.last.should == @blog
       end
     end
-
-    it "should " do
+  end
+  describe "get lord" do
+    it "should get lord" do
+      @user = Factory.build(:user_unique)
+      @user.save
+      @blog = @user.create_primary_blog!
+      @user.reload
+      @blog.lord.should == @user
     end
   end
 end

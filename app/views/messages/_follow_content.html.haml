@@ -1,0 +1,5 @@
+.avatar_name
+  %a{href: blog_path(message.sender.primary_blog)}= message.sender.name
+  关注了
+  %a{href: blog_path(message.blog)}= message.blog.title
+.text
