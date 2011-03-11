@@ -54,7 +54,7 @@ class BlogView < Mustache
   include ObjectView
 
   VALUE_PARSERS = {
-    bool: lambda { |v|
+    'bool' => lambda { |v|
       case v
       when /1|true|on|yes/i
         true
@@ -64,21 +64,21 @@ class BlogView < Mustache
         nil
       end
     },
-    color: lambda {|v| v}
+    'color' => lambda {|v| v}
   }
 
   def self.parse_custom_vars(str)
-    result = {color: {}, font: {}, text: {}, bool: {}}
+    result = {'color' => {}, 'font' => {}, 'text' => {}, 'bool' => {}}
     str.split(/\r\n?|\n/).each do |rule|
-        pieces = rule.strip.split
-        next if pieces.length != 4
-        type = pieces[0].to_sym
-        next if not self::VALUE_PARSERS.has_key? type
-        result[type][pieces[1].to_sym] = {
-          desc: pieces[2],
-          value: self::VALUE_PARSERS[type].call(pieces[3]),
-        }
-      end
+      pieces = rule.strip.split
+      next if pieces.length != 4
+      type = pieces[0]
+      next if not self::VALUE_PARSERS.has_key? type
+      result[type][pieces[1]] = {
+        'desc' => pieces[2],
+        'value' => self::VALUE_PARSERS[type].call(pieces[3]),
+      }
+    end
     result
   end
 
@@ -127,13 +127,18 @@ class BlogView < Mustache
       # See: https://github.com/defunkt/mustache/issues#issue/88
       @variables.each do |type, values|
         values.each do |name, hash|
-          self.define_singleton_method "#{type.to_s}_#{name.to_s}".to_sym, do
-            hash[:value]
+          self.define_singleton_method "#{type}_#{name}", do
+            hash['value']
           end
         end
       end
+      @variables.update @blog.template_conf if @blog.template_conf.kind_of? Hash
       ''
     end
+  end
+
+  def variables
+    @variables
   end
 
   def post_single

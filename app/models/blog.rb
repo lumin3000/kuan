@@ -21,11 +21,13 @@ class Blog
   field :custom_html
   referenced_in :template, :class_name => 'CustomTemplate'
 
+  field :template_conf, :type => Hash
+
   references_many :followings
   references_many :posts, :index => true
 
   attr_accessible :uri, :title, :icon, :private, :canjoin, :posted_at, :custom_html,
-    :using_custom_html, :custom_css, :template, :template_id
+    :using_custom_html, :custom_css, :template, :template_id, :template_conf
 
   validates_presence_of :title,
   :message => "请输入页面名字"

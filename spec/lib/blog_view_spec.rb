@@ -151,26 +151,46 @@ TPL
 TPL
       @blog.custom_html = @template
       @blog.using_custom_html = true
-      @view = BlogView.new @blog, :posts => [@text]
-      @rendered = @view.render
     end
 
-    it "should extract variables" do
-      variables = @view.instance_variable_get :@variables
-      variables.should be_kind_of Hash
-      @view.should be_respond_to(:color_foo)
-      @rendered.should_not be_include('aha')
-      @rendered.should_not be_include('color')
-      @rendered.should_not be_include('foo')
+    describe 'and render it' do
+      before :each do
+        @view = BlogView.new @blog, :posts => [@text]
+        @rendered = @view.render
+      end
+
+      it "should extract variables" do
+        variables = @view.instance_variable_get :@variables
+        variables.should be_kind_of Hash
+        @view.should be_respond_to(:color_foo)
+        @rendered.should_not be_include('aha')
+        @rendered.should_not be_include('color')
+        @rendered.should_not be_include('foo')
+      end
+
+      it "should insert variable" do
+        variables = @view.instance_variable_get :@variables
+        color_value = variables['color']['foo']['value']
+        @rendered.should be_include(color_value)
+      end
     end
 
-    it "should ... I'm running out of words" do
-    end
+    describe 'how about user defined variables' do
+      before :each do
+        @blog.template_conf = {
+          'color' => {
+            'foo' => {
+              'value' => '#777'
+            }
+          }
+        }
+        @view = BlogView.new @blog, :posts => [@text]
+        @rendered = @view.render
+      end
 
-    it "should insert variable" do
-      variables = @view.instance_variable_get :@variables
-      color_value = variables[:color][:foo][:value]
-      @rendered.should be_include(color_value)
+      it "should respect user's setting" do
+        @rendered.should_not be_include(@view.variables['color']['foo']['value'])
+      end
     end
   end
 end
@@ -185,22 +205,22 @@ describe "BlogView.parse_custom_vars" do
   undefined_type mess_you_up ahahahahahah blah
 EOF
       @result = {
-        color: {
-          foo: {
-            desc: '背景色',
-            value: '#333',
+        'color' => {
+          'foo' => {
+            'desc' => '背景色',
+            'value' => '#333',
           }
         },
-        bool: {
-          show_comments: {
-            desc: '显示评论',
-            value: true,
+        'bool' => {
+          'show_comments' => {
+            'desc' => '显示评论',
+            'value' => true,
           }
         },
-        text: {
+        'text' => {
 
         },
-        font: {
+        'font' => {
 
         },
       }
