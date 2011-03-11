@@ -48,77 +48,21 @@ Kuan::Application.routes.draw do
 
   get "/posts/new/:type(/to/:blog_uri)" => "posts#new", :as => "new_post"
   #Maybe favors should have a controller too
-  get '/posts/favors(/page/:page)' => 'posts#favors', :page => /\d+/, :as => "favors_posts"
+  get '/favors(/page/:page)' => 'posts#favors', :page => /\d+/, :as => "favors_posts"
   get '/news(/page/:page)', :to => 'posts#news', :page => /\d+/, :as => "news_posts"
   get '/wall', :to => 'posts#wall', :as => "wall_posts"
   
   get '/followings', :to => 'users#followings'
-  get '/buzz(/page/:page)', :to => 'users#buzz', :page => /\d+/
-  put '/buzz/readall', :to => 'users#read_all_comments_notices'
+  get '/buzz(/page/:page)', :to => 'users#buzz', :page => /\d+/, :as => "buzz"
+  put '/buzz/readall', :to => 'users#read_all_comments_notices', :as => "buzz_readall"
 
-  get '/messages(/page/:page)', :to => 'messages#index', :page => /\d+/
-  put '/messages/:id/doing', :to => 'messages#doing'
-  put '/messages/:id/ignore', :to => 'messages#ignore'
+  namespace :messages do
+    get '(/page/:page)', :to => :index, :page => /\d+/
+    put ':id/doing' => :doing, :as => "doing"
+    put ':id/ignore' => :ignore, :as => "ignore"
+  end
 
   resources :movings, :only => [:new, :create]
 
   root :to => redirect("/home")
-  
-
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
-
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
-
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Sample resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Sample resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Sample resource route with more complex sub-resources
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', :on => :collection
-  #     end
-  #   end
-
-  # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
-
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
-  # root :to => "welcome#index"
-
-  # See how all your routes lay out with "rake routes"
-
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id(.:format)))'
 end
