@@ -17,7 +17,7 @@
     - invite_url = "#{fucking_root}signup/#{current_user.inv_code}"
     %input.invite{readonly: true, value: invite_url, onclick: "this.select();"}><
     &nbsp;|&nbsp;
-    %a.logout{ :href => "/signout", :data => { :confirm => "确定登出?" } }><
+    %a.logout{ :href => signout_path, :data => { :confirm => "确定登出?" } }><
 .dashboard
   .menu
     .dash_operation
@@ -89,7 +89,7 @@
         %div
           %span.icon_members &nbsp;
           %span
-            %a{href: "/blogs/#{@blog.uri}/editors"}
+            %a{href: editors_blog_path(@blog)}
               ! 成员管理
       - if @blog.customed? current_user
         %div

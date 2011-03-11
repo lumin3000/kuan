@@ -1,6 +1,6 @@
 - content_for :title, "申请加入#{@blog.title}_宽岛"
 
-%form.middle_box.new_contributor{ :action => "/blogs/#{@blog.uri}/apply", :method => "post" }
+%form.middle_box.new_contributor{ :action => editors_path, :method => "post" }
   %h1<
     = "申请加入#{@blog.title}"
   %h2<
