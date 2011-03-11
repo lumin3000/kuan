@@ -10,8 +10,8 @@
   - content_for :title, (@action + @post_type.strip + "_宽岛")
 
 - content_for :head, do
-  = stylesheet_link_tag "post_edit", "mooeditable"
-  - js 'mooeditable', 'mooeditable.local'
+  - css "post_edit", "mooeditable"
+  - js "mooeditable", "mooeditable.local"
   :javascript
     document.addEvent('domready', function(){
       K.post.init()
