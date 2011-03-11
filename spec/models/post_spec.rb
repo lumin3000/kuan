@@ -4,8 +4,8 @@ describe Post do
   describe "notice watchers when usre comment a post" do
     before :each do
       @blog = Factory.build(:blog_unique)
-      @following = Factory.build(:following_lord, :blog => @blog)
-      @user = Factory.build(:user_unique, :followings => [@following])
+      @user = Factory.build(:user_unique)
+      @user.follow! @blog, "lord"
       @comment_author = Factory.build(:user_unique)
       @comment_user = Factory.build(:user_unique)
       @post = Post.new
@@ -61,12 +61,12 @@ describe Post do
       Blog.delete_all
 
       @blog = Factory.build(:blog_unique)
-      @following = Factory.build(:following_lord, :blog => @blog)
       @blog_private = Factory.build(:blog_unique)
-      @following_private = Factory.build(:following_lord, :blog => @blog_private)
       @blog_new = Factory.build(:blog_unique)
-      @following_new = Factory.build(:following_lord, :blog => @blog_new)
-      @user = Factory.build(:user_unique, :followings => [@following, @following_private, @following_new] )
+      @user = Factory.build(:user_unique)
+      @user.follow! @blog, "lord"
+      @user.follow! @blog_private, "lord"
+      @user.follow! @blog_new, "lord"
       @post = Factory.build(:text)
       @user.save
       @blog.save
@@ -121,8 +121,8 @@ describe Post do
       Blog.delete_all
 
       @blog = Factory.build(:blog_unique)
-      @following = Factory.build(:following_lord, :blog => @blog)
-      @user = Factory.build(:user_unique, :followings => [@following] )
+      @user = Factory.build(:user_unique)
+      @user.follow! @blog, "lord"
       @post = Factory.build(:text)
       @user.save
       @blog.save
@@ -143,8 +143,8 @@ describe Post do
   describe "create a post" do
     it "should update blog posted_at" do
       @blog = Factory.build(:blog_unique)
-      @following = Factory.build(:following_lord, :blog => @blog)
-      @user = Factory.build(:user_unique, :followings => [@following] )
+      @user = Factory.build(:user_unique)
+      @user.follow! @blog, "lord"
       @user.save!
       @blog.save!
       @post = Factory.build(:text)

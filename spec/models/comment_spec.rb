@@ -2,7 +2,18 @@ require 'spec_helper'
 
 describe Comment do
   before :each do
-    @comment = Factory :comment
+    @blog = Factory.create(:blog_unique)
+    @user = Factory.create(:user_unique)
+    @user.follow! @blog, "lord"
+    @comment_author = Factory.create(:user_unique)
+    @post = Factory.build(:text)
+    @post.author = @user
+    @post.blog = @blog
+    @post.save!
+    @comment = Comment.new(:content => "comm")
+    @old_comment_author = Factory.create(:user_unique)
+    @comment.author = @old_comment_author
+    @post.comments << @comment
   end
 
   describe "content validations" do
@@ -17,19 +28,7 @@ describe Comment do
   end
 
   describe "notice watchers when user comment a post" do
-    before :each do
-      @blog = Factory.create(:blog_unique)
-      @user = Factory.create(:user_unique)
-      @user.follow! @blog, "lord"
-      @comment_author = Factory.create(:user_unique)
-      @post = Factory.build(:text)
-      @post.author = @user
-      @post.blog = @blog
-      @post.save!
-    end
-      
     it "should notice post author" do
-
       length = @user.comments_notices.unreads.count
       @new_comment = Comment.new
       @new_comment.post = @post

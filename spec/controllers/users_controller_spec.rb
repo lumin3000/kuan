@@ -29,7 +29,7 @@ describe UsersController do
     end 
     
     it "should redirect to signin when no user sign in" do
-      controller.sign_out
+      controller.sign_out 
       get :show
       response.should redirect_to signin_path
     end

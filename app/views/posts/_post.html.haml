@@ -7,7 +7,7 @@
         删除
       = link_to "编辑", edit_post_path(post), :class => 'edit', :title => '编辑'
     = link_to "转贴", renew_post_path(post), :class => 'repost', :title => '转贴'
-    - favor_href, favor_data = "/posts/#{post.id}/favor_toggle", { :widget => "rest", :callback => "toggle", :md => "put" }
+    - favor_href, favor_data = favor_toggle_post_path(post), { :widget => "rest", :callback => "toggle", :md => "put" }
     - if current_user and post.favored_by? current_user
       - favor_data["class"] = "fave"
       - favor_data["title"] = "喜欢"

@@ -8,9 +8,9 @@
 .header
   %a.logo{href: "/home"}
   .dash_navigator
-    %a{href: "/wall"}墙
+    %a{href: wall_posts_path}墙
     &nbsp;|&nbsp;
-    %a{href: "/news"}随便看看
+    %a{href: news_posts_path}随便看看
     &nbsp;|&nbsp;
     %a{href: edit_user_path(current_user)}设置
     &nbsp;| 邀请好友加入&nbsp;
@@ -26,7 +26,7 @@
     .head_menu
       %a.my_follow{ href: "/followings", title: "我关注的"}<
         %span 我关注的
-      %a.my_collect{ href: "/posts/favors", title: "我喜欢的"}<
+      %a.my_collect{ href: favors_posts_path, title: "我喜欢的"}<
         %span 我喜欢的
       %a.my_reply{ href: "/buzz", title: "回复"}<
         %span 回复

@@ -3,8 +3,8 @@ require 'spec_helper'
 describe CommentsNotice do
   before :each do
     @blog = Factory.build(:blog_unique)
-    @following = Factory.build(:following_lord, :blog => @blog)
-    @user = Factory.build(:user_unique, :followings => [@following] )
+    @user = Factory.build(:user_unique)
+    @user.follow! @blog, "lord"
     @post = Factory.build(:text)
     @user.save
     @blog.save

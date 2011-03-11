@@ -16,7 +16,6 @@ class Blog
     :order_by => { :posted_at => :desc },
     :limit => 500
 
-  references_many :followings
   references_many :posts, :index => true
 
   attr_accessible :uri, :title, :icon, :private, :canjoin, :posted_at
