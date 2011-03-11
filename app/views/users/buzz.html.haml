@@ -12,12 +12,6 @@
   .timeline{ :data => { :widget => "sugar" } }
     - @buzz_list.each do |b|
       - if p = b.post
-        .article.tar_post{ :class => (b.unread? ? "new_reply" : "") }
-          .avatar
-            .image<
-              %a{href: blog_path(p.blog)}<
-                =image_tag p.blog.icon.url_for(:medium)
-            %div<
-              %a.page_name{href: blog_path(p.blog)}= p.blog.title
-          .content= render_post p
+        = render partial: "posts/post_full", object: p, as: :post,
+          locals: { article_class: (b.unread? ? "new_reply" : "") }
   = pagination(@buzz_list)

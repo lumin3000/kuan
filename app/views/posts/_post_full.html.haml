@@ -1,4 +1,4 @@
-.article.tar_post
+.article.tar_post{ class: (article_class ||= "") }
   .avatar
     .image{style: "background:url(#{post.blog.icon.url_for(:medium)})"}<
       %a{href: blog_path(post.blog)}<
