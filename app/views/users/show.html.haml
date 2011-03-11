@@ -48,9 +48,10 @@
       .right
     
     .head_txt<
-      %a{ href: "/home" }<
-        &#8592; 我的主页
-      &nbsp;>&nbsp;xxxxxx
+      - unless @at_dashboard
+        %a{ href: "/home" }<
+          &#8592; 我的主页
+        = " > #{@blog.title}"
       
   .menu
     .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
