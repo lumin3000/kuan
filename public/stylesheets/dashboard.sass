@@ -134,102 +134,115 @@ a.page_name
   .icon_view
     @include dashboard_sidebar_button
     background: url('/images/icons.gif') -140px -20px
-
-  .dash_operation
-    margin-left: 10px
-
-    hr
-      width: 80%
-      color: #ddd
-      height: 1px
-      border: 0px
-      border-top: 1px solid #ddd
-      margin: 0px 0px 5px 0px
-      padding: 0px
-      overflow: hidden
-
-
-    .my_follow
-      margin-left: -18px
-      margin-bottom: 16px
-
-    .my_reply,
-    .my_message,
-    .my_collect
-      margin-bottom: 10px
-      margin-top: 10px
-
-      .new
-        color: #ff9933
-
-    .create_page
-      margin-bottom: 2px
-      margin-top: 5px
-      font-size: 12px
-
+ 
   .main
     width: 700px
     float: left
     overflow: hidden
 
+  .timeline
+    padding-top: 12px
+    margin-left: 20px
+
   .head
-    height: 100px
     clear: both
+    background: url('/images/dash_.gif') no-repeat
+    width: 900px
+    height: 130px
+    overflow:hidden
 
   .head_avatar
     @include size(60px, 60px)
-    border: 1px solid gray
-    float: left
     background: url('/images/default_icon_medium.gif')
-
+    -moz-border-radius: 6px
+    border-radius: 6px
+    border-bottom: 1px solid #333
+    margin: 20px
+    float: left
+    
     a
-      @include border-radius(15px)
-      overflow: hidden
-      position: relative
-      z-index: 2
-
-    img
       @include size(60px, 60px)
       display: block
-      position: relative
-      z-index: 1
+      text-decoration: none
 
   .post_area
-    margin-left: 72px
-    background-color: #65b7fc
+    margin-left: 60px
     text-decoration: none
 
-    div, a
+    div
       height: 100px
       float: left
+    
+    a
+      display: block
+      width: 126px
+      height: 80px
+      overflow: hidden
+      float: left
+      margin-top: 10px
+      -moz-border-radius: 10px
+      border-radius: 10px
+      background-position: 0px -6px
+      text-indent: -100px
+      &:hover
+        background-color: #2660c2
+      &:active
+        background-color: #009fff
 
     .left
-      @include post_area_button
-      width: 66px
+      width: 50px
 
     .text
-      @include post_area_button
-      background-position: -66px
+      background-image: url('/images/dash_text.gif')
 
     .picture
-      @include post_area_button
-      background-position: -191px
+      background-image: url('/images/dash_picture.gif')
 
     .link
-      @include post_area_button
-      background-position: -316px
+      background-image: url('/images/dash_link.gif')
 
     .video
-      @include post_area_button
-      background-position: -441px
+      background-image: url('/images/dash_video.gif')
 
-    .right
-      @include post_area_button
-      width: 51px
-      background-position: -566px
+  .head_menu
+    width: 180px
+    height: 55px
+    overflow: hidden
+    float: right
+    padding-top: 45px
+    padding-right: 5px
+    a
+      display: block
+      width: 20px
+      float: left
+      text-decoration: none
+      margin: 0px 10px
+      color: #cfe9ff
+      *text-align: center
+      cursor: pointer
+    span
+      display: block
+      height: 20px
+      text-indent: -1000px
+    .my_follow
+      height: 20px
+      background: url('/images/icon.gif') 0px -40px no-repeat
+    .my_collect
+      height: 20px
+      background: url('/images/icon.gif') -20px -40px no-repeat
+    .my_reply
+      height: 40px
+      background: url('/images/icon.gif') -40px -40px no-repeat
+    .my_message
+      height: 40px
+      background: url('/images/icon.gif') -60px -40px no-repeat
+  .head_txt
+    clear: both
+    line-height: 40px
+    margin-left: 20px
+    a
+      text-decoration: none
 
-  .timeline
-    padding-top: 30px
 
 .highlight_following .menu_arrow
   background: url('/images/icons.gif') -20px -20px
@@ -318,10 +331,21 @@ a.page_name
 
     .image
       @include size(60px, 60px)
-      border: 1px solid gray
+      display: block
+      -moz-border-radius: 6px
+      border-radius: 6px
+      border-bottom: 1px solid #333
       margin-bottom: 5px
       background: url('/images/default_blog_icon.jpg')
+      
+      a
+        @include size(60px, 60px)
+        display: block
+        text-decoration: none
 
+  .page_name
+    word-wrap: break-word        
+        
   .writer_name a
     color: #888888
     font-size: 14px

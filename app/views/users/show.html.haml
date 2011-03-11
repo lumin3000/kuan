@@ -19,47 +19,40 @@
     &nbsp;|&nbsp;
     %a.logout{ :href => "/signout", :data => { :confirm => "确定登出?" } }><
 .dashboard
+  .head
+    .head_avatar{style: "background:url(#{@user.primary_blog.icon.url_for(:medium)})"}<
+      %a{href: blog_path(@user.primary_blog)}<
+        &nbsp;
+    .head_menu
+      %a.my_follow{ href: "/followings", title: "我关注的"}<
+        %span 我关注的
+      %a.my_collect{ href: "/posts/favors", title: "我喜欢的"}<
+        %span 我喜欢的
+      %a.my_reply{ href: "/buzz", title: "回复"}<
+        %span 回复
+        - if current_user.comments_notices.unreads.count > 0
+          = current_user.comments_notices.unreads.count
+
+      %a.my_message{ href: "/messages", title: "消息"}<
+        %span 消息
+        - if current_user.messages.unreads.count > 0
+          = current_user.messages.unreads.count
+        
+    .post_area
+      .left
+      - trailing_post_url = "/to/#{@blog.uri}"
+      %a.text{href: "/posts/new/text#{trailing_post_url}"}
+      %a.picture{href: "/posts/new/pics#{trailing_post_url}"}
+      %a.link{href: "/posts/new/link#{trailing_post_url}"}
+      %a.video{href: "/posts/new/video#{trailing_post_url}"}
+      .right
+    
+    .head_txt<
+      %a{ href: "/home" }<
+        &#8592; 我的主页
+      &nbsp;>&nbsp;xxxxxx
+      
   .menu
-    .dash_operation
-      - highlight_following = (@at_dashboard ? 'highlight_following' : '')
-      .my_follow{data: {widget: 'fixHover'}, class: highlight_following}
-        %a{href: "/home"}
-          %span.menu_arrow &nbsp;
-          %span.icon_follow &nbsp;
-          %span.text_follow
-            关注了
-            = @user.subs.count
-            个页面
-        %a.real_fucking_following{href: "/followings"}
-          %span.icon_config &nbsp;
-      %hr
-      .my_reply
-        %a{ :href => "/buzz" }
-          %span.icon_reply<
-            &nbsp;
-          %span.text_reply<
-            - if current_user.comments_notices.unreads.count > 0
-              %span.new
-                = "(#{current_user.comments_notices.unreads.count}新)"
-            回复
-      %hr
-      .my_message
-        %a{ :href => "/messages" }
-          %span.icon_message<
-            &nbsp;
-          %span.text_message<
-            - if current_user.messages.unreads.count > 0
-              %span.new
-                = "(#{current_user.messages.unreads.count}新)"
-            消息
-      %hr
-      .my_collect
-        %a{ :href => "/posts/favors" }
-          %span.icon_collect<
-            &nbsp;
-          %span.text_collect<
-            喜欢
-      %hr
     .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
       %a.selector{href: "/home/#{@blog.uri}"}
         = @blog.title
@@ -106,18 +99,6 @@
         %span
           %a{href: blog_path(@blog)} 查看
   .main{ :data => { :widget => "sugar" } }
-    .head
-      .head_avatar<
-        %a{href: blog_path(@user.primary_blog)}<
-          =image_tag @user.primary_blog.icon.url_for(:medium)
-      .post_area
-        .left
-        - trailing_post_url = "/to/#{@blog.uri}"
-        %a.text{href: "/posts/new/text#{trailing_post_url}"}
-        %a.picture{href: "/posts/new/pics#{trailing_post_url}"}
-        %a.link{href: "/posts/new/link#{trailing_post_url}"}
-        %a.video{href: "/posts/new/video#{trailing_post_url}"}
-        .right
     .timeline
       = render :partial => "posts/post_full", :collection => @posts, :as => :post
     = pagination(@posts)
