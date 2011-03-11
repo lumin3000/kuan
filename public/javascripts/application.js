@@ -483,6 +483,12 @@ K.widgets.rest = function() {
       , method = el.get('data-md') || 'post'
     el.addEvent('click', function(e){
       e.stop()
+
+      var confirmMessage = el.get('data-doconfirm');
+      if(confirmMessage && !confirm(confirmMessage)) {
+        return false;
+      }
+
       var link = el.get('href')
       new Request.JSON({
         url: link,

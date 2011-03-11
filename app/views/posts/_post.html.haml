@@ -3,7 +3,7 @@
   .content_head
     - if current_user and post.editable_by? current_user
       %a.remove{ :href => "/posts/#{post.id}", :title => '删除',
-        :data => { :widget => "rest", :callback => "del", :md => "delete", :parent => "tar_post" }}<
+        :data => { :doconfirm => "确定删除?", :widget => "rest", :callback => "del", :md => "delete", :parent => "tar_post" }}<
         删除
       = link_to "编辑", "/posts/#{post.id}/edit", :class => 'edit', :title => '编辑'
     = link_to "转贴", "/posts/#{post.id}/renew", :class => 'repost', :title => '转贴'
