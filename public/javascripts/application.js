@@ -731,10 +731,10 @@ K.widgets.tab = (function() {
 })()
 
 K.widgets.diverseSubmit = function(button) {
-  var form = $(button.form)
+  var form = $(button.getParent('form'))
     , newTarget = button.get('data-target')
     , newAction = button.get('data-action')
-    , newMethod = button.get('data-method')
+    , newMethod = button.get('data-methord')
     , oldAction = form.action
     , oldTarget = form.target
     , overridingMethod = form.getElement('input[name=_method]')
@@ -793,5 +793,17 @@ K.widgets.radioButton = function(context) {
     input.set('value', value)
     selected.removeClass('selected')
     selected = e.target.addClass('selected')
+  })
+}
+
+K.widgets.toggler = function(button) {
+  var target = document.getElement(button.get('data-target'))
+  if (!target) return
+  var classes = button.get('data-classes').split(' ')
+    , input = document.getElement('input[name='+ button.get('data-field') +']')
+  button.addEvent('click', function(e) {
+    e.stop()
+    classes.each(function(c) { target.toggleClass(c) })
+    input.set('value', input.get('value') == 1 ? 0 : 1)
   })
 }

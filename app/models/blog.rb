@@ -139,6 +139,8 @@ class Blog
 
   def use_template(params)
     self.custom_html = params[:custom_html]
+    self.using_custom_html = params[:using_custom_html]
+    self.template_id = params[:template_id]
   end
 
   def template_in_use

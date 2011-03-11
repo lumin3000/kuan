@@ -37,7 +37,7 @@
     = f.hidden_field :icon, :id => "blog_icon_id", :value => @blog.icon.id
     %span#blog_icon_feed
 
-  %fieldset.template.menu
+  %fieldset.template.menu{class: @blog.using_custom_html? ? 'editing_custom_html' : 'picking_template'}
     .pool{data: {widget: 'radioButton', contents: '.theme', fieldName: 'blog[template_id]'}}
       - @templates.each do |t|
         .theme{data: {value: t.id}, class: t.id == @blog.template.id ? 'selected' : ''}
@@ -48,12 +48,22 @@
             %a{href: blog_path(t.author.primary_blog)}
               = t.author.name
             = t.name
-    = f.hidden_field :using_custom_html, :value => @blog.using_custom_html
-    %textarea{name: 'blog[custom_html]'}
-      = @blog.template_in_use
-    %button{data: {widget: 'diverseSubmit',
-      action: '/preview', target: 'preview', method: 'POST'}}
-      预览
+      .buttons
+        %a.button{href: "###", data: {widget: 'toggler', target: 'fieldset.template',
+          classes: 'editing_custom_html picking_template', field: 'blog[using_custom_html]'}}
+          编辑当前模板HTML
+    = f.hidden_field :using_custom_html, :value => @blog.using_custom_html ? 1 : 0
+    .custom_html
+      %textarea{name: 'blog[custom_html]'}
+        = @blog.template_in_use
+      .buttons
+        %a.button{href: "#", data: {widget: 'diverseSubmit',
+          action: '/preview', target: 'preview', methord: 'POST'}}
+          预览效果
+        %a.button{href: "#", data: {widget: 'toggler', target: 'fieldset.template',
+          classes: 'editing_custom_html picking_template', field: 'blog[using_custom_html]'}}
+          返回
+        %a.button{href: "#"} 帮助
   %fieldset.advanced.menu
     .toggle_private
       = f.check_box :private

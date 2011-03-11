@@ -274,7 +274,7 @@ form.edit_blog
       overflow-x: hidden
 
       .shadow
-        background: url("images/customize_theme_shadow.png") no-repeat scroll center center transparent
+        background: url("/images/customize_theme_shadow.png") no-repeat scroll center center transparent
         height: 9px
         line-height: 9px
         font-size: 1px
@@ -315,6 +315,13 @@ form.edit_blog
 
     .activated .image
       border: 7px solid #F9D853
+
+.pool, .custom_html
+  display: none
+
+.picking_template .pool,
+.editing_custom_html .custom_html
+  display: block
 
 .customize_navigation
   @include clear_fix
