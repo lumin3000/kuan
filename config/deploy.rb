@@ -1,3 +1,5 @@
+require 'bundler/capistrano'
+
 set :application, "kuan"
 set :repository,  "git@github.com:sjerrys/kuan.git"
 set :scm, :git

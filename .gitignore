@@ -16,7 +16,7 @@ doc/api
 doc/app
 .autotest
 
-# /Gemfile.lock
+/Gemfile.lock
 
 /public/stylesheets/*.css
 .sass-cache
