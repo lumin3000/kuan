@@ -22,7 +22,7 @@ Kuan::Application.routes.draw do
     get '/edit' => 'blogs#edit'
     put '/' => 'blogs#update'
     get '/post/:post_id' => 'blogs#show'
-    #Generating editor and follower resource would make sense
+    #Generating editor and follower resource would make more sense
     post '/follow_toggle' => 'blogs#follow_toggle'
     get '/followers' => 'blogs#followers'
     get '/editors/new' => 'blogs#apply_entry'
@@ -47,8 +47,6 @@ Kuan::Application.routes.draw do
     end
   end
 
-  resources :movings, :only => [:new, :create]
-
   get "/posts/new/:type(/to/:blog_uri)" => "posts#new"
 
   get '/followings', :to => 'users#followings'
@@ -58,14 +56,14 @@ Kuan::Application.routes.draw do
   get '/news', :to => 'posts#news'
   get '/news/page/:page', :to => 'posts#news', :page => /\d+/
   get '/wall', :to => 'posts#wall'
-  get '/wall.:format', :to => 'posts#wall'
-
 
   get '/messages(/page/:page)', :to => 'messages#index', :page => /\d+/
   put '/messages/:id/doing', :to => 'messages#doing'
   put '/messages/:id/ignore', :to => 'messages#ignore'
 
   get '/posts/favors/page/:page' => 'posts#favors', :page => /\d+/
+
+  resources :movings, :only => [:new, :create]
 
   root :to => redirect("/home")
   
