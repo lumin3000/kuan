@@ -40,6 +40,9 @@ class BlogsController < ApplicationController
 
   def preview
     build_view_context
+    fetch_posts
+    p = params[:blog]
+    p.delete :template_id if p[:template_id].blank?
     @blog.use_template params[:blog]
     view = BlogView.new @blog, @view_context
     render :text => view.render

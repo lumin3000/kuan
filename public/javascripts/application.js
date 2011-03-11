@@ -407,9 +407,13 @@ document.addEvent('domready', function(){
   }
   var KEY = 'data-widget'
   $$('[' + KEY + ']').each(function(e){
-    var type = e.get(KEY)
-      , func = K.widgets[type]
-    func && func(e)
+    var types = e.get(KEY)
+    if (types) types = types.split(' ')
+    else return
+    types.each(function(t) {
+      var func = K.widgets[t]
+      func && func(e)
+    })
   })
 
   $(document.body).addEvent('click', function(e){
@@ -805,5 +809,28 @@ K.widgets.toggler = function(button) {
     e.stop()
     classes.each(function(c) { target.toggleClass(c) })
     input.set('value', input.get('value') == 1 ? 0 : 1)
+  })
+}
+
+K.widgets.preview = function(context) {
+  var form = new Element('form', {
+    action: '/preview'
+  , method: 'POST'
+  , target: 'preview'
+  })
+    , tplId = new Element('input', {
+        type: 'hidden'
+      , name: 'blog[template_id]'
+      })
+  form.grab(new Element('input', {
+    type: 'hidden'
+  , name: 'blog[using_custom_html]'
+  , value: 0
+  })).grab(tplId)
+
+  context.delegate('click', '.theme', function(e) {
+    e.stop()
+    tplId.value = e.target.get('data-value')
+    form.submit()
   })
 }

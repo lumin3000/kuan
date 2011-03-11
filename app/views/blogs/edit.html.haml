@@ -38,7 +38,7 @@
     %span#blog_icon_feed
 
   %fieldset.template.menu{class: @blog.using_custom_html? ? 'editing_custom_html' : 'picking_template'}
-    .pool{data: {widget: 'radioButton', contents: '.theme', fieldName: 'blog[template_id]'}}
+    .pool{data: {widget: 'radioButton preview', contents: '.theme', fieldName: 'blog[template_id]'}}
       - @templates.each do |t|
         .theme{data: {value: t.id}, class: t.id == @blog.template.id ? 'selected' : ''}
           %span
