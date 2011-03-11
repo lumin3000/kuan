@@ -424,13 +424,13 @@ document.addEvent('domready', function(){
 
     // lightbox
     if($$('[rel=lightbox]').length > 0){
-        new Asset.css('/stylesheets/cerabox.css')
         new Asset.javascript('/javascripts/cerabox.js', {
             onload: function() {
                 var box = new CeraBox({group: false});
                 box.addItems('[rel=lightbox]', {
                     animation: 'ease'
                 });
+                new Asset.css('/stylesheets/cerabox.css')
             }
         })
     }
