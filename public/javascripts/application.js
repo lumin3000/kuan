@@ -11,7 +11,7 @@ Element.implement({
         target = target.getParent()
       }
       e.target = target
-      fn.call(this, e)
+      if (target != this) fn.call(this, e)
     })
     return this
   }
@@ -771,5 +771,27 @@ K.widgets.submit = function(button) {
   button.addEvent('click', function(e) {
     e.stop()
     form.submit()
+  })
+}
+
+K.widgets.radioButton = function(context) {
+  var form = context.getParent('form')
+  if (!form) return
+  var childSelector = context.get('data-contents')
+    , fieldName = context.get('data-fieldName')
+    , selected = context.getElement('.selected')
+    , input = new Element('input', {
+        name: fieldName
+      , type: 'hidden'
+      , value: selected.get('data-value')
+      }).inject(form)
+
+  context.delegate("click", childSelector, function(e) {
+    e.stop()
+    if (e.target == selected) return
+    var value = e.target.get('data-value')
+    input.set('value', value)
+    selected.removeClass('selected')
+    selected = e.target.addClass('selected')
   })
 }

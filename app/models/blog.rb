@@ -25,7 +25,7 @@ class Blog
   references_many :posts, :index => true
 
   attr_accessible :uri, :title, :icon, :private, :canjoin, :posted_at, :custom_html,
-    :using_custom_html, :custom_css
+    :using_custom_html, :custom_css, :template, :template_id
 
   validates_presence_of :title,
   :message => "请输入页面名字"

@@ -21,13 +21,15 @@ class BlogsController < ApplicationController
   end
 
   def edit
-    @templates = CustomTemplate.all
+    @templates = CustomTemplate.all.to_a
+    @templates.unshift(CustomTemplate::DEFAULT)
     render :layout => 'application'
   end
 
   def update
     p = params[:blog]
     p.delete :icon if p[:icon].blank?
+    p[:template_id] = nil if p[:template_id].blank?
     if @blog.update_attributes p
       flash[:success] = "页面信息更新成功"
       redirect_to home_path

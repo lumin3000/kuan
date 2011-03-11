@@ -3,7 +3,7 @@
 
 .customize_panel
   %ul.customize_navigation{data: {widget: 'tab', contentsHolder: 'form.edit_blog',
-    contents: 'fieldset', activateOnLoad: 0}}
+    contents: 'fieldset', activateOnLoad: 1}}
     %li.blog_info 页面信息
     %li.template 模板
     %li.advanced 高级选项
@@ -38,14 +38,15 @@
     %span#blog_icon_feed
 
   %fieldset.template.menu
-    .pool
+    .pool{data: {widget: 'radioButton', contents: '.theme', fieldName: 'blog[template_id]'}}
       - @templates.each do |t|
-        .theme
+        .theme{data: {value: t.id}, class: t.id == @blog.template.id ? 'selected' : ''}
           %span
             %img{src: t.thumbnail.url_for(:medium)}
           .shadow
           %div
             %a{href: blog_path(t.author.primary_blog)}
+              = t.author.name
             = t.name
     = f.hidden_field :using_custom_html, :value => @blog.using_custom_html
     %textarea{name: 'blog[custom_html]'}
