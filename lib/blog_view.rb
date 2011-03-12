@@ -64,7 +64,10 @@ class BlogView < Mustache
         nil
       end
     },
-    'color' => lambda {|v| v}
+    'color' => lambda {|v| v},
+    'font' => lambda {|v| v},
+    'text' => lambda {|v| v},
+    'image' => lambda {|v| v},
   }
 
   def self.parse_custom_vars(str)
@@ -80,6 +83,12 @@ class BlogView < Mustache
       }
     end
     result
+  end
+
+  def self.extract_variables(tpl_str)
+    EXTRACTOR.template = tpl_str
+    EXTRACTOR.render
+    EXTRACTOR.variables
   end
 
   def escapeHTML(str)
@@ -123,6 +132,10 @@ class BlogView < Mustache
   def define
     Proc.new do |str|
       @variables = self.class.parse_custom_vars(str)
+
+      if @blog.template_conf.kind_of? Hash
+        @variables = @variables.deep_merge @blog.template_conf
+      end
       # `method_missing' rocks but we have to fall back to singleton method for now.
       # See: https://github.com/defunkt/mustache/issues#issue/88
       @variables.each do |type, values|
@@ -132,7 +145,6 @@ class BlogView < Mustache
           end
         end
       end
-      @variables.update @blog.template_conf if @blog.template_conf.kind_of? Hash
       ''
     end
   end
@@ -177,6 +189,11 @@ TPL
   def respond_to?(name)
     return true if name.to_s =~ /^(?:color|bool|text|font)_/
     super
+  end
+
+  EXTRACTOR = BlogView.new(Blog.new)
+  EXTRACTOR.define_singleton_method :respond_to? do |name|
+    name == :define
   end
 end
 

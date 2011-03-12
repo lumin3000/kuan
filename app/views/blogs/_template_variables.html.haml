@@ -1,0 +1,6 @@
+- @variables['color'].each do |name, var|
+  .colors
+    .color_pick{style: "background-color: #{var['value']}"}
+      %input{type: 'hidden', name: "blog[template_conf][color][#{name}][value]",
+        value: var['value']}
+      = var['desc']

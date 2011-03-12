@@ -6,6 +6,7 @@
     contents: 'fieldset', activateOnLoad: 1}}
     %li.blog_info 页面信息
     %li.template 模板
+    %li.appearance 调整界面
     %li.advanced 高级选项
   .customize_commands
     %a.save{href: "###", data: {widget: 'submit', form: '.edit_blog'}} 保存
@@ -64,6 +65,11 @@
           classes: 'editing_custom_html picking_template', field: 'blog[using_custom_html]'}}
           返回
         %a.button{href: "#"} 帮助
+  %fieldset.appearance.menu
+    - if @variables
+      = render :partial => 'blogs/template_variables'
+    - if @variables.nil?
+      模板作者没有提供可以调整的变量
   %fieldset.advanced.menu
     .toggle_private
       = f.check_box :private

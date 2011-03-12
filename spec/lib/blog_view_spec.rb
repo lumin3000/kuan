@@ -153,6 +153,18 @@ TPL
       @blog.using_custom_html = true
     end
 
+    describe 'BlogView.extract_variables' do
+      it "could do the trick" do
+        variables = BlogView.extract_variables @template
+        variables['color'].should == {
+          'foo' => {
+            'value' => '#333',
+            'desc' => 'aha',
+          }
+        }
+      end
+    end
+
     describe 'and render it' do
       before :each do
         @view = BlogView.new @blog, :posts => [@text]
@@ -189,7 +201,8 @@ TPL
       end
 
       it "should respect user's setting" do
-        @rendered.should_not be_include(@view.variables['color']['foo']['value'])
+        @rendered.should_not be_include('#333')
+        @rendered.should be_include('#777')
       end
     end
   end
