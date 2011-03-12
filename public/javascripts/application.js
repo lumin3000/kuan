@@ -425,6 +425,19 @@ document.addEvent('domready', function(){
         func && func(e.target)
       }
   })
+
+    // lightbox
+    if($$('[rel=lightbox]').length > 0){
+        new Asset.javascript('/javascripts/cerabox.js', {
+            onload: function() {
+                var box = new CeraBox({group: false});
+                box.addItems('[rel=lightbox]', {
+                    animation: 'ease'
+                });
+                new Asset.css('/stylesheets/cerabox.css')
+            }
+        })
+    }
 })
 
 K.widgets.rest = function() {
@@ -474,6 +487,12 @@ K.widgets.rest = function() {
       , method = el.get('data-md') || 'post'
     el.addEvent('click', function(e){
       e.stop()
+
+      var confirmMessage = el.get('data-doconfirm');
+      if(confirmMessage && !confirm(confirmMessage)) {
+        return false;
+      }
+
       var link = el.get('href')
       new Request.JSON({
         url: link,

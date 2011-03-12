@@ -76,6 +76,12 @@ class Blog
     User.collection.find({"followings" => {"$elemMatch"=> {"blog_id"=>id,"auth"=>"follower"}}}).count
   end
 
+  def lord
+    User.collection.find({"followings" => {
+                             "$elemMatch"=> {"blog_id"=>id,"auth"=>"lord"}
+                           }}).first
+  end
+
   def followers
     User.collection.find({"followings" => {"$elemMatch"=> {"blog_id"=>id,"auth"=>"follower"}}},
                          :sort=>[["followings.created_at", -1]],

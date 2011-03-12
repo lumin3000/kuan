@@ -30,7 +30,7 @@ K.wall = (function(){
             return;
         }
         if(el.hasClass('text')){
-            el.set('class', 'text');
+            el.set('class', 'item text');
         }
         el.inject(base_list);
     }
@@ -41,7 +41,7 @@ K.wall = (function(){
         }
         var height = el.getSize().y;
         if(!el.getElement('img')){
-            el.addClass('bg'+$random(1,12));
+            el.addClass('bg'+Number.random(1,12));
         }
         column.el.getLast('div').setStyle('height', height);
         column.el.setStyle('height', 'auto');
@@ -57,12 +57,12 @@ K.wall = (function(){
         }
     }
     function get_columns_count(){
-        return ((document.getSize().x-180)/180).floor().limit(1, 7);
+        return ((document.getSize().x-0)/180).floor().limit(1, 10);
     }
 
     return {
         init: function(){
-            base_list = $$('.store ul');
+            base_list = $$('.store ul')[0];
             var cls = get_columns_count(); 
             $$('.wall')[0].setStyle('width', cls*180);
             
@@ -75,8 +75,8 @@ K.wall = (function(){
                     location.href = location.href;
                 }
             });
+            var first_line_count = ((base_list.getElements('li').length/columns.length).floor()-1).limit(3, 6);
             
-            var first_line_count = 6;
             for(var i=0;i<cls*first_line_count;i++){
                 ins(columns[(i/first_line_count).floor()], true);
             }
@@ -87,7 +87,7 @@ K.wall = (function(){
                         K.wall.more();
                     }
                     inv();
-                }, 20000);
+                }, 18000);
             }
             inv();
             
@@ -95,7 +95,7 @@ K.wall = (function(){
         more: function(){
             new Request.HTML({
                 url: '/wall.html',
-                append: $$('.store')[0],
+                append: $$('.store ul')[0],
                 method: 'get',
                 onComplete: function(){
                 }
@@ -103,7 +103,7 @@ K.wall = (function(){
         },
         show: function(v){
             if(v === null){
-                v = $random(0, columns.length-1);
+                v = Number.random(0, columns.length-1);
             }
             var col = columns[v];
 
@@ -114,7 +114,7 @@ K.wall = (function(){
         },
         show_line: function(){
             for(var i=0,l=columns.length;i<l;i++){
-                if(Browser.Engine.trident){
+                if(Browser.ie){
                     setTimeout((function(j){return function(){K.wall.show(j);};})(i), 800*i);
                 }else{
                     K.wall.show(i);
@@ -123,3 +123,7 @@ K.wall = (function(){
         }
     };
 })();
+
+document.addEvent('domready', function(){
+    K.wall.init()
+});

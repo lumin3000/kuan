@@ -6,60 +6,54 @@
     %div{:class => "#{k}"}= v
 
 .header
-  %a.logo{href: "/home"}
+  %a.logo{href: home_path}
   .dash_navigator
-    %a{href: "/news"}随便看看
+    %a{href: wall_posts_path}墙
+    &nbsp;|&nbsp;
+    %a{href: news_posts_path}随便看看
     &nbsp;|&nbsp;
     %a{href: edit_user_path(current_user)}设置
     &nbsp;| 邀请好友加入&nbsp;
     - invite_url = "#{fucking_root}signup/#{current_user.inv_code}"
     %input.invite{readonly: true, value: invite_url, onclick: "this.select();"}><
     &nbsp;|&nbsp;
-    %a.logout{ :href => "/signout", :data => { :confirm => "确定登出?" } }><
+    %a.logout{ :href => signout_path, :data => { :confirm => "确定登出?" } }><
 .dashboard
+  .head
+    .head_avatar{style: "background:url(#{@user.primary_blog.icon.url_for(:medium)})"}<
+      %a{href: blog_path(@user.primary_blog)}<
+        &nbsp;
+    .head_menu
+      %a.my_follow{ href: followings_path, title: "我关注的"}<
+        %span 我关注的
+      %a.my_collect{ href: favors_posts_path, title: "我喜欢的"}<
+        %span 我喜欢的
+      %a.my_reply{ href: buzz_path, title: "回复"}<
+        %span 回复
+        - if current_user.comments_notices.unreads.count > 0
+          = current_user.comments_notices.unreads.count
+
+      %a.my_message{ href: messages_path, title: "消息"}<
+        %span 消息
+        - if current_user.messages.unreads.count > 0
+          = current_user.messages.unreads.count
+
+    .post_area
+      .left
+      %a.text{href: new_post_path("text", @blog)}
+      %a.picture{href: new_post_path("pics", @blog)}
+      %a.link{href: new_post_path("link", @blog)}
+      %a.video{href: new_post_path("video", @blog)}
+      .right
+    .head_txt<
+      - unless @at_dashboard
+        %a{ href: home_path }<
+          &#8592; 我的主页
+        = " > #{@blog.title}"
+
   .menu
-    .dash_operation
-      - highlight_following = (@at_dashboard ? 'highlight_following' : '')
-      .my_follow{data: {widget: 'fixHover'}, class: highlight_following}
-        %a{href: "/home"}
-          %span.menu_arrow &nbsp;
-          %span.icon_follow &nbsp;
-          %span.text_follow
-            关注了
-            = @user.subs.count
-            个页面
-        %a.real_fucking_following{href: "/followings"}
-          %span.icon_config &nbsp;
-      %hr
-      .my_reply
-        %a{ :href => "/buzz" }
-          %span.icon_reply<
-            &nbsp;
-          %span.text_reply<
-            - if current_user.comments_notices.unreads.count > 0
-              %span.new
-                = "(#{current_user.comments_notices.unreads.count}新)"
-            回复
-      %hr
-      .my_message
-        %a{ :href => "/messages" }
-          %span.icon_message<
-            &nbsp;
-          %span.text_message<
-            - if current_user.messages.unreads.count > 0
-              %span.new
-                = "(#{current_user.messages.unreads.count}新)"
-            消息
-      %hr
-      .my_collect
-        %a{ :href => "/posts/favors" }
-          %span.icon_collect<
-            &nbsp;
-          %span.text_collect<
-            喜欢
-      %hr
     .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
-      %a.selector{href: "/home/#{@blog.uri}"}
+      %a.selector{href: home_path(@blog)}
         = @blog.title
       - @other_blogs = @blogs.reject {|b| b == @blog}
       .selector_open
@@ -68,15 +62,15 @@
         .selector_open_menu
           - @other_blogs.each do |b|
             %div
-              %a.other_blog{href: "/home/#{b.uri}"}<
+              %a.other_blog{href: home_path(b)}<
                 = b.title
         .selector_open_footer
-          %a{href: "/blogs/new"} +新建页面
+          %a{href: new_blog_path} +新建页面
     .page_operation
       %div
         %span.icon_posts &nbsp;
         %span
-          %a{href: "/home/#{@blog.uri}"}
+          %a{href: home_path(@blog)}
             ! #{@blog.total_post_num}篇文章
       %div
         %span.icon_followed &nbsp;
@@ -87,7 +81,7 @@
         %div
           %span.icon_members &nbsp;
           %span
-            %a{href: "/blogs/#{@blog.uri}/editors"}
+            %a{href: editors_blog_path(@blog)}
               ! 成员管理
       - if @blog.customed? current_user
         %div
@@ -104,18 +98,6 @@
         %span
           %a{href: blog_path(@blog)} 查看
   .main{ :data => { :widget => "sugar" } }
-    .head
-      .head_avatar<
-        %a{href: blog_path(@user.primary_blog)}<
-          =image_tag @user.primary_blog.icon.url_for(:medium)
-      .post_area
-        .left
-        - trailing_post_url = "/to/#{@blog.uri}"
-        %a.text{href: "/posts/new/text#{trailing_post_url}"}
-        %a.picture{href: "/posts/new/pics#{trailing_post_url}"}
-        %a.link{href: "/posts/new/link#{trailing_post_url}"}
-        %a.video{href: "/posts/new/video#{trailing_post_url}"}
-        .right
     .timeline
       = render :partial => "posts/post_full", :collection => @posts, :as => :post
     = pagination(@posts)

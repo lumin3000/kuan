@@ -1,10 +1,21 @@
+- @sub_title = '宽墙'
+- content_for :title, @sub_title
+
+- content_for :site_layout, "site_max_size"
+
 - content_for :head do
   = stylesheet_link_tag 'wall'
 - js 'wall'
 
-.wall
-  %h1 不准看!
-  
-  .list.store
-    %ul
-      = render partial: "posts/brief", collection: @posts, as: :post
+- content_for :content, do
+  #wrapper
+    .commands
+      %a.back_to_home{href: fucking_root}
+        回我的主页
+  .wall
+    .list.store
+      %ul
+        = render partial: "posts/brief", collection: @posts, as: :post
+
+  = render :partial => 'shared/footer'
+

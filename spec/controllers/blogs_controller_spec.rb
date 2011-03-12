@@ -158,9 +158,10 @@ describe BlogsController do
         flash[:success].should_not be_blank
       end
 
-      it "should redirect to home" do
+      it "should redirect to blog" do
         put :update, :id => @blog.to_param, :blog => @attr
-        response.should redirect_to home_path
+        @blog.reload
+        response.should redirect_to controller.blog_path @blog
       end
     end
   end
@@ -201,10 +202,10 @@ describe BlogsController do
   describe "POST 'follow_toggle'" do
     it "should add followers" do
       controller.sign_in @user
-      post :follow_toggle, :id => @blog.id
+      post :follow_toggle, :id => @blog.uri
       @user.reload
       @blog.should be_followed @user
-      post :follow_toggle, :id => @blog.id
+      post :follow_toggle, :id => @blog.uri
       @user.reload
       @blog.should_not be_followed @user
     end

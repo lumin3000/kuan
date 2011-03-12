@@ -4,8 +4,8 @@ describe Post do
   describe "notice watchers when usre comment a post" do
     before :each do
       @blog = Factory.build(:blog_unique)
-      @following = Factory.build(:following_lord, :blog => @blog)
-      @user = Factory.build(:user_unique, :followings => [@following])
+      @user = Factory.build(:user_unique)
+      @user.follow! @blog, "lord"
       @comment_author = Factory.build(:user_unique)
       @comment_user = Factory.build(:user_unique)
       @post = Post.new
@@ -14,32 +14,32 @@ describe Post do
 
     it "should notice post author" do
       length = @user.comments_notices.unreads.count
-      @comment = Factory.build(:comment, :post => @post, :author => @comment_author)
+      @comment = Comment.new(:post => @post, :author => @comment_author, :content => "comment")
       @post.notify_watchers(@comment)
       @user.comments_notices.unreads.count.should == length + 1
     end
 
     it "should notice other comment user" do
-      @comment_old = Factory.build(:comment, :post => @post, :author => @comment_user)
+      @comment_old = Comment.new(:post => @post, :author => @comment_user, :content => "comment")
       length = @comment_user.comments_notices.unreads.count
-      @comment = Factory.build(:comment, :post => @post, :author => @comment_author)
+      @comment = Comment.new(:post => @post, :author => @comment_author, :content => "comment")
       @post.notify_watchers(@comment)
       @comment_user.comments_notices.unreads.count.should == length + 1
     end
 
     it "should not notice self" do
-      @comment_old = Factory.build(:comment, :post => @post, :author => @comment_user)
+      @comment_old = Comment.new(:content => "comment", :post => @post, :author => @comment_user)
       length = @comment_author.comments_notices.unreads.count
-      @comment = Factory.build(:comment, :post => @post, :author => @comment_author)
+      @comment = Comment.new(:content => "comment", :post => @post, :author => @comment_author)
       @post.notify_watchers(@comment)
       @comment_author.comments_notices.unreads.count.should == length
     end
 
     it "should not notice same user twice" do
-      Factory.build(:comment, :post => @post, :author => @comment_user)
-      Factory.build(:comment, :post => @post, :author => @comment_user)
+      Comment.new(:content => "comment", :post => @post, :author => @comment_user)
+      Comment.new(:content => "comment", :post => @post, :author => @comment_user)
       length = @comment_user.comments_notices.unreads.count
-      @comment = Factory.build(:comment, :post => @post, :author => @comment_author)
+      @comment = Comment.new(:content => "comment", :post => @post, :author => @comment_author)
       @post.notify_watchers(@comment)
       @comment_user.comments_notices.unreads.count.should == length + 1
     end
@@ -61,12 +61,12 @@ describe Post do
       Blog.delete_all
 
       @blog = Factory.build(:blog_unique)
-      @following = Factory.build(:following_lord, :blog => @blog)
       @blog_private = Factory.build(:blog_unique)
-      @following_private = Factory.build(:following_lord, :blog => @blog_private)
       @blog_new = Factory.build(:blog_unique)
-      @following_new = Factory.build(:following_lord, :blog => @blog_new)
-      @user = Factory.build(:user_unique, :followings => [@following, @following_private, @following_new] )
+      @user = Factory.build(:user_unique)
+      @user.follow! @blog, "lord"
+      @user.follow! @blog_private, "lord"
+      @user.follow! @blog_new, "lord"
       @post = Factory.build(:text)
       @user.save
       @blog.save
@@ -107,6 +107,12 @@ describe Post do
       @news = Post.news(@pagination)
       @news.length.should == 1
     end
+
+    it "should handle when all posts in blog was deleted" do
+      @post.destroy
+      @news = Post.news(@pagination)
+      @news.length.should == 0
+    end
   end
 
   describe "list wall" do
@@ -115,8 +121,8 @@ describe Post do
       Blog.delete_all
 
       @blog = Factory.build(:blog_unique)
-      @following = Factory.build(:following_lord, :blog => @blog)
-      @user = Factory.build(:user_unique, :followings => [@following] )
+      @user = Factory.build(:user_unique)
+      @user.follow! @blog, "lord"
       @post = Factory.build(:text)
       @user.save
       @blog.save
@@ -137,8 +143,8 @@ describe Post do
   describe "create a post" do
     it "should update blog posted_at" do
       @blog = Factory.build(:blog_unique)
-      @following = Factory.build(:following_lord, :blog => @blog)
-      @user = Factory.build(:user_unique, :followings => [@following] )
+      @user = Factory.build(:user_unique)
+      @user.follow! @blog, "lord"
       @user.save!
       @blog.save!
       @post = Factory.build(:text)

@@ -1,6 +1,6 @@
 - photo = pics_single.photos[0]
 - image = photo.image
-%a{href: image.url_for(:original), target: "blank", title: photo.desc}
+%a{href: image.url_for(:original), target: "blank", title: photo.desc, rel:"lightbox"}
   = image_tag image.url_for(:large)
 %p= photo.desc
 %p!= pics_single.content

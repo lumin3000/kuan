@@ -10,10 +10,35 @@ ul,dl
 img
   border: 0
 
+body
+  background: black
+
+.site_max_size
+  overflow: hidden
+
+#wrapper
+  z-index: 999
+  margin: 0 auto
+  position: relative
+
+  .commands
+    position: absolute
+    top: 10px
+    right: 10px
+    a
+      float: right
+   
+  .back_to_home
+    text-indent: -9999px
+    margin-left: 10px
+    height: 30px
+    width: 30px
+    background: url('/images/wall_home.gif')
+
 .wall
   @include clear_fix
 
-  margin: 0
+  margin: 0 auto
   position: relative
 
   .list

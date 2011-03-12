@@ -27,13 +27,13 @@ module PostsHelper
 
   def form_t(par)
     if par[:id].nil?
-      url = "/posts"
+      url = posts_path
       m = :post
     elsif par[:action] == "renew"
-      url = "/posts/recreate"
+      url = recreate_posts_path
       m = :post
     else
-      url = "/posts/#{par[:id]}"
+      url = post_path par[:id]
       m = :put
     end
     form_tag url, :method => m do

@@ -7,12 +7,8 @@ describe Pics do
       @images << Image.create
     end
     @blog = Factory :blog, :uri => Factory.next(:uri)
-    @attendance = Factory :following, {
-      auth: "member",
-      blog: @blog,
-    }
-    @user = Factory :user, :followings => [@attendance],
-      :email => Factory.next(:email)
+    @user = Factory :user, :email => Factory.next(:email)
+    @user.follow! @blog, "member"
 
     @param = {
       author_id: @user.id.to_s,

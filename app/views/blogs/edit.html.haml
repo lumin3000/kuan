@@ -74,10 +74,10 @@
     .toggle_private
       = f.check_box :private
       = f.label :private, '设置为私密页面'
-    -# unless @blog.primary?
+    - unless @blog.primary?
       .toggle_canjoin
         = f.check_box :canjoin
-        = f.label :canjoin, "其他人可以申请加入你的博客" + (@blog.canjoin? ? "(#{blog_apply_path(@blog)})" : "")
+        = f.label :canjoin, "其他人可以申请加入你的博客" + (@blog.canjoin? ? "( 邀请入口: #{editors_new_url} )" : "")
 
 %iframe#preview{name: 'preview', src: blog_path(@blog)}
 

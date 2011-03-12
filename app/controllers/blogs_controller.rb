@@ -2,8 +2,8 @@
 class BlogsController < ApplicationController
   before_filter :signin_auth, :except => [:show]
   before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick]
-  before_filter :editor_auth, :only => [:followers, :editors]
-  before_filter :find_by_uri, :only => [:show, :apply, :apply_entry]
+  before_filter :editor_auth, :only => [:followers, :editors, :exit]
+  before_filter :find_by_uri, :only => [:show, :follow_toggle, :apply, :apply_entry]
   before_filter :blog_display, :only => [:show, :preview]
 
   def new
@@ -35,7 +35,7 @@ class BlogsController < ApplicationController
     p[:template_id] = nil if p[:template_id].blank?
     if @blog.update_attributes p
       flash[:success] = "页面信息更新成功"
-      redirect_to home_path
+      redirect_to blog_path(@blog)
     else
       render 'edit'
     end
@@ -58,17 +58,11 @@ class BlogsController < ApplicationController
     render :text => view.render
   end
 
-  def editors
-    @editors = @blog.founders + @blog.members
-  end
-  
   def followers
     @followers = @blog.followers
   end
 
   def follow_toggle
-    @blog = Blog.find params[:id]
-    render 'shared/404', :status => 404 and return if @blog.nil?
     if @blog.followed? current_user
       current_user.unfollow! @blog
       now_follow = false
@@ -87,7 +81,6 @@ class BlogsController < ApplicationController
   end
 
   def apply_entry
-    render 'shared/404', :status => 404, :layout => false and return if @blog.nil?
     unless @blog.applied?(current_user)
       @message = "现在不能申请哦"
       render 'shared/403', :status => 403, :layout => false and return
@@ -96,6 +89,10 @@ class BlogsController < ApplicationController
     render "apply", :layout => "apply"
   end
 
+  def editors
+    @editors = @blog.founders + @blog.members
+  end
+  
   def upgrade
     user = User.find params[:user]
     user.follow! @blog, "founder"
@@ -113,10 +110,9 @@ class BlogsController < ApplicationController
   end
 
   def exit
-    find_by_uri
     current_user.unfollow! @blog if @blog.canexit? current_user 
     respond_to do |format|
-      format.json { render :json => {status: "success", location: home_path } }
+      format.json { render :json => {status: "success", location: fucking_root } }
     end
   end
 
@@ -134,6 +130,7 @@ class BlogsController < ApplicationController
 
   def find_by_uri(uri = nil)
     @blog = Blog.find_by_uri!(uri || params[:uri] || params[:id] || request.subdomain)
+    render 'shared/404', :status => 404, :layout => false if @blog.nil?
   end
 
   def blog_display

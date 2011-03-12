@@ -3,23 +3,14 @@ require 'spec_helper'
 describe Text do
   before :all do
     @blog = Factory :blog, :uri => Factory.next(:uri)
-    owage = Factory :following, {
-      auth: "founder",
-      blog: @blog,
-    }
-    @founder = Factory :user, :followings => [owage], :email => Factory.next(:email)
+    @founder = Factory :user, :email => Factory.next(:email)
+    @founder.follow! @blog, "founder"
 
-    attendance = Factory :following, {
-      auth: "member",
-      blog: @blog,
-    }
-    @member = Factory :user, :followings => [attendance], :email => Factory.next(:email)
+    @member = Factory :user, :email => Factory.next(:email)
+    @member.follow! @blog, "member"
 
-    primary_blog = Factory :following, {
-      auth: "lord",
-      blog: @blog,
-    }
-    @lord = Factory :user, :followings => [primary_blog], :email => Factory.next(:email)
+    @lord = Factory :user, :email => Factory.next(:email)
+    @lord.follow! @blog, "lord"
 
     @params = {
       blog_id: @blog.id.to_s,
@@ -100,12 +91,8 @@ describe Text do
 
   describe "Given a follower of the blog" do
     it "should not be able to post stuff" do
-      following = Factory :following, {
-        :auth => "follower",
-        :blog => @blog,
-      }
-      @follower = Factory :user, :followings => [following],
-        :email => Factory.next(:email)
+      @follower = Factory :user, :email => Factory.next(:email)
+      @follower.follow! @blog, "follower"
       @post = Text.new({
         content: "messing around",
         author_id: @follower.id.to_s,

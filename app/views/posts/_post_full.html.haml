@@ -1,8 +1,8 @@
-.article.tar_post
+.article.tar_post{ class: (article_class ||= "") }
   .avatar
-    .image<
+    .image{style: "background:url(#{post.blog.icon.url_for(:medium)})"}<
       %a{href: blog_path(post.blog)}<
-        =image_tag post.blog.icon.url_for(:medium)
+        &nbsp;
     %div<
       %a.page_name{href: blog_path(post.blog)}= post.blog.title
   .content= render_post post

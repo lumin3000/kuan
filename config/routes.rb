@@ -1,7 +1,42 @@
 Kuan::Application.routes.draw do
-  post "/upload/:type", :to => 'images#create'
 
-  resources :posts do
+  resources :sessions, :only => [:new, :create, :destroy]
+  get '/signin', :to => 'sessions#new'
+  get '/signout', :to => 'sessions#destroy'
+
+  resources :users, :except => [:index, :destroy]
+  get '/home(/:uri)(/page/:page)', :to => 'users#show', :page => /\d+/, :as => 'home'
+  get '/signup/:code', :to => 'users#new', :as => :signup
+
+  require 'constraints/subdomain'
+
+  resources :blogs, :only => [:new, :create] do
+    member do
+      post :follow_toggle
+    end
+  end
+
+  constraints(Subdomain) do
+    get '/' => 'blogs#show'
+    get '/(page/:page)' => 'blogs#show', :page => /\d+/
+    get '/edit' => 'blogs#edit'
+    put '/' => 'blogs#update'
+    get '/posts/:post_id' => 'blogs#show'
+    #Generating editor and follower resource would make more sense
+    post '/follow_toggle' => 'blogs#follow_toggle'
+    get '/followers' => 'blogs#followers'
+    post '/preview' => 'blogs#preview'
+    get '/editors/new' => 'blogs#apply_entry'
+    post '/editors' => 'blogs#apply'
+    get '/editors' => 'blogs#editors'
+    put '/editor/:user' => 'blogs#upgrade'
+    delete '/editor/:user' => 'blogs#kick'
+    delete '/exit' => 'blogs#exit'
+  end
+
+  post "/upload/:type", :to => 'images#create'
+  
+  resources :posts, :except => [:new, :index, :show] do
     resources :comments
     member do
       get :renew
@@ -9,129 +44,26 @@ Kuan::Application.routes.draw do
     end
     collection do
       post :recreate
-      get :favors
     end
   end
 
-  resources :users, :except => [:index, :destroy] 
+  get "/posts/new/:type(/to/:blog_uri)" => "posts#new", :as => "new_post"
+  #Maybe favors should have a controller too
+  get '/favors(/page/:page)' => 'posts#favors', :page => /\d+/, :as => "favors_posts"
+  get '/news(/page/:page)', :to => 'posts#news', :page => /\d+/, :as => "news_posts"
+  get '/wall', :to => 'posts#wall', :as => "wall_posts"
+  
+  get '/followings', :to => 'users#followings'
+  get '/buzz(/page/:page)', :to => 'users#buzz', :page => /\d+/, :as => "buzz"
+  put '/buzz/readall', :to => 'users#read_all_comments_notices', :as => "buzz_readall"
 
-  resources :sessions, :only => [:new, :create, :destroy]
-  resources :blogs, :only => [:new, :create] do
-    member do
-      post :follow_toggle
-    end
+  namespace :messages do
+    get '(/page/:page)', :to => :index, :page => /\d+/
+    put ':id/doing' => :doing, :as => "doing"
+    put ':id/ignore' => :ignore, :as => "ignore"
   end
 
   resources :movings, :only => [:new, :create]
 
-  get "/posts/new/:type" => "posts#new"
-  get "/posts/new/:type/to/:blog_uri" => "posts#new"
-
-  get '/signup/:code', :to => 'users#new', :as => :signup
-
-  # FIXME: How to make it DRY?
-  get '/home', :to => 'users#show'
-  get '/home/page/:page', :to => 'users#show', :page => /\d+/
-  get '/home/:uri', :to => 'users#show'
-  get '/home/:uri/page/:page', :to => 'users#show', :page => /\d+/
-
-  get '/followings', :to => 'users#followings'
-  get '/buzz', :to => 'users#buzz'
-  get '/buzz/page/:page', :to => 'users#buzz', :page => /\d+/
-  put '/buzz/readall', :to => 'users#read_all_comments_notices'
-
-  get '/news', :to => 'posts#news'
-  get '/news/page/:page', :to => 'posts#news', :page => /\d+/
-  get '/wall', :to => 'posts#wall'
-  get '/wall.:format', :to => 'posts#wall'
-
-
-  get '/messages', :to => 'messages#index'
-  get '/messages/page/:page', :to => 'messages#index', :page => /\d+/
-  put '/messages/:id/doing', :to => 'messages#doing'
-  put '/messages/:id/ignore', :to => 'messages#ignore'
-
-  get '/signin', :to => 'sessions#new'
-  get '/signout', :to => 'sessions#destroy'
-
-  get '/blogs/:uri/editors' => 'blogs#editors'
-  get '/blogs/:uri/apply' => 'blogs#apply_entry'
-  post '/blogs/:uri/apply' => 'blogs#apply'
-  put '/blogs/:uri/upgrade/:user' => 'blogs#upgrade'
-  delete '/blogs/:uri/kick/:user' => 'blogs#kick'
-  delete '/blogs/:uri/exit' => 'blogs#exit'
-  
-  require 'constraints/subdomain'
-  constraints(Subdomain) do
-    get '/' => 'blogs#show'
-    put '/' => 'blogs#update'
-    get '/followers' => 'blogs#followers'
-    get '/edit' => 'blogs#edit'
-    post '/blogs/:id/follow_toggle' => 'blogs#follow_toggle'
-    get '/page/:page' => 'blogs#show', :page => /\d+/
-    get '/post/:post_id' => 'blogs#show'
-    post '/preview' => 'blogs#preview'
-  end
-
-  root :to => 'users#show'
-  get '/page/:page', :to => 'users#show', :page => /\d+/
-
-  get '/posts/favors/page/:page' => 'posts#favors', :page => /\d+/
-
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
-
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
-
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Sample resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Sample resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Sample resource route with more complex sub-resources
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', :on => :collection
-  #     end
-  #   end
-
-  # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
-
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
-  # root :to => "welcome#index"
-
-  # See how all your routes lay out with "rake routes"
-
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id(.:format)))'
+  root :to => redirect("/home")
 end

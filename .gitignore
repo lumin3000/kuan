@@ -21,3 +21,4 @@ doc/app
 
 /public/stylesheets/*.css
 .sass-cache
+/TAGS
