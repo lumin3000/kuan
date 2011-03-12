@@ -45,9 +45,30 @@ module ObjectView
   private
   # RAILS
   def h(str)
+    return ''.html_safe if str.nil?
     str.html_safe? ? str : CGI.escapeHTML(str).html_safe
   end
   # Y U NO EASY TO REUSE
+
+  def self.js_tag(name)
+    name = name.to_s
+    file = "public/javascripts/#{name}.js"
+    timestamp = File.stat(Rails.root + file).mtime.to_i
+    "<script type='text/javascript' src='/javascripts/#{name}.js?#{timestamp}'></script>"
+  end
+
+  JS_CODE = <<EOF.html_safe
+    #{ObjectView.js_tag('mootools-core')}
+    #{ObjectView.js_tag('rails')}
+    #{ObjectView.js_tag('mootools-more')}
+    #{ObjectView.js_tag('application')}
+EOF
+
+  def load_js()
+    return '' if @extra[:js]
+    @extra[:js] = true
+    JS_CODE
+  end
 end
 
 class BlogView < Mustache
@@ -112,7 +133,11 @@ class BlogView < Mustache
     self.template = blog.template_in_use
   end
 
-  expose :@blog, :title, :custom_css
+  expose :@blog, :title
+
+  def custom_css
+    "<style type='text/css'>#{h @blog.custom_css}</style>".html_safe
+  end
 
   def posts
     @posts

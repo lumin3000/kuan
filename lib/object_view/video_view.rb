@@ -15,6 +15,7 @@ class VideoView < PostView
 SOURCE
 
     <<CODE.html_safe
+#{load_js}
 <div data-widget="video">
   <div class="video_thumb">
     <a href="#{h @post.player}" class="video_tar_open">
