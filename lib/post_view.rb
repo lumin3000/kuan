@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class PostView
   include ObjectView
 
@@ -15,20 +17,43 @@ class PostView
   end
 
   def load_comments
-    return @extra[:controller].render_to_string 'comments/index', :layout => false
-    <<EOF.html_safe
-  <iframe border=0 width='594px' scrolling=NO style="overflow-x: hidden; overflow-y: scroll" src="#{self.url_for_comments}"></iframe>
-EOF
+    return (load_js +
+      @extra[:controller].render_to_string('comments/index', :layout => false)).html_safe
   end
 
   expose :@post, :type
 
   def url
-    @extra[:base_url] + "post/#{@post.id}" if @extra.has_key? :base_url
+    @extra[:base_url] + "posts/#{@post.id}" if @extra.has_key? :base_url
   end
 
-  def url_for_comments
-    (@extra[:url_template] % 'www') + "posts/#{@post.id}/comments" if @extra.has_key? :url_template
+  def repost_tag
+    return '' if @extra[:current_user].nil?
+    Proc.new do |text|
+      <<CODE.html_safe
+#{load_js}
+<a class="repost" href="#{url}/renew">#{text}</a>
+CODE
+    end
+  end
+
+  def fave_tag
+    return '' if @extra[:current_user].nil?
+    faved = @post.favored_by?(@extra[:current_user])
+    statuses = %w{喜欢 不喜欢}
+    classes = %w{faved fave}
+    status, reverse_status = faved ? statuses : statuses.reverse
+    klass, reverse_klass = faved ? classes : classes.reverse
+
+    Proc.new do |text|
+      <<CODE.html_safe
+#{load_js}
+<a class="#{klass}" data-class="#{reverse_klass}" data-callback="toggle" data-widget="rest"
+  data-md="put" data-title="#{status}" title="#{reverse_status}" href="#{url}/favor_toggle">
+  #{text}
+</a>
+CODE
+    end
   end
 
   def comments_count
