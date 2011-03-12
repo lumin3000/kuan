@@ -94,7 +94,7 @@ class BlogView < Mustache
   def self.parse_custom_vars(str)
     result = {'color' => {}, 'font' => {}, 'text' => {}, 'bool' => {}}
     str.split(/\r\n?|\n/).each do |rule|
-      pieces = rule.strip.split
+      pieces = rule.strip.split($;, 4)
       next if pieces.length != 4
       type = pieces[0]
       next if not self::VALUE_PARSERS.has_key? type
