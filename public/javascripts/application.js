@@ -403,16 +403,16 @@ K.widgets.fixHover = (function() {
 
 document.addEvent('domready', function(){
   if($(document.body).hasClass('post_single')){
-      K.widgets.env.post_single = true
+    K.widgets.env.post_single = true
   }
   var KEY = 'data-widget'
   $$('[' + KEY + ']').each(function(e){
     var type = e.get(KEY)
       , func = K.widgets[type]
     func && func(e)
-  })
+  });
 
-  $(document.body).addEvent('click', function(e){
+  $(document.body).addEvent('click:relay([data-tgt])', function(e){
       var tgt = e.target.get('data-tgt')
       var func
       if(tgt){
