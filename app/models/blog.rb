@@ -23,7 +23,6 @@ class Blog
 
   field :template_conf, :type => Hash
 
-  references_many :followings
   references_many :posts, :index => true
 
   attr_accessible :uri, :title, :icon, :private, :canjoin, :posted_at, :custom_html,
