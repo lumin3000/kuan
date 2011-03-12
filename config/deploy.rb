@@ -1,4 +1,7 @@
+$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
+require "rvm/capistrano"
 require 'bundler/capistrano'
+set :rvm_ruby_string, 'default'
 
 set :application, "kuan"
 set :repository,  "git@github.com:sjerrys/kuan.git"
