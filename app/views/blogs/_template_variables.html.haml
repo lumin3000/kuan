@@ -1,6 +1,7 @@
 - @variables['color'].each do |name, var|
+  - next if var['desc'].blank?
   .colors
-    .color_pick{style: "background-color: #{var['value']}"}
-      %input{type: 'hidden', name: "blog[template_conf][color][#{name}][value]",
-        value: var['value']}
-      = var['desc']
+    .color_pick{style: "background-color: #{var['value']}", data: {tgt: "color_picker"}}
+    %input{type: 'hidden', name: "blog[template_conf][color][#{name}][value]",
+      value: var['value']}
+    = var['desc']

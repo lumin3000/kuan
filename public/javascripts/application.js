@@ -416,14 +416,14 @@ document.addEvent('domready', function(){
     })
   })
 
-  $(document.body).addEvent('click', function(e){
-      var tgt = e.target.get('data-tgt')
-      var func
-      if(tgt){
-        e.stop()
-        func = K.tgt[tgt]
-        func && func(e.target)
-      }
+  $(document.body).addEvent('click:relay([data-tgt])', function(e){
+    var tgt = e.target.get('data-tgt')
+    var func
+    if(tgt){
+      e.stop()
+      func = K.tgt[tgt]
+      func && func(e.target)
+    }
   })
 
     // lightbox
@@ -590,6 +590,29 @@ K.widgets.video = function(el){
 }
 
 K.tgt = {}
+K.tgt.color_picker = function(){
+  return function(el){
+    function setColor(color, preview){
+      var par = el.getParent('.colors')
+      el.setStyle('background-color', color.hex)
+      par.getElement('input').set('value', color.hex)
+      if(preview){
+        el.getParent('form').diverseSubmit()
+      }
+    }
+    new MooRainbow(el, {
+      id: 'moorainbow_'+Number.random(1,9999),
+      imgPath: '/images/moorainbow/',
+      onChange: function(color){
+        setColor(color)
+      },
+      onComplete: function(color){
+        setColor(color, true)
+      }
+    }).show()
+  }
+}()
+
 K.tgt.comments = function(){
     var comments_el
     var comments_target
@@ -772,19 +795,23 @@ K.widgets.diverseSubmit = function(button) {
     form.grab(overridingMethod)
   }
 
-  button.addEvent('click', function(e) {
-    e.stop()
+  form.diverseSubmit = function(){
     form.set({
       action: newAction
-    , target: newTarget
+      , target: newTarget
     })
     overridingMethod.set('value', newMethod)
     form.submit()
     form.set({
       action: oldAction
-    , target: oldTarget
+      , target: oldTarget
     })
     overridingMethod.set('value', oldMethod)
+  }
+
+  button.addEvent('click', function(e) {
+    e.stop()
+    form.diverseSubmit()
   })
 }
 
@@ -853,3 +880,4 @@ K.widgets.preview = function(context) {
     form.submit()
   })
 }
+
