@@ -69,9 +69,13 @@
         %a.button{href: "#"} 帮助
   %fieldset.appearance.menu
     - if @variables
-      = render :partial => 'blogs/template_variables'
+      .box
+        = render :partial => 'blogs/template_variables'
+      %div
+        %a.button.reset{} 恢复为初始值
     - if @variables.nil?
-      模板作者没有提供可以调整的变量
+      .box
+        模板作者没有提供可以调整的变量
   %fieldset.advanced.menu
     .item.toggle_private
       = f.check_box :private
