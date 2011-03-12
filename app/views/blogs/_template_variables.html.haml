@@ -5,3 +5,11 @@
     %input{type: 'hidden', name: "blog[template_conf][color][#{name}][value]",
       value: var['value']}
     = var['desc']
+
+- @variables['bool'].each do |name, var|
+  - next if var['desc'].blank?
+  .booleans
+    %input{type: "checkbox", name: "blog[template_conf][bool][#{name}][value]",
+      checked: (var['value'] ? "checked" : false), value: (var['value'] ? "1" : "0"), data: {widget: "checkbox_preview"}}
+    %label 
+      = var['desc']

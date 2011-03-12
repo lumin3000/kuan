@@ -881,3 +881,9 @@ K.widgets.preview = function(context) {
   })
 }
 
+
+K.widgets.checkbox_preview = function(el){
+  el.addEvent('click', function(){
+    el.getParent('form').diverseSubmit()
+  })
+}
