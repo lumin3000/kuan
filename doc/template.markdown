@@ -43,7 +43,7 @@
 * icon_60 60x60博客图标链接
 * icon_24 24x24博客图标链接
 * pagination 分页代码
-* custom_css 用户自行设计的css，含<style>标签
+* custom_css 用户自行设计的css，含`<style>`标签
 
 #### section
 
@@ -65,8 +65,8 @@ posts section中的字段是各类帖子共享的
 #### section
 
 * author 进入作者section，可访问帖子作者信息
-* repost_tag 生成一个<a>标签用于转帖；section中间的内容会放在<a>标签下
-* fave_tag 生成一个<a>标签用于喜欢该帖子；section中间的内容会放在<a>标签下
+* repost_tag 生成一个`<a>`标签用于转帖；section中间的内容会放在`<a>`标签下
+* fave_tag 生成一个`<a>`标签用于喜欢该帖子；section中间的内容会放在`<a>`标签下
 
 ### text section
 
