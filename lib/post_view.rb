@@ -18,9 +18,6 @@ class PostView
 
   def load_comments
     return @extra[:controller].render_to_string 'comments/index', :layout => false
-    <<EOF.html_safe
-  <iframe border=0 width='594px' scrolling=NO style="overflow-x: hidden; overflow-y: scroll" src="#{self.url_for_comments}"></iframe>
-EOF
   end
 
   expose :@post, :type
@@ -54,10 +51,6 @@ CODE
 </a>
 CODE
     end
-  end
-
-  def url_for_comments
-    (@extra[:url_template] % 'www') + "posts/#{@post.id}/comments" if @extra.has_key? :url_template
   end
 
   def comments_count
