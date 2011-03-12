@@ -28,6 +28,14 @@
       <div id='content'>
         {{#posts}}
           <div class='post {{type}}'>
+            <div class='content_head'>
+              {{#repost_tag}}
+              转帖
+              {{/repost_tag}}
+              {{#fave_tag}}
+              喜欢
+              {{/fave_tag}}
+            </div>
             <div class='content_body'>
               {{#text}}
                 {{title}}

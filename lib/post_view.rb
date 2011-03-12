@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class PostView
   include ObjectView
 
@@ -24,7 +26,34 @@ EOF
   expose :@post, :type
 
   def url
-    @extra[:base_url] + "post/#{@post.id}" if @extra.has_key? :base_url
+    @extra[:base_url] + "posts/#{@post.id}" if @extra.has_key? :base_url
+  end
+
+  def repost_tag
+    return '' if @extra[:current_user].nil?
+    Proc.new do |text|
+      <<CODE.html_safe
+<a class="repost" href="#{url}/renew">#{text}</a>
+CODE
+    end
+  end
+
+  def fave_tag
+    return '' if @extra[:current_user].nil?
+    faved = @post.favored_by?(@extra[:current_user])
+    statuses = %w{喜欢 不喜欢}
+    classes = %w{faved fave}
+    status, reverse_status = faved ? statuses : statuses.reverse
+    klass, reverse_klass = faved ? classes : classes.reverse
+
+    Proc.new do |text|
+      <<CODE.html_safe
+<a class="#{klass}" data-class="#{reverse_klass}" data-callback="toggle" data-widget="rest"
+  data-md="put" data-title="#{status}" title="#{reverse_status}" href="#{url}/favor_toggle">
+  #{text}
+</a>
+CODE
+    end
   end
 
   def url_for_comments

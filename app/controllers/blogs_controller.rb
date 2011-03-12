@@ -147,6 +147,7 @@ class BlogsController < ApplicationController
       :url_template => url_template,
       :base_url => url_template % @blog.uri,
       :controller => self,
+      :current_user => current_user
     }
     @post_id = params[:post_id]
     @single_post = ! @post_id.nil?
