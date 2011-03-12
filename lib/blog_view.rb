@@ -88,7 +88,16 @@ class BlogView < Mustache
   def self.extract_variables(tpl_str)
     EXTRACTOR.template = tpl_str
     EXTRACTOR.render
-    EXTRACTOR.variables
+    EXTRACTOR.variables || {
+        'color' => {
+        },
+        'bool' => {
+        },
+        'text' => {
+        },
+        'font' => {
+        },
+      }
   end
 
   def escapeHTML(str)

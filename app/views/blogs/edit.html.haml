@@ -71,7 +71,7 @@
     - if @variables.nil?
       模板作者没有提供可以调整的变量
   %fieldset.advanced.menu
-    .toggle_private
+    .item.toggle_private
       = f.check_box :private
       = f.label :private, '设置为私密页面'
     - unless @blog.primary?
