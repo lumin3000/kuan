@@ -23,6 +23,9 @@
               - @target_blogs.each do |b|
                 %option{value: b.id, selected: b == @default_target_blog}
                   = b.title
+    .tags_area
+      %textarea{name: "tags"}
+        = (@post.tags.nil? or @post.tags.empty?) ? '' : @post.tags.join(',')
     %a.cancel{href: root_path}
     %div{class: (%w[new renew].include? params[:action])? 'send' : 'save'}
       %input{ :type => "submit", :value => " " }

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 describe Post do
@@ -152,7 +153,7 @@ describe Post do
       @post.blog = @blog
       @post.save!
       @blog.reload
-      
+
       @blog.posted_at.should == @post.created_at
     end
   end
@@ -179,7 +180,7 @@ describe Post, "reposting" do
       @repost.blog = @re_blog
       @repost.author = @re_user
       @repost.parent = @post
-      @repost.save 
+      @repost.save
       @repost.reload
       @repost_next = @repost.dup
       @repost_next.parent = @repost
@@ -326,5 +327,50 @@ EOF
         @post.content.should == content
       end
     end
+  end
+end
+
+describe Post, "tags for posts" do
+  before :each do
+    @tag_first = "tag-first"
+    @tag_second = "标签"
+    @blog = Factory :blog_unique
+    @user = Factory :user_unique
+    @user.follow! @blog, "lord"
+    @user.reload
+    @post = Text.create!(:content => "Test for tags",
+                         :author => @user,
+                         :blog => @blog,
+                         :tags => [@tag_first, @tag_second])
+    @post.reload
+  end
+
+  it "should have the correct tags" do
+    @post.tags.count.should == 2
+    @post.tags.first.should == @tag_first
+    @post.tags.last.should == @tag_second
+  end
+
+  it "should reject the invalid tags" do
+    tag_invalid = "a,b"
+    @post.tags = [@tag_first, @tag_second, tag_invalid]
+    @post.should_not be_valid
+  end
+
+  it "should not add the same tag" do
+    @post.tags = [@tag_first, @tag_second, @tag_second.dup]
+    @post.tags.count.should == 2
+  end
+
+  it "should accept the tags string join by space" do
+    @post.tags = [@tag_first, @tag_second].join ','
+    @post.tags.first.should == @tag_first
+    @post.tags.last.should == @tag_second
+  end
+
+  it "should accept the tags join by \n" do
+    @post.tags = " " + ([@tag_first, @tag_second].join "\n") + " "
+    @post.tags.first.should == @tag_first
+    @post.tags.last.should == @tag_second
   end
 end
