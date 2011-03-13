@@ -145,13 +145,25 @@ class Blog
   end
 
   def use_template(params)
-    self.custom_html = params[:custom_html]
-    self.using_custom_html = params[:using_custom_html]
-    self.template_id = params[:template_id]
+    [:custom_html, :using_custom_html, :template_id, :template_conf]
+      .each do |key|
+        self.send "#{key}=", params[key] if params.has_key? key
+      end
+    normalize_template_conf
   end
 
   def template_in_use
     self.using_custom_html? ? self.custom_html : self.template.html
+  end
+
+  def normalize_template_conf(hash = nil)
+    conf = hash || self.template_conf
+    conf.keys.each do |k|
+      if k.is_a? Symbol
+        v = conf.delete k
+        conf[k.to_s] = v.is_a?(Hash) ? normalize_template_conf(v) : v
+      end
+    end
   end
 
   private
