@@ -27,7 +27,7 @@
           = post.author.name
       %span.update_time= post.created_at
     .right
-      %a.reply{ :href => "/posts/#{post.id}/comments", :data => { :tgt => "comments" } }<
+      %a.reply{ :href => post_comments_path(post), :data => { :tgt => "comments" } }<
         = post.comments.count == 0 ? " " : post.comments.count
       %a.open{ :href => posts_blog_path(post), :target => "_blank",
         title: '展开' }
@@ -36,5 +36,4 @@
         %a{ :href => blog_path(post.parent.blog) }
           = post.parent.blog.title
         &#8594;
-      - unless post.tags.nil? or post.tags.empty?
-        %span= post.tags.join ','
+      %span= tags_value post.tags
