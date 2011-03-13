@@ -86,13 +86,12 @@ class BlogView < Mustache
       end
     },
     'color' => lambda {|v| v},
-    'font' => lambda {|v| v},
     'text' => lambda {|v| v},
     'image' => lambda {|v| v},
   }
 
   def self.parse_custom_vars(str)
-    result = {'color' => {}, 'font' => {}, 'text' => {}, 'bool' => {}}
+    result = {'color' => {}, 'image' => {}, 'text' => {}, 'bool' => {}}
     str.split(/\r\n?|\n/).each do |rule|
       pieces = rule.strip.split($;, 4)
       next if pieces.length != 4
@@ -116,7 +115,7 @@ class BlogView < Mustache
         },
         'text' => {
         },
-        'font' => {
+        'image' => {
         },
       }
   end
@@ -221,7 +220,7 @@ TPL
   end
 
   def respond_to?(name)
-    return true if name.to_s =~ /^(?:color|bool|text|font)_/
+    return true if name.to_s =~ /^(?:color|bool|text|image)_/
     super
   end
 

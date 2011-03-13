@@ -887,3 +887,25 @@ K.widgets.checkbox_preview = function(el){
     el.getParent('form').diverseSubmit()
   })
 }
+
+K.widgets.single_upload = function(el, opt){
+  var tar_uploader = el.getElement('.uploader')
+  var tar_cleaner = el.getElement('.cleaner')
+  var tar_url = el.getElement('.url')
+  new K.file_uploader(tar_uploader, '/upload/photo', {
+    'onStart': function(){
+    },
+    'onSuccess': function(v){
+      el.removeClass('image_empty').addClass('image_exist')
+      tar_url.value = v.image.original
+      el.getParent('form').diverseSubmit()
+    }
+  })
+
+  tar_cleaner.addEvent('click', function(){
+    el.removeClass('image_exist').addClass('image_empty')
+    tar_url.value = ''
+    el.getParent('form').diverseSubmit()
+    return false
+  })
+}
