@@ -109,8 +109,9 @@ class BlogView < Mustache
     result
   end
 
-  def self.extract_variables(tpl_str)
-    EXTRACTOR.template = tpl_str
+  def self.extract_variables(blog)
+    EXTRACTOR.blog = blog
+    EXTRACTOR.template = blog.template_in_use
     EXTRACTOR.render
     EXTRACTOR.variables || {
         'color' => {
@@ -171,7 +172,7 @@ class BlogView < Mustache
       @variables = self.class.parse_custom_vars(str)
 
       if @blog.template_conf.kind_of? Hash
-        @variables = @variables.deep_merge(normalize_variables(@blog.template_conf))
+        merge_custom_vars(normalize_variables(@blog.template_conf))
       end
       # `method_missing' rocks but we have to fall back to singleton method for now.
       # See: https://github.com/defunkt/mustache/issues#issue/88
@@ -232,6 +233,9 @@ TPL
   EXTRACTOR.define_singleton_method :respond_to? do |name|
     name == :define
   end
+  EXTRACTOR.define_singleton_method :blog= do |b|
+    @blog = b
+  end
 
   private
 
@@ -243,6 +247,18 @@ TPL
       end
     end
     conf
+  end
+
+  def merge_custom_vars(hash)
+    VALUE_PARSERS.each_key do |type|
+      next unless hash.has_key? type
+      var_set = @variables[type]
+      new_var_set = hash[type]
+      var_set.each do |name, v|
+        v['default_value'] = v['value']
+        v['value'] = new_var_set[name]['value'] if new_var_set.has_key? name
+      end
+    end
   end
 end
 
