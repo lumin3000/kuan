@@ -77,12 +77,16 @@ class BlogView < Mustache
   VALUE_PARSERS = {
     'bool' => lambda { |v|
       case v
+      when 1
+        true
       when /1|true|on|yes/i
         true
+      when 0
+        false
       when /0|false|off|no/i
         false
       else
-        nil
+        raise "dunno: #{v}"
       end
     },
     'color' => lambda {|v| v},
@@ -168,7 +172,7 @@ class BlogView < Mustache
       @variables = self.class.parse_custom_vars(str)
 
       if @blog.template_conf.kind_of? Hash
-        @variables = @variables.deep_merge @blog.template_conf
+        @variables = @variables.deep_merge(normalize_variables(@blog.template_conf))
       end
       # `method_missing' rocks but we have to fall back to singleton method for now.
       # See: https://github.com/defunkt/mustache/issues#issue/88
@@ -228,6 +232,18 @@ TPL
   EXTRACTOR = BlogView.new(Blog.new)
   EXTRACTOR.define_singleton_method :respond_to? do |name|
     name == :define
+  end
+
+  private
+
+  def normalize_variables(conf)
+    VALUE_PARSERS.each do |type, parser|
+      next unless conf.has_key? type
+      conf[type].each do |name, var|
+        var['value'] = parser.call(var['value'])
+      end
+    end
+    conf
   end
 end
 
