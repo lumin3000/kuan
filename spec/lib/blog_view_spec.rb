@@ -1,5 +1,4 @@
 # encoding: utf-8
-
 require 'spec_helper'
 require 'cgi'
 
@@ -155,7 +154,7 @@ TPL
 
     describe 'BlogView.extract_variables' do
       it "could do the trick" do
-        variables = BlogView.extract_variables @template
+        variables = BlogView.extract_variables @blog
         variables['color'].should == {
           'foo' => {
             'value' => '#333',
@@ -201,6 +200,8 @@ TPL
       end
 
       it "should respect user's setting" do
+        vars = @view.variables
+        vars['color']['foo']['default_value'].should == '#333'
         @rendered.should_not be_include('#333')
         @rendered.should be_include('#777')
       end

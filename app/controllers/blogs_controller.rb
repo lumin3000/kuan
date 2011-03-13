@@ -23,9 +23,7 @@ class BlogsController < ApplicationController
   def edit
     @templates = CustomTemplate.all.to_a
     @templates.unshift(CustomTemplate::DEFAULT)
-    @variables = BlogView.extract_variables(@blog.template_in_use)
-      .keep_if {|k, v| %w{color text bool font}.include? k}
-      .deep_merge(@blog.template_conf || {})
+    @variables = BlogView.extract_variables(@blog)
     render :layout => 'application'
   end
 
