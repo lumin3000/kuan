@@ -6,15 +6,6 @@
       value: var['value']}
     = var['desc']
 
-- @variables['bool'].each do |name, var|
-  - next if var['desc'].blank?
-  .booleans
-    %input{type: "hidden", value: "0", name: "blog[template_conf][bool][#{name}][value]"}
-    %input{type: "checkbox", name: "blog[template_conf][bool][#{name}][value]",
-      checked: (var['value'] ? "checked" : false), value: (var['value'] ? "1" : "0"), data: {widget: "checkbox_preview"}}
-    %label 
-      = var['desc']
-
 - @variables['image'].each do |name, var|
   - next if var['desc'].blank?
   .images{class: (var['value'].blank? ? "image_empty" : "image_exist"), data: {widget: "single_upload"}}
@@ -25,3 +16,11 @@
     %input.url{type: 'hidden', name: "blog[template_conf][image][#{name}][value]",
       value: var['value']}
 
+- @variables['bool'].each do |name, var|
+  - next if var['desc'].blank?
+  .booleans
+    %input{type: "hidden", value: "0", name: "blog[template_conf][bool][#{name}][value]"}
+    %input{type: "checkbox", name: "blog[template_conf][bool][#{name}][value]",
+      checked: (var['value'] == "0" ? false : "checked"), value: 1, data: {widget: "checkbox_preview"}}
+    %label 
+      = var['desc']
