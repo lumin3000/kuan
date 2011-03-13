@@ -170,10 +170,11 @@ K.file_uploader = new Class({
 })
 
 K.editor = null
-K.render_editor = function(el){
+K.render_editor = function(el, fix){
     var textarea = $(el)
-    var w  = textarea.getStyle('width').toInt() + 55
-    var h  = textarea.getStyle('height').toInt() - 50
+    var fix = fix || {width:0, height: 0}
+    var w  = textarea.getStyle('width').toInt() + fix.width
+    var h  = textarea.getStyle('height').toInt() - fix.height
     K.editor = new MooEditable(textarea, {
         'actions':'toggleview | bold italic underline strikethrough | createlink unlink | urlimage ',
         'dimensions':{x:w,y:h},
@@ -297,12 +298,12 @@ K.post = (function(){
 
     var init_editor = function(){
         if($$('.text')[0] && $$('.text')[0].hasClass('rich_text')){
-            K.render_editor($('content'))
+          K.render_editor($('content'), {width:55, height:50})
         }
         $$('.rich_editor_starter').addEvent('click', function(){
             this.hide()
             $('box_text').addClass('rich_text')
-            K.render_editor($('content'))
+            K.render_editor($('content'), {width:55, height:50})
             return false
         })
         if($('tar_tog_textarea')){
@@ -908,4 +909,8 @@ K.widgets.single_upload = function(el, opt){
     el.getParent('form').diverseSubmit()
     return false
   })
+}
+
+K.widgets.textarea = function(el){
+  K.render_editor(el)
 }

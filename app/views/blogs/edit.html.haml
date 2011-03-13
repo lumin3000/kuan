@@ -1,10 +1,10 @@
-- css 'blog', 'moorainbow'
-- js 'moorainbow'
+- css 'blog', 'moorainbow', "mooeditable"
+- js 'moorainbow', "mooeditable", "mooeditable.local"
 - content_for :site_layout, 'blog_customization'
 
 .customize_panel
   %ul.customize_navigation{data: {widget: 'tab', contentsHolder: 'form.edit_blog',
-    contents: 'fieldset', activateOnLoad: 2}}
+    contents: 'fieldset', activateOnLoad: 0}}
     %li.blog_info 页面信息
     %li.template 模板
     %li.appearance 调整界面
@@ -19,6 +19,11 @@
       = f.label :title, "名称"
       %div
         = f.text_field :title, class: 'title'
+    .page_desc
+      = f.label :desc, "描述"
+      %div.textarea
+        %textarea{id: "blog_desc", name: "blog[desc]", data: {widget: "textarea"}}
+          = @blog.desc
     .error
       &nbsp;
       = @blog.errors[:title].first
