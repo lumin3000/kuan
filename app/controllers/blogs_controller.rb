@@ -3,7 +3,8 @@ class BlogsController < ApplicationController
   before_filter :signin_auth, :except => [:show]
   before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick]
   before_filter :editor_auth, :only => [:followers, :editors, :exit]
-  before_filter :find_by_uri, :only => [:show, :follow_toggle, :apply, :apply_entry]
+  before_filter :find_by_uri, :only => [:show, :follow_toggle, :apply, :apply_entry,
+    :extract_template_vars]
   before_filter :blog_display, :only => [:show, :preview]
 
   def new
@@ -47,6 +48,14 @@ class BlogsController < ApplicationController
     @blog.use_template params[:blog]
     view = BlogView.new @blog, @view_context
     render :text => view.render
+  end
+
+  def extract_template_vars
+    p = params[:blog]
+    p.delete :template_id if p[:template_id].blank?
+    @blog.use_template p
+    @variables = BlogView.extract_variables @blog
+    render 'blogs/_template_variables', :layout => false
   end
 
   def show

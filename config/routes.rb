@@ -26,6 +26,7 @@ Kuan::Application.routes.draw do
     post '/follow_toggle' => 'blogs#follow_toggle'
     get '/followers' => 'blogs#followers'
     post '/preview' => 'blogs#preview'
+    match '/extract_template_vars' => 'blogs#extract_template_vars', :via => [:get, :post]
     get '/editors/new' => 'blogs#apply_entry'
     post '/editors' => 'blogs#apply'
     get '/editors' => 'blogs#editors'
