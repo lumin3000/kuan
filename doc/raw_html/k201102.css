@@ -1675,11 +1675,14 @@ div.new_reply .content_footer .right a.reply:hover
 
 .explore{
 	width:900px;
-	margin:20px auto;
-	color:#8e9494;
-	font-size:18px;
-	font-family:microsoft yahei;
+
+}
+.explore h1{
+	margin-top:16px;
+	color:#3f7be0;
+	font-size:36px;
 	line-height:40px;
+	font-family:mircosoft yahei;
 }
 .explore .tag_wall{
 	width:900px;
@@ -1745,7 +1748,10 @@ div.new_reply .content_footer .right a.reply:hover
 
 .explore .tag_list .row .tag_name a{
 	font-size:24px;
+	font-family:microsoft yahei;
+	line-height:40px;
 	text-decoration:none;
+	color:#3f7be0;
 	display:block;
 	
 }
@@ -1775,7 +1781,7 @@ div.new_reply .content_footer .right a.reply:hover
 .explore .tag_list .row .activity span{
 	width:15px;
 	height:40px;
-	background-color:#3b7ff1;
+	background-color:#1f55b0;
 	float:right;
 	margin:0px 5px 0 5px;
 	display:block;
@@ -1848,7 +1854,7 @@ div.new_reply .content_footer .right a.reply:hover
 
 .site .editors .item .logo img{
 	background:url('images/test_009.gif') no-repeat;
-	margin:5px ;
+	margin:5px 5px 3px 10px ;
     border:0;
 }
 	
@@ -1856,7 +1862,7 @@ div.new_reply .content_footer .right a.reply:hover
 
 
 .site .editors .item .page_name{
-	width:100px;
+	width:120px;
 	height:40px;
 	padding:0;
 	float:left;
@@ -1868,6 +1874,7 @@ div.new_reply .content_footer .right a.reply:hover
 	width:130px;	
 	color:#ff9933;
 	font-size:14px;
+	margin-left:3px;
 	display:block;
 	line-height:38px;
 	text-decoration:none;
@@ -1886,7 +1893,7 @@ div.new_reply .content_footer .right a.reply:hover
 .site .editors .item .follow a{
 	width:14px;
 	height:14px;
-	margin:12px 5px 0 0 ;
+	margin:12px 10px 0 0;
 	display:block;
 	background:url('images/icons.gif') -20px 0px;
 	overflow:hidden;
