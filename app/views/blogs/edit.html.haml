@@ -73,7 +73,7 @@
           classes: 'editing_custom_html picking_template', field: 'blog[using_custom_html]'}}
           返回
         %a.button{href: "#"} 帮助
-  %fieldset.appearance.menu
+  %fieldset.appearance.menu{ data: {widget: "appearance"}}
     - if @variables
       .box
         = render :partial => 'blogs/template_variables'

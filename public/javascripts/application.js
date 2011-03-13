@@ -591,28 +591,6 @@ K.widgets.video = function(el){
 }
 
 K.tgt = {}
-K.tgt.color_picker = function(){
-  return function(el){
-    function setColor(color, preview){
-      var par = el.getParent('.colors')
-      el.setStyle('background-color', color.hex)
-      par.getElement('input').set('value', color.hex)
-      if(preview){
-        el.getParent('form').diverseSubmit()
-      }
-    }
-    new MooRainbow(el, {
-      id: 'moorainbow_'+Number.random(1,9999),
-      imgPath: '/images/moorainbow/',
-      onChange: function(color){
-        setColor(color)
-      },
-      onComplete: function(color){
-        setColor(color, true)
-      }
-    }).show()
-  }
-}()
 
 K.tgt.comments = function(){
     var comments_el
@@ -913,4 +891,31 @@ K.widgets.single_upload = function(el, opt){
 
 K.widgets.textarea = function(el){
   K.render_editor(el)
+}
+
+K.widgets.appearance = function(el){
+  el.addEvents({
+    'click:relay(.color_pick)': function(e){
+      var el = e.target
+      function setColor(color, preview){
+        var par = el.getParent('.colors')
+        el.setStyle('background-color', color.hex)
+        par.getElement('input').set('value', color.hex)
+        if(preview){
+          el.getParent('form').diverseSubmit()
+        }
+      }
+      new MooRainbow(el, {
+        id: 'moorainbow_'+Number.random(1,9999),
+        startColor: new Color(el.getStyle('background-color')),
+        imgPath: '/images/moorainbow/',
+        onChange: function(color){
+          setColor(color)
+        },
+        onComplete: function(color){
+          setColor(color, true)
+        }
+      }).show()
+    }
+  })
 }
