@@ -1594,7 +1594,6 @@ form.edit_page .submit_box input{
 	font-size:10px;
 	margin-left:3px
 }
-
 .customize .appearance .images a{
 	margin-left:3px;
 	text-decoration: none;
@@ -1670,11 +1669,11 @@ div.new_reply .content_footer .right a.reply:hover
 
 
 
-/************tags*************/
+/************explore*************/
 
 
 
-.tags{
+.explore{
 	width:900px;
 	margin:20px auto;
 	color:#8e9494;
@@ -1682,19 +1681,44 @@ div.new_reply .content_footer .right a.reply:hover
 	font-family:microsoft yahei;
 	line-height:40px;
 }
-.tags .content_top{
+.explore .tag_wall{
 	width:900px;
 	height:450px;
-	-moz-border-radius:15px;
+	-moz-border-radius-topright:15px;
+	-moz-border-radius-topleft:15px;
     -webkit-border-top-left-radius:15px;
     -webkit-border-top-right-radius:15px;
 	border-top-left-radius:15px;
 	border-top-right-radius:15px;
 	overflow:hidden;
 }
-.tags .content_bottom{
+
+.explore .tag_wall .cell_box{
+	width:150px;
+	height:150px;
+	background:url('images/tagspic.gif') no-repeat;
+	border:0;
+	float:left;
+}
+.explore .tag_wall .cell_box a span{
+	background:url('images/bg_box.png') repeat-x;
+    padding:2px;
+}	
+.explore .tag_wall .cell_box a{
+	color:#dcdcdc;
+	font-family:microsoft yahei;
+	font-size:12px;
+	line-height:20px;
+	text-decoration:none;
+    margin:120px 10px 0 10px;
+    display:block;	
+}
+
+.explore .tag_list{
 	width:898px;
 	height:auto;
+	padding-top:30px;
+	padding-bottom:35px;
 	border-left:1px solid #dcdcdc;
 	border-right:1px solid #dcdcdc;
 	border-bottom:1px solid #dcdcdc;
@@ -1705,112 +1729,75 @@ div.new_reply .content_footer .right a.reply:hover
 	border-bottom-left-radius:15px;
 	border-bottom-right-radius:15px;
 }
-.tags .content_bottom .bigbox{
-	width:900px;
+
+.explore .tag_list .row{
+	width:898px;
 	height:40px;
-	border-top:1px solid #dcdcdc;
+	margin-top:10px;
 }
-.tags .bigbox .l{
-	width:394px;
+
+.explore .tag_list .row .tag_name{
+	width:340px;
 	height:40px;
-	border-right:1px solid #dcdcdc;
 	float:left;
+    padding-left:50px;
 }
-.tags .bigbox .l a{
-	color:#009fff;
+
+.explore .tag_list .row .tag_name a{
 	font-size:24px;
-	font-family:microsoft yahei;
-	line-height:40px;
-	margin-left:30px;
-	text-decoration:none;
-}
-.tags .bigbox .m{
-	width:194px;
-	height:40px;
-	border-right:1px solid #dcdcdc;
-	float:left;
-}
-.m .case{
-	width:10px;
-	height:20px;
-	background-color:#009fff;
-	margin:10px 5px 10px 0;
-	float:right;
-}
-.tags .bigbox .r{
-	width:300px;
-	height:40px;
-	float:left;
-}
-.r a img{
-	width:24px;
-	height:24px;
-	border:0;
-	text-decoration:none;
-	margin:8px 5px 8px 10px;
-	float:left;
-}
-.r a{
-	color:#8e9494;
-	font-size:24px;
-	font-family: microsoft yahei;
-	line-height:40px;
 	text-decoration:none;
 	display:block;
-	float:left;
-}
-.tags .content_top .box{
-	width:150px;
-	height:150px;
-	background:url('images/tagspic.gif') no-repeat;
-	border:0;
-	float:left;
-}
-.tags .box a span{
-	background:url('images/bg_box.png') repeat-x;
-    padding:2px;
 	
-
-}	
-.tags .box a{
-	color:#dcdcdc;
-	font-family:microsoft yahei;
-	font-size:12px;
-	line-height:20px;
-	text-decoration:none;
-    margin:120px 10px 0 10px;
-    display:block;	
-}
-	           
-.tags .clear{
-	clear:both;
-}
-.tags .space{
-	width:898px;
-	height:80px;
-	border-left: 1px solid #dcdcdc;
-	border-right:1px solid #dcdcdc;
 }
 
-.tags .content_bottom .bottomline{
-	width:900px;
-	height:1px;
-	border-top:1px solid #dcdcdc;
-	margin-bottom:20px;
+.explore .tag_list .row .activity{
+	width:450px;
+	height:40px;
+	float:left;
+	padding-right:40px;
+
 }
 
+.explore .tag_list .row .activity div{
+	width:15px;
+	height:40px;
+	background-color:#3f7be0;
+	float:right;
+	margin:0px 5px 0 5px;
+	-moz-border-radius-topright:10px;
+	-moz-border-radius-topleft:10px;
+	-webkit-border-top-right-radius:10px;
+	-webkit-border-top-left-radius:10px;
+	border-top-right-radius:10px;
+	border-top-left-radius:10px;
+}
+
+.explore .tag_list .row .activity span{
+	width:15px;
+	height:40px;
+	background-color:#3b7ff1;
+	float:right;
+	margin:0px 5px 0 5px;
+	display:block;
+	-moz-border-radius-topright:10px;
+	-moz-border-radius-topleft:10px;
+	-webkit-border-top-right-radius:10px;
+	-webkit-border-top-left-radius:10px;
+	border-top-right-radius:10px;
+	border-top-left-radius:10px;
+}
 
 
 /*******************tags page*********************/
 
 
 
-.timelines{
+.tag_page{
 	width:680px;
 	float:left;
 }
 
-.editors{
+.site .editors{
 	width:198px;
 	height:auto;
 	font-size:14px;
@@ -1819,24 +1806,24 @@ div.new_reply .content_footer .right a.reply:hover
 	line-height:16px;
 	float:right;
 	border:1px solid #dcdcdc;
-	padding:0;
-	-moz-border-radius:8px;
-	-webkit-border-radius:8px;
-	border-radius:8px;
+	padding:10px 0;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	border-radius:15px;
 	overflow:hidden;
 	
 }
 
 
 
-.editors .name{
+.site .editors .title{
 	width:196px;
 	height:30px;
 	margin:15px 0 0 10px;
 }
 
 
-.editors .e_content{
+.site .editors .list{
 	width:196px;
 	height:auto;
     padding:0;
@@ -1846,20 +1833,20 @@ div.new_reply .content_footer .right a.reply:hover
 	
 
 
-.editors .e_content .ebox{
-	width:200px;
+.site .editors .item{
+	width:198px;
 	height:40px;
-	border-top:1px solid #dcdcdc;
+
 }
   
-.editors .e_content .ebox .l{
+.site .editors  .item .logo{ logo
 	width:42px;
 	height:40px;
     float:left;
  
 }
 
-.editors .e_content .ebox .l img{
+.site .editors .item .logo img{
 	background:url('images/test_009.gif') no-repeat;
 	margin:5px ;
     border:0;
@@ -1868,7 +1855,7 @@ div.new_reply .content_footer .right a.reply:hover
 
 
 
-.editors .e_content .ebox .m{
+.site .editors .item .page_name{
 	width:100px;
 	height:40px;
 	padding:0;
@@ -1877,7 +1864,7 @@ div.new_reply .content_footer .right a.reply:hover
 }
 
 
-.editors .e_content .ebox .m a{
+.site .editors .item .page_name a{
 	width:130px;	
 	color:#ff9933;
 	font-size:14px;
@@ -1889,21 +1876,18 @@ div.new_reply .content_footer .right a.reply:hover
 }
 
 	
-.editors .e_content .ebox .r{
+.site .editors .item .follow{
 	width:20px;
 	height:40px;
 	float:right;
 
 }
 
-.editors .e_content .ebox .r a{
+.site .editors .item .follow a{
 	width:14px;
 	height:14px;
 	margin:12px 5px 0 0 ;
 	display:block;
 	background:url('images/icons.gif') -20px 0px;
 	overflow:hidden;
-}
-.editors .clear{
-	clear:both;
 }
