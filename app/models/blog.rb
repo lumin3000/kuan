@@ -10,15 +10,18 @@ class Blog
   field :private, :type => Boolean, :default => false
   field :canjoin, :type => Boolean, :default => false
   field :posted_at, :type => Time
+  field :tags, :type => Array, :default => []
+  index :tags
 
   scope :public, :excludes => { :private => true }
   scope :latest, :excludes => { :private => true, :posted_at => nil },
-    :order_by => { :posted_at => :desc },
-    :limit => 500
+  :order_by => { :posted_at => :desc },
+  :limit => 500
+  scope :tagged, lambda { |tag| where(:tags => tag).desc(:posted_at) }
 
   references_many :posts, :index => true
 
-  attr_accessible :uri, :title, :icon, :private, :canjoin, :posted_at
+  attr_accessible :uri, :title, :icon, :private, :canjoin, :posted_at, :tags
 
   validates_presence_of :title,
   :message => "请输入页面名字"
@@ -125,6 +128,10 @@ class Blog
                                            :type => "join")
     end
     true
+  end
+
+  def tags=(tags)
+    super Tag::trans(tags)
   end
 
   def to_param

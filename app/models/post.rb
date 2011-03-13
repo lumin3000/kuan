@@ -14,7 +14,8 @@ class Post
   field :repost_count, :type => Integer, :default => 0
   field :favor_count, :type => Integer, :default => 0
   field :tags, :type => Array, :default => []
-
+  index :tags 
+  
   attr_accessible :blog, :author, :author_id, :blog_id, :created_at, :comments, :parent, :tags
 
   validates_presence_of :author_id
@@ -22,20 +23,16 @@ class Post
 
   validate :posted_to_editable_blogs, :if => :new_record?
 
-  validate do |post|
-    post.tags.each do |tag|
-      errors.add(:base, "标签为空或含有,") if tag.include? ',' or tag.include? "\n" or tag.blank?
-    end unless post.tags.nil?
-  end
-
   before_destroy :clean_comments_notices
   before_create :type_setter
   after_create :ancestor_reposts_inc, :update_blog
 
+  scope :tagged, lambda { |tag| where(:tags => tag).desc(:created_at) }
+
   def haml_object_ref
     "post"
   end
-
+ 
   def type
     self._type.downcase
   end
@@ -58,10 +55,8 @@ class Post
     a ||= parent
   end
 
-  # about the tags
-  def tags=(rec_tags)
-    rec_tags = rec_tags.strip.split(/\s*[,\n]+\s*/) if rec_tags.kind_of? String
-    super rec_tags.uniq
+  def tags=(tags)
+    super Tag::trans(tags)
   end
 
   class << self

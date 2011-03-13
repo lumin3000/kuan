@@ -17,6 +17,8 @@
       (网址随时都可以修改)
     &nbsp;
     = @blog.errors[:uri].first
+  .tags_area
+    = f.text_area "tags", :value => tags_value(@blog.tags)
   .page_logo
     %label
       %img#blog_icon_img{ :src => @blog.icon.url_for(:medium) }

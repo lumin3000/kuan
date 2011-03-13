@@ -1,0 +1,12 @@
+.item
+  .logo
+    %a{ :href => blog_path(blog) }
+      %img{ :src => blog.icon.url_for(:medium) }
+  .page_name
+    %a{ :href => blog_path(blog) }
+      = blog.title
+  - unless current_user.all_blogs.include? blog
+    %a{:href => follow_toggle_blog_path(blog), :id => "tar_follow_#{blog.id}",
+       :data => {:method => "POST", :remote => "true"}}
+      .follow
+  .clear_fix

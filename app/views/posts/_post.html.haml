@@ -36,4 +36,8 @@
         %a{ :href => blog_path(post.parent.blog) }
           = post.parent.blog.title
         &#8594;
-      %span= tags_value post.tags
+      - unless post.tags.nil?
+        - post.tags.each do |tag|
+          %span
+            %a{ :href => tagged_path(tag) }
+              = tag
