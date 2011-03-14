@@ -159,6 +159,7 @@ class Blog
 
   def normalize_template_conf(hash = nil)
     conf = hash || self.template_conf
+    return if conf.nil?
     conf.keys.each do |k|
       if k.is_a? Symbol
         v = conf.delete k
