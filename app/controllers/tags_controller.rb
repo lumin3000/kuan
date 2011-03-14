@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 class TagsController < ApplicationController
+  before_filter :signin_auth
+  
   def show
     pagination = {
       :page => params[:page] || 1,
@@ -9,5 +11,10 @@ class TagsController < ApplicationController
     @posts = Post.tagged(@tag).paginate pagination
     @blogs = Blog.tagged(@tag).limit 10
     render :layout => "common"
+  end
+
+  def index
+    @tags = Tag.hottest
+    @tag_posts = Tag.hot_tag_posts
   end
 end
