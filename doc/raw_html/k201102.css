@@ -723,7 +723,6 @@ form.edit_page .submit_box input{
 }
 
 .post .send{
-	margin-left:195px;
 	width:150px;
 	height:44px;
 	background:url('images/post_send.gif');
@@ -740,6 +739,7 @@ form.edit_page .submit_box input{
 	width:620px;
 	padding:0 20px 0 0;
 	border-right:1px solid #dcdcdc;
+
 
 	
 }
@@ -1460,6 +1460,33 @@ form.edit_page .submit_box input{
 	height:50px;
 	padding:0px 25px;
 }
+
+
+/******************************tags*********************************/
+.content_footer .tags{
+	height:14px;
+	font-size:12px;
+	line-height:14px;
+	position:relative;
+	bottom:-20px;
+	
+}
+
+.content_footer .tags a{
+	display:block;
+	text-decoration:none;
+	float:left;
+	margin-right:5px;
+	color:#888888;
+}
+
+.content_footer .tags a:hover{
+	text-decoration:underline;
+	color:#3f7be0;
+}
+
+
+
 
 .article .content_footer{
 	padding:20px 15px 0px 15px;
