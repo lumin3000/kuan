@@ -21,6 +21,11 @@
   .content_body
     = render partial: sub_template, object: post
   .content_footer
+    - unless post.tags.nil?
+      .tags
+        - post.tags.each do |tag|
+          %a{ :href => tagged_path(tag) }<
+            = "##{tag}"
     .left<
       %span.writer_name<
         %a{href: blog_path(post.author.primary_blog)}
@@ -36,9 +41,3 @@
         %a{ :href => blog_path(post.parent.blog) }
           = post.parent.blog.title
         &#8594;
-      -#
-        - unless post.tags.nil?
-          - post.tags.each do |tag|
-            %span
-              %a{ :href => tagged_path(tag) }
-                = tag

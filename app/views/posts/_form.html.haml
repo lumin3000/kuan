@@ -15,7 +15,7 @@
               - @target_blogs.each do |b|
                 %option{value: b.id, selected: b == @default_target_blog}
                   = b.title
-    %h2 +添加标签  
+    %h2 添加标签  
     %input.tags{name: "tags", data: {widget: "textboxlist"}, value: (tags_for_post_form @post, (@post.new_record?) ? @default_target_blog : nil)}
 
   .left
