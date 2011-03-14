@@ -5,7 +5,10 @@ class Tag
   field :tag
   index :tag
   field :tagged_count, :type => Integer, :default => 0
+  index :tagged_count
   field :activity, :type => Hash, :default => {}
+
+  scope :hottest, desc(:tagged_count).limit(30)
 
   validates_presence_of :tag
 
@@ -32,6 +35,13 @@ class Tag
       tag.activity[date_str] ||= count
       tag.save
     end
-  end
 
+    def hot_tag_posts
+      hottest.reduce({}) do |posts, tag|
+        p = Post.tagged(tag.tag).pics_and_text.limit(10).sample
+        posts[tag.tag] = p unless p.nil?
+        posts
+      end
+    end
+  end
 end

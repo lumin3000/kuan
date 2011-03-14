@@ -121,6 +121,8 @@ describe Tag, " for activities" do
     tag = Tag.find_by_tag @tag
     tag.tagged_count.should == 1
     tag.activity[d.to_s].should == 1
+    Tag.hot_tag_posts.should be_key @tag
+    Tag.hot_tag_posts[@tag].should == @post
   end
 
   it "should inc the count for old tag" do
@@ -133,5 +135,6 @@ describe Tag, " for activities" do
     tag = Tag.find_by_tag @tag
     tag.tagged_count.should == 2 
     tag.activity[d.to_s].should == 2
+    Tag.hottest.should include tag
   end
 end
