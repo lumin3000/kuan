@@ -8,6 +8,22 @@
   background: $almost-white
   padding: 0 20px
 
+  .left
+    float: left
+    width: 620px
+    padding: 0 20px 0 0
+    border-right: 1px solid #dcdcdc
+  .right
+    width: 190px
+    float: right
+    padding-top: 73px
+    h2
+      font-family: microsoft yahei
+      font-size: 18px
+      line-height: 18px
+      color: #7EAEDC
+      margin: 30px 0 10px 0
+
   h1
     @include heading
     color: $green
@@ -46,7 +62,7 @@
 
   .file_image
     clear: both
-    width: 685px
+    width: 600px
     padding: 15px 0 5px 20px
     font-size: 20px
     height: 35px
@@ -73,7 +89,7 @@
       height: 40px
       line-height: 40px
       font-size: 20px
-      width: 540px
+      width: 450px
 
   .file_image
 
@@ -82,12 +98,12 @@
       float: right
 
     input
-      width: 270px
+      width: 200px
       margin-right: 150px
 
   .list_image
     clear: both
-    width: 685px
+    width: 600px
     padding: 5px 0 5px 20px
     font-size: 20px
     height: 75px
@@ -118,12 +134,12 @@
       border: 1px solid gray
 
     .the_text
-      width: 520px
+      width: 420px
       padding: 0px 20px
       margin-top: 20px	
 
       input
-        width: 480px
+        width: 420px
         height: 32px
         border: 1px solid gray
         font-size: 20px
@@ -142,8 +158,8 @@
   .title_link,
   .url_image
     clear: both
-    width: 705px
-    padding: 5px 0
+    width: 600px
+    padding: 5px 0 5px 20px
     font-size: $input-font-size
     height: $input-height + 5px
     line-height: $input-height + 5px
@@ -153,7 +169,7 @@
     margin-bottom: 30px
 
     label
-      padding-left: 20px
+      color: gray
 
   .rich_text
     padding: 0px
@@ -165,14 +181,14 @@
     height: $input-height
     line-height: $input-height
     font-size: $input-font-size
-    width: 560px
+    width: 420px
 
   .text
     height: 180px
 
   .text textarea
     border: 0
-    @include size(650px, 180px)
+    @include size(570px, 180px)
     font-size: $input-font-size
     line-height: 1.5
     padding-left: 20px
@@ -182,7 +198,6 @@
     margin-bottom: 60px
 
   .page_selector
-    float: left
     @include size(195px, 44px)
 
   .cancel
@@ -192,7 +207,6 @@
 
   .send, .save
     @include big_button
-    margin-left: 195px
 
   .send
     input

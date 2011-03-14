@@ -4,8 +4,19 @@
 		Purchase to remove copyright
 */
 
-.textboxlist { font: 11px "Lucida Grande", Verdana; cursor: text; }
-.textboxlist-bits { zoom: 1; overflow: hidden; margin: 0; padding: 3px 4px 0; border: 1px solid #999; *padding-bottom: 3px; }
+.textboxlist {
+    cursor: text; 
+    border:1px solid #cadbea;
+    width:184px;
+    font-size:20px;
+    font-family:microsoft yahei;
+    line-height:45px;
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    border-radius:8px;
+    background:white;
+}
+.textboxlist-bits { zoom: 1; overflow: hidden; margin: 0; padding: 3px 4px 0; *padding-bottom: 3px; }
 .textboxlist-bit { list-style-type: none; float: left; display: block; padding: 0; margin: 0 5px 3px 0; cursor: default; }
 .textboxlist-bit-editable { border: 1px solid #fff; }
 .textboxlist-bit-editable-input { border: 0; padding: 2px 0; *padding-bottom: 0; height: 14px; font: 11px "Lucida Grande", Verdana; }

@@ -673,3 +673,9 @@ K.tgt.reply = function(){
         }).send()
     }
 }()
+
+K.widgets.textboxlist = function(el){
+  new TextboxList($$('.tags')[0], {
+    bitsOptions:{editable:{addKeys: 188}}
+  });
+}
