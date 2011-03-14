@@ -1,4 +1,5 @@
 - @header = @footer = "main"
+- @site_layout ||= "site_middle_size"
 - content_for :content, do
   = yield
   = render :partial => 'shared/footer'
@@ -6,6 +7,6 @@
 - content_for :head, do
   = stylesheet_link_tag "common"
 
-- content_for :site_layout, "site_middle_size"
+- content_for :site_layout, @site_layout 
 
 = render :file => 'layouts/application'

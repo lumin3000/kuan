@@ -10,15 +10,18 @@ class Blog
   field :private, :type => Boolean, :default => false
   field :canjoin, :type => Boolean, :default => false
   field :posted_at, :type => Time
+  field :tag
+  index :tag
 
   scope :public, :excludes => { :private => true }
   scope :latest, :excludes => { :private => true, :posted_at => nil },
-    :order_by => { :posted_at => :desc },
-    :limit => 500
+  :order_by => { :posted_at => :desc },
+  :limit => 500
+  scope :tagged, lambda { |tag| where(:tag => tag).desc(:posted_at) }
 
   references_many :posts, :index => true
 
-  attr_accessible :uri, :title, :icon, :private, :canjoin, :posted_at
+  attr_accessible :uri, :title, :icon, :private, :canjoin, :posted_at, :tag
 
   validates_presence_of :title,
   :message => "请输入页面名字"
@@ -39,9 +42,15 @@ class Blog
   validates_uniqueness_of :uri,
   :case_sensitive => false,
   :message => "此链接已被使用"
+
+  validate do |blog|
+    errors.add(:base, "标签格式不正确") if not blog.tag.blank? and Tag::invalid? blog.tag
+  end
+  
   validate do |blog|
     errors.add(:base, "默认主页不可以被申请加入") if blog.primary? and blog.canjoin?
   end
+
 
   DEFAULT_ICONS = {:large => "/images/default_icon_large.gif",
     :medium => "/images/default_icon_medium.gif",
@@ -56,6 +65,10 @@ class Blog
   alias_method :old_icon_get, :icon
   def icon
     old_icon_get || Image.create_from_default(DEFAULT_ICONS)
+  end
+
+  def tag=(tag)
+    super((tag.blank?) ? nil : tag.strip)
   end
 
   def followers_count

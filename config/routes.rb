@@ -62,6 +62,8 @@ Kuan::Application.routes.draw do
     put ':id/ignore' => :ignore, :as => "ignore"
   end
 
+  get "/tagged/:tag(/page/:page)" => "tags#show", :page => /\d+/, :as => 'tagged'
+
   resources :movings, :only => [:new, :create]
 
   root :to => redirect("/home")

@@ -225,7 +225,7 @@ class User
   #2,读取数据库中已有uri,如重名则在后面加数字
   #3,如同名uri已有多个，则取后面数字最大的并+1拼出新的uri
   def uri_by_name
-    require 'pinyin'
+    require 'chinese/pinyin'
     uri = PinYin.instance.to_pinyin(name).downcase.ljust(4,'k')
     return uri if Blog.where(:uri => uri).empty?
     uri + (Blog.where(:uri => /^#{uri}([0-9]*)$/).reduce(0) do |max, b|
