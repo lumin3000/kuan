@@ -1,3 +1,4 @@
+- css 'tags'
 - content_for :title, "#{@tag}_宽岛"
 
 - content_for :head do
@@ -9,8 +10,9 @@
   %h1= @tag
   .timeline{ :data => { :widget => "sugar" } }
     = render :partial => "posts/post_full", :collection => @posts, :as => :post
-  = pagination_standard  
+    = pagination_standard  
 - unless @blogs.empty?
   .editors
     .list
       = render :partial => "blog", :collection => @blogs, :as => :blog
+.clear_fix
