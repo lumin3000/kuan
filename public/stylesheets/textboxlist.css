@@ -15,6 +15,8 @@
     -webkit-border-radius:8px;
     border-radius:8px;
     background:white;
+    overflow-y: auto;
+    max-height: 120px;
 }
 .textboxlist-bits { zoom: 1; overflow: hidden; margin: 0; padding: 3px 4px 0; *padding-bottom: 3px; }
 .textboxlist-bit { list-style-type: none; float: left; display: block; padding: 0; margin: 0 5px 3px 0; cursor: default; }
