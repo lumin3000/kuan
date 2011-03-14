@@ -82,6 +82,7 @@ var TextboxList = new Class({
   initialize: function(element, options){
 		this.setOptions(options);		
 		this.original = $(element).setStyle('display', 'none').set('autocomplete', 'off').addEvent('focus', this.focusLast.bind(this));
+    this.default_value = this.original.value;
     this.container = new Element('div', {'class': this.options.prefix}).inject(element, 'after');
 		this.container.addEvent('click', function(e){ 
 			if ((e.target == this.list || e.target == this.container) && (!this.focused || $(this.current) != this.list.getLast())) this.focusLast(); 			
@@ -243,8 +244,18 @@ var TextboxList = new Class({
 	
 	update: function(){
 		this.original.set('value', this.options.encode(this.getValues()));
-	}
-  
+	},
+  removeAll: function(){
+    this.list.getElements('li.textboxlist-bit-box-deletable').each(function(item){
+      this.getBit(item).remove();
+    }.bind(this));
+  },
+  reset: function(values){
+    this.removeAll();
+    this.original.set('value', values);
+    this.default_value = this.original.value;
+    this.setValues( $splat(values));
+  }
 });
 
 var TextboxListBit = new Class({
