@@ -2,6 +2,8 @@ $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 require "rvm/capistrano"
 require 'bundler/capistrano'
 set :rvm_ruby_string, 'default'
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
 
 set :application, "kuan"
 set :repository,  "git@github.com:sjerrys/kuan.git"

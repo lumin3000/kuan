@@ -28,6 +28,8 @@ class Post
   after_create :ancestor_reposts_inc, :update_blog
 
   scope :tagged, lambda { |tag| where(:tags => tag).desc(:created_at) }
+  scope :in_day, lambda { |date| where(:created_at.gte => date.midnight,
+                                       :created_at.lte => date.end_of_day).desc(:created_at) }
 
   def haml_object_ref
     "post"
@@ -83,6 +85,13 @@ class Post
         posts << p.sample unless p.blank?
       end
       posts
+    end
+
+    def accumulate_for_tags(cal_date = Date.yesterday)
+      Post.in_day(cal_date).where(:tags => /.+/).reduce({}) do |tags, post|
+        post.tags.each { |tag| tags.key?(tag) ? (tags[tag] += 1) : (tags[tag] = 1) }
+        tags
+      end.each { |tag, count| Tag.accumulate tag, count, cal_date.to_s }
     end
   end
 

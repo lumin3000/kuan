@@ -98,3 +98,40 @@ describe Tag, " for blogs" do
     Blog.tagged(@tag).count.should == 2
   end
 end
+
+describe Tag, " for activities" do
+  before :each do
+    @tag = "active tag"
+    @user = Factory :user_unique
+    @blog = @user.create_primary_blog!
+    @post = Text.create!(:content => "Test for active tags",
+                         :author => @user,
+                         :blog => @blog,
+                         :tags => [@tag])
+  end
+
+  after :each do
+    Post.delete_all
+    Tag.delete_all
+  end
+
+  it "should have record new tag" do
+    d = Date.today
+    Post.accumulate_for_tags d
+    tag = Tag.find_by_tag @tag
+    tag.tagged_count.should == 1
+    tag.activity[d.to_s].should == 1
+  end
+
+  it "should inc the count for old tag" do
+    post_next = Text.create!(:content => "Test next for active tags",
+                             :author => @user,
+                             :blog => @blog,
+                             :tags => [@tag])
+    d = Date.today
+    Post.accumulate_for_tags d
+    tag = Tag.find_by_tag @tag
+    tag.tagged_count.should == 2 
+    tag.activity[d.to_s].should == 2
+  end
+end
