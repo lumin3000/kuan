@@ -18,7 +18,7 @@
     &nbsp;
     = @blog.errors[:uri].first
   .page_tag
-    = f.label :tag, "标签"
+    = f.label :tag, "标签(每个页面只能有一个)"
     = f.text_field :tag
   .page_logo
     %label
