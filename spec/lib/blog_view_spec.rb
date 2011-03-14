@@ -66,7 +66,7 @@ EOF
   describe "given a blog using predefined template" do
     before :each do
       @anchor = 'valid html!'
-      @template = Factory.create :custom_template, :html => <<EOF
+      @template = Factory.create :template, :html => <<EOF
   <!doctype html>
   <title>{{title}}</title>
   <p>#{@anchor}</p>

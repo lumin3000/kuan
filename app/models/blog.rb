@@ -20,7 +20,7 @@ class Blog
   field :using_custom_html, :type => Boolean, :default => false
   field :custom_css
   field :custom_html
-  referenced_in :template, :class_name => 'CustomTemplate'
+  referenced_in :template, :class_name => 'Template'
 
   field :template_conf, :type => Hash
 
@@ -69,7 +69,7 @@ class Blog
 
   alias_method :old_template_get, :template
   def template
-    old_template_get || CustomTemplate::DEFAULT
+    old_template_get || Template::DEFAULT
   end
 
   def followers_count

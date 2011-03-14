@@ -22,8 +22,8 @@ class BlogsController < ApplicationController
   end
 
   def edit
-    @templates = CustomTemplate.all.to_a
-    @templates.unshift(CustomTemplate::DEFAULT)
+    @templates = Template.all.to_a
+    @templates.unshift(Template::DEFAULT)
     @variables = BlogView.extract_variables(@blog)
     render :layout => 'application'
   end

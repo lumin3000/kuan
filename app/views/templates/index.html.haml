@@ -1,0 +1,12 @@
+= link_to '新建模板', new_template_path
+
+%ol
+  - @templates.each do |t|
+    %li
+      %a{href: edit_template_path(t)}
+        = t.name
+      %br
+      作者：
+      = t.author.name
+      %br
+      %img{src: t.thumbnail.url_for(:medium)}

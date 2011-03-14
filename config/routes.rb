@@ -66,5 +66,7 @@ Kuan::Application.routes.draw do
 
   resources :movings, :only => [:new, :create]
 
+  resources :templates
+
   root :to => redirect("/home")
 end

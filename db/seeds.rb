@@ -84,7 +84,7 @@ pics_multi = Pics.create!({
   })]
 })
 
-T = CustomTemplate
+T = Template
 T.create!({
   name: "title only",
   html: "{{title}} hihi",
