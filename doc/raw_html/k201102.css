@@ -731,6 +731,8 @@ form.edit_page .submit_box input{
 	background:url('images/post_send.gif');
 	cursor:pointer;
 	text-indent: -1000px;
+	overflow:hidden;
+	display:block;
 	border:0px;
 }
 
