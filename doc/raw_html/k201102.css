@@ -2054,7 +2054,7 @@ div.new_reply .content_footer .right a.reply:hover
 	line-height:16px;
 	float:right;
 	border:1px solid #dcdcdc;
-	padding:10px 0;
+	padding:8px 0;
 	-moz-border-radius:15px;
 	-webkit-border-radius:15px;
 	border-radius:15px;
@@ -2064,17 +2064,13 @@ div.new_reply .content_footer .right a.reply:hover
 
 
 
-.site .editors .title{
-	width:196px;
-	height:30px;
-	margin:15px 0 0 10px;
-}
 
 
 .site .editors .list{
 	width:196px;
 	height:auto;
     padding:0;
+    margin:0;
 }
 
 
@@ -2087,26 +2083,29 @@ div.new_reply .content_footer .right a.reply:hover
 
 }
   
-.site .editors  .item .logo{ logo
-	width:42px;
-	height:40px;
-    float:left;
+.site .editors  .item .logo{
+	width:30px;
+	height:30px;
+	float:left;
  
 }
 
-.site .editors .item .logo img{
-	background:url('images/test_009.gif') no-repeat;
-	margin:5px 5px 3px 10px ;
-    border:0;
+.site .editors .item .logo a img{
+	width:24px;
+	height:24px;
+	background:url('images/user.gif') no-repeat;
+	margin:8px 5px 2px 10px;
+	border:0;
 }
+
 	
 
 
 
 .site .editors .item .page_name{
-	width:130px;
+	width:122px;
 	height:40px;
-	padding:0;
+	padding-left:10px;
 	float:left;
 	overflow:hidden;
 }
@@ -2116,17 +2115,18 @@ div.new_reply .content_footer .right a.reply:hover
 	width:130px;	
 	color:#ff9933;
 	font-size:14px;
-	margin-left:3px;
-	display:block;
+    margin-left:6px;
+    _margin-left:-5px;
 	line-height:38px;
 	text-decoration:none;
 	float:left;
+
 	
 }
 
 	
 .site .editors .item .follow{
-	width:20px;
+	width:26px;
 	height:40px;
 	float:right;
 
@@ -2135,7 +2135,7 @@ div.new_reply .content_footer .right a.reply:hover
 .site .editors .item .follow a{
 	width:14px;
 	height:14px;
-	margin:12px 10px 0 0;
+	margin:12px 12px 0 0;
 	display:block;
 	background:url('images/icons.gif') -20px 0px;
 	overflow:hidden;
