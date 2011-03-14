@@ -172,7 +172,7 @@ K.file_uploader = new Class({
 K.editor = null
 K.render_editor = function(el){
     var textarea = $(el)
-    var w  = textarea.getStyle('width').toInt() + 55
+    var w  = textarea.getStyle('width').toInt() + 50
     var h  = textarea.getStyle('height').toInt() - 50
     K.editor = new MooEditable(textarea, {
         'actions':'toggleview | bold italic underline strikethrough | createlink unlink | urlimage ',
