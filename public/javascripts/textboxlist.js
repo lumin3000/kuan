@@ -69,7 +69,7 @@ var TextboxList = new Class({
 		keys: {previous: Event.Keys.left, next: Event.Keys.right},
 		bitsOptions: {editable: {}, box: {}},
     plugins: {},
-		check: function(s){ return s.clean().replace(/,/g, '') != ''; },
+		check: function(s){ return s.clean().replace(/,|，/g, '') != ''; },
 		encode: function(o){ 
 			return o.map(function(v){				
 				v = ($chk(v[0]) ? v[0] : v[1]);
@@ -292,7 +292,8 @@ var TextboxListBit = new Class({
 		return this.fireBitEvent('blur');
 	},
 	
-	remove: function(){
+	remove: function(e){
+          if(e && e.stop)e.stop() //add by hsy, stop close link event
 		this.blur();		
 		this.textboxlist.onRemove(this);
 		this.bit.destroy();
