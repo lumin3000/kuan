@@ -30,6 +30,9 @@ describe Tag, " for posts" do
     tag_invalid = "a,b"
     @post.tags = [tag_invalid]
     @post.tags.should be_empty
+    tag_invalid = "a，b"
+    @post.tags = [tag_invalid]
+    @post.tags.should be_empty
   end
 
   it "should not add the same tag" do
@@ -77,6 +80,8 @@ describe Tag, " for blogs" do
 
   it "should reject the invalid tag" do
     @blog.tag = "a,b"
+    @blog.should_not be_valid
+    @blog.tag = "a，b"
     @blog.should_not be_valid
     @blog.tag = " "
     @blog.should be_valid

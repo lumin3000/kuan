@@ -4,7 +4,7 @@ module TagsHelper
   end
 
   def tags_for_post_form(post, blog)
-    post.tags = blog.tags unless blog.nil?
+    post.tags << blog.tag unless blog.nil?
     tags_value post.tags
   end
 
