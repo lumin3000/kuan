@@ -676,6 +676,6 @@ K.tgt.reply = function(){
 
 K.widgets.textboxlist = function(el){
   new TextboxList($$('.tags')[0], {
-    bitsOptions:{editable:{addKeys: 188}}
+    bitsOptions:{editable:{addOnBlur: true, addKeys: [13, 188]}}
   });
 }
