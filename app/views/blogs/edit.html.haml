@@ -1,10 +1,10 @@
 - css 'blog', 'moorainbow', "mooeditable"
-- js 'moorainbow', "mooeditable", "mooeditable.local"
+- js 'k.customize', 'moorainbow', "mooeditable", "mooeditable.local"
 - content_for :site_layout, 'blog_customization'
 
 .customize_panel
   %ul.customize_navigation{data: {widget: 'tab', contentsHolder: 'form.edit_blog',
-    contents: 'fieldset', activateOnLoad: 0}}
+    contents: 'fieldset', activateOnLoad: 2, name: 'customize'}}
     %li.blog_info 页面信息
     %li.template 模板
     %li.appearance 调整界面
@@ -78,7 +78,7 @@
       .box
         = render :partial => 'blogs/template_variables'
       %div
-        %a.button.reset{} 恢复为初始值
+        %a.button.reset{data: {widget: "reload_appearance"}} 恢复为初始值
     - if @variables.nil?
       .box
         模板作者没有提供可以调整的变量

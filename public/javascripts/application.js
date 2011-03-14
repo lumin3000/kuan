@@ -54,6 +54,7 @@ K.file_uploader = new Class({
 
         this.setOptions(options)
         var tar = $(this.options.tar)
+        var fire_now = this.options.fire_now
         if(tar == null){
             this.file_box = new Element('div', {
             }).setStyles({
@@ -99,6 +100,9 @@ K.file_uploader = new Class({
         this.file.destroy()
         this.build_file()
         this.file.set('disabled', false)
+      if(fire_now){
+        this.file.fireEvent('click')
+      }
     },
     build_file: function(){
         this.file = this.file_clone.inject(this.file_box, 'top')
@@ -748,6 +752,10 @@ K.widgets.tab = (function() {
       , index = parseInt(labelList.get('data-activateOnLoad'), 10)
     // Expose to global
     customizePanel = TabSet.buildFrom(labels, contents)
+    var name = labelList.get('data-name')
+    if(name){
+      K.widgets.tab[name] = customizePanel
+    }
     if (!isNaN(index)) {
       var tabToActivate = customizePanel.tabs[index]
       if (tabToActivate) tabToActivate.activate()
@@ -774,13 +782,14 @@ K.widgets.diverseSubmit = function(button) {
     form.grab(overridingMethod)
   }
 
-  form.diverseSubmit = function(){
+  form.diverseSubmit = function(callback){
     form.set({
       action: newAction
       , target: newTarget
     })
     overridingMethod.set('value', newMethod)
     form.submit()
+    callback && callback()
     form.set({
       action: oldAction
       , target: oldTarget
@@ -867,55 +876,7 @@ K.widgets.checkbox_preview = function(el){
   })
 }
 
-K.widgets.single_upload = function(el, opt){
-  var tar_uploader = el.getElement('.uploader')
-  var tar_cleaner = el.getElement('.cleaner')
-  var tar_url = el.getElement('.url')
-  new K.file_uploader(tar_uploader, '/upload/photo', {
-    'onStart': function(){
-    },
-    'onSuccess': function(v){
-      el.removeClass('image_empty').addClass('image_exist')
-      tar_url.value = v.image.original
-      el.getParent('form').diverseSubmit()
-    }
-  })
-
-  tar_cleaner.addEvent('click', function(){
-    el.removeClass('image_exist').addClass('image_empty')
-    tar_url.value = ''
-    el.getParent('form').diverseSubmit()
-    return false
-  })
-}
 
 K.widgets.textarea = function(el){
   K.render_editor(el)
-}
-
-K.widgets.appearance = function(el){
-  el.addEvents({
-    'click:relay(.color_pick)': function(e){
-      var el = e.target
-      function setColor(color, preview){
-        var par = el.getParent('.colors')
-        el.setStyle('background-color', color.hex)
-        par.getElement('input').set('value', color.hex)
-        if(preview){
-          el.getParent('form').diverseSubmit()
-        }
-      }
-      new MooRainbow(el, {
-        id: 'moorainbow_'+Number.random(1,9999),
-        startColor: new Color(el.getStyle('background-color')),
-        imgPath: '/images/moorainbow/',
-        onChange: function(color){
-          setColor(color)
-        },
-        onComplete: function(color){
-          setColor(color, true)
-        }
-      }).show()
-    }
-  })
 }
