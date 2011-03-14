@@ -1,12 +1,23 @@
+- flash.each do |k, v|
+  .flash
+    %div{:class => "#{k}"}= v
+
 = link_to '新建模板', new_template_path
 
 %ol
   - @templates.each do |t|
-    %li
+    %li.template
       %a{href: edit_template_path(t)}
         = t.name
+        %br
+        - if t.thumbnail
+          %img{src: t.thumbnail.url_for(:medium)}
+        - else
+          无预览图
       %br
       作者：
       = t.author.name
-      %br
-      %img{src: t.thumbnail.url_for(:medium)}
+      %a{href: template_path(t), data: {doconfirm: 'U mean it?', widget: 'rest',
+        md: 'delete', callback: 'del', parent: 'template'}}
+        删除该模板
+%p Everything!

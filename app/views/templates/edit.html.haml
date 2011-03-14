@@ -1,4 +1,18 @@
-= debug @template
+- flash.each do |k, v|
+  .flash
+    %div{:class => "#{k}"}= v
+
 = form_for @template do |f|
-  = f.label :name
+  = f.label :name, '模板名称'
   = f.text_field :name
+  %br
+  = f.label :html, '代码'
+  %br
+  = f.text_area :html
+  %br
+  = f.label 'author[email]', '作者Email'
+  = text_field_tag 'author[email]', (@template.author ? @template.author.email : '')
+  .error
+    = @template.errors[:author].first
+  %br
+  = f.submit '提交'
