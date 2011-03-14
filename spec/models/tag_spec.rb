@@ -42,7 +42,7 @@ describe Tag, " for posts" do
     @post.tags.first.should == @tag_first
     @post.tags.last.should == @tag_second
   end
- 
+
   it "should accept the tags join by \n" do
     @post.tags = " " + ([@tag_first, @tag_second].join "\n") + " "
     @post.tags.first.should == @tag_first
@@ -51,9 +51,9 @@ describe Tag, " for posts" do
 
   it "should get tagged posts" do
     post_next = Text.create!(:content => "Test next for tags",
-                         :author => @user,
-                         :blog => @blog,
-                         :tags => @tag_first)
+                             :author => @user,
+                             :blog => @blog,
+                             :tags => @tag_first)
     posts = Post.tagged @tag_first
     posts.count.should == 2
   end
@@ -61,28 +61,35 @@ end
 
 describe Tag, " for blogs" do
   before :each do
-    @tag_first = "tag-first"
-    @tag_second = "标签"
+    @tag = "tag-first"
     @blog = Blog.create!(:uri => "testtags",
                          :title => "test for tags",
-                         :tags => [@tag_first, @tag_second])
+                         :tag => @tag)
   end
 
   after :each do
     Blog.delete_all
   end
 
-  it "should have the correct tags" do
-    @blog.reload
-    @blog.tags.count.should == 2
-    @blog.tags.first.should == @tag_first
-    @blog.tags.last.should == @tag_second
+  it "should have the correct tag" do
+    @blog.tag.should == @tag
+  end
+
+  it "should reject the invalid tag" do
+    @blog.tag = "a,b"
+    @blog.should_not be_valid
+    @blog.tag = " "
+    @blog.should be_valid
+    @blog.tag.should be_nil
+    @blog.tag = ""
+    @blog.should be_valid
+    @blog.tag.should be_nil 
   end
 
   it "should get tagged blogs" do
     blog_next = Blog.create!(:uri => "testtagsnext",
-                         :title => "test for tags next",
-                             :tags => @tag_first)
-    Blog.tagged(@tag_first).count.should == 2
+                             :title => "test for tags next",
+                             :tag => @tag)
+    Blog.tagged(@tag).count.should == 2
   end
 end
