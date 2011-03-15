@@ -15,4 +15,27 @@
   .error
     = @template.errors[:author].first
   %br
+  - if @template.thumbnail
+    %img#thumbnail_image{src: @template.thumbnail.url_for(:small), width: 200, height: 120}
+  - else
+    %img#thumbnail_image
+  %input.image#image_uploader{type: 'file', name: 'file', autocomplete: 'off'}
+    = f.hidden_field :thumbnail, id: 'template_thumbnail_id',
+      value: @template.thumbnail ? @template.thumbnail.id : ''
+  %br
   = f.submit '提交'
+
+:javascript
+  (function(){
+    var fileInput = $('image_uploader')
+      , UPLOAD_PATH = '/upload/template_thumbnail'
+      , thumbnailId = $('template_thumbnail_id')
+      , thumbnailImage = $('thumbnail_image')
+      , uploader = new K.file_uploader(fileInput, UPLOAD_PATH, {
+          onSuccess: function(response) {
+            var image = response.image
+            thumbnailId.set('value', image.id)
+            thumbnailImage.set('src', image.small)
+          }
+        })
+  })()

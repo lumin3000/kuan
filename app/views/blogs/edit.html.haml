@@ -50,7 +50,7 @@
         - @templates.each do |t|
           .theme{data: {value: t.id}, class: t.id == @blog.template.id ? 'selected' : ''}
             %span
-              %img{src: t.thumbnail.url_for(:medium)}
+              %img{src: t.thumbnail.url_for(:small)}
             .shadow
             %div
               %a{href: blog_path(t.author.primary_blog)}

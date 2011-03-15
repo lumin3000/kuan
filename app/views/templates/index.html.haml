@@ -11,7 +11,7 @@
         = t.name
         %br
         - if t.thumbnail
-          %img{src: t.thumbnail.url_for(:medium)}
+          %img{src: t.thumbnail.url_for(:small)}
         - else
           无预览图
       %br
