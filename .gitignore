@@ -16,8 +16,6 @@ doc/api
 doc/app
 .autotest
 
-/Gemfile.lock
-
 /public/stylesheets/*.css
 .sass-cache
 /TAGS
