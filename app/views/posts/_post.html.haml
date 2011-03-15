@@ -1,3 +1,4 @@
+
 - js 'post_display'
 %div[post]{:class => type}
   .content_head
@@ -22,10 +23,11 @@
     = render partial: sub_template, object: post
   .content_footer
     - unless post.tags.nil?
-      .tags
+      .tags<
         - post.tags.each do |tag|
           %a{ :href => tagged_path(tag) }<
-            = "##{tag}"
+            = "#{tag}"
+          = ", " unless tag == post.tags.last
     .left<
       %span.writer_name<
         %a{href: blog_path(post.author.primary_blog)}
