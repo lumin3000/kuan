@@ -1,3 +1,5 @@
+- js 'post_form', 'textboxlist'
+- css 'textboxlist'
 - content_for :content, do
   .header
     %a.logo{href: fucking_root}
@@ -16,7 +18,5 @@
     document.addEvent('domready', function(){
       K.post.init()
     });
-
-- content_for :site_layout, "site_middle_size"
 
 = render :file => 'layouts/application'

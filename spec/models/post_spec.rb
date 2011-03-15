@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 describe Post do
@@ -152,7 +153,7 @@ describe Post do
       @post.blog = @blog
       @post.save!
       @blog.reload
-      
+
       @blog.posted_at.should == @post.created_at
     end
   end
@@ -179,7 +180,7 @@ describe Post, "reposting" do
       @repost.blog = @re_blog
       @repost.author = @re_user
       @repost.parent = @post
-      @repost.save 
+      @repost.save
       @repost.reload
       @repost_next = @repost.dup
       @repost_next.parent = @repost

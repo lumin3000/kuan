@@ -12,7 +12,7 @@ class PostsController < ApplicationController
     params[:author] = current_user
     @post = Post.new params
     if @post.save
-      redirect_to home_path
+      redirect_to home_path(@post.blog)
     else
       get_target_blogs
       render 'new'
@@ -46,7 +46,7 @@ class PostsController < ApplicationController
     params[:author] = current_user
     @post = Post.new params
     if @post.save
-      redirect_to home_path
+      redirect_to home_path(@post.blog)
     else
       get_target_blogs
       render 'renew'

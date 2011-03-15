@@ -1,7 +1,4 @@
 # encoding: utf-8
-require 'nokogiri'
-require 'uri'
-
 class Post
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -16,8 +13,10 @@ class Post
   index :ancestor_id
   field :repost_count, :type => Integer, :default => 0
   field :favor_count, :type => Integer, :default => 0
-
-  attr_accessible :blog, :author, :author_id, :blog_id, :created_at, :comments, :parent
+  field :tags, :type => Array, :default => []
+  index :tags 
+  
+  attr_accessible :blog, :author, :author_id, :blog_id, :created_at, :comments, :parent, :tags
 
   validates_presence_of :author_id
   validates_presence_of :blog_id, :message => "请选择要发布到的页面"
@@ -28,10 +27,15 @@ class Post
   before_create :type_setter
   after_create :ancestor_reposts_inc, :update_blog
 
+  scope :tagged, lambda { |tag| where(:tags => tag).desc(:created_at) }
+  scope :pics_and_text, where(:_type.in => ["Text", "Pics"])
+  scope :in_day, lambda { |date| where(:created_at.gte => date.midnight,
+                                       :created_at.lte => date.end_of_day).desc(:created_at) }
+
   def haml_object_ref
     "post"
   end
-
+ 
   def type
     self._type.downcase
   end
@@ -54,90 +58,38 @@ class Post
     a ||= parent
   end
 
-  def self.new(args = {})
-    type = args.delete :type
-    return super if type.nil?
-    klass = Object.const_get type.capitalize
-    (self.subclasses.include? klass) ? klass.new(args) : nil
-  end
-
-  def self.news(pagination)
-    posts = []
-    Blog.latest.paginate(pagination).each do |b|
-      post = b.posts.desc(:created_at).limit(1).first
-      posts << post if not post.nil? and post.created_at == b.posted_at
-    end
-    posts
-  end
-
-  def self.wall
-    posts = []
-    Blog.latest[0..200].sample(50).each do |b|
-      p = b.posts.where(:_type.in => ["Text", "Pics"]).desc(:created_at).limit(10)
-      posts << p.sample unless p.blank?
-    end
-    posts
+  def tags=(tags)
+    super Tag::trans(tags)
   end
 
   class << self
-    TAG_WHITE_LIST = %w{pre code tt a p s i b div span table thead tbody tfoot tr th td h1 h2 h3 h4 h5 h6 img strong em br hr ul ol li blockquote cite sub sup ins}
-    ATTR_WHITE_LIST = %w{href title src style width height alt}
-    MALICIOUS_CSS = Regexp.union(/e\s*x\s*p\s*r\s*e\s*s\s*s\s*i\s*o\s*n/i, /u\s*r\s*l/i)
-    LEGAL_URL = lambda { |url|
-      begin
-        if URI.parse(url).kind_of? URI::HTTP
-          url
-        else
-          ""
-        end
-      rescue
-        ""
-      end
-    }
-    SPECIAL_ATTR = {
-      'style' => lambda { |css|
-        rules = css.split /\s*;\s*/
-        rules.reject! {|r| r.match MALICIOUS_CSS}
-        rules.join('; ')
-      },
-      'src' => LEGAL_URL,
-      'href' => LEGAL_URL,
-    }
-    N = Nokogiri::XML::Node
-
-    def tag_filter(content)
-      return nil if content.blank?
-      raise "Expecting a string" unless content.kind_of? String
-      tree = Nokogiri::HTML.fragment(content)
-      tree.traverse do |n|
-        case n.type
-        when N::TEXT_NODE
-          next if has_parent?(n, 'a')
-          n.replace Nokogiri::HTML.fragment(auto_link!(n.to_html))
-        when N::ELEMENT_NODE
-          n.unlink unless TAG_WHITE_LIST.include? n.name
-          n.each do |k, v|
-            n.delete k unless ATTR_WHITE_LIST.include? k
-            n[k] = SPECIAL_ATTR[k].call v if SPECIAL_ATTR.has_key? k
-          end
-        end
-      end
-      tree.to_html
+    def new(args = {})
+      type = args.delete :type
+      return super if type.nil?
+      klass = Object.const_get type.capitalize
+      (self.subclasses.include? klass) ? klass.new(args) : nil
     end
 
-    def auto_link!(str)
-      links = URI.extract str
-      links.each do |link|
-        str[link] = "<a href=\"#{link}\">#{link}</a>"
+    def news(pagination)
+      Blog.latest.paginate(pagination).reduce([]) do |posts, b|
+        post = b.posts.desc(:created_at).limit(1).first
+        posts << post if not post.nil? and post.created_at == b.posted_at
+        posts
       end
-      str
     end
 
-    def has_parent?(node, parent_name)
-      while node = node.parent
-        return true if node.name == parent_name
+    def wall
+      Blog.latest[0..200].sample(50).reduce([]) do |posts, b|
+        p = b.posts.pics_and_text.desc(:created_at).limit(10)
+        p.blank? ? posts : (posts << p.sample)
       end
-      false
+    end
+
+    def accumulate_for_tags(cal_date = Date.yesterday)
+      Post.in_day(cal_date).where(:tags => /.+/).reduce({}) do |tags, post|
+        post.tags.each { |tag| tags.key?(tag) ? (tags[tag] += 1) : (tags[tag] = 1) }
+        tags
+      end.each { |tag, count| Tag.accumulate tag, count, cal_date.to_s }
     end
   end
 
@@ -200,7 +152,8 @@ class Post
   end
 
   def sanitize_content
-    self.content = Post.tag_filter(self.content)
+    require 'filters/rich_filter'
+    self.content = RichFilter.tags self.content
   end
 
   def ancestor_reposts_inc

@@ -1,3 +1,4 @@
+
 - js 'post_display'
 %div[post]{:class => type}
   .content_head
@@ -21,13 +22,19 @@
   .content_body
     = render partial: sub_template, object: post
   .content_footer
+    - unless post.tags.nil?
+      .tags<
+        - post.tags.each do |tag|
+          %a{ :href => tagged_path(tag) }<
+            = "#{tag}"
+          = ", " unless tag == post.tags.last
     .left<
       %span.writer_name<
         %a{href: blog_path(post.author.primary_blog)}
           = post.author.name
       %span.update_time= post.created_at
     .right
-      %a.reply{ :href => "/posts/#{post.id}/comments", :data => { :tgt => "comments" } }<
+      %a.reply{ :href => post_comments_path(post), :data => { :tgt => "comments" } }<
         = post.comments.count == 0 ? " " : post.comments.count
       %a.open{ :href => posts_blog_path(post), :target => "_blank",
         title: '展开' }

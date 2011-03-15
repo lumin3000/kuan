@@ -10,6 +10,7 @@ gem 'haml-rails'
 gem 'mini_magick'
 gem 'nokogiri'
 gem 'daemons'
+gem 'whenever', :require => false
 gem 'capistrano'
 gem 'mustache'
 

@@ -45,6 +45,7 @@
 <li>icon_60 60x60博客图标链接</li>
 <li>icon_24 24x24博客图标链接</li>
 <li>pagination 分页代码</li>
+<li>custom_css 用户自行设计的css，含<code>&lt;style&gt;</code>标签</li>
 </ul>
 
 
@@ -66,6 +67,8 @@
 <li>create_date 帖子的发表时间</li>
 <li>type 帖子类型，为每种帖子单独写class时可用</li>
 <li>url 帖子单页链接</li>
+<li>comments_count 帖子回复数量</li>
+<li>load_comments 加载回复代码</li>
 </ul>
 
 
@@ -73,6 +76,8 @@
 
 <ul>
 <li>author 进入作者section，可访问帖子作者信息</li>
+<li>repost_tag 生成一个<code>&lt;a&gt;</code>标签用于转帖；section中间的内容会放在<code>&lt;a&gt;</code>标签下</li>
+<li>fave_tag 生成一个<code>&lt;a&gt;</code>标签用于喜欢该帖子；section中间的内容会放在<code>&lt;a&gt;</code>标签下</li>
 </ul>
 
 
@@ -88,27 +93,9 @@
 </ul>
 
 
-<h3>photo_single section</h3>
+<h3>photo_single/photo_set section</h3>
 
-<p>posts section下可用，"图片"类型的帖子如果只有一张图片可进入该section</p>
-
-<h4>字段</h4>
-
-<ul>
-<li>content 描述内容，可能为空</li>
-</ul>
-
-
-<h4>section</h4>
-
-<ul>
-<li>photos 进入photos section循环访问每张图片信息(虽然只有一张)</li>
-</ul>
-
-
-<h3>photo_set section</h3>
-
-<p>posts section下可用，"图片"类型的帖子如果多于一张图片可进入该section</p>
+<p>posts section下可用，"图片"类型的帖子如果只有一张图片可进入photo_single section，若多于一张则可进入photo_set section。</p>
 
 <h4>字段</h4>
 
@@ -120,7 +107,7 @@
 <h4>section</h4>
 
 <ul>
-<li>photos 进入photos section循环访问每张图片信息</li>
+<li>photos 进入photos section循环访问每张图片信息(即使只有一张)</li>
 </ul>
 
 
@@ -161,5 +148,19 @@
 <ul>
 <li>video_code_500 大坨视频代码，点击展开后宽度为500px</li>
 <li>content 描述内容，可能为空</li>
+</ul>
+
+
+<h3>user section</h3>
+
+<p>帖子中的author section属user section
+未来可能开放页面管理员／成员等</p>
+
+<ul>
+<li>name 用户名</li>
+<li>user_url 用户主页面链接</li>
+<li>avatar_180 180x180头像图片链接</li>
+<li>avatar_60 60x60头像图片链接</li>
+<li>avatar_24 24x24头像图片链接</li>
 </ul>
 

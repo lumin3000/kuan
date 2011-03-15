@@ -43,6 +43,7 @@
 * icon_60 60x60博客图标链接
 * icon_24 24x24博客图标链接
 * pagination 分页代码
+* custom_css 用户自行设计的css，含`<style>`标签
 
 #### section
 
@@ -58,10 +59,14 @@ posts section中的字段是各类帖子共享的
 * create_date 帖子的发表时间
 * type 帖子类型，为每种帖子单独写class时可用
 * url 帖子单页链接
+* comments_count 帖子回复数量
+* load_comments 加载回复代码
 
 #### section
 
 * author 进入作者section，可访问帖子作者信息
+* repost_tag 生成一个`<a>`标签用于转帖；section中间的内容会放在`<a>`标签下
+* fave_tag 生成一个`<a>`标签用于喜欢该帖子；section中间的内容会放在`<a>`标签下
 
 ### text section
 
@@ -72,21 +77,9 @@ posts section下可用，"文字"类型的帖子可进入该section
 * title 标题内容，可能为空
 * content 正文内容，可能为空
 
-### photo_single section
+### photo_single/photo_set section
 
-posts section下可用，"图片"类型的帖子如果只有一张图片可进入该section
-
-#### 字段
-
-* content 描述内容，可能为空
-
-#### section
-
-* photos 进入photos section循环访问每张图片信息(虽然只有一张)
-
-### photo_set section
-
-posts section下可用，"图片"类型的帖子如果多于一张图片可进入该section
+posts section下可用，"图片"类型的帖子如果只有一张图片可进入photo_single section，若多于一张则可进入photo_set section。
 
 #### 字段
 
@@ -94,7 +87,7 @@ posts section下可用，"图片"类型的帖子如果多于一张图片可进�
 
 #### section
 
-* photos 进入photos section循环访问每张图片信息
+* photos 进入photos section循环访问每张图片信息(即使只有一张)
 
 ### photos section
 
@@ -126,3 +119,14 @@ posts section下可用，"视频"类型的帖子可进入该section
 
 * video_code_500 大坨视频代码，点击展开后宽度为500px
 * content 描述内容，可能为空
+
+### user section
+
+帖子中的author section属user section
+未来可能开放页面管理员／成员等
+
+* name 用户名
+* user_url 用户主页面链接
+* avatar_180 180x180头像图片链接
+* avatar_60 60x60头像图片链接
+* avatar_24 24x24头像图片链接
