@@ -13,7 +13,7 @@ class PostView
   end
 
   def create_date
-    @post.created_at
+    TimeView.new @post.created_at
   end
 
   def load_comments

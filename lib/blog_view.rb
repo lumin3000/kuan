@@ -31,6 +31,16 @@ module ObjectView
       end
     end
 
+    def expose_by_dict(prop_name, dict)
+      dict.each do |k, v|
+        define_method(v) do
+          prop = instance_variable_get prop_name
+          value = prop.send k
+          value.nil? ? ''.html_safe : h(value)
+        end
+      end
+    end
+
     def expose(prop_name, *fields)
       fields.each do |f|
         define_method(f) do
@@ -138,6 +148,7 @@ class BlogView < Mustache
   end
 
   expose :@blog, :title
+  expose_without_escape :@blog, :desc
 
   def custom_css
     "<style type='text/css'>#{h @blog.custom_css}</style>".html_safe
