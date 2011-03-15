@@ -9,6 +9,11 @@ class TemplatesController < ApplicationController
     @template = Template.find params[:id]
   end
 
+  def show
+    @template = Template.find params[:id]
+    render :text => @template.html
+  end
+
   def new
     @template = Template.new
     render :edit
