@@ -2,109 +2,109 @@
 <html>
   <head>
     <link rel="shortcut icon" href="/images/favicon.ico">
-    <title>{{title}}</title>
+    <title>{title}</title>
     <link href="/stylesheets/blog_show.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="/stylesheets/post_display.css" media="screen" rel="stylesheet" type="text/css" />
-    {{custom_css}}
+    {custom_css}
   </head>
   <body>
     <div id="wrapper">
       <div class='commands'>
-        <a class='back_to_home' href='{{home_url}}'>
+        <a class='back_to_home' href='{home_url}'>
           回我的主页
         </a>
       </div>
       <div id='title'>
-        <a href='{{url}}'>
-          {{title}}
+        <a href='{url}'>
+          {title}
         </a>
       </div>
       <div id='content'>
-        {{#posts}}
-          <div class='post {{type}}'>
+        {#posts}
+          <div class='post {type}'>
             <div class='content_head'>
-              {{#repost_tag}}
+              {#repost_tag}
               转帖
-              {{/repost_tag}}
-              {{#fave_tag}}
+              {/repost_tag}
+              {#fave_tag}
               喜欢
-              {{/fave_tag}}
+              {/fave_tag}
             </div>
             <div class='content_body'>
-              {{#text}}
-                {{title}}
+              {#text}
+                {title}
                 <br />
-                {{content}}
-              {{/text}}
-              {{#photo_single}}
-                {{#photos}}
-                  <a target="_blank" href="{{image_original}}">
-                    <img src="{{image_500}}" title="{{desc}}" />
+                {content}
+              {/text}
+              {#photo_single}
+                {#photos}
+                  <a target="_blank" href="{image_original}">
+                    <img src="{image_500}" title="{desc}" />
                   </a>
-                {{/photos}}
-                {{content}}
-              {{/photo_single}}
+                {/photos}
+                {content}
+              {/photo_single}
 
-              {{#photo_set}}
-                {{#photos}}
-                  <a target="_blank" href="{{image_original}}">
-                    <img src="{{image_500}}" title="{{desc}}" />
+              {#photo_set}
+                {#photos}
+                  <a target="_blank" href="{image_original}">
+                    <img src="{image_500}" title="{desc}" />
                   </a>
                   <br />
-                {{/photos}}
-                {{content}}
-              {{/photo_set}}
+                {/photos}
+                {content}
+              {/photo_set}
 
-              {{#link}}
-                <a href="{{link_url}}">{{title}}</a>
-                <p>{{content}}</p>
-              {{/link}}
+              {#link}
+                <a href="{link_url}">{title}</a>
+                <p>{content}</p>
+              {/link}
 
-              {{#video}}
-                {{video_code_500}}
-                {{content}}
-              {{/video}}
+              {#video}
+                {video_code_500}
+                {content}
+              {/video}
             </div>
             <div class='content_footer'>
               <div class="tags">
-                {{#has_tag}}
-                {{#tags}}
-                <a href="{{url}}">{{name}}</a>
-                {{/tags}}
-                {{/has_tag}}
+                {#has_tag}
+                {#tags}
+                <a href="{url}">{name}</a>
+                {/tags}
+                {/has_tag}
               </div>
               <div class='left'>
-                {{#author}}
-                <span class='writer_name'><a href='{{user_url}}'>
-                  {{name}}
+                {#author}
+                <span class='writer_name'><a href='{user_url}'>
+                  {name}
                 </a></span>
-                {{/author}}
-              <span class='update_time'>{{create_date}}</span></div>
+                {/author}
+              <span class='update_time'>{create_date}</span></div>
               <div class='right'>
-                <a class='reply' target='_blank' href='{{url}}'>{{comments_count}}</a>
+                <a class='reply' target='_blank' href='{url}'>{comments_count}</a>
               </div>
               <div class="middle">
-                {{#has_repost}}
-                {{#parent}}
-                <a href="{{url}}">{{title}}</a>&#8594;
-                {{/parent}}
-                {{/has_repost}}
+                {#has_repost}
+                {#parent}
+                <a href="{url}">{title}</a>&#8594;
+                {/parent}
+                {/has_repost}
               </div>
             </div>
-            {{#post_single}}
-              {{load_comments}}
-            {{/post_single}}
+            {#post_single}
+              {load_comments}
+            {/post_single}
           </div>
-        {{/posts}}
+        {/posts}
         <div id='navigation'>
-          {{pagination}}
+          {pagination}
         </div>
       </div>
       <div id='sidebar'>
         <div id='top'>
           <div id='avatar'>
-            <a href='{{url}}'>
-              <img src='{{icon_180}}' />
+            <a href='{url}'>
+              <img src='{icon_180}' />
             </a>
           </div>
         </div>
