@@ -676,6 +676,9 @@ K.tgt.reply = function(){
 
 K.widgets.textboxlist = function(el){
   el.textboxlist = new TextboxList(el, {
-    bitsOptions:{editable:{addOnBlur: true, addKeys: [13, 188]}}
+    bitsOptions:{editable:{
+      addOnBlur: true, addKeys: [13, 188],
+      growingOptions: {startWidth: 30}
+    }}
   });
 }
