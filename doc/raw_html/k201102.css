@@ -747,12 +747,12 @@ form.edit_page .submit_box input{
 .post .edit_post{
 	width:190px;
     float:right;
-    padding-top:73px;
+    margin-top:-12px;
 }
 
 .post .edit_post h2{
 	font-family:microsoft yahei;
-	font-size:18px;
+	font-size:14px;
 	line-height:18px;
 	color:#7EAEDC;
 	margin:30px 0 10px 0;
@@ -782,7 +782,8 @@ form.edit_page .submit_box input{
 	border:1px solid #cadbea;
 	background:#f2f6f9;
 	padding:0px 20px;
-	overflow:hidden;
+	_zoom:1;
+	overflow:hidden;	
 
 }
 .post h1{	
@@ -1468,7 +1469,7 @@ form.edit_page .submit_box input{
 	font-size:12px;
 	line-height:14px;
 	position:relative;
-	bottom:-20px;
+	bottom:-15px;
 	
 }
 
