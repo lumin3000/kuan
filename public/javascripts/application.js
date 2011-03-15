@@ -412,7 +412,6 @@ document.addEvent('domready', function(){
   }
   var KEY = 'data-widget'
   $$('[' + KEY + ']').each(function(e){
-<<<<<<< HEAD
     var types = e.get(KEY)
     if (types) types = types.split(' ')
     else return
@@ -430,21 +429,6 @@ document.addEvent('domready', function(){
       func = K.tgt[tgt]
       func && func(e.target)
     }
-=======
-    var type = e.get(KEY)
-      , func = K.widgets[type]
-    func && func(e)
-  });
-
-  $(document.body).addEvent('click:relay([data-tgt])', function(e){
-      var tgt = e.target.get('data-tgt')
-      var func
-      if(tgt){
-        e.stop()
-        func = K.tgt[tgt]
-        func && func(e.target)
-      }
->>>>>>> master
   })
 
     // lightbox
@@ -700,12 +684,10 @@ K.tgt.reply = function(){
     }
 }()
 
-<<<<<<< HEAD
-
-
 K.widgets.textarea = function(el){
   K.render_editor(el)
-=======
+}
+
 K.widgets.textboxlist = function(el){
   el.textboxlist = new TextboxList(el, {
     bitsOptions:{editable:{
@@ -713,5 +695,4 @@ K.widgets.textboxlist = function(el){
       growingOptions: {startWidth: 30}
     }}
   });
->>>>>>> master
 }
