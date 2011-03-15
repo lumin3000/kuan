@@ -10,7 +10,6 @@
     width:184px;
     font-size:12px;
     font-family:microsoft yahei;
-    line-height:45px;
     -moz-border-radius:8px;
     -webkit-border-radius:8px;
     border-radius:8px;
@@ -24,6 +23,7 @@
 .textboxlist-bit-editable-input { 
     border: 0; 
     padding: 2px 0; 
+    height: 14px;
     font-size:12px;
     *padding-bottom: 0;
 }
