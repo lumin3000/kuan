@@ -14,8 +14,8 @@ class Post
   field :repost_count, :type => Integer, :default => 0
   field :favor_count, :type => Integer, :default => 0
   field :tags, :type => Array, :default => []
-  index :tags 
-  
+  index :tags
+
   attr_accessible :blog, :author, :author_id, :blog_id, :created_at, :comments, :parent, :tags
 
   validates_presence_of :author_id
@@ -35,7 +35,7 @@ class Post
   def haml_object_ref
     "post"
   end
- 
+
   def type
     self._type.downcase
   end

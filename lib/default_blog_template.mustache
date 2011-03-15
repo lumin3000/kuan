@@ -76,6 +76,13 @@
               <div class='right'>
                 <a class='reply' target='_blank' href='{{url}}'>{{comments_count}}</a>
               </div>
+              <div class="middle">
+                {{#repost}}
+                {{#parent}}
+                <a href="{{url}}">{{title}}</a>&#8594;
+                {{/parent}}
+                {{/repost}}
+              </div>
             </div>
             {{#post_single}}
               {{load_comments}}

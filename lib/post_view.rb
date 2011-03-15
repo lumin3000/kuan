@@ -59,4 +59,12 @@ CODE
   def comments_count
     @post.comments.count
   end
+
+  def parent
+    ObjectView.wrap @post.parent.blog, @extra
+  end
+
+  def repost
+    true
+  end
 end
