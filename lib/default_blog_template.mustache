@@ -66,6 +66,13 @@
               {{/video}}
             </div>
             <div class='content_footer'>
+              <div class="tags">
+                {{#has_tag}}
+                {{#tags}}
+                <a href="{{url}}">{{name}}</a>
+                {{/tags}}
+                {{/has_tag}}
+              </div>
               <div class='left'>
                 {{#author}}
                 <span class='writer_name'><a href='{{user_url}}'>
@@ -77,11 +84,11 @@
                 <a class='reply' target='_blank' href='{{url}}'>{{comments_count}}</a>
               </div>
               <div class="middle">
-                {{#repost}}
+                {{#has_repost}}
                 {{#parent}}
                 <a href="{{url}}">{{title}}</a>&#8594;
                 {{/parent}}
-                {{/repost}}
+                {{/has_repost}}
               </div>
             </div>
             {{#post_single}}

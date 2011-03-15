@@ -56,15 +56,35 @@ CODE
     end
   end
 
+  def tags
+    @tags = @post.tags.map {|t| TagView.new(t, @extra)} if has_tag
+  end
+
+  def has_tag
+    !@post.tags.blank?
+  end
+
   def comments_count
     @post.comments.count
   end
 
   def parent
-    ObjectView.wrap @post.parent.blog, @extra
+    ObjectView.wrap @post.parent.blog, @extra if has_repost
+  end
+  
+  def ancestor
+    ObjectView.wrap @post.ancestor.blog, @extra if has_repost
   end
 
-  def repost
-    true
+  def has_repost
+    !@post.parent.nil?
+  end
+
+  def repost_count
+    if @post.ancestor
+      @post.ancestor.repost_count
+    else
+      @post.repost_count
+    end
   end
 end

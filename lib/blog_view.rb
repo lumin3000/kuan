@@ -152,7 +152,7 @@ class BlogView < Mustache
   end
 
   def url
-    @extra[:base_url]
+    @url_template && @url_template % @blog.uri
   end
 
   def home_url

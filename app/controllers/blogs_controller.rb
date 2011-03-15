@@ -153,6 +153,7 @@ class BlogsController < ApplicationController
     @view_context = {
       :url_template => url_template,
       :base_url => url_template % @blog.uri,
+      :home_url => url_template % 'www',
       :controller => self,
       :current_user => current_user
     }
