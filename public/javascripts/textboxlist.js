@@ -245,6 +245,7 @@ var TextboxList = new Class({
 	update: function(){
 		this.original.set('value', this.options.encode(this.getValues()));
 	},
+//<add by hsy>
   removeAll: function(){
     this.list.getElements('li.textboxlist-bit-box-deletable').each(function(item){
       this.getBit(item).remove();
@@ -256,6 +257,7 @@ var TextboxList = new Class({
     this.default_value = this.original.value;
     this.setValues( $splat(values));
   }
+//<add by hsy>
 });
 
 var TextboxListBit = new Class({
