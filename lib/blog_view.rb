@@ -177,6 +177,14 @@ class BlogView < Mustache
       @blog.icon.url_for(v)
     end
   end
+  
+  def followings
+    @blog.lord.subs.map {|b| BlogView.new(b, @extra)} if has_following
+  end
+
+  def has_following
+    @blog.primary? && !@blog.lord.subs.blank?
+  end
 
   def define
     Proc.new do |str|
