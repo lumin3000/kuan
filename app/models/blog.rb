@@ -44,7 +44,7 @@ class Blog
   :message => "此链接已被使用"
 
   validate do |blog|
-    errors.add(:base, "标签格式不正确") if not blog.tag.blank? and Tag::invalid? blog.tag
+    errors.add(:tag, "标签格式不正确") if not blog.tag.blank? and Tag::invalid? blog.tag
   end
   
   validate do |blog|

@@ -40,10 +40,10 @@
 
     .post_area
       .left
-      %a.text{href: new_post_path("text", @blog)}
-      %a.picture{href: new_post_path("pics", @blog)}
-      %a.link{href: new_post_path("link", @blog)}
-      %a.video{href: new_post_path("video", @blog)}
+      %a.text{href: new_post_path("text", @blog)} 发布文字
+      %a.picture{href: new_post_path("pics", @blog)} 发布图片
+      %a.link{href: new_post_path("link", @blog)} 发布链接
+      %a.video{href: new_post_path("video", @blog)} 发布视频
       .right
     .head_txt<
       - unless @at_dashboard
