@@ -79,6 +79,7 @@ class Blog
   alias_method :old_template_get, :template
   def template
     old_template_get || Template::DEFAULT
+  end
 
   def tag=(tag)
     super((tag.blank?) ? nil : tag.strip)
