@@ -134,6 +134,12 @@ K.widgets.radioButton = function(context) {
     , selected = context.getElement('.selected')
     , input = new Element('input', {
         name: fieldName
+      , id: fieldName.replace(/[[\]]/g, function(matched) {
+          return {
+            '[': '_'
+          , ']': ''
+          }[matched]
+        })
       , type: 'hidden'
       , value: selected.get('data-value')
       }).inject(form)
@@ -153,10 +159,33 @@ K.widgets.toggler = function(button) {
   if (!target) return
   var classes = button.get('data-classes').split(' ')
     , input = document.getElement('input[name='+ button.get('data-field') +']')
+    , customHtml = $(input.form).getElement('[name=blog[custom_html]]')
+    , initialValue = customHtml.get('value')
+
   button.addEvent('click', function(e) {
     e.stop()
+    var isUsingCustomHtml = input.get('value') == 1 ? 0 : 1
     classes.each(function(c) { target.toggleClass(c) })
-    input.set('value', input.get('value') == 1 ? 0 : 1)
+    input.set('value', isUsingCustomHtml)
+    if (!isUsingCustomHtml) return
+
+    var tplId = $('blog_template_id').get('value')
+    if (!tplId) {
+      customHtml.set('value', initialValue)
+      return
+    }
+    customHtml.set('disabled', true)
+    new Request({
+      method: 'GET'
+    , url: '/templates/' + tplId
+    , noCache: true
+    , onSuccess: function(tplHtml) {
+        customHtml.set({
+          disabled: false
+        , value: tplHtml
+        })
+      }
+    }).send()
   })
 }
 

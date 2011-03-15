@@ -11,7 +11,7 @@ class TemplatesController < ApplicationController
 
   def show
     @template = Template.find params[:id]
-    render :text => @template.html
+    render :text => @template.html, :content_type => 'text/html'
   end
 
   def new
