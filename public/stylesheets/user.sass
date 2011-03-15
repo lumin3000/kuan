@@ -1,3 +1,5 @@
+@import 'lib'
+
 .start_page 
   h1
     width: 750px
@@ -66,9 +68,11 @@
     cursor: pointer
 
   .login .submit_box input
+    @include hide_text
     background: url('/images/login_submit.gif')
 
   .register .submit_box input
+    @include hide_text
     background: url('/images/register_submit.gif')
   .error
     line-height: 45px

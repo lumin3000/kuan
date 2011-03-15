@@ -39,7 +39,7 @@
       = f.check_box :canjoin
       = f.label :canjoin, "其他人可以申请加入你的博客" + (@blog.canjoin? ? "( 邀请入口: #{editors_new_url} )" : "")
   .submit_box.edit_box
-    = f.submit " "
+    = f.submit "保存"
 :javascript
   document.addEvent('domready', function(){
     K.blog.init_upload_icon();

@@ -28,6 +28,6 @@
    
     = content_for :form
     .operation
-      %a.cancel{href: root_path}
+      %a.cancel{href: root_path} 取消
       %div{class: (%w[new renew].include? params[:action])? 'send' : 'save'}
-        %input{ :type => "submit", :value => " " }
+        %input{ :type => "submit", :value => (%w[new renew].include? params[:action])? '发布' : '保存' }

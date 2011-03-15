@@ -204,22 +204,27 @@
 
   .cancel
     @include big_button
+    @include hide_text
     float: right
     background: url('/images/post_cancel.gif')
+    border: 0
+    overflow: hidden
+    display:block
 
   .send, .save
-    @include big_button
+    input
+      @include big_button
+      @include hide_text
+      overflow: hidden
+      display: block
+      border: 0
 
   .send
     input
-      @include big_button
-      border: 0
       background: url('/images/post_send.gif')
 
   .save
     input
-      @include big_button
-      border: 0
       background: url('/images/post_save.gif')
 
   .post_error
