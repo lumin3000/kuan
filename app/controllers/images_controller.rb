@@ -12,6 +12,9 @@ class ImagesController < ApplicationController
       medium: [60, 60],
       small: [24, 24],
     },
+    template_thumbnail: {
+      small: [200, 120],
+    },
   }
 
   PROCESS_SPEC.default = {}

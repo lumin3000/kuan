@@ -1,0 +1,26 @@
+- @variables['color'].each do |name, var|
+  - next if var['desc'].blank?
+  .colors
+    .color_pick{style: "background-color: #{var['value']}"}
+    %input{type: 'hidden', name: "blog[template_conf][color][#{name}][value]",
+      value: var['value'], data: {default_value: var['default_value']}}
+    = var['desc']
+
+- @variables['image'].each do |name, var|
+  - next if var['desc'].blank?
+  .images{class: (var['value'].blank? ? "image_empty" : "image_exist"), data: {widget: "single_upload"}}
+    %span<
+      = var['desc']
+    %input.uploader{type: 'file', name: 'file', autocomplete: 'off' }
+    %a.cleaner{href: "#"} 清除背景
+    %input.url{type: 'hidden', name: "blog[template_conf][image][#{name}][value]",
+      value: var['value'], data: {default_value: var['default_value']}}
+
+- @variables['bool'].each do |name, var|
+  - next if var['desc'].blank?
+  .booleans
+    %input{type: "hidden", value: "0", name: "blog[template_conf][bool][#{name}][value]"}
+    %input{type: "checkbox", name: "blog[template_conf][bool][#{name}][value]",
+      checked: (var['value'] == "0" ? false : "checked"), value: 1, data: {default_value: var['default_value'], widget: "checkbox_preview"}}
+    %label 
+      = var['desc']

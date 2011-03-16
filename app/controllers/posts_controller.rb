@@ -27,7 +27,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post = Post.find(params[:id])
+    @post = Post.find(params.delete :id)
     if @post.update_attributes(params)
       redirect_to root_path
     else

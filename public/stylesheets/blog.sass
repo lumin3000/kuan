@@ -1,5 +1,9 @@
 @import 'lib'
 
+*
+  margin: 0
+  padding: 0
+
 .new_page
   .page_name,
   .page_tag,
@@ -19,7 +23,7 @@
       line-height: 40px
       font-size: 20px
       width: 300px
-
+    
   .page_url input
     text-align: right
 
@@ -145,3 +149,303 @@ span.suggestion
 
   .upgrade, .kick, .exit
     text-decoration: underline
+
+.customize_panel
+  background: url("/images/customize_menu_bg.png") repeat-x scroll 0 0 #EEEEEE
+  height: 40px
+  min-width: 950px
+  padding-left: 10px
+
+.button
+  -moz-border-bottom-colors:  none
+  -moz-border-image:  none
+  -moz-border-left-colors:  none
+  -moz-border-right-colors:  none
+  -moz-border-top-colors:  none
+  background-color:  #aaa
+  border-color:  #C8C8C8 #B6B6B6 #B6B6B6 #C8C8C8
+  border-radius:  5px 5px 5px 5px
+  border-right:  1px solid #B6B6B6
+  border-style:  solid
+  border-width:  1px
+  color:  white
+  cursor:  pointer
+  font-size: 14px
+  padding:  6px 10px
+  text-decoration:  none
+  _padding: 6px 10px 0px 10px
+  _margin-top: 5px
+
+.save
+  background: #57c328
+
+.customize_commands
+  float: right
+  padding: 10px
+
+.customize_navigation
+  float: left
+
+  li
+    float: left
+    height: 40px
+    line-height: 38px
+    padding: 0 12px
+    text-decoration: none
+    color: #555555
+    font-size: 18px
+    cursor: pointer
+
+    &.activated
+      background: url("/images/customize_menu_bg_active.png") repeat-x scroll 0 0 #2E6DCC
+      color: #ffffff
+
+form.edit_blog
+  .menu
+    display: none
+    border: none
+    padding: 0
+    margin: 0
+    background: url("/images/white_95.png") repeat scroll 0 0 transparent
+    border-bottom: 1px solid #DDDDDD
+    border-bottom-left-radius: 10px
+    border-bottom-right-radius: 10px
+    border-left: 1px solid #EEEEEE
+    border-right: 1px solid #DDDDDD
+    padding: 15px
+    font-size: 18px
+    color: #444444
+    position: absolute
+
+  .activated
+    display: block
+
+.edit_blog
+  font-size: 12px
+  line-height: 16px
+
+  label, input
+    margin-top: 12px
+    margin-bottom: 12px
+    height: 16px
+
+  .blog_info
+    width: 380px
+    height: 530px
+    left: 10px
+
+    label
+      margin: 0px 0px 8px 0px
+      padding: 0px
+      font-size: 18px
+      font-weight: bold
+      display: block
+
+    input
+      background: url("/images/input_bg.gif") repeat-x scroll center top #FFFFFF
+      border: 1px solid #DDDDDD
+      padding: 5px
+      font-size: 18px
+
+    .textarea
+      @include border-radius(8px)
+      border: 1px solid $pink
+      background: white
+
+    textarea
+      width: 100%
+      height: 180px
+
+    .who_did_this
+      @include clear_fix
+
+    .title
+      width: 368px
+      max-width: 368px
+      min-width: 368px
+
+    .link
+      width: 240px
+      max-width: 240px
+      min-width: 240px
+      float: left
+      text-align: right
+
+    .root_domain
+      float: right
+      padding-top: 18px
+
+    .image
+      width: 200px
+      font-size: 12px
+      overflow: hidden
+      display: inline
+      margin-left: 10px
+
+  .advanced
+    width: 320px
+    height: 100px
+    left: 225px
+
+    .item
+      padding: 8px 0px
+
+      label
+        margin-left: 3px
+
+  .template
+    width: 750px
+    height: 530px
+    left: 69px
+
+    input
+      margin-top: 15px
+      background: #57c328
+
+    .pool
+      width: 750px
+      height: 480px
+      overflow-y: auto
+      overflow-x: hidden
+
+      .shadow
+        background: url("/images/customize_theme_shadow.png") no-repeat scroll center center transparent
+        height: 9px
+        line-height: 9px
+        font-size: 1px
+
+      div
+        font-weight: bold
+        font-size: 14px
+
+      span
+        border: 7px solid #E2E2E2
+        cursor: pointer
+        display: block
+        height: 120px
+        overflow: hidden
+
+      .selected span
+        border: 7px solid #F9D853
+
+    .theme
+      float: left
+      margin-right: 20px
+      margin-top: 17px
+      overflow: hidden
+      width: 215px
+
+      div a
+        font-weight: normal
+        color: gray
+        text-decoration: none
+
+
+    .image
+      border: 7px solid #E2E2E2
+      cursor: pointer
+      display: block
+      height: 120px
+      overflow: hidden
+
+    .activated .image
+      border: 7px solid #F9D853
+
+    .custom_html
+      width: 750px
+      height: 480px
+      
+      textarea
+        width: 100%
+        height: 100%
+
+    .buttons
+      margin-top: 15px
+
+      .button
+        margin: 5px
+        background: #57C328
+
+.pool_field, .custom_field
+  display: none
+
+.picking_template .pool_field,
+.editing_custom_html .custom_field
+  display: block
+
+fieldset.appearance
+  width: 320px
+  height: auto
+  !important: 530px
+  max-height: 530px
+  left: 130px
+
+  .box
+    height: auto
+    !important: 480px
+    max-height: 480px
+    overflow: auto
+
+  select
+    font-size: 18px
+    width: 130px
+  .colors
+    height: 40px
+    line-height: 40px
+    margin-bottom: 10px
+  .color_pick
+    border-color: #CCCCCC #AAAAAA #AAAAAA #CCCCCC
+    border-radius: 5px 5px 5px 5px
+    border-right: 1px solid #AAAAAA
+    border-style: solid
+    border-width: 1px
+    cursor: pointer
+    float: left
+    height: 38px
+    margin-right: 10px
+    width: 50px
+  .fonts, .booleans, .images
+    padding: 8px 0px
+  .fonts span
+    margin-right: 3px
+  .images
+    input
+      width: 130px
+      font-size: 10px
+      margin-left: 3px
+    a
+      margin-left: 3px
+      text-decoration: none
+      color: white
+      background-color: #aaa
+      border-color: #C8C8C8 #B6B6B6 #B6B6B6 #C8C8C8
+      border-radius: 5px 5px 5px 5px
+      font-size: 14px
+      padding: 4px 7px
+    &.image_empty
+      .uploader
+        display: auto
+      .cleaner
+        display: none
+    &.image_exist
+      .uploader
+        display: none
+      .cleaner
+        display: auto
+    
+  .booleans
+    input
+      font-size: 18px
+    label
+      margin-left: 3px
+
+.customize_navigation
+  @include clear_fix
+
+  li
+    float: left
+    display: inline
+
+#preview
+  width: 100%
+  height: 100%

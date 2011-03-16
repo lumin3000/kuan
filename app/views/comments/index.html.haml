@@ -1,3 +1,5 @@
+- css 'post_display'
+
 .chat
   .c_content
     %input{ :type => "hidden", :name => "count", :value => @post.comments.count }
@@ -12,7 +14,6 @@
             = comment.created_at
         %div<
           = auto_link h(comment.content)
-          
   .c_input
     = form_tag( post_comments_path, :method => "post", :autocomplete => "off" ) do |f|
       .txt

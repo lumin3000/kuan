@@ -12,6 +12,7 @@ gem 'nokogiri'
 gem 'daemons'
 gem 'whenever', :require => false
 gem 'capistrano'
+gem 'mustache'
 
 group :development, :test do
   gem 'rspec'

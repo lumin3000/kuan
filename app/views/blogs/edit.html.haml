@@ -1,46 +1,99 @@
-= form_for(@blog, :html => { :class => "middle_box new_page edit_page" }) do |f|
-  %h1
-    设置页面
-  .page_name
-    = f.label :title, "页面名称"
-    = f.text_field :title
-  .error
-    &nbsp;
-    = @blog.errors[:title].first
-  .page_tag
-    = f.label :tag, "兴趣类型"
-    = f.text_field :tag
-  .error
-    %span.suggestion
-      (只可以填写一个类型，文字中不可以包含“逗号”)
-    &nbsp;
-    = @blog.errors[:tag].first
-  .page_url
-    = f.label :uri, "自定义网址"
-    = f.text_field :uri
-    %span
-      = "."+request.domain
-  .error
-    %span.suggestion
-      (网址随时都可以修改)
-    &nbsp;
-    = @blog.errors[:uri].first
-  .page_logo
+- css 'blog', 'moorainbow', "mooeditable"
+- js 'k.customize', 'moorainbow', "mooeditable", "mooeditable.local"
+- content_for :site_layout, 'blog_customization'
+
+.customize_panel
+  %ul.customize_navigation{data: {widget: 'tab', contentsHolder: 'form.edit_blog',
+    contents: 'fieldset', activateOnLoad: 1, name: 'customize'}}
+    %li.blog_info 页面信息
+    %li.template 模板
+    %li.appearance 调整界面
+    %li.advanced 高级选项
+  .customize_commands
+    %a.button.save{href: "###", data: {widget: 'submit', form: '.edit_blog'}} 保存
+    %a.button.back{href: fucking_root} 取消
+
+= form_for(@blog) do |f|
+  %fieldset.blog_info.menu
+    .page_name
+      = f.label :title, "名称"
+      %div
+        = f.text_field :title, class: 'title'
+    .page_desc
+      = f.label :desc, "描述"
+      %div.textarea
+        %textarea{id: "blog_desc", name: "blog[desc]", data: {widget: "textarea"}}
+          = @blog.desc
+    .error
+      &nbsp;
+      = @blog.errors[:title].first
+    .page_url
+      = f.label :uri, "自定义网址"
+      %div.who_did_this
+        = f.text_field :uri, class: 'link'
+        %span.root_domain
+          = "."+request.domain
+    .error
+      &nbsp;
+      = @blog.errors[:uri].first
     %label
+      图标
+    %div
       %img#blog_icon_img{ :src => @blog.icon.url_for(:medium) }
+      %input.image#image_uploader{ :type => 'file', :name => 'file', :autocomplete => 'off' }
     = f.hidden_field :icon, :id => "blog_icon_id", :value => @blog.icon.id
-    %input{ :type => 'file', :id => 'image_uploader', :name => 'file', :autocomplete => 'off' }
     %span#blog_icon_feed
-  .toggle_private
-    = f.check_box :private
-    = f.label :private, "设置为私密页面"
-  - unless @blog.primary?
-    .toggle_canjoin
-      = f.check_box :canjoin
-      = f.label :canjoin, "其他人可以申请加入你的博客" + (@blog.canjoin? ? "( 邀请入口: #{editors_new_url} )" : "")
-  .submit_box.edit_box
-    = f.submit "保存"
+
+  %fieldset.template.menu{class: @blog.using_custom_html? ? 'editing_custom_html' : 'picking_template'}
+    .pool_field
+      .pool{data: {widget: 'radioButton preview', contents: '.theme', fieldName: 'blog[template_id]'}}
+        - @templates.each do |t|
+          .theme{data: {value: t.id}, class: t.id == @blog.template.id ? 'selected' : ''}
+            %span
+              %img{src: t.thumbnail.url_for(:small)}
+            .shadow
+            %div
+              %a{href: blog_path(t.author.primary_blog)}
+                = t.author.name
+              = t.name
+      .buttons
+        %a.button{href: "###", data: {widget: 'toggler', target: 'fieldset.template',
+          classes: 'editing_custom_html picking_template', field: 'blog[using_custom_html]'}}
+          编辑当前模板HTML
+    = f.hidden_field :using_custom_html, :value => @blog.using_custom_html ? 1 : 0
+    .custom_field
+      .custom_html
+        %textarea{name: 'blog[custom_html]'}
+          = @blog.template_in_use
+      .buttons
+        %a.button{href: "#", data: {widget: 'diverseSubmit',
+          action: '/preview', target: 'preview', methord: 'POST'}}
+          预览效果
+        %a.button{href: "#", data: {widget: 'toggler', target: 'fieldset.template',
+          classes: 'editing_custom_html picking_template', field: 'blog[using_custom_html]'}}
+          返回
+        %a.button{href: "#"} 帮助
+  %fieldset.appearance.menu{ data: {widget: "appearance"}}
+    - if @variables
+      .box
+        = render :partial => 'blogs/template_variables'
+      %div
+        %a.button.reset{data: {widget: "reload_appearance"}} 恢复为初始值
+    - if @variables.nil?
+      .box
+        模板作者没有提供可以调整的变量
+  %fieldset.advanced.menu
+    .item.toggle_private
+      = f.check_box :private
+      = f.label :private, '设置为私密页面'
+    - unless @blog.primary?
+      .toggle_canjoin
+        = f.check_box :canjoin
+        = f.label :canjoin, "其他人可以申请加入你的博客" + (@blog.canjoin? ? "( 邀请入口: #{editors_new_url} )" : "")
+
+%iframe#preview{name: 'preview', src: blog_path(@blog)}
+
 :javascript
   document.addEvent('domready', function(){
     K.blog.init_upload_icon();
-  });
+  })

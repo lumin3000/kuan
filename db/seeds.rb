@@ -83,3 +83,11 @@ pics_multi = Pics.create!({
     :image => mxgs239,
   })]
 })
+
+T = Template
+T.create!({
+  name: "title only",
+  html: "{{title}} hihi",
+  author: me,
+  thumbnail: mxgs239,
+})

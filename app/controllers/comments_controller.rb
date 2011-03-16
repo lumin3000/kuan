@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   before_filter :signin_auth
-  layout proc{ |c| c.request.xhr? ? false : "application" }   
+  layout proc{ |c| c.request.xhr? ? false : "application" }
 
   def index
     @post = Post.find(params[:post_id])
