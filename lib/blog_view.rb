@@ -249,6 +249,14 @@ TPL
     (load_js + widget).html_safe
   end
 
+  def apply_tag
+    return false unless @blog.applied? @extra[:current_user]
+    apply_link = @extra[:controller].editors_new_path
+    Proc.new do |str|
+      "<a class='btn_apply' href='#{apply_link}' title='申请加入'>#{str}</a>".html_safe
+    end
+  end
+
   def respond_to?(name)
     return true if name.to_s =~ /^(?:color|bool|text|image)_/
     super
