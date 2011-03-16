@@ -4,7 +4,7 @@ class BlogsController < ApplicationController
   before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick]
   before_filter :editor_auth, :only => [:followers, :editors, :exit]
   before_filter :find_by_uri, :only => [:show, :follow_toggle, :apply, :apply_entry,
-    :extract_template_vars]
+    :extract_template_vars, :customize]
   before_filter :blog_display, :only => [:show, :preview]
 
   def new
@@ -22,6 +22,9 @@ class BlogsController < ApplicationController
   end
 
   def edit
+  end
+
+  def customize
     @templates = Template.all.to_a
     @templates.unshift(Template::DEFAULT)
     @variables = BlogView.extract_variables(@blog)

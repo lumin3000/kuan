@@ -33,6 +33,7 @@ Kuan::Application.routes.draw do
     put '/editor/:user' => 'blogs#upgrade'
     delete '/editor/:user' => 'blogs#kick'
     delete '/exit' => 'blogs#exit'
+    get '/customize' => 'blogs#customize'
   end
 
   post "/upload/:type", :to => 'images#create'
