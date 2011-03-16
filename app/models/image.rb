@@ -99,11 +99,11 @@ class Image
     end
   end
 
-  def to_a_fucking_hash()
+  def to_a_fucking_hash(suffix = '')
     hash = {id: self.id}
     AVAIL_VERSIONS.each do |k|
       url = self.url_for k
-      hash[k] = url if not url.nil?
+      hash[k] = url + suffix if not url.nil?
     end
     hash
   end

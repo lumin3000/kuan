@@ -21,6 +21,7 @@ class ImagesController < ApplicationController
 
   def create
     file_io = params[:file]
+    filename = file_io.blank? ? '' : file_io.original_filename
     url = params[:url]
     process = PROCESS_SPEC[params[:type].to_sym]
     begin
@@ -47,7 +48,7 @@ class ImagesController < ApplicationController
 
     render :text => {
       status: "success",
-      image: @image.to_a_fucking_hash
+      image: @image.to_a_fucking_hash('/' + filename)
     }.to_json
   end
 
