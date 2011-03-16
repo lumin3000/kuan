@@ -7,7 +7,7 @@ class TagsController < ApplicationController
       :page => params[:page] || 1,
       :per_page => 10,
     }
-    @tag = params[:tag]
+    @tag = tag_unescape params[:tag]
     @posts = Post.tagged(@tag).paginate pagination
     @blogs = Blog.tagged(@tag).limit 10
     render :layout => "common"

@@ -25,10 +25,9 @@
     - unless post.tags.nil?
       .tags<
         - post.tags.each do |tag|
-          -#
-            %a{ :href => tagged_path(tag) }<
-          = "#{tag}"
-          = ", " unless tag == post.tags.last
+          %a{ :href => tagged_path(tag) }<
+            = "#{tag}"
+            = ", " unless tag == post.tags.last
     .left<
       %span.writer_name<
         %a{href: blog_path(post.author.primary_blog)}
