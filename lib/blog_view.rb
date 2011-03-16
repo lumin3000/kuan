@@ -244,6 +244,11 @@ class BlogView < Mustache
 TPL
   end
 
+  def follow_tag
+    widget = @extra[:controller].render_to_string partial: 'blogs/follow_toggle', locals: {blog: @blog}
+    (load_js + widget).html_safe
+  end
+
   def respond_to?(name)
     return true if name.to_s =~ /^(?:color|bool|text|image)_/
     super
