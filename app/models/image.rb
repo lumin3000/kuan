@@ -39,7 +39,7 @@ class Image
   def self.create_from_original(file, process_spec = {})
     image = Image.new()
 
-    grid = Mongo::Grid.new(image.db)
+    @@grid ||= Mongo::Grid.new(image.db)
     begin
       original_image = MiniMagick::Image.read file
     rescue
@@ -52,27 +52,14 @@ class Image
     orig_dimen = original_image['dimensions']
 
     begin
-      id = grid.put original_blob, :content_type => mime
+      id = @@grid.put original_blob, :content_type => mime
     rescue
       raise "Database fail, cant save your stuff"
     end
     image.original = id
 
     process_spec.each do |version, geometry|
-      next if not AVAIL_VERSIONS.include? version
-      temp_dimen = self.calc_scale(orig_dimen, geometry)
-      i = MiniMagick::Image.read(original_blob)
-      i.resize "#{temp_dimen[0]}x#{temp_dimen[1]}" if temp_dimen != orig_dimen
-      w, h = i['dimensions']
-      # os for offset
-      os_w, os_h = self.calc_offset([w, h], geometry)
-      i.shave "#{os_w}x#{os_h}" if [os_w, os_h].any? {|n| n > 0}
-      begin
-        id = grid.put i.to_blob, :content_type => mime
-        image.send "#{version}=", id
-      rescue
-        Rails.logger.error "Database error, cant save stuff"
-      end
+      image.create_version version, geometry, original_blob, orig_dimen, mime
     end
 
     image.save!
@@ -90,6 +77,34 @@ class Image
     end
     raise "抓取失败" if response.status[0] != "200"
     self.create_from_original response.read, process_spec
+  end
+
+  def create_version(name, dimension, original_blob, orig_dimen, mime)
+    temp_dimen = self.class.calc_scale(orig_dimen, dimension)
+    i = MiniMagick::Image.read(original_blob)
+    i.resize "#{temp_dimen[0]}x#{temp_dimen[1]}" if temp_dimen != orig_dimen
+    w, h = i['dimensions']
+    # os for offset
+    os_w, os_h = self.class.calc_offset([w, h], dimension)
+    i.shave "#{os_w}x#{os_h}" if [os_w, os_h].any? {|n| n > 0}
+    begin
+      id = @@grid.put i.to_blob, :content_type => mime
+      self.send "#{name}=", id
+    rescue
+      Rails.logger.error "Database error, cant save stuff"
+    end
+  end
+
+  def extend_version(spec)
+    @@grid ||= Mongo::Grid.new(db)
+    orig_file = @@grid.get original
+    orig_image = MiniMagick::Image.read(orig_file)
+    orig_blob = orig_image.to_blob
+    orig_dimen = orig_image['dimensions']
+    mime = "image/#{orig_image['format'].downcase}"
+    spec.each do |version, dimension|
+      create_version version, dimension, orig_blob, orig_dimen, mime
+    end
   end
 
   def url_for(version = :original, prefix = 'files')
