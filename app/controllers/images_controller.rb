@@ -15,6 +15,7 @@ class ImagesController < ApplicationController
     template_thumbnail: {
       small: [200, 120],
     },
+    asset: {}
   }
 
   PROCESS_SPEC.default = {}
