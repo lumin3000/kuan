@@ -1,6 +1,8 @@
 # encoding: utf-8
 
 class TemplatesController < ApplicationController
+  before_filter :chief_admin_auth
+
   def index
     @templates = Template.all
   end
