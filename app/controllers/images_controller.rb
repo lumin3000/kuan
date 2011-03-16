@@ -47,4 +47,11 @@ class ImagesController < ApplicationController
       image: @image.to_a_fucking_hash
     }.to_json
   end
+
+  def upload_log
+    logger = Logger.new("#{Rails.root.to_s}/log/image_upload.log")
+    email = current_user.nil? ? "nologin" : current_user.email
+    logger.info %(#{Time.now} : #{request.remote_ip} : #{email} : #{params[:info]})
+    render :text => "logged"
+  end
 end
