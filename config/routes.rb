@@ -35,6 +35,7 @@ Kuan::Application.routes.draw do
 
   post "/upload/:type", :to => 'images#create'
   post "/upload_log", :to => 'images#upload_log'
+  get "/pics/:id/:filename", :to => redirect { |params| "/files/#{params[:id]}"}
   
   resources :posts, :except => [:new, :index, :show] do
     resources :comments
