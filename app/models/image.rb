@@ -6,7 +6,8 @@ require 'open-uri'
 class Image
   include Mongoid::Document
 
-  AVAIL_VERSIONS = [:original, :large, :medium, :small]
+  AVAIL_VERSIONS = %w[original large medium small 400 250 100 75 128 96 64 48 40 30 16]
+    .map {|s| s.to_sym}
 
   AVAIL_VERSIONS.each do |v|
     field v
@@ -103,7 +104,9 @@ class Image
     orig_dimen = orig_image['dimensions']
     mime = "image/#{orig_image['format'].downcase}"
     spec.each do |version, dimension|
-      create_version version, dimension, orig_blob, orig_dimen, mime
+      unless self.send version
+        create_version version, dimension, orig_blob, orig_dimen, mime
+      end
     end
   end
 
