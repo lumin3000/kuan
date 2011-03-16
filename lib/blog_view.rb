@@ -283,16 +283,3 @@ TPL
 end
 
 Dir[Rails.root.join('lib/object_view/*.rb')].each {|f| require f}
-
-# MMMMMMMMOONKEY PAAAATCH!
-class Mustache
-  class Parser
-    def otag
-      @otag ||= '{'
-    end
-
-    def ctag
-      @ctag ||= '}'
-    end
-  end
-end
