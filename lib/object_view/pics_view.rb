@@ -19,4 +19,16 @@ class PicsView < PostView
   def photos
     @photos
   end
+
+  def photo_set_code_500
+    return (load_js + 
+      @extra[:controller].render_to_string('posts/_pics_multi', 
+                                           :layout => false,
+                                           :locals => {:pics_multi => @post})
+            ).html_safe
+  end
+
+  def post_type
+    photo_set ? "photo_set" : "photo_single"
+  end
 end

@@ -23,6 +23,9 @@ class PostView
 
   expose :@post, :type
 
+  def post_type
+    type
+  end
   def url
     @extra[:base_url] + "posts/#{@post.id}" if @extra.has_key? :base_url
   end

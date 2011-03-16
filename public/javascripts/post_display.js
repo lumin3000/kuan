@@ -249,7 +249,7 @@ K.Slide = {
 
 document.addEvent("domready", function() {
   var template = $("slide_for_kite")
-    , slides = $$(".pics_multi .photos")
+    , slides = $$(".pics_multi .photos, .photo_set .photos")
   slides.each(function(list) {
     var items = list.getElements("img")
     if (!items.length) return
