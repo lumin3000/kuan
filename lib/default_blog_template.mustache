@@ -78,7 +78,13 @@
                   {{name}}
                 </a></span>
                 {{/author}}
-              <span class='update_time'>{{create_date}}</span></div>
+              {{#create_date}}
+              <span class='update_time'>
+                {{month_number_with_zero}}.{{day_of_month}}
+                {{24hour_with_zero}}:{{minutes}}
+              </span>
+              {{/create_date}}
+            </div>
               <div class='right'>
                 <a class='reply' target='_blank' href='{{url}}'>{{comments_count}}</a>
               </div>
