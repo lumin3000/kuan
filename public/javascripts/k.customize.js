@@ -285,7 +285,7 @@ K.widgets.reload_appearance = function(el){
 init_uploader = function(el){
   var parent = el.getParent('.images')
   var tar_url = parent.getElement('.url')
-  new K.file_uploader(el, '/upload/photo', {
+  new K.file_uploader(el, '/upload/asset', {
     'fire_now': true,
     'onStart': function(){
     },
