@@ -242,6 +242,20 @@ class BlogView < Mustache
     end
   end
 
+  def control_buttons
+    follow_widget = @extra[:controller].render_to_string partial: 'blogs/follow_toggle', locals: {blog: @blog}
+    apply_link = @extra[:controller].editors_new_path
+
+    <<CODE.html_safe
+#{load_js}
+<div class='commands'>
+  <a class='back_to_home' href='#{home_url}'>回我的主页</a>
+  #{follow_widget}
+  <a class='btn_apply' href='#{apply_link}'>申请加入</a>
+</div>
+CODE
+  end
+
   def respond_to?(name)
     return true if name.to_s =~ /^(?:color|bool|text|image)_/
     super
