@@ -357,8 +357,8 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 .new_contributor .new_contributor_processed a{text-decoration:underline}
 
 /*****new page and edit page****/
-.new_page .page_name, .new_page .page_url{
-	width:600px;
+.new_page .page_name{
+	width:580px;
 	padding:5px 0 5px 20px;
 	font-size:20px;
 	height:45px;
@@ -370,8 +370,49 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	background:#fff;
 }
 
+.new_page .page_url{
+	width:580px;
+	padding:5px 0 5px 20px;
+	font-size:20px;
+	height:45px;
+	line-height:45px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #cadbea;
+	background:#fff;
+}
+
+.new_page .page_name_box{
+	width:620px;
+	height:60px;
+	padding:0;
+	font-size:20px;
+	height:45px;
+	line-height:45px;
+	
+}
+.new_page .page_name_box .short_page_name{
+	width:270px;
+	padding:5px 0 5px 20px;
+	-moz-border-radius:8px;
+	-webkit-border-radious:8px;
+	border-radius:8px;
+	border:1px solid #cadbea;
+	background:#fff;
+	float:left;
+	margin-right:16px;
+}
 
 
+
+.new_page .short_page_name input{
+	border:0;
+	height:40px;
+	line-height:40;
+	font-size:20px;
+	width:180px;
+}
 
 .new_page .page_name input, .new_page .page_url input{
 	border:0;
@@ -1926,6 +1967,7 @@ div.new_reply .content_footer .right a.reply:hover
 	font-size:36px;
 	line-height:40px;
 	font-family:mircosoft yahei;
+
 }
 .explore .tag_wall{
 	width:900px;
@@ -1946,6 +1988,54 @@ div.new_reply .content_footer .right a.reply:hover
 	border:0;
 	float:left;
 }
+
+.explore .tag_wall .cell_text{
+	width:150px;
+	height:150px;
+	border:none;
+	background-color:#dcdcdc;
+	border:0;
+	float:left;
+}
+
+
+}	
+.explore .tag_wall .cell_txxt a{
+	color:#dcdcdc;
+	font-family:microsoft yahei;
+	font-size:12px;
+	line-height:20px;
+	text-decoration:none;
+    margin:120px 10px 0 10px;
+    display:block;	
+}
+
+
+.explore .tag_wall .cell_text span{
+	background-color:#dcdcdc;
+	display:block;
+	position:relative;
+	top:100px;
+	left:10p;
+}
+
+.explore .tag_wall .cell_text a {
+	width:150px;
+	height:150px;
+	display:block;
+	overflow:hidden;
+	text-decoration:none;
+	line-height:18px;
+	padding:10px;
+
+}
+
+
+
+	
+
+
+
 .explore .tag_wall .cell_box a span{
 	background:url('images/bg_box.png') repeat-x;
     padding:2px;
