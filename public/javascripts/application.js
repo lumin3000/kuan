@@ -40,6 +40,7 @@ K.file_uploader = new Class({
         onFailure: nil
         */
         multiple: false,
+        limit: 10,
         tar: null
     },
 
@@ -154,13 +155,15 @@ K.file_uploader = new Class({
         }.bind(this))
         this.form.submit()
       }.bind(this), 50)
-      this.list[0] = this.options.onStart &&
+      this.options.onStart &&
         this.options.onStart()
     }else{
-      for(var i=0, l = this.file.files.length; i<l; i++){
+      for(var i=0, l = Math.min(this.file.files.length, this.options.limit); i<l; i++){
         var el = this.options.onStart && this.options.onStart()
         this.html5upload.call(this, this.file.files[i], el)
       }
+      this.file.destroy()
+      this.build_file()
     }
   },
   html5upload: function(file, el){
@@ -169,10 +172,9 @@ K.file_uploader = new Class({
     var xhr = new XMLHttpRequest()
     var spin = el.set('spinner', {message: '上传中'}).spin()
     xhr.addEventListener('error', function(e){
-      alert('上传失败')
       el.unspin()
       el.destroy()
-    })
+    }, false)
     xhr.addEventListener('load', function(e){
       if(xhr.readyState==4 && xhr.status==200){
         this.complete(xhr.responseText, el)
@@ -181,9 +183,11 @@ K.file_uploader = new Class({
     }.bind(this), false)
     xhr.addEventListener('progress', function(e){
       function status(n){
-        console.log(n)
+        el.get('spinner').msg.set('html', n)
       }
-      status('-'+e.loaded+'/'+e.total)
+      if(e.lengthComputable){
+        status(''+(e.loaded/e.total*100).toInt()+'%')
+      }
     }.bind(this), false)
     xhr.open('POST', this.path, true)
     xhr.send(form_data)
