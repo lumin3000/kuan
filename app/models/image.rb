@@ -92,17 +92,17 @@ class Image
     self.create_from_original response.read, process_spec
   end
 
-  def url_for(version = :original)
+  def url_for(version = :original, prefix = 'files')
     if AVAIL_VERSIONS.include? version
       id = self.send version
-      "/files/#{id}" if not id.nil?
+      "/#{prefix}/#{id}" if not id.nil?
     end
   end
 
   def to_a_fucking_hash(suffix = '')
     hash = {id: self.id}
     AVAIL_VERSIONS.each do |k|
-      url = self.url_for k
+      url = self.url_for k, 'pics'
       hash[k] = url + suffix if not url.nil?
     end
     hash
