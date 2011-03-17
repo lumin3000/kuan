@@ -96,7 +96,7 @@
     - unless @blog.primary?
       .toggle_canjoin
         = f.check_box :canjoin
-        = f.label :canjoin, "其他人可以申请加入你的博客" + (@blog.canjoin? ? "( 邀请入口: #{editors_new_url} )" : "")
+        = f.label :canjoin, "其他人可以申请加入你的页面" + (@blog.canjoin? ? "( 邀请入口: #{editors_new_url} )" : "")
 
 %iframe#preview{name: 'preview', src: blog_path(@blog)}
 
