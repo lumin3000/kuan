@@ -1,8 +1,9 @@
 # encoding: utf-8
 
-require 'cgi'
-
 module ObjectView
+  require 'nokogiri'
+  require 'cgi'
+
   def self.wrap(obj, extra = {})
     (obj.class.name + "View").constantize.new(obj, extra)
   end
@@ -151,6 +152,10 @@ class BlogView < Mustache
   expose :@blog, :title
   expose_without_escape :@blog, :desc
 
+  def meta_desc
+    h(Nokogiri::HTML.fragment(desc).inner_text)
+  end
+
   def custom_css
     "<style type='text/css'>#{h @blog.custom_css}</style>".html_safe
   end
@@ -164,18 +169,18 @@ class BlogView < Mustache
   end
 
   def url
-    @url_template && @url_template % @blog.uri
+    @url_template && h(@url_template % @blog.uri)
   end
 
   def home_url
-    @url_template && @url_template % 'www'
+    @url_template && h(@url_template % 'www')
   end
 
   { 180 => :large,
     60 => :medium,
     24 => :small, }.each do |k, v|
     define_method("icon_#{k}") do
-      @blog.icon.url_for(v)
+      h(@blog.icon.url_for(v))
     end
   end
   
@@ -217,31 +222,16 @@ class BlogView < Mustache
 
   # Ad hoc inline template since we'd make this open to template authors
   def pagination
-    return if not @extra[:pagination]
-    current_page = @extra[:pagination][:page]
-    per_page = @extra[:pagination][:per_page]
-
-    prev_page, cur_page_code = if current_page > 1
-      [ "<a class='page_left' href='/page/#{current_page - 1}'>&#8592; 过去的</a>",
-        "<div class='page_number'>#{current_page}</div>"
-      ]
-    else
-      ['', '']
-    end
-
-    next_page = if (!@posts.empty? && @posts.length >= per_page)
-      "<a class='page_right' href='/page/#{current_page + 1}' >以前的 &#8594;</a>"
-    else
-      ''
-    end
-
-    <<TPL.html_safe
-<div class="page_control">
-  #{prev_page}
-  #{cur_page_code}
-  #{next_page}
-</div>
-TPL
+    p = @extra[:pagination]
+    return nil if (!p) || p[:total_pages] == 1
+    current_page = p[:page]
+    total_pages = p[:total_pages]
+    return [
+      :current_page => current_page,
+      :total_pages => total_pages,
+      :prev_page => (current_page > 1 ? "/page/#{current_page - 1}" : nil),
+      :next_page => (current_page >= total_pages ? nil : "/page/#{current_page + 1}"),
+    ]
   end
 
   def follow_tag
@@ -255,6 +245,20 @@ TPL
     Proc.new do |str|
       "<a class='btn_apply' href='#{apply_link}' title='申请加入'>#{str}</a>".html_safe
     end
+  end
+
+  def control_buttons
+    follow_widget = @extra[:controller].render_to_string partial: 'blogs/follow_toggle', locals: {blog: @blog}
+    apply_link = @extra[:controller].editors_new_path
+
+    <<CODE.html_safe
+#{load_js}
+<div class='commands'>
+  <a class='back_to_home' href='#{home_url}'>回我的主页</a>
+  #{follow_widget}
+  <a class='btn_apply' href='#{apply_link}'>申请加入</a>
+</div>
+CODE
   end
 
   def respond_to?(name)

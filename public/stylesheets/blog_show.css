@@ -135,18 +135,28 @@ color:gray;
 }
 
 
-#wrapper #content #navigation {
+#navigation {
   text-align: right;
     padding-bottom: 35px;
     text-transform: lowercase;
 }
 
-#wrapper #content #navigation a,
+#navigation a,
 #navigation div {
-background-color: #fff;
+background-color: transparent;
   color: #3b627e;
   padding: 5px 10px;
   text-decoration: none;
+  font-size: 12px;
+  font-weight: normal;
+  width: auto;
+  line-height: 14px;
+}
+
+#navigation .page_control {
+  float: right;
+  height: 24px;
+  width: 172px;
 }
 
 #wrapper #content #navigation a:hover {
@@ -155,17 +165,12 @@ opacity: 0.9;
   -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
 }
 
-.page_control {
-  float: right;
-  height: 24px;
-  width: 172px;
-}
-
-.page_control .page_number,
-.page_control .page_left {
+#navigation .page_number,
+#navigation .page_left {
   float: left
 }
 
-.page_control .page_right {
+#navigation .page_right {
   float: right;
+  position: relative;
 }

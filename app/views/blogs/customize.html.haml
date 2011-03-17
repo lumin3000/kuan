@@ -2,7 +2,7 @@
 - js 'k.customize', 'moorainbow', "mooeditable", "mooeditable.local"
 - content_for :site_layout, 'blog_customization'
 
-.customize_panel
+.customize_panel#customize_panel
   %ul.customize_navigation{data: {widget: 'tab', contentsHolder: 'form.edit_blog',
     contents: 'fieldset', activateOnLoad: 1, name: 'customize'}}
     %li.blog_info 页面信息
@@ -50,12 +50,19 @@
         - @templates.each do |t|
           .theme{data: {value: t.id}, class: t.id == @blog.template.id ? 'selected' : ''}
             %span
-              %img{src: t.thumbnail.url_for(:small)}
+              - if t.id
+                %img{src: t.thumbnail.url_for(:small)}
+              - else
+                = image_tag 'default_template.gif'
             .shadow
             %div
-              %a{href: blog_path(t.author.primary_blog)}
-                = t.author.name
-              = t.name
+              - if t.id
+                %a{href: blog_path(t.author.primary_blog)}
+                  = t.author.name
+                = t.name
+              - else
+                .author_name 管理员
+                默认模板
       .buttons
         %a.button{href: "###", data: {widget: 'toggler', target: 'fieldset.template',
           classes: 'editing_custom_html picking_template', field: 'blog[using_custom_html]'}}
@@ -74,14 +81,14 @@
           返回
         %a.button{href: "#"} 帮助
   %fieldset.appearance.menu{ data: {widget: "appearance"}}
-    - if @variables
+    - if @variables.all? {|k,v| v.empty?}
+      .box
+        模板作者没有提供可以调整的变量
+    - else
       .box
         = render :partial => 'blogs/template_variables'
       %div
         %a.button.reset{data: {widget: "reload_appearance"}} 恢复为初始值
-    - if @variables.nil?
-      .box
-        模板作者没有提供可以调整的变量
   %fieldset.advanced.menu
     .item.toggle_private
       = f.check_box :private
