@@ -21,7 +21,7 @@ class PostView
       @extra[:controller].render_to_string('comments/index', :layout => false)).html_safe
   end
 
-  expose :@post, :type
+  expose :@post, :type, :favor_count, :repost_count
 
   def post_type
     type
