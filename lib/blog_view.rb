@@ -1,8 +1,9 @@
 # encoding: utf-8
 
-require 'cgi'
-
 module ObjectView
+  require 'nokogiri'
+  require 'cgi'
+
   def self.wrap(obj, extra = {})
     (obj.class.name + "View").constantize.new(obj, extra)
   end
@@ -151,6 +152,10 @@ class BlogView < Mustache
   expose :@blog, :title
   expose_without_escape :@blog, :desc
 
+  def meta_desc
+    h(Nokogiri::HTML.fragment(desc).inner_text)
+  end
+
   def custom_css
     "<style type='text/css'>#{h @blog.custom_css}</style>".html_safe
   end
@@ -164,18 +169,18 @@ class BlogView < Mustache
   end
 
   def url
-    @url_template && @url_template % @blog.uri
+    @url_template && h(@url_template % @blog.uri)
   end
 
   def home_url
-    @url_template && @url_template % 'www'
+    @url_template && h(@url_template % 'www')
   end
 
   { 180 => :large,
     60 => :medium,
     24 => :small, }.each do |k, v|
     define_method("icon_#{k}") do
-      @blog.icon.url_for(v)
+      h(@blog.icon.url_for(v))
     end
   end
   
