@@ -11,7 +11,7 @@ Element.implement({
         target = target.getParent()
       }
       e.target = target
-      fn.call(this, e)
+      if (target != this) fn.call(this, e)
     })
     return this
   }
@@ -58,6 +58,7 @@ K.file_uploader = new Class({
         this.file.multiple = 'multiple'
       }
         var tar = $(this.options.tar)
+        var fire_now = this.options.fire_now
         if(tar == null){
             this.file_box = new Element('div', {
             }).setStyles({
@@ -103,6 +104,9 @@ K.file_uploader = new Class({
         this.file.destroy()
         this.build_file()
         this.file.set('disabled', false)
+      if(fire_now){
+        this.file.fireEvent('click')
+      }
     },
   build_file: function(){
     this.file = this.file_clone.inject(this.file_box, 'top')
@@ -212,10 +216,11 @@ K.file_uploader = new Class({
 })
 
 K.editor = null
-K.render_editor = function(el){
+K.render_editor = function(el, fix){
     var textarea = $(el)
-    var w  = textarea.getStyle('width').toInt() + 50
-    var h  = textarea.getStyle('height').toInt() - 50
+    var fix = fix || {width:0, height: 0}
+    var w  = textarea.getStyle('width').toInt() + fix.width
+    var h  = textarea.getStyle('height').toInt() - fix.height
     K.editor = new MooEditable(textarea, {
         'actions':'toggleview | bold italic underline strikethrough | createlink unlink | urlimage ',
         'dimensions':{x:w,y:h},
@@ -341,12 +346,12 @@ K.post = (function(){
 
     var init_editor = function(){
         if($$('.text')[0] && $$('.text')[0].hasClass('rich_text')){
-            K.render_editor($('content'))
+          K.render_editor($('content'), {width:55, height:50})
         }
         $$('.rich_editor_starter').addEvent('click', function(){
             this.hide()
             $('box_text').addClass('rich_text')
-            K.render_editor($('content'))
+            K.render_editor($('content'), {width:55, height:50})
             return false
         })
         if($('tar_tog_textarea')){
@@ -451,19 +456,23 @@ document.addEvent('domready', function(){
   }
   var KEY = 'data-widget'
   $$('[' + KEY + ']').each(function(e){
-    var type = e.get(KEY)
-      , func = K.widgets[type]
-    func && func(e)
-  });
+    var types = e.get(KEY)
+    if (types) types = types.split(' ')
+    else return
+    types.each(function(t) {
+      var func = K.widgets[t]
+      func && func(e)
+    })
+  })
 
   $(document.body).addEvent('click:relay([data-tgt])', function(e){
-      var tgt = e.target.get('data-tgt')
-      var func
-      if(tgt){
-        e.stop()
-        func = K.tgt[tgt]
-        func && func(e.target)
-      }
+    var tgt = e.target.get('data-tgt')
+    var func
+    if(tgt){
+      e.stop()
+      func = K.tgt[tgt]
+      func && func(e.target)
+    }
   })
 
     // lightbox
@@ -630,6 +639,7 @@ K.widgets.video = function(el){
 }
 
 K.tgt = {}
+
 K.tgt.comments = function(){
     var comments_el
     var comments_target
@@ -717,6 +727,10 @@ K.tgt.reply = function(){
         }).send()
     }
 }()
+
+K.widgets.textarea = function(el){
+  K.render_editor(el)
+}
 
 K.widgets.textboxlist = function(el){
   el.textboxlist = new TextboxList(el, {

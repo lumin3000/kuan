@@ -8,6 +8,7 @@ gem 'mongoid', '> 2.0.0.rc6'
 gem 'haml'
 gem 'haml-rails'
 gem 'mini_magick'
+gem 'mustache'
 gem 'nokogiri'
 gem 'daemons'
 gem 'whenever', :require => false

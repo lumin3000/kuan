@@ -75,6 +75,7 @@ GEM
       mongo (~> 1.2)
       tzinfo (~> 0.3.22)
       will_paginate (~> 3.0.pre)
+    mustache (0.99.2)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -146,6 +147,7 @@ DEPENDENCIES
   mini_magick
   mongo
   mongoid (> 2.0.0.rc6)
+  mustache
   nokogiri
   rails (= 3.0.4)
   rspec

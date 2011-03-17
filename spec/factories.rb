@@ -21,6 +21,8 @@ end
 Factory.define :blog do |blog|
   blog.uri "bloguri"
   blog.title "blog title"
+  blog.custom_html "nothing would be rendered"
+  blog.using_custom_html true
 end
 
 Factory.sequence :uri do |u|

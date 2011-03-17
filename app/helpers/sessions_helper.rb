@@ -59,4 +59,18 @@ module SessionsHelper
   def clear_return_to
     session[:return_to] = nil
   end
+
+  CHIEF_ADMINS = [
+    'sjerrys@gmail.com',
+    'mrsun3000@gmail.com',
+    'blah@meh.org',
+    'ai_no_kakera_a@hotmail.com',
+    'lilu.life@hotmail.com',
+    'siyang1982@msn.com',
+  ]
+  def chief_admin_auth
+    if not current_user && CHIEF_ADMINS.include?(current_user.email)
+      render :nothing => true, :status => 418
+    end
+  end
 end
