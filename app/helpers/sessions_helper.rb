@@ -65,7 +65,7 @@ module SessionsHelper
     'mrsun3000@gmail.com',
     'blah@meh.org',
     'ai_no_kakera_a@hotmail.com',
-    'lilu.life@hotmail.com',
+    'lilu.life@gmail.com',
     'siyang1982@msn.com',
   ]
   def chief_admin_auth

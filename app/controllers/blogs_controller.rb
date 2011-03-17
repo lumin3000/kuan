@@ -6,7 +6,6 @@ class BlogsController < ApplicationController
   before_filter :find_by_uri, :only => [:show, :follow_toggle, :apply, :apply_entry,
     :extract_template_vars, :customize]
   before_filter :blog_display, :only => [:show, :preview]
-  before_filter :chief_admin_auth, :only => [:customize]
 
   def new
     @blog = Blog.new
