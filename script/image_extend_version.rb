@@ -20,10 +20,17 @@ MISSING_VERSION = {
   },
 }
 
+logger = Logger.new(Rails.root + 'log' + 'extend_image.log')
+
 Blog.all.each do |b|
   i = b.icon
+  if i.nil? || i.id.nil?
+    logger.info "Blog #{b.uri} has no icon"
+    next
+  end
   i.extend_version(MISSING_VERSION[:blog_icon])
   i.save!
+  logger.info "Did blog #{b.uri}"
 end
 
 Pics.all.each do |post|
@@ -31,5 +38,6 @@ Pics.all.each do |post|
     i = photo.image
     i.extend_version(MISSING_VERSION[:photo])
     i.save!
+    logger.info "Did photo #{photo.id} of post #{post.id}"
   end
 end

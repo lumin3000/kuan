@@ -6,7 +6,7 @@ require 'open-uri'
 class Image
   include Mongoid::Document
 
-  AVAIL_VERSIONS = %w[original large medium small 400 250 100 75 128 96 64 48 40 30 16]
+  AVAIL_VERSIONS = %w[original large medium small 400 250 150 100 75 128 96 64 48 40 30 16]
     .map {|s| s.to_sym}
 
   AVAIL_VERSIONS.each do |v|
