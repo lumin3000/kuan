@@ -296,3 +296,19 @@ init_uploader = function(el){
     }
   })
 }
+
+document.addEvent('domready', function() {
+  var previewFrame = $('preview')
+    , resizeLock = false
+  window.addEvent('resize', function() {
+    if (resizeLock) return
+    resizeLock = true
+    setTimeout(function() {
+      resizeLock = false
+      previewFrame.setStyle('height', window.getSize().y)
+    }, 80)
+  })
+  ;[document.body, $('container')].each(function(el) {
+    el && el.setStyle('overflow', 'hidden')
+  })
+})
