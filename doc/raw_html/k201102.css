@@ -371,7 +371,7 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 }
 
 .new_page .page_url{
-	width:580px;
+	width:540px;
 	padding:5px 0 5px 20px;
 	font-size:20px;
 	height:45px;
@@ -384,7 +384,7 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 }
 
 .new_page .page_name_box{
-	width:620px;
+	width:600px;
 	height:60px;
 	padding:0;
 	font-size:20px;
@@ -393,7 +393,7 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	
 }
 .new_page .page_name_box .short_page_name{
-	width:270px;
+	width:250px;
 	padding:5px 0 5px 20px;
 	-moz-border-radius:8px;
 	-webkit-border-radious:8px;
@@ -401,7 +401,7 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	border:1px solid #cadbea;
 	background:#fff;
 	float:left;
-	margin-right:16px;
+	margin-right:18px;
 }
 
 
@@ -411,7 +411,7 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	height:40px;
 	line-height:40;
 	font-size:20px;
-	width:180px;
+	width:150px;
 }
 
 .new_page .page_name input, .new_page .page_url input{
@@ -419,7 +419,7 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	height:40px;
 	line-height:40px;
 	font-size:20px;
-	width:300px;
+	width:270px;
 }
 .new_page .submit_box input {
 	display:block;
@@ -1992,54 +1992,59 @@ div.new_reply .content_footer .right a.reply:hover
 .explore .tag_wall .cell_text{
 	width:150px;
 	height:150px;
-	border:none;
-	background-color:#dcdcdc;
+	background-color:#00c21e;
 	border:0;
 	float:left;
-}
-
-
-}	
-.explore .tag_wall .cell_txxt a{
-	color:#dcdcdc;
+	font-size:18px;
 	font-family:microsoft yahei;
-	font-size:12px;
-	line-height:20px;
-	text-decoration:none;
-    margin:120px 10px 0 10px;
-    display:block;	
-}
+	overflow:hidden;
+	text-indent:36px;
 
-
-.explore .tag_wall .cell_text span{
-	background-color:#dcdcdc;
-	display:block;
-	position:relative;
-	top:100px;
-	left:10p;
 }
 
 .explore .tag_wall .cell_text a {
-	width:150px;
-	height:150px;
-	display:block;
 	overflow:hidden;
 	text-decoration:none;
-	line-height:18px;
-	padding:10px;
+	line-height:30px;
+	color:#ffffff;
+	display:block;
+}
+
+.explore .tag_wall .cell_text .content_box_green{
+	width:150px;
+	height:110px;
+    margin:0px auto;
+
+}
+
+
+.explore .tag_wall .cell_text .tag_box_green{
+	width:150px;
+	height:40px;
+    background:url('images/tag_box_bg.png') no-repeat;
+    opacity: 0.9;
+    -moz-opacity: 0.9;
+    filter:alpha(opacity=90);
+    
+}
+
+.explore .tag_wall span{
+	background-color:#333333;
+	padding:1px 5px;
+    
+}
+.explore .tag_wall .cell_text span{
+    background:#333333;
+    color:#dcdcdc;
+    font-size:12px;
+    padding:1px 5px; 
 
 }
 
 
 
-	
 
 
-
-.explore .tag_wall .cell_box a span{
-	background:url('images/bg_box.png') repeat-x;
-    padding:2px;
-}	
 .explore .tag_wall .cell_box a{
 	color:#dcdcdc;
 	font-family:microsoft yahei;
