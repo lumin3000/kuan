@@ -5,6 +5,7 @@ class Blog
   field :uri
   index :uri, :unique => true
   field :title
+  field :desc
   referenced_in :icon, :class_name => 'Image'
   field :primary, :type => Boolean, :default => false
   field :private, :type => Boolean, :default => false
@@ -19,9 +20,19 @@ class Blog
   :limit => 500
   scope :tagged, lambda { |tag| where(:tag => tag).desc(:posted_at) }
 
+  field :using_custom_html, :type => Boolean, :default => false
+  field :custom_css
+  field :custom_html
+  referenced_in :template, :class_name => 'Template'
+
+  field :template_conf, :type => Hash
+
   references_many :posts, :index => true
 
-  attr_accessible :uri, :title, :icon, :private, :canjoin, :posted_at, :tag
+  attr_accessible :uri, :title, :desc, :icon, :private, :canjoin, :posted_at, :custom_html,
+    :using_custom_html, :custom_css, :template, :template_id, :template_conf, :tag
+
+  before_validation :sanitize_desc
 
   validates_presence_of :title,
   :message => "请输入页面名字"
@@ -44,7 +55,7 @@ class Blog
   :message => "此链接已被使用"
 
   validate do |blog|
-    errors.add(:base, "标签格式不正确") if not blog.tag.blank? and Tag::invalid? blog.tag
+    errors.add(:tag, "标签格式不正确") if not blog.tag.blank? and Tag::invalid? blog.tag
   end
   
   validate do |blog|
@@ -65,6 +76,11 @@ class Blog
   alias_method :old_icon_get, :icon
   def icon
     old_icon_get || Image.create_from_default(DEFAULT_ICONS)
+  end
+
+  alias_method :old_template_get, :template
+  def template
+    old_template_get || Template::DEFAULT
   end
 
   def tag=(tag)
@@ -144,11 +160,39 @@ class Blog
     uri.parameterize
   end
 
+  def use_template(params)
+    [:custom_html, :using_custom_html, :template_id, :template_conf]
+      .each do |key|
+        self.send "#{key}=", params[key] if params.has_key? key
+      end
+    normalize_template_conf
+  end
+
+  def template_in_use
+    self.using_custom_html? ? self.custom_html : self.template.html
+  end
+
+  def normalize_template_conf(hash = nil)
+    conf = hash || self.template_conf
+    return if conf.nil?
+    conf.keys.each do |k|
+      if k.is_a? Symbol
+        v = conf.delete k
+        conf[k.to_s] = v.is_a?(Hash) ? normalize_template_conf(v) : v
+      end
+    end
+  end
+
   private
 
   def auth_for(user)
     return nil if user.nil?
     following = user.followings.where(:blog_id => id).first
     following.nil? ? nil : following.auth
+  end
+
+  def sanitize_desc
+    require 'filters/rich_filter'
+    self.desc = RichFilter.tags self.desc
   end
 end

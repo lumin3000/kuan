@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta charset='utf-8'></meta>
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <title>{{title}}</title>
+    <link href="/stylesheets/post_display.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/blog_show.css" media="screen" rel="stylesheet" type="text/css" />
+    <meta name="description" content="{{meta_desc}}"></meta>
+  </head>
+  <body>
+    <div id="wrapper">
+      {{control_buttons}}
+      <div id='title'>
+        <a href='{{url}}'>
+          {{title}}
+        </a>
+      </div>
+      <div id='content'>
+        {{#posts}}
+        <div class='post {{type}} {{post_type}}'>
+            <div class='content_head'>
+              {{#repost_tag}}
+              转帖
+              {{/repost_tag}}
+              {{#fave_tag}}
+              喜欢
+              {{/fave_tag}}
+            </div>
+            <div class='content_body'>
+              {{#text}}
+                {{title}}
+                <br />
+                {{content}}
+              {{/text}}
+              {{#photo_single}}
+                {{#photos}}
+                  <a target="_blank" href="{{image_original}}">
+                    <img src="{{image_500}}" title="{{desc}}" />
+                  </a>
+                  <p>{{desc}}</p>
+                {{/photos}}
+                <p>
+                  {{content}}
+                </p>
+              {{/photo_single}}
+
+              {{#photo_set}}
+                {{#photos}}
+                  <a target="_blank" href="{{image_original}}">
+                    <img src="{{image_500}}" title="{{desc}}" />
+                  </a>
+                  <br />
+                {{/photos}}
+                {{content}}
+              {{/photo_set}}
+
+              {{#link}}
+                <a href="{{link_url}}">{{title}}</a>
+                <p>{{content}}</p>
+              {{/link}}
+
+              {{#video}}
+                {{video_code_500}}
+                {{content}}
+              {{/video}}
+            </div>
+            <div class='content_footer'>
+              <div class="tags">
+                {{#has_tag}}
+                {{#tags}}
+                <a href="{{url}}">{{name}}</a>
+                {{/tags}}
+                {{/has_tag}}
+              </div>
+              <div class='left'>
+                {{#author}}
+                <span class='writer_name'><a href='{{user_url}}'>
+                  {{name}}
+                </a></span>
+                {{/author}}
+              {{#create_date}}
+              <span class='update_time'>
+                {{month_number_with_zero}}.{{day_of_month}}
+                {{24hour_with_zero}}:{{minutes}}
+              </span>
+              {{/create_date}}
+            </div>
+              <div class='right'>
+                <a class='reply' target='_blank' href='{{url}}'>{{comments_count}}</a>
+              </div>
+              <div class="middle">
+                {{#has_repost}}
+                {{#parent}}
+                <a href="{{url}}">{{title}}</a>&#8594;
+                {{/parent}}
+                {{/has_repost}}
+              </div>
+            </div>
+            {{#post_single}}
+              {{load_comments}}
+            {{/post_single}}
+          </div>
+        {{/posts}}
+        {{#pagination}}
+        <div id='navigation'>
+          <div class='page_control'>
+            {{#prev_page}}
+            <a class='page_left' href='{{prev_page}}'>&#8592; 最近的</a>
+            <div class='page_number'>{{current_page}}</div>
+            {{/prev_page}}
+            {{#next_page}}
+            <a class='page_right' href='{{next_page}}'>以前的 &#8594;</a>
+            {{/next_page}}
+          </div>
+        </div>
+        {{/pagination}}
+      </div>
+      <div id='sidebar'>
+        <div id='top'>
+          <div id='avatar'>
+            <a href='{{url}}'>
+              <img src='{{icon_180}}' />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -12,7 +12,7 @@ class PostsController < ApplicationController
     params[:author] = current_user
     @post = Post.new params
     if @post.save
-      redirect_to home_path
+      redirect_to home_path(@post.blog)
     else
       get_target_blogs
       render 'new'
@@ -27,7 +27,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post = Post.find(params[:id])
+    @post = Post.find(params.delete :id)
     if @post.update_attributes(params)
       redirect_to root_path
     else
@@ -46,7 +46,7 @@ class PostsController < ApplicationController
     params[:author] = current_user
     @post = Post.new params
     if @post.save
-      redirect_to home_path
+      redirect_to home_path(@post.blog)
     else
       get_target_blogs
       render 'renew'

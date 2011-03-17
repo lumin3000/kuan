@@ -19,7 +19,21 @@
 
 .content_footer
   padding: 20px 15px 0px 15px
-  @include single_line(30px)
+  @include single_line(40px)
+
+  .tags
+    height: 14px
+    color: #888888
+    font-size: 12px
+    line-height: 14px
+    position: relative
+    bottom: -20px
+    a
+      color: #888888
+      text-decoration: none
+      &:hover
+        text-decoration: underline
+        color: #3f7be0
 
   .left
     width: 200px
@@ -50,7 +64,8 @@
 .hidden
   display: none
 
-.pics_multi .photos
+.pics_multi .photos,
+.photo_set .photos
   margin: 0
   padding: 0
   width: 140px

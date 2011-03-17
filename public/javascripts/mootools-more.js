@@ -1,6 +1,6 @@
 // MooTools: the javascript framework.
-// Load this file's selection again by visiting: http://mootools.net/more/36752e3a56b3bc516464a313a2dbb6ae 
-// Or build this file again with packager using: packager build More/Elements.From More/Element.Delegation More/OverText More/Fx.Accordion More/Fx.Move More/Fx.Reveal More/Fx.SmoothScroll More/Sortables More/Assets More/Spinner More/Locale
+// Load this file's selection again by visiting: http://mootools.net/more/81ccdbe0ca359ee0f80b91ef7c290eec 
+// Or build this file again with packager using: packager build More/Elements.From More/Element.Delegation More/OverText More/Fx.Accordion More/Fx.Move More/Fx.Reveal More/Fx.Slide More/Fx.SmoothScroll More/Sortables More/Assets More/Color More/Spinner More/Locale
 /*
 ---
 
@@ -1863,6 +1863,178 @@ Element.implement({
 /*
 ---
 
+script: Fx.Slide.js
+
+name: Fx.Slide
+
+description: Effect to slide an element in and out of view.
+
+license: MIT-style license
+
+authors:
+  - Valerio Proietti
+
+requires:
+  - Core/Fx
+  - Core/Element.Style
+  - /MooTools.More
+
+provides: [Fx.Slide]
+
+...
+*/
+
+Fx.Slide = new Class({
+
+	Extends: Fx,
+
+	options: {
+		mode: 'vertical',
+		wrapper: false,
+		hideOverflow: true,
+		resetHeight: false
+	},
+
+	initialize: function(element, options){
+		element = this.element = this.subject = document.id(element);
+		this.parent(options);
+		options = this.options;
+
+		var wrapper = element.retrieve('wrapper'),
+			styles = element.getStyles('margin', 'position', 'overflow');
+
+		if (options.hideOverflow) styles = Object.append(styles, {overflow: 'hidden'});
+		if (options.wrapper) wrapper = document.id(options.wrapper).setStyles(styles);
+
+		if (!wrapper) wrapper = new Element('div', {
+			styles: styles
+		}).wraps(element);
+
+		element.store('wrapper', wrapper).setStyle('margin', 0);
+		if (element.getStyle('overflow') == 'visible') element.setStyle('overflow', 'hidden');
+
+		this.now = [];
+		this.open = true;
+		this.wrapper = wrapper;
+
+		this.addEvent('complete', function(){
+			this.open = (wrapper['offset' + this.layout.capitalize()] != 0);
+			if (this.open && options.resetHeight) wrapper.setStyle('height', '');
+		}, true);
+	},
+
+	vertical: function(){
+		this.margin = 'margin-top';
+		this.layout = 'height';
+		this.offset = this.element.offsetHeight;
+	},
+
+	horizontal: function(){
+		this.margin = 'margin-left';
+		this.layout = 'width';
+		this.offset = this.element.offsetWidth;
+	},
+
+	set: function(now){
+		this.element.setStyle(this.margin, now[0]);
+		this.wrapper.setStyle(this.layout, now[1]);
+		return this;
+	},
+
+	compute: function(from, to, delta){
+		return [0, 1].map(function(i){
+			return Fx.compute(from[i], to[i], delta);
+		});
+	},
+
+	start: function(how, mode){
+		if (!this.check(how, mode)) return this;
+		this[mode || this.options.mode]();
+
+		var margin = this.element.getStyle(this.margin).toInt(),
+			layout = this.wrapper.getStyle(this.layout).toInt(),
+			caseIn = [[margin, layout], [0, this.offset]],
+			caseOut = [[margin, layout], [-this.offset, 0]],
+			start;
+
+		switch (how){
+			case 'in': start = caseIn; break;
+			case 'out': start = caseOut; break;
+			case 'toggle': start = (layout == 0) ? caseIn : caseOut;
+		}
+		return this.parent(start[0], start[1]);
+	},
+
+	slideIn: function(mode){
+		return this.start('in', mode);
+	},
+
+	slideOut: function(mode){
+		return this.start('out', mode);
+	},
+
+	hide: function(mode){
+		this[mode || this.options.mode]();
+		this.open = false;
+		return this.set([-this.offset, 0]);
+	},
+
+	show: function(mode){
+		this[mode || this.options.mode]();
+		this.open = true;
+		return this.set([0, this.offset]);
+	},
+
+	toggle: function(mode){
+		return this.start('toggle', mode);
+	}
+
+});
+
+Element.Properties.slide = {
+
+	set: function(options){
+		this.get('slide').cancel().setOptions(options);
+		return this;
+	},
+
+	get: function(){
+		var slide = this.retrieve('slide');
+		if (!slide){
+			slide = new Fx.Slide(this, {link: 'cancel'});
+			this.store('slide', slide);
+		}
+		return slide;
+	}
+
+};
+
+Element.implement({
+
+	slide: function(how, mode){
+		how = how || 'toggle';
+		var slide = this.get('slide'), toggle;
+		switch (how){
+			case 'hide': slide.hide(mode); break;
+			case 'show': slide.show(mode); break;
+			case 'toggle':
+				var flag = this.retrieve('slide:flag', slide.open);
+				slide[flag ? 'slideOut' : 'slideIn'](mode);
+				this.store('slide:flag', !flag);
+				toggle = true;
+			break;
+			default: slide.start(how, mode);
+		}
+		if (!toggle) this.eliminate('slide:flag');
+		return this;
+	}
+
+});
+
+
+/*
+---
+
 script: Fx.Scroll.js
 
 name: Fx.Scroll
@@ -2906,6 +3078,170 @@ var Asset = {
 	}
 
 };
+
+
+/*
+---
+
+script: Color.js
+
+name: Color
+
+description: Class for creating and manipulating colors in JavaScript. Supports HSB -> RGB Conversions and vice versa.
+
+license: MIT-style license
+
+authors:
+  - Valerio Proietti
+
+requires:
+  - Core/Array
+  - Core/String
+  - Core/Number
+  - Core/Hash
+  - Core/Function
+  - MooTools.More
+
+provides: [Color]
+
+...
+*/
+
+(function(){
+
+var Color = this.Color = new Type('Color', function(color, type){
+	if (arguments.length >= 3){
+		type = 'rgb'; color = Array.slice(arguments, 0, 3);
+	} else if (typeof color == 'string'){
+		if (color.match(/rgb/)) color = color.rgbToHex().hexToRgb(true);
+		else if (color.match(/hsb/)) color = color.hsbToRgb();
+		else color = color.hexToRgb(true);
+	}
+	type = type || 'rgb';
+	switch (type){
+		case 'hsb':
+			var old = color;
+			color = color.hsbToRgb();
+			color.hsb = old;
+		break;
+		case 'hex': color = color.hexToRgb(true); break;
+	}
+	color.rgb = color.slice(0, 3);
+	color.hsb = color.hsb || color.rgbToHsb();
+	color.hex = color.rgbToHex();
+	return Object.append(color, this);
+});
+
+Color.implement({
+
+	mix: function(){
+		var colors = Array.slice(arguments);
+		var alpha = (typeOf(colors.getLast()) == 'number') ? colors.pop() : 50;
+		var rgb = this.slice();
+		colors.each(function(color){
+			color = new Color(color);
+			for (var i = 0; i < 3; i++) rgb[i] = Math.round((rgb[i] / 100 * (100 - alpha)) + (color[i] / 100 * alpha));
+		});
+		return new Color(rgb, 'rgb');
+	},
+
+	invert: function(){
+		return new Color(this.map(function(value){
+			return 255 - value;
+		}));
+	},
+
+	setHue: function(value){
+		return new Color([value, this.hsb[1], this.hsb[2]], 'hsb');
+	},
+
+	setSaturation: function(percent){
+		return new Color([this.hsb[0], percent, this.hsb[2]], 'hsb');
+	},
+
+	setBrightness: function(percent){
+		return new Color([this.hsb[0], this.hsb[1], percent], 'hsb');
+	}
+
+});
+
+this.$RGB = function(r, g, b){
+	return new Color([r, g, b], 'rgb');
+};
+
+this.$HSB = function(h, s, b){
+	return new Color([h, s, b], 'hsb');
+};
+
+this.$HEX = function(hex){
+	return new Color(hex, 'hex');
+};
+
+Array.implement({
+
+	rgbToHsb: function(){
+		var red = this[0],
+				green = this[1],
+				blue = this[2],
+				hue = 0;
+		var max = Math.max(red, green, blue),
+				min = Math.min(red, green, blue);
+		var delta = max - min;
+		var brightness = max / 255,
+				saturation = (max != 0) ? delta / max : 0;
+		if (saturation != 0){
+			var rr = (max - red) / delta;
+			var gr = (max - green) / delta;
+			var br = (max - blue) / delta;
+			if (red == max) hue = br - gr;
+			else if (green == max) hue = 2 + rr - br;
+			else hue = 4 + gr - rr;
+			hue /= 6;
+			if (hue < 0) hue++;
+		}
+		return [Math.round(hue * 360), Math.round(saturation * 100), Math.round(brightness * 100)];
+	},
+
+	hsbToRgb: function(){
+		var br = Math.round(this[2] / 100 * 255);
+		if (this[1] == 0){
+			return [br, br, br];
+		} else {
+			var hue = this[0] % 360;
+			var f = hue % 60;
+			var p = Math.round((this[2] * (100 - this[1])) / 10000 * 255);
+			var q = Math.round((this[2] * (6000 - this[1] * f)) / 600000 * 255);
+			var t = Math.round((this[2] * (6000 - this[1] * (60 - f))) / 600000 * 255);
+			switch (Math.floor(hue / 60)){
+				case 0: return [br, t, p];
+				case 1: return [q, br, p];
+				case 2: return [p, br, t];
+				case 3: return [p, q, br];
+				case 4: return [t, p, br];
+				case 5: return [br, p, q];
+			}
+		}
+		return false;
+	}
+
+});
+
+String.implement({
+
+	rgbToHsb: function(){
+		var rgb = this.match(/\d{1,3}/g);
+		return (rgb) ? rgb.rgbToHsb() : null;
+	},
+
+	hsbToRgb: function(){
+		var hsb = this.match(/\d{1,3}/g);
+		return (hsb) ? hsb.hsbToRgb() : null;
+	}
+
+});
+
+}).call(this);
+
 
 
 /*

@@ -43,6 +43,18 @@ module UrlHelper
     url_for_blog_(post.blog) + "posts/#{post.id}"
   end
 
+  def tagged_path(tag)
+    super tag_escape(tag)
+  end
+
+  def tag_escape(tag)
+    tag.gsub('.', '$k*').gsub('/', '^k*')
+  end
+
+  def tag_unescape(tag)
+    tag.gsub('$k*', '.').gsub('^k*', '/')
+  end
+
   def fucking_root
     root_url(:subdomain => 'www')
   end

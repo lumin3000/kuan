@@ -6,6 +6,7 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "active_resource/railtie"
 require "rails/test_unit/railtie"
+require 'mustache'
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
@@ -15,6 +16,7 @@ module Kuan
   class Application < Rails::Application
 
     require "#{Rails.root}/lib/rack/gridfs"
+    require "#{Rails.root}/lib/hash_deep_merge"
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -57,5 +59,8 @@ module Kuan
       port: 27017,
       database: "kuan_#{Rails.env}",
       prefix: 'files'
+
+    config.autoload_paths << "#{Rails.root}/lib"
+    config.autoload_paths << "#{Rails.root}/lib/object_view"
   end
 end

@@ -11,7 +11,7 @@ Element.implement({
         target = target.getParent()
       }
       e.target = target
-      fn.call(this, e)
+      if (target != this) fn.call(this, e)
     })
     return this
   }
@@ -29,6 +29,16 @@ K = {
   }
 }
 
+K.upload_log = function(msg){
+  msg = Browser.name+Browser.version+' : '+Browser.Platform.name + ' : ' + msg
+  new Request({
+    url: '/upload_log',
+    method: 'post',
+    data: {'info':msg},
+    onComplete: function(){
+    }
+  }).send()
+}
 K.file_uploader = new Class({
     Implements: [Options],
 
@@ -39,6 +49,9 @@ K.file_uploader = new Class({
         onSuccess: nil,
         onFailure: nil
         */
+        multiple: false,
+        limit: 10,
+        type: 'image/*',
         tar: null
     },
 
@@ -46,19 +59,24 @@ K.file_uploader = new Class({
         this.file = $(el)
         this.path = path
         if(!this.file){
-            throw new Error('Can not find file element')
+            throw new Error('shCan not find file element')
         }
         if(!path){
-            throw new Error('Path is empty')
+            throw new Error('')
         }
-
-        this.setOptions(options)
+      this.setOptions(options)
+      this.multiple = this.options.multiple && (typeof FormData != 'undefined')
+      this.file.set('accept', this.options.type)
+      if(this.multiple){
+        this.file.multiple = 'multiple'
+      }
         var tar = $(this.options.tar)
+        var fire_now = this.options.fire_now
         if(tar == null){
             this.file_box = new Element('div', {
             }).setStyles({
                 'display':'inline'
-            }).inject(this.file, 'before')
+              }).inject(this.file, 'before')
             this.file.inject(this.file_box)
         }else{
             /*
@@ -99,81 +117,124 @@ K.file_uploader = new Class({
         this.file.destroy()
         this.build_file()
         this.file.set('disabled', false)
+      if(fire_now){
+        this.file.fireEvent('click')
+      }
     },
-    build_file: function(){
-        this.file = this.file_clone.inject(this.file_box, 'top')
-            .set('disabled', true)
-        this.file_clone = this.file_clone.clone()
-        this.file.addEvents({
-            'change': function(){
-                this.start()
-            }.bind(this),
-            'mouseenter': function(){
-                //this.file_box.getElement('a').fireEvent('mouseover')
-            },
-            'mouseleave': function(){
-                //this.file_box.getElement('a').fireEvent('mouseleave')
-            }
-        })
-    },
-    start: function(){
-        if(this.file.get('disabled') == true || this.file.value == ''){
-            return false
-        }
-        var f_tar = '_fff_'+Number.random(1,9999)
-        this.frame = new Element('iframe', {'id': f_tar, 'name': f_tar}).
-            inject(document.body).
-            setStyles({
-                'position': 'absolute',
-                'top': '-1000px',
-                'left': '-1000px'
-            })
-
-        this.form = new Element('form', {
-            'action': this.path,
-            'accept-charset': 'UTF-8',
-            'enctype': 'multipart/form-data',
-            'encoding': 'multipart/form-data',
-            'method': 'post',
-            'target': f_tar
-        }).inject(document.body).hide()
-        this.file.inject(this.form)
-        this.build_file()
-        setTimeout(function(){
-            this.frame.addEvent('load', function(){
-                this.complete()
-            }.bind(this))
-            this.form.submit()
-        }.bind(this), 50)
-        this.options.onStart &&
-            this.options.onStart()
-    },
-    cancel: function(){
-    },
-    complete: function(){
-        function on_success(v){
-            cb && cb(v)
-        }
-        function on_error(){
-        }
-        var v = this.frame.contentWindow.document.body.innerHTML
-        v = JSON.decode(v)
-        this.success.call(this, v)
-        this.form.destroy()
-        document.body.removeChild(this.frame)
-        this.file.set('disabled', false)
-    },
-    success: function(v){
-        this.options.onSuccess &&
-            this.options.onSuccess(v)
+  build_file: function(){
+    this.file = this.file_clone.inject(this.file_box, 'top')
+    //    .set('disabled', true)
+    this.file_clone = this.file_clone.clone()
+    this.file.addEvents({
+      'change': function(){
+        this.start()
+      }.bind(this),
+      'mouseenter': function(){
+        //this.file_box.getElement('a').fireEvent('mouseover')
+      },
+      'mouseleave': function(){
+        //this.file_box.getElement('a').fireEvent('mouseleave')
+      }
+    })
+  },
+  start: function(){
+    if(this.file.get('disabled') == true || this.file.value == ''){
+      return false
     }
+    if(!this.multiple){
+      K.upload_log(this.path+' : start : single')
+      var f_tar = '_fff_'+Number.random(1,9999)
+      this.frame = new Element('iframe', {'id': f_tar, 'name': f_tar}).
+        inject(document.body).
+        setStyles({
+          'position': 'absolute',
+          'top': '-1000px',
+          'left': '-1000px'
+        })
+
+      this.form = new Element('form', {
+        'action': this.path,
+        'accept-charset': 'UTF-8',
+        'enctype': 'multipart/form-data',
+        'encoding': 'multipart/form-data',
+        'method': 'post',
+        'target': f_tar
+      }).inject(document.body).hide()
+      this.file.inject(this.form)
+      this.build_file()
+      setTimeout(function(){
+        this.frame.addEvent('load', function(){
+          this.complete()
+        }.bind(this))
+        this.form.submit()
+      }.bind(this), 50)
+      this.options.onStart &&
+        this.options.onStart()
+    }else{
+      for(var i=0, l = Math.min(this.file.files.length, this.options.limit); i<l; i++){
+        K.upload_log(this.path+' : begin : multi')
+        var el = this.options.onStart && this.options.onStart()
+        this.html5upload.call(this, this.file.files[i], el)
+      }
+      this.file.destroy()
+      this.build_file()
+    }
+  },
+  html5upload: function(file, el){
+    var form_data = new FormData()
+    form_data.append('file', file)
+    var xhr = new XMLHttpRequest()
+    var spin = el.set('spinner', {message: '上传中'}).spin()
+    xhr.addEventListener('error', function(e){
+      el.unspin()
+      el.destroy()
+    }, false)
+    xhr.addEventListener('load', function(e){
+      if(xhr.readyState==4 && xhr.status==200){
+        this.complete(xhr.responseText, el)
+        el.unspin()
+      }
+    }.bind(this), false)
+    xhr.addEventListener('progress', function(e){
+      function status(n){
+        el.get('spinner').msg.set('html', n)
+      }
+      if(e.lengthComputable){
+        status(''+(e.loaded/e.total*100).toInt()+'%')
+      }
+    }.bind(this), false)
+    xhr.open('POST', this.path, true)
+    xhr.send(form_data)
+  },
+  cancel: function(){
+  },
+  complete: function(response, el){
+    var v
+    if(!this.multiple){
+      v = this.frame.contentWindow.document.body.innerHTML
+      v = JSON.decode(v)
+      this.success.call(this, v, el)
+      this.form.destroy()
+      document.body.removeChild(this.frame)
+    }else{
+      v = JSON.decode(response)
+      this.success.call(this, v, el)
+    }
+    this.file.set('disabled', false)
+  },
+  success: function(v, el){
+    K.upload_log(this.path+' : success')
+    this.options.onSuccess &&
+      this.options.onSuccess(v, el)
+  }
 })
 
 K.editor = null
-K.render_editor = function(el){
+K.render_editor = function(el, fix){
     var textarea = $(el)
-    var w  = textarea.getStyle('width').toInt() + 55
-    var h  = textarea.getStyle('height').toInt() - 50
+    var fix = fix || {width:0, height: 0}
+    var w  = textarea.getStyle('width').toInt() + fix.width
+    var h  = textarea.getStyle('height').toInt() - fix.height
     K.editor = new MooEditable(textarea, {
         'actions':'toggleview | bold italic underline strikethrough | createlink unlink | urlimage ',
         'dimensions':{x:w,y:h},
@@ -223,7 +284,7 @@ K.post = (function(){
         },
         process: function(el){
         },
-        success: function(el, v){
+        success: function(v, el){
             el.getElement('.the_image a')
                 .set('href', v.image.original)
             el.getElement('[name=tar_img]')
@@ -249,13 +310,15 @@ K.post = (function(){
         }
     }
     var init_upload = function(){
-        var el
+      var el
         new K.file_uploader($('image_uploader'), photo_path, {
+            'multiple': true,
             'onStart': function(){
-                el = photo_item.create()
+              el = photo_item.create()
+              return el
             },
-            'onSuccess': function(v){
-                photo_item.success(el, v)
+          'onSuccess': function(v, ele){
+              photo_item.success(v, ele||el)
             }
         })
     }
@@ -297,12 +360,12 @@ K.post = (function(){
 
     var init_editor = function(){
         if($$('.text')[0] && $$('.text')[0].hasClass('rich_text')){
-            K.render_editor($('content'))
+          K.render_editor($('content'), {width:55, height:50})
         }
         $$('.rich_editor_starter').addEvent('click', function(){
             this.hide()
             $('box_text').addClass('rich_text')
-            K.render_editor($('content'))
+            K.render_editor($('content'), {width:55, height:50})
             return false
         })
         if($('tar_tog_textarea')){
@@ -407,19 +470,23 @@ document.addEvent('domready', function(){
   }
   var KEY = 'data-widget'
   $$('[' + KEY + ']').each(function(e){
-    var type = e.get(KEY)
-      , func = K.widgets[type]
-    func && func(e)
-  });
+    var types = e.get(KEY)
+    if (types) types = types.split(' ')
+    else return
+    types.each(function(t) {
+      var func = K.widgets[t]
+      func && func(e)
+    })
+  })
 
   $(document.body).addEvent('click:relay([data-tgt])', function(e){
-      var tgt = e.target.get('data-tgt')
-      var func
-      if(tgt){
-        e.stop()
-        func = K.tgt[tgt]
-        func && func(e.target)
-      }
+    var tgt = e.target.get('data-tgt')
+    var func
+    if(tgt){
+      e.stop()
+      func = K.tgt[tgt]
+      func && func(e.target)
+    }
   })
 
     // lightbox
@@ -586,6 +653,7 @@ K.widgets.video = function(el){
 }
 
 K.tgt = {}
+
 K.tgt.comments = function(){
     var comments_el
     var comments_target
@@ -673,3 +741,16 @@ K.tgt.reply = function(){
         }).send()
     }
 }()
+
+K.widgets.textarea = function(el){
+  K.render_editor(el)
+}
+
+K.widgets.textboxlist = function(el){
+  el.textboxlist = new TextboxList(el, {
+    bitsOptions:{editable:{
+      addOnBlur: true, addKeys: [13, 188],
+      growingOptions: {startWidth: 30}
+    }}
+  });
+}

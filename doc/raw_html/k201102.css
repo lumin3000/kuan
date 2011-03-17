@@ -546,10 +546,12 @@ form.edit_page .submit_box input{
 	height:44px;
 	border:0px;
 	cursor:pointer;
+	text-indent: -1000px;
 	}
 
 .start_page .login .submit_box input{
 	background:url('images/login_submit.gif');
+
 	}
 .start_page .register .submit_box input{
 	background:url('images/register_submit.gif');
@@ -761,14 +763,20 @@ form.edit_page .submit_box input{
 	height:44px;
 	background:url('images/post_cancel.gif');
 	cursor:pointer;
+	text-indent: -1000px;
 }
 
-.post .send{
+.post .send input{
 	width:150px;
 	height:44px;
 	background:url('images/post_send.gif');
 	cursor:pointer;
+	text-indent: -1000px;
+	overflow:hidden;
+	display:block;
+	border:0px;
 }
+
 
 
 

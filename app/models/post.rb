@@ -14,8 +14,8 @@ class Post
   field :repost_count, :type => Integer, :default => 0
   field :favor_count, :type => Integer, :default => 0
   field :tags, :type => Array, :default => []
-  index :tags 
-  
+  index :tags
+
   attr_accessible :blog, :author, :author_id, :blog_id, :created_at, :comments, :parent, :tags
 
   validates_presence_of :author_id
@@ -28,11 +28,14 @@ class Post
   after_create :ancestor_reposts_inc, :update_blog
 
   scope :tagged, lambda { |tag| where(:tags => tag).desc(:created_at) }
+  scope :pics_and_text, where(:_type.in => ["Text", "Pics"])
+  scope :in_day, lambda { |date| where(:created_at.gte => date.midnight,
+                                       :created_at.lte => date.end_of_day).desc(:created_at) }
 
   def haml_object_ref
     "post"
   end
- 
+
   def type
     self._type.downcase
   end
@@ -68,21 +71,25 @@ class Post
     end
 
     def news(pagination)
-      posts = []
-      Blog.latest.paginate(pagination).each do |b|
+      Blog.latest.paginate(pagination).reduce([]) do |posts, b|
         post = b.posts.desc(:created_at).limit(1).first
         posts << post if not post.nil? and post.created_at == b.posted_at
+        posts
       end
-      posts
     end
 
     def wall
-      posts = []
-      Blog.latest[0..200].sample(50).each do |b|
-        p = b.posts.where(:_type.in => ["Text", "Pics"]).desc(:created_at).limit(10)
-        posts << p.sample unless p.blank?
+      Blog.latest[0..200].sample(50).reduce([]) do |posts, b|
+        p = b.posts.pics_and_text.desc(:created_at).limit(10)
+        p.blank? ? posts : (posts << p.sample)
       end
-      posts
+    end
+
+    def accumulate_for_tags(cal_date = Date.yesterday)
+      Post.in_day(cal_date).where(:tags => /.+/).reduce({}) do |tags, post|
+        post.tags.each { |tag| tags.key?(tag) ? (tags[tag] += 1) : (tags[tag] = 1) }
+        tags
+      end.each { |tag, count| Tag.accumulate tag, count, cal_date.to_s }
     end
   end
 

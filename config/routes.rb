@@ -25,15 +25,20 @@ Kuan::Application.routes.draw do
     #Generating editor and follower resource would make more sense
     post '/follow_toggle' => 'blogs#follow_toggle'
     get '/followers' => 'blogs#followers'
+    post '/preview' => 'blogs#preview'
+    match '/extract_template_vars' => 'blogs#extract_template_vars', :via => [:get, :post]
     get '/editors/new' => 'blogs#apply_entry'
     post '/editors' => 'blogs#apply'
     get '/editors' => 'blogs#editors'
     put '/editor/:user' => 'blogs#upgrade'
     delete '/editor/:user' => 'blogs#kick'
     delete '/exit' => 'blogs#exit'
+    get '/customize' => 'blogs#customize'
   end
 
   post "/upload/:type", :to => 'images#create'
+  post "/upload_log", :to => 'images#upload_log'
+  get "/pics/:id/:filename", :to => redirect { |params| "/files/#{params[:id]}"}
   
   resources :posts, :except => [:new, :index, :show] do
     resources :comments
@@ -63,8 +68,11 @@ Kuan::Application.routes.draw do
   end
 
   get "/tagged/:tag(/page/:page)" => "tags#show", :page => /\d+/, :as => 'tagged'
+  get "/tags", :to => "tags#index"
 
   resources :movings, :only => [:new, :create]
+
+  resources :templates
 
   root :to => redirect("/home")
 end

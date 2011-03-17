@@ -1,0 +1,64 @@
+- css 'admin_templates'
+
+.main
+  - flash.each do |k, v|
+    .flash
+      %div{:class => "#{k}"}= v
+
+  = form_for @template do |f|
+    = f.label :name, '模板名称'
+    = f.text_field :name
+    %br
+    = f.label :html, '代码'
+    %br
+    = f.text_area :html, :cols => 110
+    %br
+    = f.label 'author[email]', '作者Email'
+    = text_field_tag 'author[email]', (@template.author ? @template.author.email : '')
+    .error
+      = @template.errors[:author].first
+    %br
+    - if @template.thumbnail
+      %img#thumbnail_image{src: @template.thumbnail.url_for(:small), width: 200, height: 120}
+    - else
+      %img#thumbnail_image
+    %input.image#image_uploader{type: 'file', name: 'file', autocomplete: 'off'}
+      = f.hidden_field :thumbnail, id: 'template_thumbnail_id',
+        value: @template.thumbnail ? @template.thumbnail.id : ''
+    %br
+    = f.submit '提交'
+
+.sidebar
+  %h4 上传素材图：
+  %ul#assets
+    %li
+      %input{type: 'file', name: 'file'}
+
+:javascript
+  (function(){
+    var fileInput = $('image_uploader')
+      , UPLOAD_PATH = '/upload/template_thumbnail'
+      , thumbnailId = $('template_thumbnail_id')
+      , thumbnailImage = $('thumbnail_image')
+      , uploader = new K.file_uploader(fileInput, UPLOAD_PATH, {
+          onSuccess: function(response) {
+            var image = response.image
+            thumbnailId.set('value', image.id)
+            thumbnailImage.set('src', image.small)
+          }
+        })
+  })()
+
+  ;(function(){
+    var context = $('assets')
+      , fileInput = context.getElement('input')
+      , UPLOAD_PATH = '/upload/asset'
+      , TPL = '<img width=100 height=100 src="{src}"><input value="{src}"><br><hr>'
+      , uploader = new K.file_uploader(fileInput, UPLOAD_PATH, {
+          onSuccess: function(res) {
+            var src = res.image.original
+              , elem = new Element('li', {html: TPL.substitute({src: src})})
+            context.grab(elem, 'top')
+          }
+        })
+  })()
