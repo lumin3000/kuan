@@ -59,6 +59,16 @@ CODE
     end
   end
 
+  def is_faved
+    fetch_faved
+    ! @faved_by.empty?
+  end
+
+  def faved_by
+    fetch_faved
+    @faved_by
+  end
+
   def tags
     @tags = @post.tags.map {|t| TagView.new(t, @extra)} if has_tag
   end
@@ -88,6 +98,14 @@ CODE
       @post.ancestor.repost_count
     else
       @post.repost_count
+    end
+  end
+
+  private
+
+  def fetch_faved
+    @faved_by ||= User.where('favors.post_id' => @post.id).map do |u|
+      ObjectView.wrap u,@extra
     end
   end
 end
