@@ -29,6 +29,16 @@ K = {
   }
 }
 
+K.upload_log = function(msg){
+  msg = Browser.name+Browser.version+' : '+Browser.Platform.name + ' : ' + msg
+  new Request({
+    url: '/upload_log',
+    method: 'post',
+    data: {'info':msg},
+    onComplete: function(){
+    }
+  }).send()
+}
 K.file_uploader = new Class({
     Implements: [Options],
 
@@ -41,6 +51,7 @@ K.file_uploader = new Class({
         */
         multiple: false,
         limit: 10,
+        type: 'image/*',
         tar: null
     },
 
@@ -55,6 +66,7 @@ K.file_uploader = new Class({
         }
       this.setOptions(options)
       this.multiple = this.options.multiple && (typeof FormData != 'undefined')
+      this.file.set('accept', this.options.type)
       if(this.multiple){
         this.file.multiple = 'multiple'
       }
@@ -130,6 +142,7 @@ K.file_uploader = new Class({
       return false
     }
     if(!this.multiple){
+      K.upload_log(this.path+' : start : single')
       var f_tar = '_fff_'+Number.random(1,9999)
       this.frame = new Element('iframe', {'id': f_tar, 'name': f_tar}).
         inject(document.body).
@@ -159,6 +172,7 @@ K.file_uploader = new Class({
         this.options.onStart()
     }else{
       for(var i=0, l = Math.min(this.file.files.length, this.options.limit); i<l; i++){
+        K.upload_log(this.path+' : begin : multi')
         var el = this.options.onStart && this.options.onStart()
         this.html5upload.call(this, this.file.files[i], el)
       }
@@ -195,11 +209,6 @@ K.file_uploader = new Class({
   cancel: function(){
   },
   complete: function(response, el){
-    function on_success(v, el){
-      cb && cb(v, el)
-    }
-    function on_error(){
-    }
     var v
     if(!this.multiple){
       v = this.frame.contentWindow.document.body.innerHTML
@@ -214,6 +223,7 @@ K.file_uploader = new Class({
     this.file.set('disabled', false)
   },
   success: function(v, el){
+    K.upload_log(this.path+' : success')
     this.options.onSuccess &&
       this.options.onSuccess(v, el)
   }
