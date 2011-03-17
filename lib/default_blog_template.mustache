@@ -3,8 +3,8 @@
   <head>
     <link rel="shortcut icon" href="/images/favicon.ico">
     <title>{{title}}</title>
-    <link href="/stylesheets/blog_show.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="/stylesheets/post_display.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/blog_show.css" media="screen" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div id="wrapper">
@@ -44,8 +44,11 @@
                   <a target="_blank" href="{{image_original}}">
                     <img src="{{image_500}}" title="{{desc}}" />
                   </a>
+                  <p>{{desc}}</p>
                 {{/photos}}
-                {{content}}
+                <p>
+                  {{content}}
+                </p>
               {{/photo_single}}
 
               {{#photo_set}}
@@ -105,9 +108,19 @@
             {{/post_single}}
           </div>
         {{/posts}}
+        {{#pagination}}
         <div id='navigation'>
-          {{pagination}}
+          <div class='page_control'>
+            {{#prev_page}}
+            <a class='page_left' href='{{prev_page}}'>&#8592; 最近的</a>
+            <div class='page_number'>{{current_page}}</div>
+            {{/prev_page}}
+            {{#next_page}}
+            <a class='page_right' href='{{next_page}}'>以前的 &#8594;</a>
+            {{/next_page}}
+          </div>
         </div>
+        {{/pagination}}
       </div>
       <div id='sidebar'>
         <div id='top'>

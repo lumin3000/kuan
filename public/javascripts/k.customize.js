@@ -300,15 +300,19 @@ init_uploader = function(el){
 document.addEvent('domready', function() {
   var previewFrame = $('preview')
     , resizeLock = false
-  window.addEvent('resize', function() {
+    , preservedHeight = $('customize_panel').getSize().y
+  window.addEvent('resize', adjustSize)
+  ;[document.body, $('container')].each(function(el) {
+    el && el.setStyle('overflow', 'hidden')
+  })
+  adjustSize()
+
+  function adjustSize() {
     if (resizeLock) return
     resizeLock = true
     setTimeout(function() {
       resizeLock = false
-      previewFrame.setStyle('height', window.getSize().y)
+      previewFrame.setStyle('height', window.getSize().y - preservedHeight)
     }, 80)
-  })
-  ;[document.body, $('container')].each(function(el) {
-    el && el.setStyle('overflow', 'hidden')
-  })
+  }
 })
