@@ -357,8 +357,8 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 .new_contributor .new_contributor_processed a{text-decoration:underline}
 
 /*****new page and edit page****/
-.new_page .page_name, .new_page .page_url{
-	width:600px;
+.new_page .page_name{
+	width:580px;
 	padding:5px 0 5px 20px;
 	font-size:20px;
 	height:45px;
@@ -370,15 +370,56 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	background:#fff;
 }
 
+.new_page .page_url{
+	width:540px;
+	padding:5px 0 5px 20px;
+	font-size:20px;
+	height:45px;
+	line-height:45px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #cadbea;
+	background:#fff;
+}
+
+.new_page .page_name_box{
+	width:600px;
+	height:60px;
+	padding:0;
+	font-size:20px;
+	height:45px;
+	line-height:45px;
+	
+}
+.new_page .page_name_box .short_page_name{
+	width:250px;
+	padding:5px 0 5px 20px;
+	-moz-border-radius:8px;
+	-webkit-border-radious:8px;
+	border-radius:8px;
+	border:1px solid #cadbea;
+	background:#fff;
+	float:left;
+	margin-right:18px;
+}
 
 
+
+.new_page .short_page_name input{
+	border:0;
+	height:40px;
+	line-height:40;
+	font-size:20px;
+	width:150px;
+}
 
 .new_page .page_name input, .new_page .page_url input{
 	border:0;
 	height:40px;
 	line-height:40px;
 	font-size:20px;
-	width:300px;
+	width:270px;
 }
 .new_page .submit_box input {
 	display:block;
@@ -755,12 +796,12 @@ form.edit_page .submit_box input{
 .post .edit_post{
 	width:190px;
     float:right;
-    padding-top:73px;
+    margin-top:-12px;
 }
 
 .post .edit_post h2{
 	font-family:microsoft yahei;
-	font-size:18px;
+	font-size:14px;
 	line-height:18px;
 	color:#7EAEDC;
 	margin:30px 0 10px 0;
@@ -790,7 +831,8 @@ form.edit_page .submit_box input{
 	border:1px solid #cadbea;
 	background:#f2f6f9;
 	padding:0px 20px;
-	overflow:hidden;
+	_zoom:1;
+	overflow:hidden;	
 
 }
 .post h1{	
@@ -1476,7 +1518,7 @@ form.edit_page .submit_box input{
 	font-size:12px;
 	line-height:14px;
 	position:relative;
-	bottom:-20px;
+	bottom:-15px;
 	
 }
 
@@ -1925,14 +1967,19 @@ div.new_reply .content_footer .right a.reply:hover
 
 .explore{
 	width:900px;
-
+}	
+.explore a{
+	color:#ffffff;
+	text-decoration:none;
 }
+
 .explore h1{
 	margin-top:16px;
 	color:#3f7be0;
 	font-size:36px;
 	line-height:40px;
 	font-family:mircosoft yahei;
+
 }
 .explore .tag_wall{
 	width:900px;
@@ -1944,27 +1991,62 @@ div.new_reply .content_footer .right a.reply:hover
 	border-top-left-radius:15px;
 	border-top-right-radius:15px;
 	overflow:hidden;
+	padding:0;
+	margin:0;
+
 }
 
-.explore .tag_wall .cell_box{
+.explore .tag_wall .text_box{
+	height:150px; 	
 	width:150px;
-	height:150px;
-	background:url('images/tagspic.gif') no-repeat;
-	border:0;
+	background-color:#f70967;
+	overflow:hidden;
+	position:relative;
+	padding:0;
 	float:left;
+	
 }
-.explore .tag_wall .cell_box a span{
-	background:url('images/bg_box.png') repeat-x;
-    padding:2px;
-}	
-.explore .tag_wall .cell_box a{
-	color:#dcdcdc;
+
+.explore .tag_wall .text_box .title{
+	margin:12px;
+	line-height:24px;
+	font-size:18px;
 	font-family:microsoft yahei;
-	font-size:12px;
-	line-height:20px;
-	text-decoration:none;
-    margin:120px 10px 0 10px;
-    display:block;	
+	
+}
+
+.explore .tag_wall .text_box .title img{
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	border:0;
+}
+
+.explore .tag_wall .text_box .gradient{
+	background:url('images/tag_bg1.png') no-repeat scroll transparent;
+	position:absolute;
+    top:110px;
+    left:0;
+    bottom:0;
+    right:0;
+}
+
+.explore .tag_wall .text_box .tag{
+	background:none repeat scroll 0 0 rgba(0,0,0,0.5)!important;
+	-moz-border-radius:10px;
+	webkit-border-radius:10px;
+	border-radius:10px;
+	position:absolute;
+    bottom:8px;
+	left:8px;
+	padding:2px 6px;	
+}
+
+.explore .tag_wall .text_box .tag a{
+	color:#dcdcdc;
+
 }
 
 .explore .tag_list{
@@ -2007,10 +2089,9 @@ div.new_reply .content_footer .right a.reply:hover
 }
 
 .explore .tag_list .row .activity{
-	width:450px;
+	width:400px;
 	height:40px;
-	float:left;
-	padding-right:40px;
+	float:right;
 
 }
 
@@ -2018,7 +2099,7 @@ div.new_reply .content_footer .right a.reply:hover
 	width:15px;
 	height:40px;
 	background-color:#3f7be0;
-	float:right;
+	float:left;
 	margin:0px 5px 0 5px;
 	-moz-border-radius-topright:10px;
 	-moz-border-radius-topleft:10px;
@@ -2032,7 +2113,7 @@ div.new_reply .content_footer .right a.reply:hover
 	width:15px;
 	height:40px;
 	background-color:#1f55b0;
-	float:right;
+	float:left;
 	margin:0px 5px 0 5px;
 	display:block;
 	-moz-border-radius-topright:10px;
