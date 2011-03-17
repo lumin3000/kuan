@@ -39,6 +39,7 @@ K.file_uploader = new Class({
         onSuccess: nil,
         onFailure: nil
         */
+        multiple: false,
         tar: null
     },
 
@@ -46,19 +47,22 @@ K.file_uploader = new Class({
         this.file = $(el)
         this.path = path
         if(!this.file){
-            throw new Error('Can not find file element')
+            throw new Error('shCan not find file element')
         }
         if(!path){
-            throw new Error('Path is empty')
+            throw new Error('')
         }
-
-        this.setOptions(options)
+      this.setOptions(options)
+      this.multiple = this.options.multiple && (typeof FormData != 'undefined')
+      if(this.multiple){
+        this.file.multiple = 'multiple'
+      }
         var tar = $(this.options.tar)
         if(tar == null){
             this.file_box = new Element('div', {
             }).setStyles({
                 'display':'inline'
-            }).inject(this.file, 'before')
+              }).inject(this.file, 'before')
             this.file.inject(this.file_box)
         }else{
             /*
@@ -100,73 +104,111 @@ K.file_uploader = new Class({
         this.build_file()
         this.file.set('disabled', false)
     },
-    build_file: function(){
-        this.file = this.file_clone.inject(this.file_box, 'top')
-            .set('disabled', true)
-        this.file_clone = this.file_clone.clone()
-        this.file.addEvents({
-            'change': function(){
-                this.start()
-            }.bind(this),
-            'mouseenter': function(){
-                //this.file_box.getElement('a').fireEvent('mouseover')
-            },
-            'mouseleave': function(){
-                //this.file_box.getElement('a').fireEvent('mouseleave')
-            }
-        })
-    },
-    start: function(){
-        if(this.file.get('disabled') == true || this.file.value == ''){
-            return false
-        }
-        var f_tar = '_fff_'+Number.random(1,9999)
-        this.frame = new Element('iframe', {'id': f_tar, 'name': f_tar}).
-            inject(document.body).
-            setStyles({
-                'position': 'absolute',
-                'top': '-1000px',
-                'left': '-1000px'
-            })
-
-        this.form = new Element('form', {
-            'action': this.path,
-            'accept-charset': 'UTF-8',
-            'enctype': 'multipart/form-data',
-            'encoding': 'multipart/form-data',
-            'method': 'post',
-            'target': f_tar
-        }).inject(document.body).hide()
-        this.file.inject(this.form)
-        this.build_file()
-        setTimeout(function(){
-            this.frame.addEvent('load', function(){
-                this.complete()
-            }.bind(this))
-            this.form.submit()
-        }.bind(this), 50)
-        this.options.onStart &&
-            this.options.onStart()
-    },
-    cancel: function(){
-    },
-    complete: function(){
-        function on_success(v){
-            cb && cb(v)
-        }
-        function on_error(){
-        }
-        var v = this.frame.contentWindow.document.body.innerHTML
-        v = JSON.decode(v)
-        this.success.call(this, v)
-        this.form.destroy()
-        document.body.removeChild(this.frame)
-        this.file.set('disabled', false)
-    },
-    success: function(v){
-        this.options.onSuccess &&
-            this.options.onSuccess(v)
+  build_file: function(){
+    this.file = this.file_clone.inject(this.file_box, 'top')
+    //    .set('disabled', true)
+    this.file_clone = this.file_clone.clone()
+    this.file.addEvents({
+      'change': function(){
+        this.start()
+      }.bind(this),
+      'mouseenter': function(){
+        //this.file_box.getElement('a').fireEvent('mouseover')
+      },
+      'mouseleave': function(){
+        //this.file_box.getElement('a').fireEvent('mouseleave')
+      }
+    })
+  },
+  start: function(){
+    if(this.file.get('disabled') == true || this.file.value == ''){
+      return false
     }
+    if(!this.multiple){
+      var f_tar = '_fff_'+Number.random(1,9999)
+      this.frame = new Element('iframe', {'id': f_tar, 'name': f_tar}).
+        inject(document.body).
+        setStyles({
+          'position': 'absolute',
+          'top': '-1000px',
+          'left': '-1000px'
+        })
+
+      this.form = new Element('form', {
+        'action': this.path,
+        'accept-charset': 'UTF-8',
+        'enctype': 'multipart/form-data',
+        'encoding': 'multipart/form-data',
+        'method': 'post',
+        'target': f_tar
+      }).inject(document.body).hide()
+      this.file.inject(this.form)
+      this.build_file()
+      setTimeout(function(){
+        this.frame.addEvent('load', function(){
+          this.complete()
+        }.bind(this))
+        this.form.submit()
+      }.bind(this), 50)
+      this.list[0] = this.options.onStart &&
+        this.options.onStart()
+    }else{
+      for(var i=0, l = this.file.files.length; i<l; i++){
+        var el = this.options.onStart && this.options.onStart()
+        this.html5upload.call(this, this.file.files[i], el)
+      }
+    }
+  },
+  html5upload: function(file, el){
+    var form_data = new FormData()
+    form_data.append('file', file)
+    var xhr = new XMLHttpRequest()
+    var spin = el.set('spinner', {message: '上传中'}).spin()
+    xhr.addEventListener('error', function(e){
+      alert('上传失败')
+      el.unspin()
+      el.destroy()
+    })
+    xhr.addEventListener('load', function(e){
+      if(xhr.readyState==4 && xhr.status==200){
+        this.complete(xhr.responseText, el)
+        el.unspin()
+      }
+    }.bind(this), false)
+    xhr.addEventListener('progress', function(e){
+      function status(n){
+        console.log(n)
+      }
+      status('-'+e.loaded+'/'+e.total)
+    }.bind(this), false)
+    xhr.open('POST', this.path, true)
+    xhr.send(form_data)
+  },
+  cancel: function(){
+  },
+  complete: function(response, el){
+    function on_success(v, el){
+      cb && cb(v, el)
+    }
+    function on_error(){
+    }
+    var v
+    if(!this.multiple){
+      v = this.frame.contentWindow.document.body.innerHTML
+      v = JSON.decode(v)
+      this.success.call(this, v, el)
+      this.form.destroy()
+      document.body.removeChild(this.frame)
+    }else{
+      v = JSON.decode(response)
+      this.success.call(this, v, el)
+    }
+    this.file.set('disabled', false)
+  },
+  success: function(v, el){
+    this.options.onSuccess &&
+      this.options.onSuccess(v, el)
+  }
 })
 
 K.editor = null
@@ -223,7 +265,7 @@ K.post = (function(){
         },
         process: function(el){
         },
-        success: function(el, v){
+        success: function(v, el){
             el.getElement('.the_image a')
                 .set('href', v.image.original)
             el.getElement('[name=tar_img]')
@@ -249,13 +291,15 @@ K.post = (function(){
         }
     }
     var init_upload = function(){
-        var el
+      var el
         new K.file_uploader($('image_uploader'), photo_path, {
+            'multiple': true,
             'onStart': function(){
-                el = photo_item.create()
+              el = photo_item.create()
+              return el
             },
-            'onSuccess': function(v){
-                photo_item.success(el, v)
+          'onSuccess': function(v, ele){
+              photo_item.success(v, ele||el)
             }
         })
     }
