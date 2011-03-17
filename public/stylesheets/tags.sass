@@ -64,6 +64,9 @@
 
 .explore
   width: 900px
+  *
+    margin: 0
+    padding: 0
   h1
     margin-top: 16px
     color: #3f7be0
@@ -83,8 +86,6 @@
     .list
       height: 150px
       overflow: hidden
-      margin: 0
-      padding: 0
 
     .item
       width: 150px
@@ -93,19 +94,38 @@
       float: left
       overflow: hidden
       position: relative
-      .item
-      .tag
-        position: absolute
-        span
-          background: url('images/bg_box.png') repeat-x
-          padding: 2px
-        color: #dcdcdc
-        font-family: microsoft yahei
-        font-size: 12px
-        line-height: 20px
+      a
+        margin: 0
+        color: #fff
         text-decoration: none
-        margin: 120px 10px 0 10px
-        display: block
+      .content
+        height: 150px
+      .tag
+        background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5) !important
+        -moz-border-radius: 10px
+        webkit-border-radius: 10px
+        border-radius: 10px
+        position: absolute
+        bottom: 8px
+        left: 8px
+        padding: 2px 6px
+
+    .text
+      .content
+        padding: 12px
+        line-height: 24px
+        font-size: 18px
+        font-family: microsoft yahei
+        background-color: #f70967
+      .gradient
+        position: absolute
+        top: 110px 0 0 0
+
+    .bg1
+      background-color: #f70967
+      .gradient
+      
+
   .tag_list
     width: 898px
     height: auto

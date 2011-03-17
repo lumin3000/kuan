@@ -1,0 +1,8 @@
+- photo = post.photos.sample
+- image = photo.image
+.content
+  = image_tag (image.url_for(:'150') || image.url_for(:medium))
+%a{href: tagged_path(tag), target: "_blank"}<
+  %span.tag<
+    = tag
+
