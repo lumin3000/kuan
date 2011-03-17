@@ -18,24 +18,6 @@
         = render partial: "posts/post4tag", object: post, as: :post, locals: {tag: tag}
   .tag_list
     = render :partial => "tags/tag_trend", :collection => @tags, :as => :tag
-    .row
-      .tag_name
-        %a<
-          haha
-      .activity
-        .item.odd
-          %div
-        .item
-          %div
-        .item.odd
-          %div
-        .item
-          %div
-        .item.odd
-          %div
-        .item
-          %div
-
 
 = debug @tags.to_a
 = debug @tag_posts.to_a
