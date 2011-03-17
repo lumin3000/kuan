@@ -7,14 +7,7 @@
 .explore
   %h1 探索
   .tag_wall
-    %ul.list
-      - @tag_posts.each do |tag, post|
-        = render partial: "posts/post4tag", object: post, as: :post, locals: {tag: tag}
-    %ul.list
-      - @tag_posts.each do |tag, post|
-        = render partial: "posts/post4tag", object: post, as: :post, locals: {tag: tag}
-    %ul.list
-      - @tag_posts.each do |tag, post|
-        = render partial: "posts/post4tag", object: post, as: :post, locals: {tag: tag}
+    - @tag_posts.each do |tag, post|
+      = render partial: "posts/post4tag", object: post, as: :post, locals: {tag: tag}
   .tag_list
     = render :partial => "tags/tag_trend", :collection => @tags, :as => :tag
