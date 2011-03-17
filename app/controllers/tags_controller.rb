@@ -16,5 +16,6 @@ class TagsController < ApplicationController
   def index
     @tags = Tag.hottest
     @tag_posts = Tag.hot_tag_posts
+    render :layout => "common"
   end
 end

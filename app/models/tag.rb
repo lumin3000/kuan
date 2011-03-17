@@ -38,7 +38,7 @@ class Tag
 
     def hot_tag_posts
       hottest.reduce({}) do |posts, tag|
-        p = Post.tagged(tag.tag).pics_and_text.limit(10).sample
+        p = Post.tagged(tag.tag).pics_and_text.limit(30).sample
         posts[tag.tag] = p unless p.nil?
         posts
       end

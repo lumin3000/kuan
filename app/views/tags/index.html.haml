@@ -1,4 +1,35 @@
-%h1 Tags
+- css 'tags'
+- content_for :title, "探索_宽岛"
+
+- @site_layout = "site"
+
+
+.explore
+  %h1 探索
+  .tag_wall
+    %ul
+      - @tag_posts.each do |tag, post|
+        = render partial: "posts/post4tag", object: post, as: :post, locals: {tag: tag}
+  .tag_list
+    = render :partial => "tags/tag_trend", :collection => @tags, :as => :tag
+    .row
+      .tag_name
+        %a<
+          haha
+      .activity
+        .item.odd
+          %div
+        .item
+          %div
+        .item.odd
+          %div
+        .item
+          %div
+        .item.odd
+          %div
+        .item
+          %div
+
 
 = debug @tags.to_a
 = debug @tag_posts.to_a

@@ -1,3 +1,4 @@
 - photo = post.photos.sample
 - image = photo.image
-= image_tag image.url_for(:medium)
+- size = (defined?(pic_size) ? pic_size : 'medium')
+= image_tag (image.url_for(size.to_sym) || image.url_for(:medium))

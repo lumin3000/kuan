@@ -1,0 +1,8 @@
+%li.item{ class: post.type }
+  %a.open{ href: blog_path(post.blog) + "posts/#{post.id}", target: "_blank",
+    title: '' }
+    = render partial: "posts/brief_#{post.type}", object: post, as: :post, 
+      locals: {pic_size: '150'}
+  %a.tag{html: tagged_path(tag)}<
+    %span<
+      = tag
