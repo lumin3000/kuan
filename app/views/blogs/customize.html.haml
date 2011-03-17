@@ -74,14 +74,14 @@
           返回
         %a.button{href: "#"} 帮助
   %fieldset.appearance.menu{ data: {widget: "appearance"}}
-    - if @variables
+    - if @variables.all? {|k,v| v.empty?}
+      .box
+        模板作者没有提供可以调整的变量
+    - else
       .box
         = render :partial => 'blogs/template_variables'
       %div
         %a.button.reset{data: {widget: "reload_appearance"}} 恢复为初始值
-    - if @variables.nil?
-      .box
-        模板作者没有提供可以调整的变量
   %fieldset.advanced.menu
     .item.toggle_private
       = f.check_box :private
