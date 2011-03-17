@@ -9,6 +9,7 @@ class ImagesController < ApplicationController
       :'400' => [400, 0],
       :'250' => [250, 0],
       :'100' => [100, 0],
+      :'150' => [150, 150],
       :'75' => [75, 75],
     },
     blog_icon: {
