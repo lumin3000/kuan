@@ -5,14 +5,14 @@
     %input{ :type => "hidden", :name => "count", :value => @post.comments.count }
     - @post.comments.each do |comment|
       .box
-        %div<
+        %div.c_meta<
           %span.c_name<
             %a{ :href => blog_path(comment.author.primary_blog) }<
               = comment.author.name
           &nbsp;&nbsp;&nbsp;
           %span.c_date<
             = comment.created_at
-        %div<
+        %div.c_body<
           = auto_link h(comment.content)
   .c_input
     = form_tag( post_comments_path, :method => "post", :autocomplete => "off" ) do |f|
