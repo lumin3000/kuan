@@ -38,6 +38,7 @@ describe Video do
 
   it "should accept the youku url" do
     @video.url = %(http://v.youku.com/v_show/id_XMjQ2MzMwMzE2.html)
+    @video.content = nil
     @video.should be_valid
     @video.player.should == "http://player.youku.com/player.php/sid/XMjQ2MzMwMzE2/v.swf"
     @video.content.should == "【拍客】重庆建两艘过亿豪华游轮-可停靠直升机 - 视频 - 优酷视频 - 在线观看"

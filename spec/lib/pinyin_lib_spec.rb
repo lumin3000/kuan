@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
-require 'pinyin'
+require 'chinese/pinyin'
 
 describe PinYin do
   describe "pinyin translation" do
