@@ -2,6 +2,10 @@
 <head>
   <!-- Credit goes to Simen <http://daylimeh.tumblr.com> -->
   <meta charset='utf-8'>
+  {{#define}}
+    color background 背景颜色 #fff
+    text subtitle 副标题 在宽岛的小店
+  {{/define}}
   {{#desc}}<meta name="description" content="{{meta_desc}}" />{{/desc}}
   <title>{{title}}</title>
   <style>
@@ -9,6 +13,7 @@
   body {
     padding: 0; margin: 0;
     font: 14px/20px sans-serif;
+    background-color: {{color_background}}
   }
   h1 { width: 540px; margin: 0 auto; }
   h1 a, h1 {
@@ -170,7 +175,7 @@
 
 <div id="head">
   {{control_buttons}}
-  <h1><a href="/">{{title}}</a></h1>
+  <h1><a href="/">{{title}}</a> {{text_subtitle}}</h1>
 </div>
 
 <div id="main">

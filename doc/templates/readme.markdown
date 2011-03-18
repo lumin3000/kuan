@@ -54,7 +54,7 @@
 * post_index 若当前页面为帖子列表页会进入该section
 * pagination 进入分页代码section，若帖子不足一页或不在列表页上则不会进入
 
-### posts section
+### Posts Section
 
 posts section中的字段是各类帖子共享的
 
@@ -74,7 +74,7 @@ posts section中的字段是各类帖子共享的
 * is_repost 如果是转帖发布可以进入该section
 * parent 如果是转帖发布可以进入一个Blog Section访问转帖来源页面的信息
 
-### text section
+### Text Section
 
 posts section下可用，"文字"类型的帖子可进入该section
 
@@ -95,7 +95,7 @@ posts section下可用，"图片"类型的帖子如果只有一张图片可进�
 
 * photos 进入photos section循环访问每张图片信息(即使只有一张)
 
-### photos section
+### Photos Section
 
 photo_single/photo_set section下可用
 
@@ -110,7 +110,7 @@ photo_single/photo_set section下可用
 * image_75 75x75图片链接
 * image_60 60x60图片链接
 
-### link section
+### Link Section
 
 posts section下可用，"链接"类型的帖子可进入该section
 
@@ -129,10 +129,9 @@ posts section下可用，"视频"类型的帖子可进入该section
 * video_code_500 大坨视频代码，点击展开后宽度为500px
 * content 描述内容，可能为空
 
-### user section
+### User Section
 
-帖子中的author section属user section
-未来可能开放页面管理员／成员等
+帖子中的Author Section属User Section
 
 * name 用户名
 * user_url 用户主页面链接
@@ -163,3 +162,38 @@ posts section下可用，"视频"类型的帖子可进入该section
 * icon_16 16x16页面图标链接
 
 ### Time Section
+
+显示时间
+
+* year 4位数年份
+* short_year 末两位数年份
+* month_number 月份数字(1 - 12)
+* month_number_sc 中文月份数字(一、二、⋯⋯⋯⋯十二)
+* month_number_with_zero 月份数字，0补齐的两位数(01 - 12)
+* month 英文月份(January - December)
+* short_month 英文月份简称(Jan - Dec)
+* week_of_year 一年中的第几周(1 - 54)
+* day_of_year 一年中的第几天(0 - 366)
+* day_of_month 月内的第几天(0 - 31)
+* day_of_month_with_zero 同上，以0补齐两位数(00 - 31)
+* day_of_month_sc 月内的第几天，中文
+* day_of_week 英文星期(Monday - Sunday)
+* short_day_of_week 英文星期简称(Mon - Sun)
+* day_of_week_number 星期数字(1 - 7)
+* day_of_week_number_sc 中文的星期数字(一、二、⋯⋯⋯⋯日)
+* am_pm "am"或"pm"
+* am_pm_cn "上午"或"下午"
+* capital_am_pm "AM"或"PM"
+* 12hour 12小时制
+* 12hour_with_zero 同上，用0补齐两位数
+* 24hour 24小时制
+* 24hour_with_zero 同上，用0补齐两位数
+
+### Pagination Section
+
+分页链接与页码信息
+
+* current_page 当前页码
+* total_pages 总页数
+* prev_page 到上一页的链接(新的内容)，仅当可以向上一页翻动时才会出现
+* next_page 到下一页的链接(旧的内容)，仅当存在下一页时才会出现
