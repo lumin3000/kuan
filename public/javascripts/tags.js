@@ -20,6 +20,7 @@ K.puzzle = (function(){
   var column = 6
   var row = 3
   var size = {x:150, y:150}
+  var lock = false
   return {
     init: function(){
       box = $$('.tag_wall')[0]
@@ -50,13 +51,15 @@ K.puzzle = (function(){
       return {x:Number.random(0, column-1), y:Number.random(0, row-1)}
     },
     auto: function(){
-      setInterval(this.run.bind(this), 3000)
+      setInterval(this.random.bind(this), 3000)
     },
-    run: function(){
+    random: function(){
       var pos = this.pick()
-      this.random(pos.y, pos.x)
+      this.run(pos.y, pos.x)
     },
-    random: function(i, j){
+    run: function(i, j){
+      if(lock == true)return
+      lock = true
       var xy = ['x','y'][Number.random(0,1)]
       var rel = [-1,1][Number.random(0,1)]
       var el = els_show[i][j]
@@ -74,6 +77,7 @@ K.puzzle = (function(){
       var fx = new Fx.Tween(el).addEvents({
         transition: Fx.Transitions.Quad.easeInOut,
         complete: function(){
+          lock = false
           var next
           if(xy == 'x'){
             next = {x:j+rel , y: i}
