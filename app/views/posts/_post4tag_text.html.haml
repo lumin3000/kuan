@@ -1,9 +1,10 @@
-.content
-  - unless post.title.blank?
-    = post.title
-    %br
-  != truncate(strip_tags(post.content), :length => 100)
-.gradient
 %a{href: tagged_path(tag), target: "_blank"}<
-  %span.tag<
-    = tag
+  .content
+    - unless post.title.blank?
+      = post.title
+      %br
+    != truncate(strip_tags(post.content), :length => 100)
+  .gradient
+  %a{href: tagged_path(tag), target: "_blank"}<
+    %span.tag<
+      = tag

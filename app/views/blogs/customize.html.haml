@@ -4,7 +4,7 @@
 
 .customize_panel#customize_panel
   %ul.customize_navigation{data: {widget: 'tab', contentsHolder: 'form.edit_blog',
-    contents: 'fieldset', activateOnLoad: 1, name: 'customize'}}
+    contents: 'fieldset', activateOnLoad: 0, name: 'customize'}}
     %li.blog_info 页面信息
     %li.template 模板
     %li.appearance 调整界面
@@ -19,6 +19,10 @@
       = f.label :title, "名称"
       %div
         = f.text_field :title, class: 'title'
+    .page_tag
+      = f.label :tag, "兴趣类型"
+      %div
+        = f.text_field :tag, class: 'tag'
     .page_desc
       = f.label :desc, "描述"
       %div.textarea

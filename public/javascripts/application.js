@@ -454,14 +454,12 @@ K.widgets.shrinked = function(elem) {
 }
 
 K.widgets.fixHover = (function() {
-  var events = {
-        mouseenter: toggle
-      , mouseleave: toggle
+  var className = 'hover'
+    , events = {
+        mouseenter: function() { $(this).addClass(className) }
+      , mouseleave: function() { $(this).removeClass(className) }
       }
   return function(elem) { elem.addEvents(events) }
-  function toggle() {
-    $(this).toggleClass('hover')
-  }
 })()
 
 document.addEvent('domready', function(){

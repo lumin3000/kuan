@@ -10,6 +10,6 @@ class TagView
   end
 
   def url
-    @extra[:home_url] + "tagged/#{@tag}"
+    @extra[:controller].tagged_path @tag
   end
 end

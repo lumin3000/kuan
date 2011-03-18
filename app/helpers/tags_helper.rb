@@ -8,4 +8,11 @@ module TagsHelper
     tags_value post.tags
   end
 
+  def period
+    if Time.now.hour < 5
+      15.downto 2
+    else
+      14.downto 1
+    end
+  end
 end
