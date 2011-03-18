@@ -248,7 +248,6 @@
 
 .post
   .remove, .open, .edit, .reply, .repost, .fave, .faved
-    visibility: hidden
     @include post_button
 
   .open
@@ -277,6 +276,10 @@
 
   .faved
     background-position: 0 -80px
+
+.article
+  .remove, .open, .edit, .reply, .repost, .fave, .faved
+    visibility: hidden
 
 .hover
   .remove, .open, .edit, .reply, .repost, .fave, .faved
