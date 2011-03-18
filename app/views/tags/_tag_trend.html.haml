@@ -3,7 +3,7 @@
     %a{href: tagged_path(tag.tag)}<
       = tag.tag
   .activity
-    - 13.downto(0) do |n|
+    - 14.downto(1) do |n|
       - d = n.days.ago.strftime("%Y-%m-%d")
       .item{title: "#{d} : #{tag.activity[d]}"}<
         %div
