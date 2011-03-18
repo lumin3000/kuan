@@ -178,6 +178,13 @@ class BlogView < Mustache
 
   { 180 => :large,
     60 => :medium,
+    128 => :'128',
+    96 => :'96',
+    64 => :'64',
+    48 => :'48',
+    40 => :'40',
+    30 => :'30',
+    16 => :'16',
     24 => :small, }.each do |k, v|
     define_method("icon_#{k}") do
       h(@blog.icon.url_for(v))
