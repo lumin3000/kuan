@@ -1,4 +1,3 @@
 .item{ class: post.type }
-  %a{href: tagged_path(tag), target: "_blank"}<
-    = render partial: "posts/post4tag_#{post.type}", object: post, as: :post,
-      locals: {tag: tag}
+  = render partial: "posts/post4tag_#{post.type}", object: post, as: :post,
+    locals: {tag: tag}

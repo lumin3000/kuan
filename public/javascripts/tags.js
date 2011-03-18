@@ -25,6 +25,10 @@ K.puzzle = (function(){
     init: function(){
       box = $$('.tag_wall')[0]
       els = box.getElements('.item')
+
+      box.getElements('.text').each(function(item){
+        item.addClass('bg'+Number.random(1,5))
+      });
       this.init_pos()
       return this
     },
@@ -45,7 +49,8 @@ K.puzzle = (function(){
           position: 'absolute',
           top: -999
         })
-      })
+      });
+      this.reset_radius()
     },
     pick: function(){
       return {x:Number.random(0, column-1), y:Number.random(0, row-1)}
@@ -56,6 +61,12 @@ K.puzzle = (function(){
     random: function(){
       var pos = this.pick()
       this.run(pos.y, pos.x)
+    },
+    reset_radius: function(){
+      box.getElements('.item.left').removeClass('left')
+      box.getElements('.item.right').removeClass('right')
+      els_show[0][0].addClass('left')
+      els_show[0][column-1].addClass('right')
     },
     run: function(i, j){
       if(lock == true)return
@@ -83,12 +94,14 @@ K.puzzle = (function(){
             next = {x:j+rel , y: i}
             if(next.x<0 || next.x >= column){
               els[els_random] = el
+              this.reset_radius()
               return
             }
           }else{
             next = {x:j , y: i+rel}
             if(next.y<0 || next.y >= row){
               els[els_random] = el
+              this.reset_radius()
               return
             }
           }
@@ -99,7 +112,8 @@ K.puzzle = (function(){
           els_show[next.y][next.x] = el.setStyles({
             'z-index': 1
           })
-        }
+          this.reset_radius()
+        }.bind(this)
       })
       fx.start(tmp, tmp2)
     }
