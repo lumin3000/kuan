@@ -411,7 +411,7 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	height:40px;
 	line-height:40;
 	font-size:20px;
-	width:150px;
+	width:120px;
 }
 
 .new_page .page_name input, .new_page .page_url input{
@@ -1978,7 +1978,7 @@ div.new_reply .content_footer .right a.reply:hover
 	color:#3f7be0;
 	font-size:36px;
 	line-height:40px;
-	font-family:mircosoft yahei;
+	font-family:microsoft yahei,Hiragino Sans GB,hei		;
 
 }
 .explore .tag_wall{
@@ -2000,7 +2000,6 @@ div.new_reply .content_footer .right a.reply:hover
 	height:150px; 	
 	width:150px;
 	background-color:#f70967;
-	overflow:hidden;
 	position:relative;
 	padding:0;
 	float:left;
@@ -2011,7 +2010,7 @@ div.new_reply .content_footer .right a.reply:hover
 	margin:12px;
 	line-height:24px;
 	font-size:18px;
-	font-family:microsoft yahei;
+	font-family:microsoft yahei,Hiragino Sans GB,hei;
 	
 }
 
