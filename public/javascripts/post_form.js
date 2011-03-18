@@ -232,6 +232,7 @@ K.multi_upload = function(){
     onSelectSuccess: function(files) {
     },
     onFileSuccess: function(file) {
+      K.upload_log('/upload/photo : success : flash')
       var v = JSON.decode(file.response.text)
       if(!v || v.status != 'success'){
         alert('上传失败');

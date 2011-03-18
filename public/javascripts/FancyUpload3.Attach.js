@@ -116,7 +116,7 @@ FancyUpload3.Attach.File = new Class({
 			'complete': this.onComplete,
 			'error': this.onError
 		});
-		
+      K.upload_log('/upload/photo : start : flash')
 		this.ui = {};
 		
 		this.ui.element = new Element('li', {'class': 'file', id: 'file-' + this.id});
