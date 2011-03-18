@@ -2006,7 +2006,9 @@ div.new_reply .content_footer .right a.reply:hover
 	
 }
 
-.explore .tag_wall .text_box .title{
+
+
+.explore .tag_wall .title{
 	margin:12px;
 	line-height:24px;
 	font-size:18px;
@@ -2014,7 +2016,7 @@ div.new_reply .content_footer .right a.reply:hover
 	
 }
 
-.explore .tag_wall .text_box .title img{
+.explore .tag_wall .title img{
 	position:absolute;
 	top:0;
 	right:0;
@@ -2023,16 +2025,132 @@ div.new_reply .content_footer .right a.reply:hover
 	border:0;
 }
 
-.explore .tag_wall .text_box .gradient{
-	background:url('images/tag_bg1.png') no-repeat scroll transparent;
+/*****************red***********************************/
+
+
+.explore .tag_wall .text_box_red{
+	height:150px; 	
+	width:150px;
+	background-color:#f70967;
+	position:relative;
+	padding:0;
+	float:left;
+	
+}
+
+.explore .tag_wall  .text_box_red .gradient{
+	background:url('images/tag_gradient.png') no-repeat 0px 0px transparent;
 	position:absolute;
-    top:110px;
+    top:10px;
     left:0;
     bottom:0;
     right:0;
 }
 
-.explore .tag_wall .text_box .tag{
+
+/*****************brown*********************************/
+.explore .tag_wall .text_box_brown{
+	height:150px; 	
+	width:150px;
+	background-color:#ae9548;
+	position:relative;
+	padding:0;
+	float:left;
+	
+}
+
+
+.explore .tag_wall .text_box_brown .gradient{
+	background:url('images/tag_gradient.png') no-repeat -150px 0px transparent;
+	position:absolute;
+    top:10px;
+    left:0;
+    bottom:0;
+    right:0;
+}
+
+
+/*******************grey****************************/
+
+.explore .tag_wall .text_box_grey{
+	height:150px; 	
+	width:150px;
+	background-color:#7b7d6f;
+	position:relative;
+	padding:0;
+	float:left;
+	
+}
+
+
+.explore .tag_wall  .text_box_grey .gradient{
+	background:url('images/tag_gradient.png') no-repeat -300px 0px transparent;
+	position:absolute;
+    top:10px;
+    left:0;
+    bottom:0;
+    right:0;
+}
+
+
+
+
+
+/*******************green****************************/
+
+.explore .tag_wall .text_box_green{
+	height:150px; 	
+	width:150px;
+	background-color:#00c21e;
+	position:relative;
+	padding:0;
+	float:left;
+	
+}
+
+
+.explore .tag_wall .text_box_green .gradient{
+	background:url('images/tag_gradient.png') no-repeat -450px 0px transparent;
+	position:absolute;
+    top:10px;
+    left:0;
+    bottom:0;
+    right:0;
+}
+
+
+
+/*******************violet****************************/
+
+.explore .tag_wall .text_box_violet{
+	height:150px; 	
+	width:150px;
+	background-color:#8409f7;
+	position:relative;
+	padding:0;
+	float:left;
+	
+}
+
+
+.explore .tag_wall .text_box_violet .gradient{
+	background:url('images/tag_gradient.png') no-repeat -600px 0px transparent;
+	position:absolute;
+    top:10px;
+    left:0;
+    bottom:0;
+    right:0;
+}
+
+
+
+
+
+
+
+
+
+.explore .tag_wall .tag{
 	background:none repeat scroll 0 0 rgba(0,0,0,0.5)!important;
 	-moz-border-radius:10px;
 	webkit-border-radius:10px;
@@ -2043,7 +2161,7 @@ div.new_reply .content_footer .right a.reply:hover
 	padding:2px 6px;	
 }
 
-.explore .tag_wall .text_box .tag a{
+.explore .tag_wall .tag a{
 	color:#dcdcdc;
 
 }
