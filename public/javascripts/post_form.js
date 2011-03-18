@@ -207,6 +207,7 @@ K.multi_upload = function(){
     fileSizeMax: 4 * 1024 * 1024,
     //fileListMax: 3,
     fieldName:'file',
+    queued: true,
     verbose: true,
     zIndex: 0,
     //multiple: false,
@@ -247,24 +248,20 @@ K.multi_upload = function(){
         .set('value', v.image.id)
     },
     onFileError: function(file) {
-      /*
-	file.ui.cancel.set('html', '重试').removeEvents().addEvent('click', function() {
-	file.requeue();
-	return false;
-	});*/
+      var st = file.ui.el.getElement('.file')
       new Element('span', {
-	'html': file.errorMessage,
+//	'html': file.errorMessage,
+        'html': '上传失败',
 	'class': 'file-error'
-      }).inject(file.ui.st);
+      }).inject(st);
+      new Element('a', {'class': 'file-retry', 'html': '重试'}).inject(st).addEvent('click', function() {
+	file.requeue();
+        this.getParent().getElement('.file-error').destroy()
+        this.destroy()
+	return false;
+      });
     },
     onFileRequeue: function(file) {
-      console.log('queue')
-      /*
-	file.ui.cancel.set('html', '取消').removeEvents().addEvent('click', function() {
-	file.remove();
-	return false;
-	});*/
-      
       this.start();
     }
     

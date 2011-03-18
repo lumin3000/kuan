@@ -137,9 +137,11 @@ FancyUpload3.Attach.File = new Class({
           this.ui.el.inject($('photos_list'))
           var st = this.ui.el.getElement('[name=tar_process]').set('html', '').show()
           this.ui.el.getElement('.the_text input').hide()
+          var that = this
           this.ui.el.getElement('.the_close').addEvent('click', function(){
             var photo_item = this.getParent('[name=photo_item]')
             photo_item.destroy()
+	    that.remove();
           })
           photos_list_sort.addItems(this.ui.el)
 
@@ -201,7 +203,6 @@ FancyUpload3.Attach.File = new Class({
 	},
 
 	onError: function() {
-          alert('a')
 		this.ui.element.addClass('file-failed');		
 	}
 
