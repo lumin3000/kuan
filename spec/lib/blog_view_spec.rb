@@ -6,6 +6,7 @@ describe BlogView do
   before :each do
     @blog = Factory.build :blog_unique
     @text = Factory.build :text, :content => 'howdy ho!'
+    @text.author = Factory.build :user_unique
     @posts = [@text]
     @view = BlogView.new @blog, :posts => @posts
   end

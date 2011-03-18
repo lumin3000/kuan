@@ -47,6 +47,10 @@ class Video < Post
     end
   end
 
+  def content=(content)
+    super unless content.blank?
+  end
+
   private
 
   def html(code)
