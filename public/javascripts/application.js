@@ -430,7 +430,7 @@ K.post = (function(){
                             OverText.instances.each(function(item){
                                 item.reposition()
                             })
-                            photo_item.success(el, result)
+                            photo_item.success(result, el)
                         }
                     }
                 }).send()
@@ -607,6 +607,9 @@ K.widgets.sugar = (function(){
     };
 })();
 
+K.widgets.overtext = function(el){
+  new OverText(el)
+}
 K.widgets.video = function(el){
     var init_flash = function(path, el){
         new Swiff(path, {
