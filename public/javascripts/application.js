@@ -430,7 +430,7 @@ K.post = (function(){
                             OverText.instances.each(function(item){
                                 item.reposition()
                             })
-                            photo_item.success(el, result)
+                            photo_item.success(result, el)
                         }
                     }
                 }).send()
