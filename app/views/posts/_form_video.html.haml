@@ -6,7 +6,7 @@
     支持优酷、酷6、土豆视频网站的视频播放页链接，其他网站视频请输入Flash地址或HTML代码 
   .title_text
     = label_tag :url, "网址"
-    = text_field_tag :url, post.url
+    = text_field_tag :url, post.url, :alt => 'http://', 'data-widget' => 'overtext'
   .option_text
     = content_for :content_toggle
   = content_for :content_area

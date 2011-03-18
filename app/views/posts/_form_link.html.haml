@@ -4,7 +4,7 @@
 - content_for :form do
   .url_link
     = label_tag :url, "网址"
-    = text_field_tag :url, post.url, :alt => 'http://', :'data-widget' => 'overtext'
+    = text_field_tag :url, post.url, :alt => 'http://', 'data-widget' => 'overtext'
   .title_link
     = label_tag :title, "标题"
     = text_field_tag :title, post.title
