@@ -607,6 +607,9 @@ K.widgets.sugar = (function(){
     };
 })();
 
+K.widgets.overtext = function(el){
+  new OverText(el)
+}
 K.widgets.video = function(el){
     var init_flash = function(path, el){
         new Swiff(path, {
