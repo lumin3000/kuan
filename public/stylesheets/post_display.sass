@@ -248,51 +248,39 @@
 
 .post
   .remove, .open, .edit, .reply, .repost, .fave, .faved
+    visibility: hidden
     @include post_button
 
   .open
-    background-position: -80px -20px
-    &:hover
-      background-position: -80px 0
+    background-position: -80px 0
 
   .edit
-    background-position: -40px -20px
-    &:hover
-      background-position: -40px 0
+    background-position: -40px 0
 
   .remove
-    background-position: -60px -20px
-    &:hover
-      background-position: -60px 0
+    background-position: -60px 0
 
   .repost
-    background-position: -20px -20px
-    &:hover
-      background-position: -20px 0
+    background-position: -20px 0
 
   .reply
     text-indent: 0
     padding-left: 18px
-    background-position: -100px -20px
     vertical-align: bottom
     line-height: 16px
-    color: gainsboro
-    &:hover
-      color: #676767
-      text-decoration: none
-      background-position: -100px 0
+    color: #676767
+    text-decoration: none
+    background-position: -100px 0
 
   .fave
-    background-position: 0 -20px
-    &:hover
-      background-position: 0 0
+    background-position: 0 0
 
   .faved
-    background-position: 0 -60px
-    &:hover
-      background-position: 0 -40px
+    background-position: 0 -40px
 
-    
+.hover
+  .remove, .open, .edit, .reply, .repost, .fave, .faved
+    visibility: visible
 
 .post_single .open
   display: none
