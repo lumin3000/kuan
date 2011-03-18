@@ -9,8 +9,5 @@
   .tag_wall
     - @tag_posts.each do |tag, post|
       = render partial: "posts/post4tag", object: post, as: :post, locals: {tag: tag}
-      = render partial: "posts/post4tag", object: post, as: :post, locals: {tag: tag}
-      = render partial: "posts/post4tag", object: post, as: :post, locals: {tag: tag}
-      = render partial: "posts/post4tag", object: post, as: :post, locals: {tag: tag}
   .tag_list
     = render :partial => "tags/tag_trend", :collection => @tags, :as => :tag
