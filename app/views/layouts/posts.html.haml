@@ -1,5 +1,3 @@
-- js 'post_form', 'textboxlist'
-- css 'textboxlist'
 - content_for :content, do
   .header
     %a.logo{href: fucking_root, title: "我的主页"}
@@ -12,11 +10,7 @@
   - content_for :title, (@action + @post_type.strip + "_宽岛")
 
 - content_for :head, do
-  - css "post_edit", "mooeditable"
-  - js "mooeditable", "mooeditable.local"
-  :javascript
-    document.addEvent('domready', function(){
-      K.post.init()
-    });
+  - css "post_edit", "mooeditable", 'textboxlist'
+  - js "mooeditable", "mooeditable.local", 'post_form', 'textboxlist'
 
 = render :file => 'layouts/application'
