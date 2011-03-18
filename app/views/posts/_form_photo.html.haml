@@ -9,7 +9,7 @@
   %div{ :class => "the_text" }<
     = text_field_tag "photos[][desc]", form_photo.nil? ? "" : form_photo.desc
     - if form_photo.nil?
-      %span{ :name => "tar_process" }<
+      %span{ :name => "tar_process", :style => "display:none" }<
         上传中...
   %div{ :class => "the_close", :alt => "删除" }<
     &nbsp;

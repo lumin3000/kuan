@@ -322,7 +322,7 @@ K.post = (function(){
             }
         })
     }
-    var photos_list_sort
+    //var photos_list_sort
     var init_photo_items = function(){
         photos_list_sort = new Sortables($('photos_list'), {
             handle:'.the_drag_handle',
@@ -406,7 +406,7 @@ K.post = (function(){
                 photo_item_template = Elements.from(tmpl)[0]
                 init_photo_items()
                 if($('image_uploader') && $('photo_template')){
-                    init_upload()
+                //    init_upload()
                 }
                 this.init_url_upload()
                 init_toggle_upload()

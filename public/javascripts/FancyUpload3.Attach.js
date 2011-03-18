@@ -79,8 +79,7 @@ FancyUpload3.Attach = new Class({
 	},
 	
 	start: function() {
-		// if (Browser.Platform.linux && window.confirm(MooTools.lang.get('FancyUpload', 'linuxWarning'))) return this;
-		//if (Browser.Platform.linux)window.alert(MooTools.lang.get('FancyUpload', 'linuxWarning'));
+		//if (Browser.Platform.linux && window.confirm(MooTools.lang.get('FancyUpload', 'linuxWarning'))) return this;
 		return this.parent();
 	}
 	
@@ -120,29 +119,44 @@ FancyUpload3.Attach.File = new Class({
 		
 		this.ui = {};
 		
-		this.ui.element = new Element('div', {'class': 'file clearfix', id: 'file-' + this.id});
+		this.ui.element = new Element('li', {'class': 'file', id: 'file-' + this.id});
 		this.ui.title = new Element('span', {'class': 'file-title', text: this.name.replace(/^(.{3}).{4,}(.{6})$/,'$1...$2'), 'title':this.name});
-		//this.ui.size = new Element('span', {'class': 'file-size', text: Swiff.Uploader.formatUnit(this.size, 'b')});
-		this.ui.size = new Element('span', {'class': 'file-size', text: ''});
+		this.ui.size = new Element('span', {'class': 'file-size', text: Swiff.Uploader.formatUnit(this.size, 'b')});
 		
-		this.ui.cancel = new Element('a', {'class': 'file-cancel', 'html': '<span>取消</span>', 'href': '#'});
+		this.ui.cancel = new Element('a', {'class': 'file-cancel', text: 'Cancel', href: '#'});
 		this.ui.cancel.addEvent('click', function() {
 			this.remove();
 			return false;
 		}.bind(this));
-
-		// this.ui.element.adopt(
-		// 	this.ui.a_target,
-		// 	this.ui.title,
-		// 	this.ui.size,
-		// 	this.ui.cancel,
-		// ).inject(this.base.list).highlight('#e6efc2', '#F8F8F8');
-		// typeof KT.sort != 'undefined' && KT.sort && KT.sort.addItems(this.ui.element);
 		
-		// var progress = new Element('img', {'class': 'file-progress', src: '/images/progress-bar/bar.gif'}).inject(this.ui.size, 'after');
-		// this.ui.progress = new Fx.ProgressBar(progress, {
-		// 	fit: true
-		// }).set(0);
+//////
+          var tmpl = $('photo_template').value;
+          tmpl = tmpl.replace(/&apos;/gm, '"');
+          photo_item_template = Elements.from(tmpl)[0]
+          this.ui.el = photo_item_template.clone()
+          this.ui.el.inject($('photos_list'))
+          var st = this.ui.el.getElement('[name=tar_process]').set('html', '').show()
+          this.ui.el.getElement('.the_text input').hide()
+          this.ui.el.getElement('.the_close').addEvent('click', function(){
+            var photo_item = this.getParent('[name=photo_item]')
+            photo_item.destroy()
+          })
+          photos_list_sort.addItems(this.ui.el)
+
+          this.ui.cancel.hide()
+          
+//////
+		this.ui.element.adopt(
+			this.ui.title,
+			this.ui.size,
+			this.ui.cancel
+                ).inject(st)
+		//).inject(this.base.list).highlight();
+		
+		var progress = new Element('img', {'class': 'file-progress', src: '/images/progress-bar/bar.gif'}).inject(this.ui.size, 'after');
+		this.ui.progress = new Fx.ProgressBar(progress, {
+			fit: true
+		}).set(0);
 					
 		this.base.reposition();
 
@@ -155,7 +169,7 @@ FancyUpload3.Attach.File = new Class({
 	},
 
 	onRemove: function() {
-		this.ui = this.ui.element.destroy();
+		this.ui = this.ui.el.destroy();
 	},
 
 	onProgress: function() {
@@ -193,6 +207,7 @@ FancyUpload3.Attach.File = new Class({
 
 //Avoiding MooTools.lang dependency
 (function() {
+	
 	var phrases = {
 		'fileName': '{name}',
 		'cancel': '取消',
