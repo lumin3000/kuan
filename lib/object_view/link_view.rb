@@ -6,7 +6,7 @@ class LinkView < PostView
     true
   end
 
-  def link_url
+  def shared_url
     @post.url
   end
 end
