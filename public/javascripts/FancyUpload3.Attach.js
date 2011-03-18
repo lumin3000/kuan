@@ -120,7 +120,7 @@ FancyUpload3.Attach.File = new Class({
 		this.ui = {};
 		
 		this.ui.element = new Element('li', {'class': 'file', id: 'file-' + this.id});
-		this.ui.title = new Element('span', {'class': 'file-title', text: this.name.replace(/^(.{3}).{4,}(.{6})$/,'$1...$2'), 'title':this.name});
+		this.ui.title = new Element('span', {'class': 'file-title', text: this.name.replace(/^(.{6}).{4,}(.{6})$/,'$1...$2'), 'title':this.name});
 		this.ui.size = new Element('span', {'class': 'file-size', text: Swiff.Uploader.formatUnit(this.size, 'b')});
 		
 		this.ui.cancel = new Element('a', {'class': 'file-cancel', text: 'Cancel', href: '#'});
@@ -169,7 +169,8 @@ FancyUpload3.Attach.File = new Class({
 	},
 
 	onRemove: function() {
-		this.ui = this.ui.el.destroy();
+		//this.ui = this.ui.el.destroy();
+          this.ui.el.destroy();
 	},
 
 	onProgress: function() {
@@ -200,6 +201,7 @@ FancyUpload3.Attach.File = new Class({
 	},
 
 	onError: function() {
+          alert('a')
 		this.ui.element.addClass('file-failed');		
 	}
 
