@@ -102,6 +102,15 @@
       width: 180px
       margin-right: 150px
 
+  .file-invalid
+    cursor: pointer
+    color: #514721
+    padding-left: 48px
+    line-height: 24px
+    height: 60px
+    background: url(/images/error.png) no-repeat 24px 5px
+    margin-bottom: 1px
+
   .list_image
     clear: both
     width: 600px
@@ -115,7 +124,29 @@
     border: 1px solid $pink
     background: #fff
     margin-bottom: 30px	
-    
+
+    .file
+      font-size: 12px
+      .file-title
+      .file-size
+      img.file-progress
+        display: block
+        float: left
+        margin: 10px 5px
+        width: 125px
+        height: 12px
+        vertical-align: middle
+        background-image: url(/images/progress-bar/progress.gif)
+      .file-size
+        color: #666
+        padding-left: 12px
+      .file-error
+        font-size: 12px
+        padding: 2px
+      .file-retry
+        font-size: 12px
+        cursor: pointer
+
     div
       float: left
 

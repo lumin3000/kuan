@@ -1,8 +1,9 @@
+- js 'Fx.ProgressBar', 'FancyUpload3.Attach', 'Swiff.Uploader'
 - @post_type = capture do
   图片贴
 - content_for :form do
   #box_file{ :class => 'file_image' }
-    %input{ :type => 'file', :id => 'image_uploader', :name => 'file', :autocomplete => 'off'}
+    %input#image_uploader{ :type => 'file', :name => 'file', :autocomplete => 'off'}
     %span{ :class => 'slight' }<
       图片格式支持JPEG，GIF，PNG，最大4MB。
   #box_url{ :class => 'url_image', :style => 'display:none;' }
