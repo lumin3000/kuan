@@ -8,6 +8,10 @@
   background: $almost-white
   padding: 0 20px
 
+  a
+    font-size: 12px
+    text-decoration: none
+    color: #36C
   .left
     float: left
     width: 620px
@@ -54,6 +58,9 @@
   .textarea_starter,
   .textarea_closer
     float: left
+    width: 200px
+    display: block
+    line-height: 45px
 
   .new_title_starter
     float: left
@@ -194,9 +201,14 @@
     @include size(195px, 44px)
 
   .cancel
-    float: right
+    float: left
     border: 0
     display:block
+    width: 100px
+    padding-left: 150px
+    text-align: right
+    line-height: 45px
+    
 
   .send, .save
     input
@@ -210,12 +222,10 @@
   .send
     input
       background: url('/images/post_send.gif')
-      margin-left: 300px
 
   .save
     input
       background: url('/images/post_save.gif')
-      margin-left: 300px
 
   .post_error
     font-size: 12px
@@ -257,8 +267,6 @@
     margin-bottom: 30px
     overflow: hidden
     a
-      text-decoration: none
-      color: #36c
       padding-right: 0
 
   .url_image
@@ -275,10 +283,6 @@
     background: #fff
     margin-bottom: 30px
     overflow: hidden
-    a
-      font-size: 12px
-      text-decoration: none
-      color: #36c
     input
       border: 0
       height: 45px
