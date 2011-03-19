@@ -2,6 +2,8 @@
 - js 'post_display'
 %div[post]{:class => type, :data => {:widget => 'fixHover'}}
   .content_head
+    %a.open{ :href => posts_blog_path(post), :target => "_blank",
+        title: '展开' }
     - if current_user and post.editable_by? current_user
       %a.remove{ :href => post_path(post), :title => '删除',
         :data => { :doconfirm => "确定删除?", :widget => "rest", :callback => "del", :md => "delete", :parent => "tar_post" }}<
@@ -36,8 +38,7 @@
     .right
       %a.reply{ :href => post_comments_path(post), :title => "评论", :data => { :tgt => "comments" } }<
         = post.comments.count == 0 ? " " : post.comments.count
-      %a.open{ :href => posts_blog_path(post), :target => "_blank",
-        title: '展开' }
+      
     .middle
       - unless post.parent.nil?
         %a{ :href => blog_path(post.parent.blog) }
