@@ -2,14 +2,18 @@
   文字贴
 - should_hide_title = post.title.blank?
 - content_for :form do
-  .option_text
+  .option_text_top
     %a.new_title_starter.slight{href: "#"}<
       +添加帖子标题
     %a.hide_title_starter.slight{href: "#"}<
       \-收起帖子标题
+    %a.rich_editor_starter{ :href => "#"}<
+      切换成高级编辑器
+    %a.text_editor_starter{ :href => "#", :style => "display:none"}<
+      切换成普通编辑器
     = content_for :content_toggle
 
   .title_text
-    = label_tag :title, "标题(可选)"
+    = label_tag :title, "标题"
     = text_field_tag :title, post.title
   = content_for :content_area

@@ -2,6 +2,8 @@
   网址贴
 
 - content_for :form do
+  .option_text_top<
+    &nbsp;
   .url_link
     = label_tag :url, "网址"
     = text_field_tag :url, post.url, :alt => 'http://', 'data-widget' => 'overtext'

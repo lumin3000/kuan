@@ -245,18 +245,20 @@ K.editor_toolbar = {
   show: function(el){
     var toolbar = el.getElement('.mooeditable-ui-toolbar')
     var box = el.getElement('iframe')
+    el.setStyle('height', 340)
     toolbar.show()
     box.setStyles({
       'margin-top': 0,
-      'height': box.getStyle('height').toInt()-toolbar.getStyle('height').toInt()
+      'height': 300
     })
   },
   hide: function(el){
     var toolbar = el.getElement('.mooeditable-ui-toolbar')
     var box = el.getElement('iframe')
+    el.setStyle('height', 100)
     box.setStyles({
       'margin-top': 6,
-      'height': box.getStyle('height').toInt()+toolbar.getStyle('height').toInt()
+      'height': 90
     })
     toolbar.hide()
   }
