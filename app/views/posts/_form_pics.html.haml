@@ -3,21 +3,21 @@
   图片贴
 - content_for :form do
   #box_file{ :class => 'file_image' }
-    %input#image_uploader{ :type => 'file', :name => 'file', :autocomplete => 'off'}
-    %span{ :class => 'slight' }<
-      图片格式支持JPEG，GIF，PNG，最大4MB。
+    .top
+      %input#image_uploader{ :type => 'file', :name => 'file', :autocomplete => 'off'}
+      %a{ :id => 'tar_tog_url', :class => 'image_url_starter slight', :href => '#' }<
+        提交一个图片网址
+    .button
+      %span.slight<
+        图片格式支持JPEG，GIF，PNG，最大4MB。
   #box_url{ :class => 'url_image', :style => 'display:none;' }
     %input{ :type => 'text', :id => 'url_uploader_url', :alt => 'http://' }
+    %a{ :id => 'tar_tog_local', :class => 'image_local_starter slight', :href => '#' }<
+      提交本地图片
     %span{ :id => 'url_uploader_btn', :alt => '提交链接' }<
       &nbsp;
   %input{ :id => 'photo_template', :value => render_form_photo(nil), :type => 'hidden' }
   #photos_list
     - post.photos.each do |p|
       = render_form_photo p
-  .option_text
-    %a{ :id => 'tar_tog_url', :class => 'image_url_starter slight', :href => '#' }<
-      提交一个图片网址
-    %a{ :id => 'tar_tog_local', :class => 'image_local_starter slight', :href => '#', :style => 'display:none' }<
-      提交本地图片
-    = content_for :content_toggle
   = content_for :content_area

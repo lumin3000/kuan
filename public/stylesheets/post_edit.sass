@@ -42,20 +42,23 @@
     padding-bottom: 25px
 
   .rich_editor_starter,
-  .textarea_starter,
-  .textarea_closer,
+  .text_editor_starter,
   .new_title_starter
     width: 100px
 
   .rich_editor_starter,
+  .text_editor_starter
+    float: right
+  .text_editor_starter
+    display: none
   .textarea_starter,
   .textarea_closer
-    float: right
+    float: left
 
   .new_title_starter
     float: left
 
-  .image_url_starter
+  .image_url_starter,
   .image_local_starter
     width: 200px
     display: block
@@ -64,9 +67,9 @@
   .file_image
     clear: both
     width: 600px
-    padding: 15px 0 5px 20px
-    font-size: 20px
-    height: 35px
+    padding: 10px 0 10px 20px
+    font-size: 12px
+    height: 45px
     line-height: 35px
     -moz-border-radius: 8px
     -webkit-border-radius: 8px
@@ -74,6 +77,19 @@
     border: 1px solid #cadbea
     background: #fff
     margin-bottom: 30px
+    overflow: hidden
+    .top,
+    .button
+      float: left
+      width: 590px
+      height: 24px
+      line-height: 12px
+    a
+      text-decoration: none
+      color: #36c
+      margin-left: 270px
+    .slight
+      line-height: 30px
 
   .url_image
     span
@@ -237,12 +253,8 @@
     @include size(195px, 44px)
 
   .cancel
-    @include big_button
-    @include hide_text
     float: right
-    background: url('/images/post_cancel.gif')
     border: 0
-    overflow: hidden
     display:block
 
   .send, .save
@@ -252,6 +264,7 @@
       overflow: hidden
       display: block
       border: 0
+      float: right
 
   .send
     input
