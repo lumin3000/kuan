@@ -2339,6 +2339,42 @@ div.new_reply .content_footer .right a.reply:hover
 
 
 /*********************post_img_txt_link_video*************************************/
+.post .title{
+	line-height:45px;
+}
+
+
+.post .top{
+	float:left;
+	width:590px;
+	height:24px;
+	line-height:12px;
+	
+}
+
+.post .top a{
+	float:right;
+	padding-top:8px;
+}
+.post .bottom{
+	float:left;
+	width:590px;
+	height:24px;
+	line-height:24px;
+}
+
+.post .bottom span{
+	color:#808080;
+	line-height:24px;
+	
+}
+
+
+
+
+
+
+
 .post h1{
 	font-family:microsoft yahei;
 	font-weight:normal;
@@ -2358,7 +2394,7 @@ div.new_reply .content_footer .right a.reply:hover
 	border:0px;
 }
 
-.post .file_image_commit{
+.post .file_image{
 	clear:both;
 	width:600px;
 	padding:10px 0 10px 20px;
@@ -2375,33 +2411,24 @@ div.new_reply .content_footer .right a.reply:hover
 	
 }
 
-.post .file_image_commit div{
-	float:left;
-	width:590px;
-	height:24px;
-	line-height:12px;
-	
-}
-
-.post .file_image_commit a{
+.post .file_image a{
 	text-decoration:none;
 	color:#3366cc;
-    margin-left:270px;
+    padding-right:0px;
+
 
 }
 
-.post .file_image_commit .slight{
-	line-height:30px;
+
 	
-}
 
-.post .url_image_commit{
+.post .url_image{
 	clear:both;
 	width:600px;
 	padding:5px 0 5px 20px;
 	font-size:20px;
-	height:45px;
-	line-height:45px;
+	height:55px;
+	line-height:5px;
 	-moz-border-radius:8px;
 	-webkit-border-radius:8px;
 	border-radius:8px;
@@ -2411,30 +2438,77 @@ div.new_reply .content_footer .right a.reply:hover
 }
 
 
+.post a{
+	font-size:12px;
+	text-decoration:none;
+	color:#3366cc;
 
-.post .url_image_commit span{
-	display: inline-block;
-	font-size:18px;
-	font-family:"Hiragino Sans GB", hei, "microsoft yahei";
-	
-	width:130px;
-	cursor:pointer;
-	line-height:30px;
-	margin-top:9px;
-	vertical-align:top;
-	background-color:#548ff4;
-	-moz-border-radius-topright:8px;
-	-moz-border-radius-bottomright:8px;
+    
+
 }
-.post .url_image_commit input{
-	border:0;
-	height:40px;
+
+.post .url_image input{
+	height:45px;
 	line-height:40px;
 	font-size:20px;
 	width:300px;
+	color:#808080;
+}
+
+.post .url_image .bottom span{
+	background:none;
+	color:#808080;
+	font-size:12px;
+	line-height:24px;
+
+}
+
+.post .image_url_starter{
+	width:200px;
+	display:bock;
+	float:left;
+	line-height:45px;
 }
 
 
+.post .list_image .the_text input{
+	width:410px;
+	height:32px;
+	border:1px solid #f2f6f9;
+	border-radius:8px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	font-size:20px;
+	line-height:32px;
+}
+
+
+
+.post .rich_editor_starter {
+	display:block;
+	width:100px;
+	padding-left:150px;
+	text-align:right;
+	float:left;
+	line-height:45px;
+}
+
+
+
+.post .list_image .the_close {
+	width:14px;
+	height:14px;
+	margin-top:30px;
+	background:url('images/icons.gif') -100px -20px;
+	overflow:hidden;
+}
+
+
+.post .edit_post{
+	width:190px;
+    float:right;
+    padding-top:80px;
+}
 
 
 
