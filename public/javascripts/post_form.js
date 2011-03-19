@@ -16,6 +16,7 @@ document.addEvent('domready', function(){
 K.post = (function(){
   var photo_path = '/upload/photo'
   var init_title = function(){
+    if(!$$('.new_title_starter')[0])return
     var s_new = $$('.new_title_starter')[0]
     var s_hide = $$('.hide_title_starter')[0]
     if($$('.title_text input')[0].value == ''){
@@ -127,6 +128,7 @@ K.post = (function(){
     if($$('.text')[0] && $$('.text')[0].hasClass('rich_text')){
       K.render_editor($('content'), {width:55, height:50})
     }
+    if(!$$('.rich_editor_starter')[0])return
     var s_rich = $$('.rich_editor_starter')[0]
     var s_text = $$('.text_editor_starter')[0]
     s_rich.addEvent('click', function(){

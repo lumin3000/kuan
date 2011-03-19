@@ -6,16 +6,20 @@
     .top
       %input#image_uploader{ :type => 'file', :name => 'file', :autocomplete => 'off'}
       %a{ :id => 'tar_tog_url', :class => 'image_url_starter slight', :href => '#' }<
-        提交一个图片网址
-    .button
-      %span.slight<
-        图片格式支持JPEG，GIF，PNG，最大4MB。
+        选择一张网络图片
+    .bottom
+      %span<
+        支持多图上传，可上传JPEG,GIF,PNG，单张图片最大4MB。
   #box_url{ :class => 'url_image', :style => 'display:none;' }
-    %input{ :type => 'text', :id => 'url_uploader_url', :alt => 'http://' }
-    %a{ :id => 'tar_tog_local', :class => 'image_local_starter slight', :href => '#' }<
-      提交本地图片
-    %span{ :id => 'url_uploader_btn', :alt => '提交链接' }<
-      &nbsp;
+    .top
+      %input{ :type => 'text', :id => 'url_uploader_url', :alt => '图片地址http://' }
+      %span{ :id => 'url_uploader_btn', :alt => '提交链接' }<
+        &nbsp;
+      %a{ :id => 'tar_tog_local', :class => 'image_local_starter slight', :href => '#' }<
+        选择一张本地图片
+    .bottom
+      %span<
+        请输入图片网络地址
   %input{ :id => 'photo_template', :value => render_form_photo(nil), :type => 'hidden' }
   #photos_list
     - post.photos.each do |p|

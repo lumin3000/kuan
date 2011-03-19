@@ -58,65 +58,6 @@
   .new_title_starter
     float: left
 
-  .image_url_starter,
-  .image_local_starter
-    width: 200px
-    display: block
-    float: left
-
-  .file_image
-    clear: both
-    width: 600px
-    padding: 10px 0 10px 20px
-    font-size: 12px
-    height: 45px
-    line-height: 35px
-    -moz-border-radius: 8px
-    -webkit-border-radius: 8px
-    border-radius: 8px
-    border: 1px solid #cadbea
-    background: #fff
-    margin-bottom: 30px
-    overflow: hidden
-    .top,
-    .button
-      float: left
-      width: 590px
-      height: 24px
-      line-height: 12px
-    a
-      text-decoration: none
-      color: #36c
-      margin-left: 270px
-    .slight
-      line-height: 30px
-
-  .url_image
-    span
-      display:  inline-block
-      width: 130px
-      background: url('/images/post_image_url.gif') no-repeat
-      cursor: pointer
-      line-height: 30px
-      margin-top: 9px
-      vertical-align: top
-
-    input
-      border: 0
-      height: 40px
-      line-height: 40px
-      font-size: 20px
-      width: 450px
-
-  .file_image
-
-    span
-      font-size: 12px
-      float: right
-
-    input
-      width: 180px
-      margin-right: 150px
 
   .file-invalid
     cursor: pointer
@@ -281,6 +222,86 @@
     color: red
     font-weight: blod
     padding-left: 10px
+
+  .file_image,
+  .url_image
+    .top
+      float: left
+      width: 590px
+      height: 24px
+      line-height: 12px
+      a
+        float: right
+        padding-top: 8px
+    .bottom
+      float: left
+      width: 590px
+      height: 24px
+      line-height: 24px
+      span
+        color: #808080
+        line-height: 24px
+
+  .file_image
+    clear: both
+    width: 600px
+    padding: 10px 0 10px 20px
+    font-size: 12px
+    height: 45px
+    line-height: 35px
+    -moz-border-radius: 8px
+    -webkit-border-radius: 8px
+    border-radius: 8px
+    border: 1px solid #cadbea
+    background: #fff
+    margin-bottom: 30px
+    overflow: hidden
+    a
+      text-decoration: none
+      color: #36c
+      padding-right: 0
+
+  .url_image
+    clear: both
+    width: 600px
+    padding: 5px 0 5px 20px
+    font-size: 20px
+    height: 55px
+    line-height: 5px
+    -moz-border-radius: 8px
+    -webkit-border-radius: 8px
+    border-radius: 8px
+    border: 1px solid #cadbea
+    background: #fff
+    margin-bottom: 30px
+    overflow: hidden
+    a
+      font-size: 12px
+      text-decoration: none
+      color: #36c
+    input
+      border: 0
+      height: 45px
+      line-height: 40px
+      font-size: 20px
+      width: 300px
+      color: #808080
+    .bottom span
+      background: none
+      color: #808080
+      font-size: 12px
+      line-height: 24px
+
+
+    span
+      display:  inline-block
+      width: 130px
+      background: url('/images/post_image_url.gif') no-repeat
+      cursor: pointer
+      line-height: 30px
+      margin-top: 9px
+      vertical-align: top
+
 
 .my_pages
   $selector-width = 186px
