@@ -31,7 +31,7 @@
 {{/posts}}
 </code></pre>
 
-<h3>用Section处理可能为空的字段</h3>
+<h3 id="tip-empty-field">用Section处理可能为空的字段</h3>
 
 <p>如果一个页面没有填写描述，那么meta_desc也就同时为空。如果在模板里直接写：</p>
 
@@ -76,19 +76,22 @@
 <h4>Sections</h4>
 
 <ul>
-<li>other_pages 页面拥有者参与或关注的所有页面，用户主页面特有</li>
-<li>followings 页面拥有者所关注的页面，用户主页面特有</li>
+<li>other_pages
+页面拥有者参与或关注的所有页面，用户主页面特有，其中字段见<a
+  href="#blog-section">Blog Section</a></li>
+<li>followings 页面拥有者所关注的页面，用户主页面特有，其中字段见<a href="#blog-section">Blog Section</a></li>
 <li>has_following 页面拥有者是否关注了其他页面，用户主页面特有</li>
-<li>define 定义可以由模板使用者自行调整的变量，详见Define Section</li>
-<li>posts 循环展示每个帖子，帖子单页与列表页皆可用，详见Posts Section</li>
+<li>define 定义可以由模板使用者自行调整的变量，详见<a href="#define-section">Define Section</a></li>
+<li>posts 循环展示每个帖子，帖子单页与列表页皆可用，详见<a href="#posts-section">Posts Section</a></li>
 <li>post_single 若当前页面为帖子单页会进入该section</li>
 <li>post_index 若当前页面为帖子列表页会进入该section</li>
 <li>pagination
-分页信息，若帖子不足一页或在帖子单页上则不会进入，详见Pagination Section</li>
+分页信息，若帖子不足一页或在帖子单页上则不会进入，详见<a
+  href="#pagination-section">Pagination Section</a></li>
 </ul>
 
 
-<h3>Posts Section</h3>
+<h3 id="posts-section">Posts Section</h3>
 
 <p>Posts Section中的字段是各类帖子共享的</p>
 
@@ -107,18 +110,29 @@
 <h4>section</h4>
 
 <ul>
-<li>author 进入User Section，可访问帖子作者信息</li>
-<li>create_date 帖子的发表时间，进入Time Section访问发帖时间信息</li>
+<li>author 进入<a href="#user-section">User Section</a>，可访问帖子作者信息</li>
+<li>create_date 帖子的发表时间，进入<a href="#time-section">Time Section</a>访问发帖时间信息</li>
 <li>repost_tag 生成一个<code>&lt;a&gt;</code>标签用于转帖；section中间的内容会放在<code>&lt;a&gt;</code>标签内</li>
 <li>fave_tag 生成一个<code>&lt;a&gt;</code>标签用于喜欢该帖子；section中间的内容会放在<code>&lt;a&gt;</code>标签内</li>
 <li>is_repost 如果是转帖发布可以进入该section</li>
-<li>repost_parent 如果是转帖发布可以进入一个Blog Section访问转帖来源页面的信息</li>
+<li>repost_parent 如果是转帖发布可以进入一个<a href="#blog-section">Blog Section</a>访问转帖来源页面的信息</li>
+</ul>
+
+<h4>表述帖子类型的section</h4>
+<p>为给每种不同类型的帖子设计模板，你会需要这些特殊的section，它们必须在Posts
+Section里使用</p>
+<ul>
+<li><a href="#text-section">text</a> 文字
+<li><a href="#photo-set-section">photo_single</a> 只有一张图片的图片帖子
+<li><a href="#photo-set-section">photo_set</a> 多张图片的图片帖子
+<li><a href="#link-sectio">link</a> 链接
+<li><a href="#video-section">video</a> 视频
 </ul>
 
 
-<h3>Text Section</h3>
+<h3 id="time-section">Text Section</h3>
 
-<p>Posts Section下可用，"文字"类型的帖子可进入该section</p>
+<p><a href="#posts-section">Posts Section</a>下可用，"文字"类型的帖子可进入该section</p>
 
 <h4>字段</h4>
 
@@ -128,9 +142,9 @@
 </ul>
 
 
-<h3>photo_single/photo_set section</h3>
+<h3 id="photo-set-section">photo_single/photo_set section</h3>
 
-<p>posts section下可用，"图片"类型的帖子如果只有一张图片可进入photo_single section，若多于一张则可进入photo_set section。</p>
+<p><a href="#posts-section">Posts Section</a>下可用，"图片"类型的帖子如果只有一张图片可进入photo_single section，若多于一张则可进入photo_set section。</p>
 
 <h4>字段</h4>
 
@@ -142,15 +156,15 @@
 <h4>section</h4>
 
 <ul>
-<li>photos 进入Photos Section循环访问每张图片信息(即使只有一张)</li>
+<li>photos 进入<a href="#photos-section">Photos Section</a>循环访问每张图片信息(即使只有一张)</li>
 </ul>
 
 
-<h3>Photos Section</h3>
+<h3 id="photos-section">Photos Section</h3>
 
-<p>photo_single/photo_set section下可用</p>
+<p><a href="#photo-set-section">photo_single/photo_set section</a>下可用</p>
 
-<h4>字段</h4>
+<h4 id="photos-section">字段</h4>
 
 <ul>
 <li>desc 图片描述</li>
@@ -164,9 +178,9 @@
 </ul>
 
 
-<h3>Link Section</h3>
+<h3 id="link-section">Link Section</h3>
 
-<p>Posts Section下可用，"链接"类型的帖子可进入该section</p>
+<p><a href="#posts-section">Posts Section</a>下可用，"链接"类型的帖子可进入该section</p>
 
 <h4>字段</h4>
 
@@ -177,9 +191,9 @@
 </ul>
 
 
-<h3>video section</h3>
+<h3 id="video-section">Video Section</h3>
 
-<p>posts section下可用，"视频"类型的帖子可进入该section</p>
+<p><a href="#posts-section">Posts Section</a>下可用，"视频"类型的帖子可进入该section</p>
 
 <h4>字段</h4>
 
@@ -189,7 +203,7 @@
 </ul>
 
 
-<h3>User Section</h3>
+<h3 id="user-section">User Section</h3>
 
 <p>帖子中的Author Section属User Section</p>
 
@@ -208,7 +222,7 @@
 </ul>
 
 
-<h3>Blog Section</h3>
+<h3 id="blog-section">Blog Section</h3>
 
 <p>转帖来源页面、关注/参与的页面都属于Blog Section</p>
 
@@ -227,7 +241,7 @@
 </ul>
 
 
-<h3>Time Section</h3>
+<h3 id="time-section">Time Section</h3>
 
 <p>显示时间</p>
 
@@ -261,19 +275,21 @@
 </ul>
 
 
-<h3>Pagination Section</h3>
+<h3 id="pagination-section">Pagination Section</h3>
 
 <p>分页链接与页码信息</p>
 
 <ul>
 <li>current_page 当前页码</li>
 <li>total_pages 总页数</li>
-<li>prev_page 到上一页的链接(新的内容)</li>
-<li>next_page 到下一页的链接(旧的内容)</li>
+<li>prev_page 到上一页的链接(新的内容)，在第一页时为空</li>
+<li>next_page 到下一页的链接(旧的内容)，在最后一页时为空</li>
 </ul>
 
 
-<h3>Define Section</h3>
+<p>展示分页信息时可能会经常用到<a href="#tip-empty-field">用Section处理空字段</a>的技巧</p>
+
+<h3 id="define-section">Define Section</h3>
 
 <p>当模板作者需要重复使用某些变量，或者将一些模板中的内容（颜色，图片，文字等）交给使用者自定义时，可以用Define Section来完成。比如下面的例子：</p>
 
@@ -291,7 +307,11 @@
 <ul>
 <li><code>text</code> 变量类型，此外还支持color，image和bool</li>
 <li><code>subtitle</code> 变量名字，可以是任意英文字母、数字和下划线的组合</li>
-<li><code>副标题</code> 变量描述，在自定义页面的"调整界面"选项卡里可以看到
-*</li>
+<li><code>副标题</code> 变量描述，在自定义页面的"调整界面"选项卡里可以看到</li>
+<li><code>我在宽岛的小屋</code> 变量默认值</li>
 </ul>
 
+<p>bool型变量只能使用1/0 true/false yes/no
+on/off来标注逻辑真/假，其余写法会被模板系统忽略</p>
+
+<p>变量的使用与填充字段类似，两对花括号中填入类型＋下划线＋变量名字即可。如上例的{{text_subtitle}}</p>
