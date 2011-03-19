@@ -24,6 +24,8 @@ K.left2right = (function(){
   var row = 3
   var size = {x:150, y:150}
   var lock = false
+  var now = 0
+  fxs = []
   return {
     init: function(){
       box = $$('.tag_wall')[0]
@@ -34,25 +36,46 @@ K.left2right = (function(){
     init_pos: function(){
       var box_line
       for(var i=0; i<row; i++){
-        box_line_outer = new Element('div')
+        box_line_outer = new Element('div', {class: 'box_line_outer'})
           .setStyles({height:size.y, width:size.x*column, overflow:'hidden'})
-          .inject(box, 'top')
-        box_line = new Element('div')
+          .inject(box)
+        box_line = new Element('div', {class: 'box_line'})
           .setStyles({width: 3333})
           .inject(box_line_outer)
-        for(var j=0; j<column+2; j++){
+        fxs.push(new Fx.Scroll(box_line_outer, {
+          duration: 1500,
+          transition:Fx.Transitions.Quad.easeInOut
+        }))
+        for(var j=0; j<column; j++){
           els.pop().inject(box_line)
         }
       }
       els.each(function(item){
+        item.inject(box)
       });
 //      this.reset_radius()
     },
 
     auto: function(){
-      setInterval(this.left2right.bind(this), 3000)
+      setInterval(this.run.bind(this), 3000)
     },
-    left2right: function(){
+    run: function(){
+      if(now>=row){
+        line_num = now = 0
+      }else{
+        line_num = now
+      }
+      now++
+      var box_line_outer = box.getElements('.box_line_outer')[line_num]
+      var box_line = box_line_outer.getElement('.box_line')
+      var els_random = Number.random(0, els.length-1)
+      var el_new = els[els_random]
+      el_new.inject(box_line, 'top')
+      box_line_outer.scrollLeft = size.x
+      fxs[line_num].toLeft()
+      var old = box_line.getElements('.item')
+      console.log(old.length)
+      els[els_random] = old[old.length-1]
     }
   }
 })()
