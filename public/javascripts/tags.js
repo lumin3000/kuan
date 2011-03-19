@@ -5,13 +5,57 @@ document.addEvent('domready', function(){
     item.getElement('div').setStyle('height', trend_height(count))
     i++%2 == 1 && item.addClass('odd')
   });
-  K.puzzle.init().auto()
+  $$('.tag_wall')[0].getElements('.text').each(function(item){
+    item.addClass('bg'+Number.random(1,5))
+  });
+
+  K.left2right.init().auto()
 })
 
 function trend_height(n){
   if(!n)n=0
   return Math.min(n+1, 40)
 }
+
+K.left2right = (function(){
+  var box
+  var els
+  var column = 6
+  var row = 3
+  var size = {x:150, y:150}
+  var lock = false
+  return {
+    init: function(){
+      box = $$('.tag_wall')[0]
+      els = box.getElements('.item')
+      this.init_pos()
+      return this
+    },
+    init_pos: function(){
+      var box_line
+      for(var i=0; i<row; i++){
+        box_line_outer = new Element('div')
+          .setStyles({height:size.y, width:size.x*column, overflow:'hidden'})
+          .inject(box, 'top')
+        box_line = new Element('div')
+          .setStyles({width: 3333})
+          .inject(box_line_outer)
+        for(var j=0; j<column+2; j++){
+          els.pop().inject(box_line)
+        }
+      }
+      els.each(function(item){
+      });
+//      this.reset_radius()
+    },
+
+    auto: function(){
+      setInterval(this.left2right.bind(this), 3000)
+    },
+    left2right: function(){
+    }
+  }
+})()
 
 K.puzzle = (function(){
   var box
@@ -25,12 +69,18 @@ K.puzzle = (function(){
     init: function(){
       box = $$('.tag_wall')[0]
       els = box.getElements('.item')
-
-      box.getElements('.text').each(function(item){
-        item.addClass('bg'+Number.random(1,5))
-      });
       this.init_pos()
       return this
+    },
+    // random
+    auto: function(){
+      setInterval(this.random.bind(this), 3000)
+    },
+    random: function(){
+      var pos = this.pick()
+      var xy = ['x','y'][Number.random(0,1)]
+      var rel = [-1,1][Number.random(0,1)]
+      this.run(pos.y, pos.x, xy, rel)
     },
     init_pos: function(){
       box.setStyle('position', 'relative')
@@ -55,24 +105,15 @@ K.puzzle = (function(){
     pick: function(){
       return {x:Number.random(0, column-1), y:Number.random(0, row-1)}
     },
-    auto: function(){
-      setInterval(this.random.bind(this), 3000)
-    },
-    random: function(){
-      var pos = this.pick()
-      this.run(pos.y, pos.x)
-    },
     reset_radius: function(){
       box.getElements('.item.left').removeClass('left')
       box.getElements('.item.right').removeClass('right')
       els_show[0][0].addClass('left')
       els_show[0][column-1].addClass('right')
     },
-    run: function(i, j){
+    run: function(i, j, xy, rel){
       if(lock == true)return
       lock = true
-      var xy = ['x','y'][Number.random(0,1)]
-      var rel = [-1,1][Number.random(0,1)]
       var el = els_show[i][j]
       var els_random = Number.random(0, els.length-1)
       var el_new = els[els_random]
