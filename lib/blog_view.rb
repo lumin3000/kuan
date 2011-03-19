@@ -325,3 +325,10 @@ CODE
 end
 
 Dir[Rails.root.join('lib/object_view/*.rb')].each {|f| require f}
+
+class String
+  def respond_to?(name, *args)
+    return false if name == :constantize
+    super(name, *args)
+  end
+end
