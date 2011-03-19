@@ -141,6 +141,13 @@ class User
     followings.map {|f| f.blog}
   end
 
+  def other_blogs
+    followings.reduce [] do |blogs, f|
+      blogs.push f.blog unless f.auth == 'lord'
+      blogs
+    end
+  end
+
   def auth_for(blog)
     f = followings.where(:blog_id => blog._id).first
     f.nil? ? nil : f.auth

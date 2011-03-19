@@ -24,7 +24,7 @@ class TimeView
 
   DAY_OF_WEEK_NUM = [7,1,2,3,4,5,6]
   def day_of_week_number()
-    DAY_OF_WEEK_NUM[@time.mday]
+    DAY_OF_WEEK_NUM[@time.wday]
   end
 
   DAY_OF_WEEK_NUM_SC = ['日','一','二','三','四','五','六']
@@ -38,6 +38,22 @@ class TimeView
 
   def month_number_with_zero()
     '%02d' % month_number
+  end
+
+  NUM_SC = [nil,'一','二','三','四','五','六','七','八','九',
+    '十','十一','十二','十三','十四','十五','十六','十七','十八','十九',
+    '二十','二十一','二十二','二十三','二十四','二十五',
+    '二十六','二十七','二十八','二十九','三十','三十一',]
+  def month_number_sc()
+    NUM_SC[month_number]
+  end
+
+  def day_of_month_sc()
+    NUM_SC[day_of_month_sc]
+  end
+
+  def week_of_year()
+    @time.strftime('%V').to_i
   end
 
   { :day_of_week => '%A',

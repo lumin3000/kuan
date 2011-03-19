@@ -523,44 +523,44 @@ K.set_max_height = function(el){
 }
 
 K.tgt.reply = function(){
-    var lock = false
+  var lock = false
 
-    return function(el){
-        var post = el.getParent('.post')
-        var chat = el.getParent('.chat')
-        var f = el.getParent('form')
-        var input = f.getElement('[name=content]')
+  return function(el){
+    var post = el.getParent('.post')
+    var chat = el.getParent('.chat')
+    var f = el.getParent('form')
+    var input = f.getElement('[name=content]')
 
-        if(lock)return
-        if(input.value == ''){
-            input.highlight()
-        }
-        lock = true
-        input.set('disabled', true)
-        el.set('disabled', true)
-        
-        new Request.HTML({
-            url: f.get('action'),
-            method: 'post',
-            data: { content: input.value},
-            useSpinner: true,
-            spinnerTarget: el,
-            onSuccess: function(responseTree, responseElements){
-                var els = responseElements[0].getChildren()
-                chat.empty()
-                els.each(function(item){
-                    item.inject(chat)
-                })
-                K.set_max_height(chat.getElement('.c_content'))
-                chat.getElement('.c_content').scrollTo(0, 9999)
-                if(chat.getElement('[name=count]').value > 0){
-                  post.getElement('.reply').innerHTML = chat.getElement('[name=count]').value                
-                }
-
-                lock = false
-            }
-        }).send()
+    if(lock)return
+    if(input.value == ''){
+      input.highlight()
     }
+    lock = true
+    input.set('disabled', true)
+    el.set('disabled', true)
+
+    new Request.HTML({
+      url: f.get('action'),
+      method: 'post',
+      data: { content: input.value},
+      useSpinner: true,
+      spinnerTarget: el,
+      onSuccess: function(responseTree, responseElements){
+        var els = responseElements[0].getChildren()
+        chat.empty()
+        els.each(function(item){
+            item.inject(chat)
+        })
+        K.set_max_height(chat.getElement('.c_content'))
+        chat.getElement('.c_content').scrollTo(0, 9999)
+        lock = false
+        if(chat.getElement('[name=count]').value > 0){
+          var replyCount = post.getElement('.reply')
+          if (replyCount) replyCount.innerHTML = chat.getElement('[name=count]').value
+        }
+      }
+    }).send()
+  }
 }()
 
 K.widgets.textarea = function(el){

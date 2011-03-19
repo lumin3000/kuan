@@ -168,6 +168,10 @@ class BlogView < Mustache
     @extra[:post_single]
   end
 
+  def post_index
+    ! @extra[:post_single]
+  end
+
   def url
     @url_template && h(@url_template % @blog.uri)
   end
@@ -178,6 +182,13 @@ class BlogView < Mustache
 
   { 180 => :large,
     60 => :medium,
+    128 => :'128',
+    96 => :'96',
+    64 => :'64',
+    48 => :'48',
+    40 => :'40',
+    30 => :'30',
+    16 => :'16',
     24 => :small, }.each do |k, v|
     define_method("icon_#{k}") do
       h(@blog.icon.url_for(v))
@@ -190,6 +201,11 @@ class BlogView < Mustache
 
   def has_following
     @blog.primary? && !@blog.lord.subs.blank?
+  end
+
+  def other_pages
+    return nil unless @blog.primary?
+    @blog.lord.other_blogs.map {|b| ObjectView.wrap b, @extra}
   end
 
   def define
