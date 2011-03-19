@@ -10,7 +10,7 @@ document.addEvent('domready', function(){
 
 function trend_height(n){
   if(!n)n=0
-  return Math.min(n*2+1, 40)
+  return Math.min(n+1, 40)
 }
 
 K.puzzle = (function(){
