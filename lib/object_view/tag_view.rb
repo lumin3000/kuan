@@ -6,10 +6,10 @@ class TagView
   end
 
   def name
-    @tag
+    h @tag
   end
 
   def url
-    @extra[:controller].tagged_path @tag
+    (@extra[:controller].tagged_path @tag).html_safe
   end
 end

@@ -1,5 +1,4 @@
 class LinkView < PostView
-  expose :@post, :title
   expose_without_escape :@post, :content
 
   def link
@@ -7,6 +6,11 @@ class LinkView < PostView
   end
 
   def shared_url
-    @post.url
+    h @post.url
+  end
+
+  def title
+    title = @post.title
+    title.blank? ? shared_url : h(title)
   end
 end
