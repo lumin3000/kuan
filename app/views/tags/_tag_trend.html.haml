@@ -1,7 +1,7 @@
 .row
   .tag_name
     %a{href: tagged_path(tag.tag)}<
-      = tag.tag
+      = tag.tag.to 12
   .activity
     - period().each do |n|
       - d = n.days.ago.strftime("%Y-%m-%d")
