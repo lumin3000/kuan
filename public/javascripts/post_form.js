@@ -160,10 +160,10 @@ K.post = (function(){
           init_photo_items()
           if($('image_uploader') && $('photo_template')){
 	    var flash_flag = !(Browser.Plugins.Flash.version < 9);
-	    if(!Browser.Plugins.Flash ||Browser.Plugins.Flash.version < 9){
-              init_upload()
-	    }else{
+	    if((typeof FormData == 'undefined') && Browser.Plugins.Flash && Browser.Plugins.Flash.version >= 9){
               $('image_uploader') && K.multi_upload()
+	    }else{
+              init_upload()
             }
           }
           this.init_url_upload()
