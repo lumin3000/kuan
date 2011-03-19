@@ -199,6 +199,11 @@ class BlogView < Mustache
     @blog.primary? && !@blog.lord.subs.blank?
   end
 
+  def other_pages
+    return nil unless @blog.primary?
+    @blog.lord.other_blogs.map {|b| ObjectView.wrap b, @extra}
+  end
+
   def define
     Proc.new do |str|
       @variables = self.class.parse_custom_vars(str)
