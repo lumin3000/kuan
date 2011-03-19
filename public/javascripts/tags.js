@@ -60,22 +60,19 @@ K.left2right = (function(){
       setInterval(this.run.bind(this), 3000)
     },
     run: function(){
-      if(now>=row){
-        line_num = now = 0
-      }else{
-        line_num = now
-      }
-      now++
-      var box_line_outer = box.getElements('.box_line_outer')[line_num]
+      var box_line_outer = box.getElements('.box_line_outer')[now]
       var box_line = box_line_outer.getElement('.box_line')
       var els_random = Number.random(0, els.length-1)
       var el_new = els[els_random]
       el_new.inject(box_line, 'top')
       box_line_outer.scrollLeft = size.x
-      fxs[line_num].toLeft()
-      var old = box_line.getElements('.item')
-      console.log(old.length)
-      els[els_random] = old[old.length-1]
+      fxs[now].toLeft()
+      els[els_random] = box_line.getLast('.item')
+      els[els_random].inject(box)
+      now++
+      if(now>=row){
+        now = 0
+      }
     }
   }
 })()
