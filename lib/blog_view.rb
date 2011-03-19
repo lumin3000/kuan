@@ -13,6 +13,7 @@ module ObjectView
   end
 
   def respond_to?(method)
+    return true if self.singleton_methods.include? method
     klass = self.class
     begin
       return true if klass.public_instance_methods(false).include? method
