@@ -168,6 +168,10 @@ class BlogView < Mustache
     @extra[:post_single]
   end
 
+  def post_index
+    ! @extra[:post_single]
+  end
+
   def url
     @url_template && h(@url_template % @blog.uri)
   end

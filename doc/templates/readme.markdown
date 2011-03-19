@@ -1,34 +1,49 @@
 ## 语法
 
-### 填充变量
+### 填充字段
 
-    {{title}} -- This is my blog!
-    {{  title }} white space is okay~
+两对花括号，在其中填上字段名称即可
 
-### 进入/退出section
+    {{title}} <!-- This is my blog! -->
 
-进入section之后可以填充相应数据对象（post, user, etc.）的属性
+### Section
 
-下面例子中，posts是一个循环section, section中的模板代码会应用于每一条post。而text是条件判断section，类型为"文字"的帖子才会进入该section并使用其中的代码。
+进入section之后可以访问相应数据（post, user, etc.）的字段
 
 下层section中可以访问到上层中的字段/section
+
+下面例子中，posts是一个循环section, section中的模板代码会应用于每一条post。而text是条件判断section，类型为"文字"的帖子才会进入该section并使用其中的代码。
 
     <h1>{{title}}</h1> -- Title for blog
     {{#posts}}
 
       {{#post_single}}
         似乎只有一个帖子
-        <!-- 已经进入posts section，但该section属于顶级作用域，仍可访问 -->
+        <!-- 已经进入posts section，但post_single section属于顶级作用域，仍可访问 -->
       {{/post_single}}
 
       {{#text}}
         <h2>{{title}}</h2> <!-- Title of text post -->
         {{content}} <!-- Content of text post -->
-        发帖时间：{{create_date}}
       {{/text}}
 
     {{/posts}}
 
+### 用Section处理可能为空的字段
+
+如果一个页面没有填写描述，那么meta_desc也就同时为空。如果在模板里直接写：
+
+    <meta name="description" content="{{meta_desc}}" />
+
+那么当页面描述真的为空时就会生成下面的代码：
+
+    <meta name="description" content="" />
+
+显然我们不希望这样无用的代码存在，所以安全的写法是：
+
+    {{#desc}}<meta name="description" content="{{meta_desc}}" />{{/desc}}
+
+虽然desc只是一个普通字段，但模板系统支持这样的使用技巧。
 
 ## 字段们
 
@@ -36,47 +51,57 @@
 
 #### 字段
 
-* title 博客标题
-* url 博客首页（亦即帖子列表页）
-* desc 页面描述
-* meta_desc 经HTML转义并剔除标签的页面描述
-* icon_180 180x180博客图标链接
-* icon_60 60x60博客图标链接
-* icon_24 24x24博客图标链接
+* title 页面标题
+* url 页面首页（亦即帖子列表页）链接
+* desc 页面描述（可能为空）
+* meta_desc 经HTML转义并剔除标签的页面描述（可能为空）
+* icon_180 180x180页面图标链接
+* icon_96 96x96页面图标链接
+* icon_64 64x64页面图标链接
+* icon_60 60x60页面图标链接
+* icon_48 48x48页面图标链接
+* icon_40 40x40页面图标链接
+* icon_30 30x30页面图标链接
+* icon_24 24x24页面图标链接
+* icon_16 16x16页面图标链接
 
-#### section
+#### Sections
 
-* followings 页面拥有者所关注的页面
-* has_following 仅用户主页面可以进入
-* define 定义可以由模板使用者自行调整的变量，详见define section
-* posts 循环展示每个帖子，帖子单页与列表页皆可用
+* other_pages 页面拥有者参与或关注的所有页面，用户主页面特有
+* followings 页面拥有者所关注的页面，用户主页面特有
+* has_following 页面拥有者是否关注了其他页面，用户主页面特有
+* define 定义可以由模板使用者自行调整的变量，详见Define Section
+* posts 循环展示每个帖子，帖子单页与列表页皆可用，详见Posts Section
 * post_single 若当前页面为帖子单页会进入该section
 * post_index 若当前页面为帖子列表页会进入该section
-* pagination 进入分页代码section，若帖子不足一页或不在列表页上则不会进入
+* pagination
+  分页信息，若帖子不足一页或在帖子单页上则不会进入，详见Pagination Section
 
 ### Posts Section
 
-posts section中的字段是各类帖子共享的
+Posts Section中的字段是各类帖子共享的
 
 #### 字段
 
 * type 帖子类型，为每种帖子单独写class时可用
 * url 帖子单页链接
 * comments_count 帖子回复数量
+* favor_count 帖子被喜欢的次数
+* repost_count 转贴数量
 * load_comments 加载回复代码
 
 #### section
 
-* author 进入作者section，可访问帖子作者信息
+* author 进入User Section，可访问帖子作者信息
 * create_date 帖子的发表时间，进入Time Section访问发帖时间信息
-* repost_tag 生成一个`<a>`标签用于转帖；section中间的内容会放在`<a>`标签下
-* fave_tag 生成一个`<a>`标签用于喜欢该帖子；section中间的内容会放在`<a>`标签下
+* repost_tag 生成一个`<a>`标签用于转帖；section中间的内容会放在`<a>`标签内
+* fave_tag 生成一个`<a>`标签用于喜欢该帖子；section中间的内容会放在`<a>`标签内
 * is_repost 如果是转帖发布可以进入该section
-* parent 如果是转帖发布可以进入一个Blog Section访问转帖来源页面的信息
+* repost_parent 如果是转帖发布可以进入一个Blog Section访问转帖来源页面的信息
 
 ### Text Section
 
-posts section下可用，"文字"类型的帖子可进入该section
+Posts Section下可用，"文字"类型的帖子可进入该section
 
 #### 字段
 
@@ -93,7 +118,7 @@ posts section下可用，"图片"类型的帖子如果只有一张图片可进�
 
 #### section
 
-* photos 进入photos section循环访问每张图片信息(即使只有一张)
+* photos 进入Photos Section循环访问每张图片信息(即使只有一张)
 
 ### Photos Section
 
@@ -112,7 +137,7 @@ photo_single/photo_set section下可用
 
 ### Link Section
 
-posts section下可用，"链接"类型的帖子可进入该section
+Posts Section下可用，"链接"类型的帖子可进入该section
 
 #### 字段
 
@@ -145,9 +170,9 @@ posts section下可用，"视频"类型的帖子可进入该section
 * avatar_24 24x24头像图片链接
 * avatar_16 16x16头像图片链接
 
-### Blog section
+### Blog Section
 
-转帖来源页面的信息
+转帖来源页面、关注/参与的页面都属于Blog Section
 
 * title 页面标题
 * url 页面链接
@@ -188,6 +213,9 @@ posts section下可用，"视频"类型的帖子可进入该section
 * 12hour_with_zero 同上，用0补齐两位数
 * 24hour 24小时制
 * 24hour_with_zero 同上，用0补齐两位数
+* minutes 分钟(0 - 59)
+* seconds 秒钟(0 - 59)
+* timestamp UNIX Epoch以来的秒数
 
 ### Pagination Section
 
@@ -195,5 +223,24 @@ posts section下可用，"视频"类型的帖子可进入该section
 
 * current_page 当前页码
 * total_pages 总页数
-* prev_page 到上一页的链接(新的内容)，仅当可以向上一页翻动时才会出现
-* next_page 到下一页的链接(旧的内容)，仅当存在下一页时才会出现
+* prev_page 到上一页的链接(新的内容)
+* next_page 到下一页的链接(旧的内容)
+
+### Define Section
+
+当模板作者需要重复使用某些变量，或者将一些模板中的内容（颜色，图片，文字等）交给使用者自定义时，可以用Define Section来完成。比如下面的例子：
+
+    {{#define}}
+      text subtitle 副标题 我在宽岛的小屋
+    {{/define}}
+
+    <a href="{{url}}">
+      <h1>{{title}} - {{text_subtitle}}</h1>
+    </a>
+
+Define Section中的每一行都会被按照空格分割成四段，解析成一个变量的定义。上面例子中：
+
+* `text` 变量类型，此外还支持color，image和bool
+* `subtitle` 变量名字，可以是任意英文字母、数字和下划线的组合
+* `副标题` 变量描述，在自定义页面的"调整界面"选项卡里可以看到
+*
