@@ -2510,7 +2510,36 @@ div.new_reply .content_footer .right a.reply:hover
     padding-top:80px;
 }
 
+.post .title_text{
+clear:both;
+width:600px;
+padding:5px 0 5px 20px;
+font-size:20px;
+height:30px;
+line-height:30px;
+-moz-border-radius:8px;
+-webkit-border-radius:8px;
+border-radius:8px;
+border:1px solid #cadbea;
+background:#fff;
+margin-bottom:30px;
+}
 
+.post .title_text input{
+	border:0;
+	height:30px;
+	line-height:30px;
+	font-size:20px;
+	width:540px;
+	overflow:hidden;
+	
+}
 
+.post input{
+	color:#808080;
+}
 
+.post textarea{
+	color:#808080;
+}
 

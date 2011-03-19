@@ -205,7 +205,17 @@ class BlogView < Mustache
 
   def other_pages
     return nil unless @blog.primary?
-    @blog.lord.other_blogs.map {|b| ObjectView.wrap b, @extra}
+    fetch_other_pages
+    @other_pages
+  end
+
+  def has_other_pages
+    fetch_other_pages
+    !@other_pages.empty?
+  end
+
+  def fetch_other_pages
+    @other_pages ||= @blog.lord.other_blogs.map {|b| ObjectView.wrap b, @extra}
   end
 
   def define
