@@ -290,11 +290,6 @@ class BlogView < Mustache
 CODE
   end
 
-  def respond_to?(name)
-    return true if name.to_s =~ /^(?:color|bool|text|image)_/
-    super
-  end
-
   EXTRACTOR = BlogView.new(Blog.new)
   EXTRACTOR.define_singleton_method :respond_to? do |name|
     name == :define
