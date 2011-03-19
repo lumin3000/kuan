@@ -315,3 +315,26 @@ Section里使用</p>
 on/off来标注逻辑真/假，其余写法会被模板系统忽略</p>
 
 <p>变量的使用与填充字段类似，两对花括号中填入类型＋下划线＋变量名字即可。如上例的{{text_subtitle}}</p>
+
+<h4>Bool类变量的使用</h4>
+
+bool类变量应作为section使用，见例子：
+
+    {{#define}}
+      bool should_display_followings 显示我关注的页面 1
+    {{/define}}
+
+    {{#bool_should_display_followings}}
+      {{#has_following}}
+        <ul>
+        {{#followings}}
+        <li>
+          <a href="{{url}}">
+            <img src="{{icon_60}}">
+            {{title}}
+          </a>
+        </li>
+        {{/followings}}
+        </ul>
+      {{/has_following}}
+    {{/bool_should_display_followings}}
