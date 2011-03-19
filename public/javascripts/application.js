@@ -241,7 +241,26 @@ K.render_editor = function(el, fix){
         'rootElement':''
     })
 }
-
+K.editor_toolbar = {
+  show: function(el){
+    var toolbar = el.getElement('.mooeditable-ui-toolbar')
+    var box = el.getElement('iframe')
+    toolbar.show()
+    box.setStyles({
+      'margin-top': 0,
+      'height': box.getStyle('height').toInt()-toolbar.getStyle('height').toInt()
+    })
+  },
+  hide: function(el){
+    var toolbar = el.getElement('.mooeditable-ui-toolbar')
+    var box = el.getElement('iframe')
+    box.setStyles({
+      'margin-top': 6,
+      'height': box.getStyle('height').toInt()+toolbar.getStyle('height').toInt()
+    })
+    toolbar.hide()
+  }
+}
 K.blog  = (function(){
 
     return {

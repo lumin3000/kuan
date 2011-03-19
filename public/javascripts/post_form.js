@@ -22,8 +22,12 @@ K.post = (function(){
     if($$('.title_text input')[0].value == ''){
       s_hide.hide()
       $$('.title_text')[0].hide()
+      $$('.rich_editor_starter')[0].show()
+      $$('.text_editor_starter')[0].hide()
     }else{
       s_new.hide()
+      $$('.rich_editor_starter')[0].hide()
+      $$('.text_editor_starter')[0].show()
     }
     s_new.addEvent('click', function(){
       $$('.title_text')[0].show()
@@ -126,29 +130,33 @@ K.post = (function(){
 
   var init_editor = function(){
     if($$('.text')[0] && $$('.text')[0].hasClass('rich_text')){
-      K.render_editor($('content'), {width:55, height:50})
+      K.render_editor($('content'), {width:50, height:50})
     }
     if($('tar_tog_textarea')){
       init_toggle_textarea()
     }
-    if(!$$('.rich_editor_starter')[0])return
-    var s_rich = $$('.rich_editor_starter')[0]
-    var s_text = $$('.text_editor_starter')[0]
-    s_rich.addEvent('click', function(){
-      this.hide()
-      s_text.show()
-      $('box_text').addClass('rich_text')
-      K.render_editor($('content'), {width:55, height:50})
-      return false
-    })
-    s_text.addEvent('click', function(){
-      this.hide()
-      s_rich.show()
-      $('box_text').removeClass('rich_text')
-      return false
-    })
-    if($('tar_tog_textarea')){
-      init_toggle_textarea()
+    if($$('.rich_editor_starter')[0]){
+      var s_rich = $$('.rich_editor_starter')[0]
+      var s_text = $$('.text_editor_starter')[0]
+      s_rich.addEvent('click', function(){
+        this.hide()
+        s_text.show()
+        K.editor_toolbar.show($$('.text')[0])
+        return false
+      })
+      s_text.addEvent('click', function(){
+        this.hide()
+        s_rich.show()
+        K.editor_toolbar.hide($$('.text')[0])
+        return false
+      })
+      setTimeout(function(){
+        if($$('.title_text input')[0].value == ''){
+          K.editor_toolbar.hide($$('.text')[0])
+        }else{
+          K.editor_toolbar.show($$('.text')[0])
+        }
+      }, 100)
     }
   }
 

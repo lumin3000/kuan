@@ -5,9 +5,9 @@
     %a.textarea_closer{ :id => "tar_tog_textarea_close", :href => "#", :style => (default_open ? "" : "display:none") }<
       \-关闭帖子描述
   - else
-    %a.rich_editor_starter{ :href => "#", :style => (default_rich ? "display:none" : "")}<
+    %a.rich_editor_starter{ :href => "#"}<
       切换成高级编辑器
-    %a.text_editor_starter{ :href => "#", :style => (default_rich ? "" : "display:none")}<
+    %a.text_editor_starter{ :href => "#", :style => "display:none"}<
       切换成普通编辑器
 - content_for :content_area do
   #box_text.text{ :style => (default_open ? "" : "display:none"), :class => (default_rich ? "text rich_text" : "text") }
