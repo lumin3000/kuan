@@ -22,3 +22,7 @@
 every 1.day, :at => '4:30am' do
   runner "Post.accumulate_for_tags"
 end
+
+every 1.day, :at => '2:30am' do
+  runner "require 'moving/mover' and Mover.run"
+end
