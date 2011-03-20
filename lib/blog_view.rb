@@ -195,23 +195,27 @@ class BlogView < Mustache
       h(@blog.icon.url_for(v))
     end
   end
-  
+
+  def is_primary
+    @blog.primary?
+  end
+
   def followings
     @blog.lord.subs.map {|b| BlogView.new(b, @extra)} if has_following
   end
 
   def has_following
-    @blog.primary? && !@blog.lord.subs.blank?
+    is_primary && !@blog.lord.subs.blank?
   end
 
   def other_pages
-    return nil unless @blog.primary?
+    return nil unless has_other_pages
     fetch_other_pages
     @other_pages
   end
 
   def has_other_pages
-    return nil unless @blog.primary?
+    return false unless is_primary
     fetch_other_pages
     !@other_pages.empty?
   end
@@ -229,6 +233,9 @@ class BlogView < Mustache
       end
       # `method_missing' rocks but we have to fall back to singleton method for now.
       # See: https://github.com/defunkt/mustache/issues#issue/88
+      #
+      # Update:
+      # Okay now a new release (0.99.3) of mustache solved that issue now
       @variables.each do |type, values|
         values.each do |name, hash|
           self.define_singleton_method "#{type}_#{name}", do
