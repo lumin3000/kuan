@@ -24,6 +24,5 @@ every 1.day, :at => '4:30am' do
 end
 
 every 1.day, :at => '2:30am' do
-  require 'moving/mover'
-  runner "Mover.run"
+  runner "require 'moving/mover' and Mover.run"
 end
