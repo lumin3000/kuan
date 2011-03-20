@@ -1,3 +1,5 @@
+@import 'base'
+
 .timeline
   width: 680px
   float: left
@@ -187,47 +189,64 @@
     -webkit-border-bottom-right-radius: 15px
     border-bottom-left-radius: 15px
     border-bottom-right-radius: 15px
+    .title
+      width: 880px
+      height: 30px
+      overflow: hidden  
+      margin: 0 auto
+      background-color: #f4f4f4
+      div
+        width: 340px
+        color: #000
+        font-size: 18px
+        font-family: "microsoft yahei"
+        line-height: 30px
+        float: left
+        padding-left: 10px
+        margin-left: -1px
+        border-left: 1px solid #eaeaea
     .row
-      width: 898px
+      width: 880px
       height: 40px
-      margin-top: 10px
+      margin: 10px auto 0 auto
+      border-bottom: 1px solid #eaeaea
       .tag_name
         width: 340px
         height: 40px
         float: left
         overflow: hidden
-        padding-left: 50px
+        padding-left: 10px
+        .new
+          color: #fff
+          background-color: #009fff
+          @include border-radius(5px)
+          height: 10px
+          font-size: 12px
+          font-family: "arial"
+          padding: 2px 5px 1px 5px
+          margin-left: 5px
+          vertical-align: middle
         a
           font-size: 24px
           font-family: microsoft yahei
           line-height: 40px
           text-decoration: none
           color: #3f7be0
-          display: block
       .activity
-        width: 450px
+        width: 400px
         height: 40px
         float: left
         padding-right: 40px
         .item
-          height: 40px
-          width: 15px
+          height: 28px
+          width: 10px
           float: left
+          overflow: hidden
           margin: 0px 5px 0 5px
           position: relative
-          cursor: pointer
           div
-            height: 40px
-            width: 15px
+            height: 28px
+            width: 10px
             position: absolute
             bottom: 0
-            background-color: #3f7be0
-            -moz-border-radius-topright: 10px
-            -moz-border-radius-topleft: 10px
-            -webkit-border-top-right-radius: 10px
-            -webkit-border-top-left-radius: 10px
-            border-top-right-radius: 10px
-            border-top-left-radius: 10px
-          &.odd
-            div
-              background-color: #1f55b0
+            background-color: #ace84e

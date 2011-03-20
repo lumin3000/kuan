@@ -18,7 +18,7 @@ document.addEvent('domready', function(){
 
 function trend_height(n){
   if(!n)n=0
-  return Math.min(n+1, 40)
+  return Math.min(n+1, 28)
 }
 
 K.left2right = (function(){

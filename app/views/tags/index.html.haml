@@ -10,4 +10,9 @@
     - @tag_posts.each do |tag, post|
       = render partial: "posts/post4tag", object: post, as: :post, locals: {tag: tag}
   .tag_list
+    .title
+      %div
+        活跃标签
+      %div
+        两周内活跃度
     = render :partial => "tags/tag_trend", :collection => @tags, :as => :tag
