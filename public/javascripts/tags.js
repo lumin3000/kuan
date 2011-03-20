@@ -19,7 +19,7 @@ function trend_height(n){
 
 K.left2right = (function(){
   var box
-  var els
+  var box_bak
   var column = 6
   var row = 3
   var size = {x:150, y:150}
@@ -29,12 +29,12 @@ K.left2right = (function(){
   return {
     init: function(){
       box = $$('.tag_wall')[0]
-      els = box.getElements('.item')
       this.init_pos()
       return this
     },
     init_pos: function(){
       var box_line
+      var els = box.getElements('.item')
       for(var i=0; i<row; i++){
         box_line_outer = new Element('div', {class: 'box_line_outer'})
           .setStyles({height:size.y, width:size.x*column, overflow:'hidden'})
@@ -50,25 +50,41 @@ K.left2right = (function(){
           els.pop().inject(box_line)
         }
       }
+      box_bak = new Element('div', {class: 'box_bak'})
+        .inject(box)
       els.each(function(item){
-        item.inject(box)
+        item.inject(box_bak)
       });
-//      this.reset_radius()
+      this.reset_radius()
     },
-
+    reset_radius: function(status){
+      status = status || 'all'
+      if(status=='all' || status=='start'){
+      box.getElements('.item.left').removeClass('left')
+      box.getElement('.box_line .item').addClass('left')
+      }
+      if(status=='all' || status=='end'){
+      box.getElements('.item.right').removeClass('right')
+      box.getElement('.box_line').getElements('.item')[column-1].addClass('right')
+      }
+    },
     auto: function(){
       setInterval(this.run.bind(this), 3000)
     },
     run: function(){
       var box_line_outer = box.getElements('.box_line_outer')[now]
       var box_line = box_line_outer.getElement('.box_line')
-      var els_random = Number.random(0, els.length-1)
-      var el_new = els[els_random]
+      var els_random = Number.random(0, box_bak.getElements('.item').length-1)
+      var el_new = box_bak.getElements('.item')[els_random]
+      if(box_line.getElements('.item').length > column){
+        box_line.getElements('.item').getLast().inject(box_bak)
+      }
       el_new.inject(box_line, 'top')
       box_line_outer.scrollLeft = size.x
-      fxs[now].toLeft()
-      els[els_random] = box_line.getLast('.item')
-      els[els_random].inject(box)
+      this.reset_radius('start')
+      fxs[now].toLeft().chain(function(){
+        this.reset_radius('end')
+      }.bind(this))
       now++
       if(now>=row){
         now = 0
