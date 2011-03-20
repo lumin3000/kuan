@@ -33,6 +33,9 @@ K.post = (function(){
       $$('.title_text')[0].show()
       this.hide()
       s_hide.show()
+      K.editor_toolbar.show($$('.text')[0])
+      $$('.rich_editor_starter')[0].hide()
+      $$('.text_editor_starter')[0].show()
       return false
     })
     s_hide.addEvent('click', function(){
