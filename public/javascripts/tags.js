@@ -73,7 +73,7 @@ K.left2right = (function(){
       }
     },
     auto: function(){
-      setInterval(this.run.bind(this), 3000)
+      setInterval(this.run.bind(this), 8000)
     },
     run: function(){
       var box_line_outer = box.getElements('.box_line_outer')[now]
