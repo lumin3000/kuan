@@ -97,7 +97,8 @@ var CeraBox = new Class({
 					this.showAjax(index, options);
 				}.bind(this));
 			}
-			else if (item.get('href').test(/\.jpg|jpeg|png|gif$/i) || item.get('href').test(/\/files\//i)) {
+//			else if (item.get('href').test(/\.jpg|jpeg|png|gif$/i) || item.get('href').test(/\/files\//i)) {
+			else if (true) {
 				item.addEvent('click', function(event){
 					event.stop();
 					this.vars.cerabox.setStyle('cursor','auto').removeEvents('click');
@@ -268,10 +269,13 @@ var CeraBox = new Class({
 								.setStyle('display','block')
 								.set('text',(items.length>1?'Item ' + (index[1]+1) + ' / ' + items.length + ' ':'') + (currentItem.get('title')?currentItem.get('title'):''));
 						
+//                                          var _a = new Element('a', {'target': '_blank', 'href': currentItem.get('href')})
+  //                                        image.inject(_a)
 						ceraBox.vars.cerabox.getElement('.cerabox-content')
 							.empty()
 							.set('opacity',0)
-							.adopt(image)
+//							.adopt(_a)
+                                                        .adopt(image)
 							.set('tween', {duration: 100}).tween('opacity','1');
 						
 						if (items.length>1)
@@ -283,6 +287,7 @@ var CeraBox = new Class({
 							ceraBox._resize();
 						
 						ceraBox.vars.busy = false;
+                                          ceraBox.vars.cerabox.makeDraggable() //add by hsy
 					});
 			},
 			onerror: function() {

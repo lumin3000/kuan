@@ -328,18 +328,19 @@ document.addEvent('domready', function(){
     }
   })
 
-    // lightbox
-    if($$('[rel=lightbox]').length > 0){
-        new Asset.javascript('/javascripts/cerabox.js', {
-            onload: function() {
-                var box = new CeraBox({group: false});
-                box.addItems('[rel=lightbox]', {
-                    animation: 'ease'
-                });
-                new Asset.css('/stylesheets/cerabox.css')
-            }
-        })
-    }
+  // lightbox
+  if($$('[rel=lightbox]').length > 0){
+    new Asset.javascript('/javascripts/cerabox.js', {
+      onload: function() {
+        var box = new CeraBox({group: false});
+        box.addItems('[rel=lightbox]', {
+          fullSize: true,
+          animation: 'ease'
+        });
+        new Asset.css('/stylesheets/cerabox.css')
+      }
+    })
+  }
 })
 
 K.widgets.rest = function() {
