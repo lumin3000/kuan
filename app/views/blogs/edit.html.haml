@@ -15,7 +15,7 @@
       (只可以填写一个类型，文字中不可以包含“逗号”)
     &nbsp;
     = @blog.errors[:tag].first
-  .page_url
+  .page_url_edit
     = f.label :uri, "自定义网址"
     = f.text_field :uri
     %span
