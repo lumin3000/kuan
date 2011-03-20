@@ -291,6 +291,10 @@ class BlogView < Mustache
 
     <<CODE.html_safe
 #{load_js}
+<script>document.getElement("head").grab(new Element("link", {
+  rel: "stylesheet"
+, href: "/stylesheets/control_buttons.css"
+}))</script>
 <div class='commands'>
   <a class='back_to_home' href='#{home_url}'>回我的主页</a>
   #{follow_widget}

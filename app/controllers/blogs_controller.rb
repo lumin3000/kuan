@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class BlogsController < ApplicationController
   before_filter :signin_auth, :except => [:show]
-  before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick]
+  before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick, :customize]
   before_filter :editor_auth, :only => [:followers, :editors, :exit]
   before_filter :find_by_uri, :only => [:show, :follow_toggle, :apply, :apply_entry,
     :extract_template_vars, :customize]
@@ -47,7 +47,7 @@ class BlogsController < ApplicationController
     build_view_context
     fetch_posts
     p = params[:blog]
-    p.delete :template_id if p[:template_id].blank?
+    p[:template_id] = nil if p[:template_id].blank?
     @blog.use_template params[:blog]
     render_blog
   end
@@ -186,7 +186,13 @@ class BlogsController < ApplicationController
   def render_blog
     begin
       view = BlogView.new @blog, @view_context
-      render :text => view.render
+      rendered = view.render
+      control_buttons = view.control_buttons
+      begin
+        rendered['</body>'] = "#{control_buttons}</body>"
+      rescue
+      end
+      render :text => rendered
     rescue Mustache::Parser::SyntaxError => e
       render :status => 400, :text => "模板语法错误：\n#{e.to_s}",
         :content_type => 'text/plain'
