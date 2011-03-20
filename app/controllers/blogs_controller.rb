@@ -183,12 +183,15 @@ class BlogsController < ApplicationController
     @view_context.update :posts => @posts
   end
 
-  def render_blog()
+  def render_blog
     begin
       view = BlogView.new @blog, @view_context
       rendered = view.render
       control_buttons = view.control_buttons
-      rendered['</body>'] = "#{control_buttons}</body>"
+      begin
+        rendered['</body>'] = "#{control_buttons}</body>"
+      rescue
+      end
       render :text => rendered
     rescue Mustache::Parser::SyntaxError => e
       render :status => 400, :text => "模板语法错误：\n#{e.to_s}",
