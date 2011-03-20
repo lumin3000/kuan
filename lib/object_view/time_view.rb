@@ -68,6 +68,8 @@ class TimeView
     :'24hour_with_zero' => '%I',
     :'12hour' => '%l',
     :'24hour' => '%k',
+    :minutes_with_zero => '%M',
+    :seconds_with_zero => '%S',
   }.each do |name, format|
     expose_by_format name, format
   end
