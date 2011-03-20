@@ -16,16 +16,16 @@
     float: left
     width: 620px
     padding: 0 20px 0 0
-    border-right: 1px solid #dcdcdc
+    border-right: 1px dashed #CADBEA
   .right
     width: 190px
     float: right
-    padding-top: 30px
+    padding-top: 35px
     h2
       font-family: microsoft yahei
       font-size: 18px
       line-height: 18px
-      color: #7EAEDC
+      color: #68879F
       margin: 30px 0 10px 0
 
   h1
@@ -82,10 +82,8 @@
     font-size: 20px
     height: 75px
     line-height: 75px
-    -moz-border-radius: 8px
-    -webkit-border-radius: 8px
-    border-radius: 8px
-    border: 1px solid $pink
+    @include border-radius(8px)
+    border: 0
     background: #fff
     margin-bottom: 30px	
 
@@ -135,9 +133,11 @@
       margin-top: 20px	
 
       input
+        @include border-radius(8px)
+        padding-left: 5px
         width: 420px
         height: 32px
-        border: 1px solid gray
+        border: 1px solid #CADBEA
         font-size: 20px
         line-height: 32px
       span
@@ -146,7 +146,7 @@
     .the_close
       width: 14px
       height: 14px
-      margin-top: 10px
+      margin-top: 28px
       background: url('/images/icons.gif') -100px -20px
       overflow: hidden
       cursor: pointer
@@ -163,7 +163,7 @@
     height: $input-height - 10px
     line-height: $input-height - 10px
     @include border-radius(8px)
-    border: 1px solid $pink
+    border: 0
     background: white
     margin-bottom: 30px
 
@@ -235,6 +235,15 @@
 
   .file_image,
   .url_image
+    clear: both
+    width: 600px
+    padding: 5px 0 5px 20px
+    height: 55px
+    border: 0
+    background: #fff
+    margin-bottom: 10px
+    overflow: hidden
+    @include border-radius(8px)
     .img_left,
     .img_right
       width: 480px
@@ -259,19 +268,8 @@
       float: right
 
   .file_image
-    clear: both
-    width: 600px
-    padding: 5px 0 5px 20px
     font-size: 12px
-    height: 55px
     line-height: 35px
-    -moz-border-radius: 8px
-    -webkit-border-radius: 8px
-    border-radius: 8px
-    border: 1px solid #cadbea
-    background: #fff
-    margin-bottom: 30px
-    overflow: hidden
     .img_left
       padding-top: 10px
       .desc
@@ -280,27 +278,14 @@
       padding-right: 0
 
   .url_image
-    clear: both
-    width: 600px
-    padding: 5px 0 5px 20px
     font-size: 20px
-    height: 55px
     line-height: 5px
-    -moz-border-radius: 8px
-    -webkit-border-radius: 8px
-    border-radius: 8px
-    border: 1px solid #cadbea
-    background: #fff
-    margin-bottom: 30px
-    overflow: hidden
     .url_uploader
-      border: 1px solid #dcdcdc
+      border: 1px solid #CADBEA
       border-right: 0
       margin: 0
       padding: 0
-      -moz-border-radius: 15px
-      -webkit-border-radius: 15px
-      border-radius: 15px
+      @include border-radius(15px)
       display: inline-block
       height: 30px
       label
