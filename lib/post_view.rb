@@ -81,7 +81,7 @@ CODE
     @post.comments.count
   end
 
-  def parent
+  def repost_parent
     ObjectView.wrap @post.parent.blog, @extra if is_repost
   end
 
