@@ -7,6 +7,7 @@ class Tag
   field :tagged_count, :type => Integer, :default => 0
   index :tagged_count
   field :activity, :type => Hash, :default => {}
+  field :new, :type => Boolean, :default => false
 
   scope :hottest, desc(:tagged_count).limit(30)
 
@@ -42,6 +43,11 @@ class Tag
         posts[tag.tag] = p unless p.nil?
         posts
       end
+    end
+
+    def set_new_hots(old_hots)
+      old_hots.each {|tag| tag.update_attributes(:new => false)}
+      (hottest.to_a - old_hots).each { |tag| tag.update_attributes(:new => true)}
     end
   end
 end

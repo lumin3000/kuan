@@ -766,16 +766,6 @@ form.edit_page .submit_box input{
 	text-indent: -1000px;
 }
 
-.post .send input{
-	width:150px;
-	height:44px;
-	background:url('images/post_send.gif');
-	cursor:pointer;
-	text-indent: -1000px;
-	overflow:hidden;
-	display:block;
-	border:0px;
-}
 
 
 
@@ -2348,6 +2338,208 @@ div.new_reply .content_footer .right a.reply:hover
 }
 
 
+/*********************post_img_txt_link_video*************************************/
+.post .title{
+	line-height:45px;
+}
 
 
+.post .top{
+	float:left;
+	width:590px;
+	height:24px;
+	line-height:12px;
+	
+}
+
+.post .top a{
+	float:right;
+	padding-top:8px;
+}
+.post .bottom{
+	float:left;
+	width:590px;
+	height:24px;
+	line-height:24px;
+}
+
+.post .bottom span{
+	color:#808080;
+	line-height:24px;
+	
+}
+
+
+
+
+
+
+
+.post h1{
+	font-family:microsoft yahei;
+	font-weight:normal;
+	font-size:30px;
+	color:#68879F;
+}
+
+.post .send{
+	float:right;
+	width:150px;
+	height:44px;
+	background:url('images/post_send.gif');
+	cursor:pointer;
+	text-indent: -1000px;
+	overflow:hidden;
+	display:block;
+	border:0px;
+}
+
+.post .file_image{
+	clear:both;
+	width:600px;
+	padding:10px 0 10px 20px;
+	font-size:12px;
+	height:45px;
+	line-height:35px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #cadbea;
+	background:#fff;
+	margin-bottom:30px;
+	overflow:hidden;
+	
+}
+
+.post .file_image a{
+	text-decoration:none;
+	color:#3366cc;
+    padding-right:0px;
+
+
+}
+
+
+	
+
+.post .url_image{
+	clear:both;
+	width:600px;
+	padding:5px 0 5px 20px;
+	font-size:20px;
+	height:55px;
+	line-height:5px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #cadbea;
+	background:#fff;
+	margin-bottom:30px;
+}
+
+
+.post a{
+	font-size:12px;
+	text-decoration:none;
+	color:#3366cc;
+
+    
+
+}
+
+.post .url_image input{
+	height:45px;
+	line-height:40px;
+	font-size:20px;
+	width:300px;
+	color:#808080;
+}
+
+.post .url_image .bottom span{
+	background:none;
+	color:#808080;
+	font-size:12px;
+	line-height:24px;
+
+}
+
+.post .image_url_starter{
+	width:200px;
+	display:bock;
+	float:left;
+	line-height:45px;
+}
+
+
+.post .list_image .the_text input{
+	width:410px;
+	height:32px;
+	border:1px solid #f2f6f9;
+	border-radius:8px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	font-size:20px;
+	line-height:32px;
+}
+
+
+
+.post .rich_editor_starter {
+	display:block;
+	width:100px;
+	padding-left:150px;
+	text-align:right;
+	float:left;
+	line-height:45px;
+}
+
+
+
+.post .list_image .the_close {
+	width:14px;
+	height:14px;
+	margin-top:30px;
+	background:url('images/icons.gif') -100px -20px;
+	overflow:hidden;
+}
+
+
+.post .edit_post{
+	width:190px;
+    float:right;
+    padding-top:80px;
+}
+
+.post .title_text{
+clear:both;
+width:600px;
+padding:5px 0 5px 20px;
+font-size:20px;
+height:30px;
+line-height:30px;
+-moz-border-radius:8px;
+-webkit-border-radius:8px;
+border-radius:8px;
+border:1px solid #cadbea;
+background:#fff;
+margin-bottom:30px;
+}
+
+.post .title_text input{
+	border:0;
+	height:30px;
+	line-height:30px;
+	font-size:20px;
+	width:540px;
+	overflow:hidden;
+	
+}
+
+.post input{
+	color:#808080;
+}
+
+.post textarea{
+	color:#808080;
+}
 

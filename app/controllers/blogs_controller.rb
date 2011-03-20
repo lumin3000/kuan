@@ -49,8 +49,7 @@ class BlogsController < ApplicationController
     p = params[:blog]
     p.delete :template_id if p[:template_id].blank?
     @blog.use_template params[:blog]
-    view = BlogView.new @blog, @view_context
-    render :text => view.render
+    render_blog
   end
 
   def extract_template_vars
@@ -64,8 +63,7 @@ class BlogsController < ApplicationController
   def show
     build_view_context
     fetch_posts
-    view = BlogView.new @blog, @view_context
-    render :text => view.render
+    render_blog
   end
 
   def followers
@@ -183,5 +181,15 @@ class BlogsController < ApplicationController
       @post = @posts.first
     end
     @view_context.update :posts => @posts
+  end
+
+  def render_blog
+    begin
+      view = BlogView.new @blog, @view_context
+      render :text => view.render
+    rescue Mustache::Parser::SyntaxError => e
+      render :status => 400, :text => "模板语法错误：\n#{e.to_s}",
+        :content_type => 'text/plain'
+    end
   end
 end

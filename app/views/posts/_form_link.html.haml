@@ -2,12 +2,12 @@
   网址贴
 
 - content_for :form do
+  .option_text_top<
+    &nbsp;
   .url_link
     = label_tag :url, "网址"
     = text_field_tag :url, post.url, :alt => 'http://', 'data-widget' => 'overtext'
   .title_link
     = label_tag :title, "标题"
     = text_field_tag :title, post.title
-  .option_text
-    = content_for :content_toggle
   = content_for :content_area

@@ -86,10 +86,12 @@ class Post
     end
 
     def accumulate_for_tags(cal_date = Date.yesterday)
+      old_hots = Tag.hottest.to_a
       Post.in_day(cal_date).where(:tags => /.+/).reduce({}) do |tags, post|
         post.tags.each { |tag| tags.key?(tag) ? (tags[tag] += 1) : (tags[tag] = 1) }
         tags
       end.each { |tag, count| Tag.accumulate tag, count, cal_date.to_s }
+      Tag.set_new_hots old_hots
     end
   end
 

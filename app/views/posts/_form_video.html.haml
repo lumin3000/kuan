@@ -2,11 +2,11 @@
   视频贴
 
 - content_for :form do
-  %span.slight
-    支持优酷、酷6、土豆视频网站的视频播放页链接，其他网站视频请输入Flash地址或HTML代码 
+  .option_text_top<
+    &nbsp;
   .title_text
     = label_tag :url, "网址"
     = text_field_tag :url, post.url, :alt => 'http://', 'data-widget' => 'overtext'
-  .option_text
-    = content_for :content_toggle
+  %span.slight
+    支持优酷、酷6、土豆视频网站的视频播放页链接，其他网站视频请输入Flash地址或HTML代码 
   = content_for :content_area

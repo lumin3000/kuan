@@ -8,6 +8,10 @@
   background: $almost-white
   padding: 0 20px
 
+  a
+    font-size: 12px
+    text-decoration: none
+    color: #36C
   .left
     float: left
     width: 620px
@@ -16,7 +20,7 @@
   .right
     width: 190px
     float: right
-    padding-top: 73px
+    padding-top: 30px
     h2
       font-family: microsoft yahei
       font-size: 18px
@@ -42,65 +46,25 @@
     padding-bottom: 25px
 
   .rich_editor_starter,
-  .textarea_starter,
-  .textarea_closer,
+  .text_editor_starter,
   .new_title_starter
     width: 100px
 
   .rich_editor_starter,
+  .text_editor_starter
+    float: right
+  .text_editor_starter
+    display: none
   .textarea_starter,
   .textarea_closer
-    float: right
+    float: left
+    width: 200px
+    display: block
+    line-height: 45px
 
   .new_title_starter
     float: left
 
-  .image_url_starter
-  .image_local_starter
-    width: 200px
-    display: block
-    float: left
-
-  .file_image
-    clear: both
-    width: 600px
-    padding: 15px 0 5px 20px
-    font-size: 20px
-    height: 35px
-    line-height: 35px
-    -moz-border-radius: 8px
-    -webkit-border-radius: 8px
-    border-radius: 8px
-    border: 1px solid #cadbea
-    background: #fff
-    margin-bottom: 30px
-
-  .url_image
-    span
-      display:  inline-block
-      width: 130px
-      background: url('/images/post_image_url.gif') no-repeat
-      cursor: pointer
-      line-height: 30px
-      margin-top: 9px
-      vertical-align: top
-
-    input
-      border: 0
-      height: 40px
-      line-height: 40px
-      font-size: 20px
-      width: 450px
-
-  .file_image
-
-    span
-      font-size: 12px
-      float: right
-
-    input
-      width: 180px
-      margin-right: 150px
 
   .file-invalid
     cursor: pointer
@@ -196,8 +160,8 @@
     width: 620px
     padding: 5px 0
     font-size: $input-font-size
-    height: $input-height + 5px
-    line-height: $input-height + 5px
+    height: $input-height - 10px
+    line-height: $input-height - 10px
     @include border-radius(8px)
     border: 1px solid $pink
     background: white
@@ -214,17 +178,17 @@
   .url_link input,
   .title_link input
     border: 0
-    height: $input-height
-    line-height: $input-height
+    height: $input-height - 10px
+    line-height: $input-height -10px
     font-size: $input-font-size
     width: 420px
 
   .text
-    height: 180px
+    height: 340px
 
   .text textarea
     border: 0
-    @include size(570px, 180px)
+    @include size(570px, 340px)
     font-size: $input-font-size
     line-height: 1.5
     padding-left: 20px
@@ -237,13 +201,14 @@
     @include size(195px, 44px)
 
   .cancel
-    @include big_button
-    @include hide_text
     float: right
-    background: url('/images/post_cancel.gif')
     border: 0
-    overflow: hidden
     display:block
+    width: 100px
+    padding-right: 10px
+    text-align: right
+    line-height: 45px
+    
 
   .send, .save
     input
@@ -252,22 +217,111 @@
       overflow: hidden
       display: block
       border: 0
+      float: right
 
   .send
     input
       background: url('/images/post_send.gif')
-      margin-left: 300px
 
   .save
     input
       background: url('/images/post_save.gif')
-      margin-left: 300px
 
   .post_error
     font-size: 12px
     color: red
     font-weight: blod
     padding-left: 10px
+
+  .file_image,
+  .url_image
+    .img_left,
+    .img_right
+      width: 480px
+      overflow: hidden
+      a
+        font-size: 12px
+        line-height: 45px
+      .desc
+        color: #808080
+        background: none
+        line-height: 24px
+        display: block
+        font-size: 12px
+    .img_left
+      float: left
+      padding-top: 5px
+      label
+        padding-left: 0
+
+    .img_right
+      width: 90px
+      float: right
+
+  .file_image
+    clear: both
+    width: 600px
+    padding: 5px 0 5px 20px
+    font-size: 12px
+    height: 55px
+    line-height: 35px
+    -moz-border-radius: 8px
+    -webkit-border-radius: 8px
+    border-radius: 8px
+    border: 1px solid #cadbea
+    background: #fff
+    margin-bottom: 30px
+    overflow: hidden
+    .img_left
+      padding-top: 10px
+      .desc
+        padding-top: 5px
+    a
+      padding-right: 0
+
+  .url_image
+    clear: both
+    width: 600px
+    padding: 5px 0 5px 20px
+    font-size: 20px
+    height: 55px
+    line-height: 5px
+    -moz-border-radius: 8px
+    -webkit-border-radius: 8px
+    border-radius: 8px
+    border: 1px solid #cadbea
+    background: #fff
+    margin-bottom: 30px
+    overflow: hidden
+    .url_uploader
+      border: 1px solid #dcdcdc
+      border-right: 0
+      margin: 0
+      padding: 0
+      -moz-border-radius: 15px
+      -webkit-border-radius: 15px
+      border-radius: 15px
+      display: inline-block
+      height: 30px
+      label
+        padding-left: 10px
+      input
+        border: 0
+        height: 28px
+        line-height: 28px
+        font-size: 20px
+        width: 230px
+        color: #808080
+   
+      .url_uploader_btn
+        @include hide_text
+        display:  inline-block
+        width: 130px
+        background: url('/images/post_image_url.gif') no-repeat
+        cursor: pointer
+        line-height: 30px
+        vertical-align: top
+
 
 .my_pages
   $selector-width = 186px

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<head>
+  <!-- Credit goes to Simen <http://daylimeh.tumblr.com> -->
+  <meta charset='utf-8'>
+  {{#define}}
+    color background 背景颜色 #fff
+    text subtitle 副标题 在宽岛的小店
+  {{/define}}
+  {{#desc}}<meta name="description" content="{{meta_desc}}" />{{/desc}}
+  <title>{{title}}</title>
+  <style>
+  /* General styling */
+  body {
+    padding: 0; margin: 0;
+    font: 14px/20px sans-serif;
+    background-color: {{color_background}}
+  }
+  h1 { width: 540px; margin: 0 auto; }
+  h1 a, h1 {
+    color: #000; line-height: 1.2;
+    text-decoration: none;
+    font-family: Georgia, serif;
+    font-size: 19px;
+    font-weight: normal;
+  }
+    h1 a:hover { color: inherit; }
+  h2 { margin-top: 0; font-size: 16px; }
+  /* "fake smallcaps" */
+  h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; }
+  object { margin-bottom: 1em; margin-top: 0.5em; }
+  sup { line-height: 1; }
+  p, pre { margin-top: 0; padding-top: 0; }
+  img { display: block; margin-bottom: 20px; margin-top: 5px; }
+  a { text-decoration: none; }
+    a img { outline: 0; border: none; }
+  ul, ol { padding-left: 0; }
+
+  /* Specific elements. */
+  div#head {
+    padding: 60px;
+  }
+  div#main {
+    width: 800px;
+    margin: 0 auto;
+  }
+  span#page { float: left; width: 300px; text-align: center; color: #666; }
+  div#last { margin-bottom: 2em; }
+  ul#bottom {
+    list-style: none; padding-top: 0; margin-top: 0; padding-left: 0; margin-left: 0;
+    width: 340px; float: left; margin-bottom: 2em;
+  }
+  ul#bottom li {
+    float: left; margin-right: 40px; padding-left: 0;
+  }
+  div#foot {
+    width: 540px; margin: 0 auto;
+    margin-bottom: 40px;
+  }
+
+  /* Various repeated elements. */
+  span.permalink {
+    float: left; width: 130px;
+    font-size: 12px;
+  }
+  span.permalink a {
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  div.realpost {
+    float: left;
+    width: 650px;
+    margin-bottom: 4em; padding-top: 0; margin-top: 0;
+  }
+
+  body#permalink-page div.realpost {
+    margin-bottom: 2em;
+  }
+
+  div.realpost div {
+    /* sorry, css gods */
+    width: 500px;
+    padding-top: 0;
+  }
+
+    span.label { font-weight: bold; }
+  h2 { margin-top: 0; font-size: 16px; }
+  div.text h2 a { color: #000; }
+
+  div.text img {
+    max-width: 500px
+  }
+  div.text blockquote img {
+    max-width: 150px
+  }
+
+  /* Comments */
+  .chat {
+    margin-bottom: 2em;
+  }
+  .c_name, .c_body, .c_input{
+    width: 670px;
+    float: right;
+  }
+  .c_body {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
+  .c_date {
+    width: 130px;
+    float: left;
+  }
+  .c_meta, .chat {
+    *zoom: 1;
+  }
+  .c_meta:after, .chat:after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+  }
+  .c_input {
+  }
+
+  .txt, .c_submitter {
+    display: inline;
+  }
+  .txt input {
+    width: 440px;
+  }
+  /* Standard kuandao control buttons */
+  .commands {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+  .commands a {
+    float: right;
+  }
+
+  .commands .remove, .commands .edit,
+  .back_to_home, .btn_unfollow, .btn_follow, .btn_apply {
+    text-indent: -9999px;
+    margin-left: 10px;
+    height: 20px;
+  }
+  .back_to_home, .btn_unfollow, .btn_follow, .btn_apply {
+    width: 80px;
+  }
+  .commands .remove, .commands .edit {
+    width: 20px;
+  }
+  .back_to_home {
+    background: url('/images/btn_backhome.gif');
+  }
+  .btn_follow {
+    background: url('/images/btn_follow.gif')
+  }
+  .btn_unfollow {
+    background: url('/images/btn_unfollow.gif')
+  }
+  .btn_apply {
+    background: url('/images/btn_apply.gif')
+  }
+  .commands .remove {
+    background: url('/images/btn_remove.gif')
+  }
+  .commands .edit {
+    background: url('/images/btn_edit.gif')
+  }
+  </style>
+</head>
+<body id="{{#post_single}}permalink-page{{/post_single}}">
+
+<div id="head">
+  {{control_buttons}}
+  <h1><a href="/">{{title}}</a> {{text_subtitle}}</h1>
+</div>
+
+<div id="main">
+  {{#posts}}
+  <div class="post {{type}}">
+    {{#create_date}}
+    <span class="permalink">
+      <a href="{{url}}">
+        {{short_month}} {{day_of_month}}, {{year}}<br />
+        {{comments_count}} 回复<br />
+      </a>
+      {{#is_repost}}
+      转自{{#parent}}<a href="{{url}}">{{title}}</a>{{/parent}}
+      {{/is_repost}}
+    </span>
+    {{/create_date}}
+    <div class="realpost"><div>
+
+    {{#text}}
+      {{#title}}<h2><a href="{{url}}">{{title}}</a></h2>{{/title}}
+      <p>{{content}}</p>
+    {{/text}}
+
+    {{#link}}
+      <h2><a href="{{shared_url}}">{{title}}</a></h2>
+      {{#content}}{{content}}{{/content}}
+    {{/link}}
+
+    {{#photo_single}}
+      {{#photos}}
+      <a href="{{image_original}}" title="{{desc}}">
+        <img src="{{image_500}}" alt="{{desc}}">
+      </a>
+      {{/photos}}
+      <p> {{content}} </p>
+    {{/photo_single}}
+
+    {{#photo_set}}
+      {{#photos}}
+      <a href="{{image_original}}" title="{{desc}}">
+        <img src="{{image_500}}" alt="{{desc}}">
+      </a>
+      {{/photos}}
+      <p> {{content}} </p>
+    {{/photo_set}}
+
+    {{#video}}
+      {{video_code_500}}
+    {{/video}}
+    </div></div>
+    {{#post_single}}
+      {{load_comments}}
+    {{/post_single}}
+  </div>
+  {{/posts}}
+
+  {{#pagination}}
+    <div class="pagination">
+    {{#previous_page}}
+        <a href="{{previous_page}}">Previous</a>
+    {{/previous_page}}
+
+    {{#current_page}}
+        <span class="current_page">{{current_page}}</span>
+    {{/current_page}}
+
+    {{#next_page}}
+        <a href="{{next_page}}">Next</a>
+    {{/next_page}}
+    </div>
+  {{/pagination}}
+
+  <div class="post last">
+  <span class="permalink"><strong>About</strong></span>
+    <div class="realpost" id="last"><div>
+    {{desc}}
+    </div></div>
+  </div>
+
+</div>
+<div id="foot">&nbsp;</div>
+</body>

@@ -44,14 +44,13 @@ module PostsHelper
   def content_t
     default_open = false
     closable = true
-    default_rich = false
+    default_rich = true
     if(@post.type == "text")
       default_open = true
       closable = false
     else
       default_open = false
       closable = true
-      default_rich = true
     end
 
     unless @post.content.nil? || @post.content.empty?

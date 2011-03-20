@@ -82,14 +82,14 @@ CODE
   end
 
   def parent
-    ObjectView.wrap @post.parent.blog, @extra if has_repost
-  end
-  
-  def ancestor
-    ObjectView.wrap @post.ancestor.blog, @extra if has_repost
+    ObjectView.wrap @post.parent.blog, @extra if is_repost
   end
 
-  def has_repost
+  def ancestor
+    ObjectView.wrap @post.ancestor.blog, @extra if is_repost
+  end
+
+  def is_repost
     !@post.parent.nil?
   end
 

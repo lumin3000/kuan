@@ -1,7 +1,7 @@
 %div{ :id => (form_photo.nil? ? "" : "photo_#{form_photo.id}"), :name => 'photo_item', :class => 'list_image' }
   = hidden_field_tag "photos[][image]", (form_photo.nil? ? "" : form_photo.image.id), :class => "image_id"
   = hidden_field_tag "photos[][id]", (form_photo.nil? ? "" : form_photo.id)
-  %div{ :class => "the_drag_handle", :alt => "上下拖动调整顺序" }<
+  %div{ :class => "the_drag_handle", :alt => "鼠标拖动这里可以移动图片位置" }<
     &nbsp;
   %div{ :class => "the_image" }<
     %a{ :href => (form_photo.nil? ? "#" : form_photo.image.url_for(:original)), :rel => 'lightbox', :target => "_blank" }<

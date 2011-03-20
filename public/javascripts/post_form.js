@@ -14,14 +14,35 @@ document.addEvent('domready', function(){
 })
 
 K.post = (function(){
-    var photo_path = '/upload/photo'
-    var init_title = function(){
-        $$('.new_title_starter').addEvent('click', function(){
-            $$('.title_text')[0].show()
-            this.hide()
-            return false
-        })
+  var photo_path = '/upload/photo'
+  var init_title = function(){
+    if(!$$('.new_title_starter')[0])return
+    var s_new = $$('.new_title_starter')[0]
+    var s_hide = $$('.hide_title_starter')[0]
+    if($$('.title_text input')[0].value == ''){
+      s_hide.hide()
+      $$('.title_text')[0].hide()
+      $$('.rich_editor_starter')[0].show()
+      $$('.text_editor_starter')[0].hide()
+    }else{
+      s_new.hide()
+      $$('.rich_editor_starter')[0].hide()
+      $$('.text_editor_starter')[0].show()
     }
+    s_new.addEvent('click', function(){
+      $$('.title_text')[0].show()
+      this.hide()
+      s_hide.show()
+      return false
+    })
+    s_hide.addEvent('click', function(){
+      $$('.title_text')[0].hide()
+      $$('.title_text input')[0].value = ''
+      this.hide()
+      s_new.show()
+      return false
+    })
+  }
 
     var photo_item_template
     var photo_item = {
@@ -95,8 +116,6 @@ K.post = (function(){
         var box_file = $('box_file')
         var box_url = $('box_url')
         tar_tog_url.addEvent('click', function(){
-            tar_tog_url.hide()
-            tar_tog_local.show()
             box_file.hide()
             box_url.show()
             OverText.instances.each(function(item){
@@ -104,27 +123,42 @@ K.post = (function(){
             })
         })
         tar_tog_local.addEvent('click', function(){
-            tar_tog_url.show()
-            tar_tog_local.hide()
             box_file.show()
             box_url.hide()
         })
     }
 
-    var init_editor = function(){
-        if($$('.text')[0] && $$('.text')[0].hasClass('rich_text')){
-          K.render_editor($('content'), {width:55, height:50})
-        }
-        $$('.rich_editor_starter').addEvent('click', function(){
-            this.hide()
-            $('box_text').addClass('rich_text')
-            K.render_editor($('content'), {width:55, height:50})
-            return false
-        })
-        if($('tar_tog_textarea')){
-            init_toggle_textarea()
-        }
+  var init_editor = function(){
+    if($$('.text')[0] && $$('.text')[0].hasClass('rich_text')){
+      K.render_editor($('content'), {width:50, height:50})
     }
+    if($('tar_tog_textarea')){
+      init_toggle_textarea()
+    }
+    if($$('.rich_editor_starter')[0]){
+      var s_rich = $$('.rich_editor_starter')[0]
+      var s_text = $$('.text_editor_starter')[0]
+      s_rich.addEvent('click', function(){
+        this.hide()
+        s_text.show()
+        K.editor_toolbar.show($$('.text')[0])
+        return false
+      })
+      s_text.addEvent('click', function(){
+        this.hide()
+        s_rich.show()
+        K.editor_toolbar.hide($$('.text')[0])
+        return false
+      })
+      setTimeout(function(){
+        if($$('.title_text input')[0].value == ''){
+          K.editor_toolbar.hide($$('.text')[0])
+        }else{
+          K.editor_toolbar.show($$('.text')[0])
+        }
+      }, 100)
+    }
+  }
 
     var init_toggle_textarea = function(){
         var tar_tog_textarea = $('tar_tog_textarea')
