@@ -2541,20 +2541,17 @@ margin-bottom:30px;
     color:#3366cc;
 	padding:5px 10px;
 	text-decoration:none;
-	
 }
 
-.header .dash_navigator a:hover{
+.header .dash_navigator .arrow{
 	color:#ffffff;
 	padding:5px 10px;
 	text-decoration:none;
-	background-color:#3366cc;
-	border-radius:10px;
-	-moz-border-radius:10px;
-	-webkit-border-radius:10px;
+	border-radius:8px;
+	-moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    background-color:#3366cc;
 }
-
-
 
 
 
@@ -2570,17 +2567,16 @@ margin-bottom:30px;
     overflow:hidden;
 }
 
-.header .dash_navigator a:hover span{
-	background:url('images/icons.gif') -100px -40px;
-}
 
 .my_pages .my_account{
+	background-color:#ffffff;
+	border:3px solid #3366cc;
+	display:block;
 	font-size:18px;
-	font-family:"microsoft yahei";
+	font-family:"Hiragino Sans GB,hei,microsoft yahei";
 	line-height:24px;
-	width:102px;
+	width:99px;
 	padding:0px 5px;
-	background-color:#3366cc;
 	border-radius:8px;
 	-moz-border-radius:8px;
 	-webkit-border-radius:8px;
@@ -2588,15 +2584,27 @@ margin-bottom:30px;
 	
 }
 
+.my_pages .my_account a span{
+	display:inline-block;
+	width:14px;
+	height:14px;
+	background:url('images/icons.gif') -120px -40px;
+	position:relative;
+    top:5px;
+    _top:0px;
+    _zoom:1;
+    overflow:hidden;
+}
+
 .my_pages .my_account div{
-	border-top:1px solid #ffffff;
-	margin-top:-1px;
+	border-top:1px solid #eaeaea;
+    margin-top:-1px;
 	padding:4px;
 	height:24px;
 }
 
 .my_pages .my_account div a{
-	color:#ffffff;
+	color:#3366cc;
 	text-decoration:none;
 }
 
