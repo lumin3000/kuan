@@ -8,8 +8,12 @@ document.addEvent('domready', function(){
   $$('.tag_wall')[0].getElements('.text').each(function(item){
     item.addClass('bg'+Number.random(1,5))
   });
-
-  K.left2right.init().auto()
+  
+  if(this.location.href.indexOf('#p')>0){
+    K.puzzle.init().auto()
+  }else{
+    K.left2right.init().auto()
+  }
 })
 
 function trend_height(n){
@@ -36,10 +40,10 @@ K.left2right = (function(){
       var box_line
       var els = box.getElements('.item')
       for(var i=0; i<row; i++){
-        box_line_outer = new Element('div', {class: 'box_line_outer'})
+        box_line_outer = new Element('div', {'class': 'box_line_outer'})
           .setStyles({height:size.y, width:size.x*column, overflow:'hidden'})
           .inject(box)
-        box_line = new Element('div', {class: 'box_line'})
+        box_line = new Element('div', {'class': 'box_line'})
           .setStyles({width: 3333})
           .inject(box_line_outer)
         fxs.push(new Fx.Scroll(box_line_outer, {
@@ -50,7 +54,7 @@ K.left2right = (function(){
           els.pop().inject(box_line)
         }
       }
-      box_bak = new Element('div', {class: 'box_bak'})
+      box_bak = new Element('div', {'class': 'box_bak'}).hide()
         .inject(box)
       els.each(function(item){
         item.inject(box_bak)
@@ -76,15 +80,17 @@ K.left2right = (function(){
       var box_line = box_line_outer.getElement('.box_line')
       var els_random = Number.random(0, box_bak.getElements('.item').length-1)
       var el_new = box_bak.getElements('.item')[els_random]
-      if(box_line.getElements('.item').length > column){
-        box_line.getElements('.item').getLast().inject(box_bak)
-      }
       el_new.inject(box_line, 'top')
-      box_line_outer.scrollLeft = size.x
-      this.reset_radius('start')
-      fxs[now].toLeft().chain(function(){
-        this.reset_radius('end')
-      }.bind(this))
+      if(!Browser.ie6){
+        box_line_outer.scrollLeft = size.x
+        this.reset_radius('start')
+        fxs[now].toLeft().chain(function(){
+          this.reset_radius('end')
+          box_line.getElements('.item').getLast().inject(box_bak)
+        }.bind(this))
+      }else{
+          box_line.getElements('.item').getLast().inject(box_bak)
+      }
       now++
       if(now>=row){
         now = 0
@@ -110,7 +116,7 @@ K.puzzle = (function(){
     },
     // random
     auto: function(){
-      setInterval(this.random.bind(this), 3000)
+      setInterval(this.random.bind(this), 2000)
     },
     random: function(){
       var pos = this.pick()
@@ -196,3 +202,4 @@ K.puzzle = (function(){
     }
   }
 })()
+
