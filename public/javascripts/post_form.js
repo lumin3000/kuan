@@ -49,16 +49,16 @@ K.post = (function(){
 
     var photo_item_template
     var photo_item = {
-        create: function(){
-            var el = photo_item_template.clone()
-            el.getElement('[name=tar_img]').set('src', '/images/default_photo.jpg')
-            el.inject($('photos_list'))
-            this.process(el)
-            photo_item.attach(el)
-            photos_list_sort.addItems(el)
-            el.getElement('.the_text input').hide()
-            return el
-        },
+      create: function(){
+        var el = photo_item_template.clone()
+        el.getElement('[name=tar_img]').set('src', '/images/default_photo.jpg')
+        el.inject($('photos_list'))
+        this.process(el)
+        photo_item.attach(el)
+        photos_list_sort.addItems(el)
+        K.photo_upload.spin(el)
+        return el
+      },
         process: function(el){
         },
         success: function(v, el){
@@ -71,10 +71,11 @@ K.post = (function(){
             el.getElement('.image_id')
                 .set('value', v.image.id)
             el.getElement('[name=tar_process]').hide()
+          K.photo_upload.unspin(el)
         },
         failure: function(el, v){
-            $$('.post_error')[0].innerHTML = v.message
-            el.distroy()
+          K.photo_upload.spin_error(el, v)
+            //$$('.post_error')[0].innerHTML = v.message
         },
         attach: function(el){
             el.getElement('.the_close').addEvent('click', function(){
@@ -85,19 +86,6 @@ K.post = (function(){
                 photo_item.destroy()
             })
         }
-    }
-    var init_upload = function(){
-      var el
-        new K.file_uploader($('image_uploader'), photo_path, {
-            'multiple': true,
-            'onStart': function(){
-              el = photo_item.create()
-              return el
-            },
-          'onSuccess': function(v, ele){
-              photo_item.success(v, ele||el)
-            }
-        })
     }
     //var photos_list_sort
     var init_photo_items = function(){
@@ -195,14 +183,7 @@ K.post = (function(){
           tmpl = tmpl.replace(/&apos;/gm, '"');
           photo_item_template = Elements.from(tmpl)[0]
           init_photo_items()
-          if($('image_uploader') && $('photo_template')){
-	    var flash_flag = !(Browser.Plugins.Flash.version < 9);
-	    if((typeof FormData == 'undefined') && Browser.Plugins.Flash && Browser.Plugins.Flash.version >= 9){
-              $('image_uploader') && K.multi_upload()
-	    }else{
-              init_upload()
-            }
-          }
+          K.photo_upload.init()
           this.init_url_upload()
           init_toggle_upload()
         }
@@ -235,8 +216,147 @@ K.post = (function(){
     }
 })()
 
-K.multi_upload = function(){
-  new FancyUpload3.Attach('photos_list', '#image_uploader', {
+
+K.photo_upload = {
+  getTemplate: function(){
+    var tmpl = $('photo_template').value;
+    tmpl = tmpl.replace(/&apos;/gm, '"');
+    return Elements.from(tmpl)[0].clone()
+  },
+  spin: function(el){
+    var msg = new Element('span')
+    new Element('span', {'html': '上传中...'}).inject(msg)
+    new Element('a', { href: '#', 'html':'取消' })
+      .addEvent('click', function(){
+        el.unspin()
+        el.destroy()
+      }).inject(msg)
+    el.set('spinner', {message: msg})
+    el.spin()
+  },
+  unspin: function(el){
+    el.unspin()
+  },
+  spin_error: function(el, v){
+    if (!el || !el.get('spinner'))return
+    el.get('spinner').msg.getElement('span')
+      .setStyle('color', 'red')
+      .set('html', v.message)
+  },
+  init: function(ty){
+    var tar_single = $('tar_single_upload')
+    var tar_multi = $('tar_multi_upload')
+    //ty = ty || 'flash'
+    var tmp = $$('.file_image .img_left')[0]
+    tmp && tmp.getElement('.swiff-uploader-box') && tmp.getElement('.swiff-uploader-box').destroy()
+
+    if(!($('image_uploader') || $$('input[name=file]')[0]) || !$('photo_template'))return
+
+    var flash_flag = !(Browser.Plugins.Flash.version < 9);
+    if(ty){
+    }else if(typeof FormData != 'undefined'){
+      ty = 'html5'
+    }else if(Browser.Plugins.Flash && Browser.Plugins.Flash.version >= 9){
+      ty = 'flash'
+    }else{
+      ty = 'iframe'
+    }
+    if(ty == 'html5'){
+      tar_single.setStyle('display', 'inline')
+      tar_multi.hide()
+      K.photo_upload.html5()
+    }else if(ty == 'flash'){
+      tar_single.setStyle('display', 'inline')
+      tar_multi.hide()
+      K.photo_upload.flash()
+    }else if(ty == 'iframe'){
+      tar_single.hide()
+      if(typeof FormData != 'undefined' || (Browser.Plugins.Flash && Browser.Plugins.Flash.version >= 9)){
+        tar_multi.setStyle('display', 'inline')
+      }else{
+        tar_multi.hide()
+      }
+      K.photo_upload.iframe()
+    }
+  }
+}
+
+K.photo_upload.iframe = function(){
+  var el
+  new K.file_uploader($('image_uploader') || $$('input[name=file]')[0], '/upload/photo', {
+    'multiple': false,
+    'onStart': function(){
+      var el = K.photo_upload.getTemplate()
+      el.getElement('[name=tar_img]').set('src', '/images/default_photo.jpg')
+      el.inject($('photos_list'))
+      el.getElement('.the_close').addEvent('click', function(){
+        var photo_item = this.getParent('[name=photo_item]')
+        photo_item.destroy()
+      })
+      photos_list_sort.addItems(el)
+      K.photo_upload.spin(el)
+      return el
+    },
+    'onSuccess': function(v, el){
+      if(v.status == 'error'){
+        this.failure.call(this, v, el)
+        return
+      }
+      el.getElement('.the_image a')
+        .set('href', v.image.original)
+      el.getElement('[name=tar_img]')
+        .set('src', v.image.small)
+      el.getElement('.the_text input')
+        .show()
+      el.getElement('.image_id')
+        .set('value', v.image.id)
+      el.getElement('[name=tar_process]').hide()
+      K.photo_upload.unspin(el)
+    },
+    'onFailure': function(v, el){
+      K.photo_upload.spin_error(el, v)
+    }
+  })
+}
+K.photo_upload.html5 = function(){
+  var el
+  new K.file_uploader($('image_uploader') || $$('input[name=file]')[0], '/upload/photo', {
+    'multiple': true,
+    'onStart': function(){
+      var el = K.photo_upload.getTemplate()
+      el.getElement('[name=tar_img]').set('src', '/images/default_photo.jpg')
+      el.inject($('photos_list'))
+      el.getElement('.the_close').addEvent('click', function(){
+        var photo_item = this.getParent('[name=photo_item]')
+        photo_item.destroy()
+      })
+      photos_list_sort.addItems(el)
+      K.photo_upload.spin(el)
+      return el
+    },
+    'onSuccess': function(v, el){
+      if(v.status == 'error'){
+        this.failure.call(this, v, el)
+        return
+      }
+      el.getElement('.the_image a')
+        .set('href', v.image.original)
+      el.getElement('[name=tar_img]')
+        .set('src', v.image.small)
+      el.getElement('.the_text input')
+        .show()
+      el.getElement('.image_id')
+        .set('value', v.image.id)
+      K.photo_upload.unspin(el)
+    },
+    'onFailure': function(v, el){
+      K.photo_upload.spin_error(el, v)
+    }
+  })
+}
+K.photo_upload.flash = function(){
+  var el = $('image_uploader') || $$('input[name=file]')[0]
+  new FancyUpload3.Attach('photos_list', el, {
     path: '/javascripts/Swiff.Uploader.swf',
     url: '/upload/photo',
     timeLimit:4*60,
@@ -251,7 +371,7 @@ K.multi_upload = function(){
     typeFilter: {
       'Images (*.jpg, *.jpeg, *.gif, *.png)': '*.jpg; *.jpeg; *.gif; *.png'
     },
-    container:$('image_uploader').getParent(),
+    container:el.getParent(),
     onSelectFail: function(files) {
       files.each(function(file) {
 	new Element('div', {

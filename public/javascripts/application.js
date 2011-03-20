@@ -59,7 +59,7 @@ K.file_uploader = new Class({
         this.file = $(el)
         this.path = path
         if(!this.file){
-            throw new Error('shCan not find file element')
+            throw new Error('找不到上传按钮')
         }
         if(!path){
             throw new Error('')
@@ -69,6 +69,8 @@ K.file_uploader = new Class({
       this.file.set('accept', this.options.type)
       if(this.multiple){
         this.file.multiple = 'multiple'
+      }else{
+        this.file.multiple = ''
       }
         var tar = $(this.options.tar)
         var fire_now = this.options.fire_now
@@ -162,14 +164,13 @@ K.file_uploader = new Class({
       }).inject(document.body).hide()
       this.file.inject(this.form)
       this.build_file()
+      var el = this.options.onStart && this.options.onStart()
       setTimeout(function(){
         this.frame.addEvent('load', function(){
-          this.complete()
+          this.complete(null, el)
         }.bind(this))
         this.form.submit()
       }.bind(this), 50)
-      this.options.onStart &&
-        this.options.onStart()
     }else{
       for(var i=0, l = Math.min(this.file.files.length, this.options.limit); i<l; i++){
         K.upload_log(this.path+' : begin : multi')
@@ -184,20 +185,17 @@ K.file_uploader = new Class({
     var form_data = new FormData()
     form_data.append('file', file)
     var xhr = new XMLHttpRequest()
-    var spin = el.set('spinner', {message: '上传中'}).spin()
     xhr.addEventListener('error', function(e){
-      el.unspin()
-      el.destroy()
-    }, false)
+      this.failure.call(this, '失败', el)
+    }.bind(this), false)
     xhr.addEventListener('load', function(e){
       if(xhr.readyState==4 && xhr.status==200){
         this.complete(xhr.responseText, el)
-        el.unspin()
       }
     }.bind(this), false)
     xhr.addEventListener('progress', function(e){
       function status(n){
-        el.get('spinner').msg.set('html', n)
+        //el && el.get('spinner').msg.set('html', n)
       }
       if(e.lengthComputable){
         status(''+(e.loaded/e.total*100).toInt()+'%')
@@ -222,10 +220,14 @@ K.file_uploader = new Class({
     }
     this.file.set('disabled', false)
   },
+  failure: function(v, el){
+    this.options.onFailure &&
+      this.options.onFailure.call(this, v, el)
+  },
   success: function(v, el){
     K.upload_log(this.path+' : success')
     this.options.onSuccess &&
-      this.options.onSuccess(v, el)
+      this.options.onSuccess.call(this, v, el)
   }
 })
 

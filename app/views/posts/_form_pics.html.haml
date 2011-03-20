@@ -10,6 +10,8 @@
       %input#image_uploader{ :type => 'file', :name => 'file', :autocomplete => 'off'}
       %span.desc<
         支持多图上传，可上传JPEG,GIF,PNG，单张图片最大4MB。
+        %a#tar_single_upload{href: '#', onclick: "K.photo_upload.init('iframe');return false;", style: "display:none"}使用基本上传
+        %a#tar_multi_upload{href: '#', onclick: "K.photo_upload.init();return false;", style: "display:none"}使用多图上传
     .img_right
       %a{ :id => 'tar_tog_url', :class => 'image_url_starter slight', :href => '#' }<
         选择网络图片
