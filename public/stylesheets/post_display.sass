@@ -3,22 +3,21 @@
 .content
   margin-left: 77px
   *margin-left: 75px
-  width: 600px
+  width: 564px
   @include border-radius(15px)
   border: 1px solid #dcdcdc
   overflow: hidden
 
 .content_head
   height: 50px
-  padding: 0px 25px
 
 .content_body
-  padding: 0px 50px
+  padding: 0px 25px
   font-size: 14px
   @include clear_fix
 
 .content_footer
-  padding: 20px 15px 0px 15px
+  padding-top: 20px
   @include single_line(40px)
 
   .tags
@@ -364,3 +363,20 @@
         color: #ffffff
         text-align: center
         cursor: pointer
+
+.article
+  .writer_name
+    @include single_line(50px)
+
+  .update_time
+    font-size: 14px
+
+  .content
+    padding: 2px 18px
+
+.hover
+  .content
+    padding: 0 16px
+    border:
+      width: 3px
+      color: #4a84f2
