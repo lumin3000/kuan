@@ -13,6 +13,7 @@ module ObjectView
   end
 
   def respond_to?(method)
+    return true if self.singleton_methods.include? method
     klass = self.class
     begin
       return true if klass.public_instance_methods(false).include? method
@@ -290,11 +291,6 @@ class BlogView < Mustache
 CODE
   end
 
-  def respond_to?(name)
-    return true if name.to_s =~ /^(?:color|bool|text|image)_/
-    super
-  end
-
   EXTRACTOR = BlogView.new(Blog.new)
   EXTRACTOR.define_singleton_method :respond_to? do |name|
     name == :define
@@ -329,3 +325,10 @@ CODE
 end
 
 Dir[Rails.root.join('lib/object_view/*.rb')].each {|f| require f}
+
+class String
+  def respond_to?(name, *args)
+    return false if name == :constantize
+    super(name, *args)
+  end
+end
