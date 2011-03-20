@@ -153,8 +153,7 @@
   .text,
   .title_text,
   .url_link,
-  .title_link,
-  .url_image
+  .title_link
     clear: both
     width: 620px
     padding: 5px 0
@@ -162,9 +161,9 @@
     height: $input-height - 10px
     line-height: $input-height - 10px
     @include border-radius(8px)
-    border: 0
+    border: 1px solid #cadbea
     background: white
-    margin-bottom: 30px
+    margin-bottom: 10px
 
     label
       padding-left: 20px
@@ -182,6 +181,15 @@
     font-size: $input-font-size
     width: 420px
 
+  .video.title_text
+    margin-bottom: 0
+    input
+      margin-left: 25px        
+  .video.slight
+    margin-bottom: 10px
+    display: block
+     
+  
   .text
     height: 340px
 

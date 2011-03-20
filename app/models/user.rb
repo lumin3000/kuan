@@ -143,7 +143,7 @@ class User
 
   def other_blogs
     followings.reduce [] do |blogs, f|
-      blogs.push f.blog unless f.auth == 'lord'
+      blogs.push f.blog if %w{founder member}.include? f.auth
       blogs
     end
   end
