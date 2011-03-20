@@ -129,52 +129,11 @@
   .txt input {
     width: 440px;
   }
-  /* Standard kuandao control buttons */
-  .commands {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-  }
-  .commands a {
-    float: right;
-  }
-
-  .commands .remove, .commands .edit,
-  .back_to_home, .btn_unfollow, .btn_follow, .btn_apply {
-    text-indent: -9999px;
-    margin-left: 10px;
-    height: 20px;
-  }
-  .back_to_home, .btn_unfollow, .btn_follow, .btn_apply {
-    width: 80px;
-  }
-  .commands .remove, .commands .edit {
-    width: 20px;
-  }
-  .back_to_home {
-    background: url('/images/btn_backhome.gif');
-  }
-  .btn_follow {
-    background: url('/images/btn_follow.gif')
-  }
-  .btn_unfollow {
-    background: url('/images/btn_unfollow.gif')
-  }
-  .btn_apply {
-    background: url('/images/btn_apply.gif')
-  }
-  .commands .remove {
-    background: url('/images/btn_remove.gif')
-  }
-  .commands .edit {
-    background: url('/images/btn_edit.gif')
-  }
   </style>
 </head>
 <body id="{{#post_single}}permalink-page{{/post_single}}">
 
 <div id="head">
-  {{control_buttons}}
   <h1><a href="/">{{title}}</a> {{text_subtitle}}</h1>
 </div>
 
