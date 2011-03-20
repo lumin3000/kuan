@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class BlogsController < ApplicationController
   before_filter :signin_auth, :except => [:show]
-  before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick]
+  before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick, :customize]
   before_filter :editor_auth, :only => [:followers, :editors, :exit]
   before_filter :find_by_uri, :only => [:show, :follow_toggle, :apply, :apply_entry,
     :extract_template_vars, :customize]
