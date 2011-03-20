@@ -47,7 +47,7 @@ class BlogsController < ApplicationController
     build_view_context
     fetch_posts
     p = params[:blog]
-    p.delete :template_id if p[:template_id].blank?
+    p[:template_id] = nil if p[:template_id].blank?
     @blog.use_template params[:blog]
     render_blog
   end
