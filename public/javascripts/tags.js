@@ -5,9 +5,10 @@ document.addEvent('domready', function(){
     item.getElement('div').setStyle('height', trend_height(count))
     i++%2 == 1 && item.addClass('odd')
   });
+  /*
   $$('.tag_wall')[0].getElements('.text').each(function(item){
     item.addClass('bg'+Number.random(1,5))
-  });
+  });*/
   
   if(this.location.href.indexOf('#p')>0){
     K.puzzle.init().auto()
