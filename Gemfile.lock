@@ -38,13 +38,17 @@ GEM
     bson (1.2.4)
     bson_ext (1.2.4)
     builder (2.1.2)
-    capistrano (2.5.19)
+    capistrano (2.5.20)
+      highline
       highline
       net-scp (>= 1.0.0)
+      net-scp
+      net-sftp
       net-sftp (>= 2.0.0)
       net-ssh (>= 2.0.14)
+      net-ssh
+      net-ssh-gateway
       net-ssh-gateway (>= 1.0.0)
-    daemons (1.1.0)
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
@@ -75,7 +79,7 @@ GEM
       mongo (~> 1.2)
       tzinfo (~> 0.3.22)
       will_paginate (~> 3.0.pre)
-    mustache (0.99.2)
+    mustache (0.99.3)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -140,7 +144,6 @@ DEPENDENCIES
   autotest-rails
   bson_ext
   capistrano
-  daemons
   factory_girl_rails
   haml
   haml-rails
