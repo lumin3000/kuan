@@ -30,7 +30,7 @@ class Blog
   references_many :posts, :index => true
 
   attr_accessible :uri, :title, :desc, :icon, :private, :canjoin, :posted_at, :custom_html,
-    :using_custom_html, :custom_css, :template, :template_id, :template_conf, :tag
+  :using_custom_html, :custom_css, :template, :template_id, :template_conf, :tag
 
   before_validation :sanitize_desc
 
@@ -57,15 +57,24 @@ class Blog
   validate do |blog|
     errors.add(:tag, "标签格式不正确") if not blog.tag.blank? and Tag::invalid? blog.tag
   end
-  
+
   validate do |blog|
     errors.add(:base, "默认主页不可以被申请加入") if blog.primary? and blog.canjoin?
   end
 
 
-  DEFAULT_ICONS = {:large => "/images/default_icon_large.gif",
-    :medium => "/images/default_icon_medium.gif",
-    :small => "/images/default_icon_small.gif"}
+  DEFAULT_ICONS = {
+    :large => "/images/default_icon_180.jpg",
+    :medium => "/images/default_icon_60.jpg",
+    :small => "/images/default_icon_24.jpg",
+    :'128' => "/images/default_icon_128.jpg",
+    :'96' => "/images/default_icon_96.jpg",
+    :'64' => "/images/default_icon_64.jpg",
+    :'48' => "/images/default_icon_48.jpg",
+    :'40' => "/images/default_icon_40.jpg",
+    :'30' => "/images/default_icon_30.jpg",
+    :'16' => "/images/default_icon_16.jpg",
+  }
 
   class << self
     def find_by_uri!(uri)
@@ -163,8 +172,8 @@ class Blog
   def use_template(params)
     [:custom_html, :using_custom_html, :template_id, :template_conf]
       .each do |key|
-        self.send "#{key}=", params[key] if params.has_key? key
-      end
+      self.send "#{key}=", params[key] if params.has_key? key
+    end
     normalize_template_conf
   end
 
