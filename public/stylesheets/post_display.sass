@@ -315,12 +315,12 @@
     padding: 0
     margin: 0
 
-    .box
-      margin: 0 0 12px 0
-      height: auto
+  .box
+    margin: 0 0 12px 0
+    height: auto
 
-      div
-        margin: 0 0 5px 0
+    div
+      margin: 0 0 5px 0
 
   .c_input
     width: 544px
@@ -377,9 +377,34 @@
   .content
     padding: 2px 18px
 
+  .chat
+    margin: 0
+
 .hover
   .content
     padding: 0 16px
     border:
       width: 3px
       color: #4a84f2
+
+.chat_slim
+  line-height: 20px
+  vertical-align: middle
+  padding: 0 10px 10px 10px
+
+  .box
+    border-bottom: 1px #e7e7e7 solid
+    padding:
+      top: 8px
+      bottom: 7px
+    margin-bottom: 0
+    @include clear_fix
+
+  .c_avatar
+    float: left
+    margin-top: 1px
+
+  .c_body
+    float: right
+    width: 420px
+    margin-right: 100px
