@@ -205,7 +205,6 @@ class BlogView < Mustache
   end
 
   def other_pages
-    return nil unless @blog.primary?
     fetch_other_pages
     @other_pages
   end
@@ -216,6 +215,7 @@ class BlogView < Mustache
   end
 
   def fetch_other_pages
+    return nil unless @blog.primary?
     @other_pages ||= @blog.lord.other_blogs.map {|b| ObjectView.wrap b, @extra}
   end
 
