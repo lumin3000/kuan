@@ -397,29 +397,45 @@ K.widgets.rest = function() {
       , method = el.get('data-md') || 'post'
     el.addEvent('click', function(e){
       e.stop()
-
-      var confirmMessage = el.get('data-doconfirm');
-      if(confirmMessage && !confirm(confirmMessage)) {
-        return false;
-      }
-
       var link = el.get('href')
-      new Request.JSON({
-        url: link,
-        method: method,
-        useSpinner: true,
-        spinnerTarget: el,
-        onSuccess: function(response){
-          if (callback) {
-            callback(response, el)
-          } else {
-            alert('操作成功')
+      function fn(){
+        new Request.JSON({
+          url: link,
+          method: method,
+          useSpinner: true,
+          spinnerTarget: el,
+          onSuccess: function(response){
+            if (callback) {
+              callback(response, el)
+            } else {
+              alert('操作成功')
+            }
+          },
+          onFailure: function(){
+            alert('操作失败')
           }
-        },
-        onFailure: function(){
-          alert('操作失败')
-        }
-      }).send()
+        }).send()
+      }
+      var confirmMessage = el.get('data-doconfirm');
+      if(confirmMessage){
+        var msg = new Element('div', {'class':'box_confirm'})
+        new Element('div', {'html':confirmMessage})
+          .inject(msg)
+        var box_bottom = new Element('div', {'class': 'box_bottom'})
+          .inject(msg)
+        new Element('a', {'class':'box_ok', 'html':'确定'})
+          .addEvent('click', function(){
+            fn.call()
+            this.confirm_box.hide()
+          }.bind(this)).inject(box_bottom)
+        new Element('a', {'class':'box_cancel', 'html':'取消'})
+          .addEvent('click', function(){
+            this.confirm_box.hide()
+          }.bind(this)).inject(box_bottom)
+        this.confirm_box = new K.box(msg).show()
+      }else{
+        fn.call(this)
+      }
     })
   }
 }()
@@ -621,8 +637,8 @@ K.box = new Class({
   Implements: Options,
   options: {
     top: 200,
-    width: 420,
-    height: 180
+    width: 360,
+    height: 150
   },
   initialize: function(msg, options){
     this.setOptions(options)
@@ -649,16 +665,18 @@ K.box = new Class({
       this.hide()
     }.bind(this)}).mask()
     this.box.inject(document.body)
-    var h = document.body.scrollTop.toInt() + this.options.top
+    var h = document.body.getScrollTop().toInt() + this.options.top
     var w = (document.body.clientWidth-this.box.getStyle('width').toInt())/2
     this.box.setStyles({
       'top': h,
       'left': w
     })
+    return this
   },
   hide: function(){
     document.body.unmask()
     this.box.destroy()
+    return this
   }
 })
 K.widgets.invite = function(el){
@@ -672,6 +690,6 @@ K.widgets.invite = function(el){
       .addEvent('click', function(){
         this.select()
       }).inject(msg)
-    new K.box(msg, {height:140}).show()
+    new K.box(msg, {height:140, width: 420}).show()
   })
 }
