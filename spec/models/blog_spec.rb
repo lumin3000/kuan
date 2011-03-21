@@ -43,14 +43,14 @@ describe Blog do
 
   describe "default icon" do
     it "should use the default icon" do
-      @blog.icon.url_for(:large).should == "/images/default_icon_large.gif"
+      @blog.icon.url_for(:large).should == "/images/default_icon_180.jpg"
     end
 
     it "should use the set icon" do
       @blog.icon = Image.create!
       @blog.save!
       @blog.reload
-      @blog.icon.url_for(:large).should_not == "/images/default_icon_large.gif"
+      @blog.icon.url_for(:large).should_not == "/images/default_icon_180.jpg"
     end
   end
 
