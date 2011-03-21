@@ -2698,12 +2698,16 @@ margin-bottom:30px;
 
 
 /**********************reply_page*********************************/
+
+.site .reply a{
+	color:#ffffff;
+}
 .site .reply{
 	height:110px;
 	position:relative;
 	padding:0;
 	color:#ffffff;
-	
+		
 
 
 }
@@ -2752,12 +2756,24 @@ margin-bottom:30px;
 	position:absolute;
 	top:0;
 	left:100px;
-	height:300px;
 	height:50px;
 	z-index:2;
+	display:inline-block;
 }
 
+.reply .title a{
+	color:#548ff4;
+    position:absolute;
+    top:30px;
+	text-decoration:none;
+	display:block;
+}
 
+.reply .title a span{
+	color:#333333;
+	font-size:96px;
+	text-decoration:none;
+}
 
 .reply .title h1{
 	font-size:36px;
@@ -2776,6 +2792,7 @@ margin-bottom:30px;
 	padding:0px 10px;
 	position:relative;
 	bottom:-35px;
+	color:#548ff4;
 
 }
 
@@ -2786,7 +2803,7 @@ margin-bottom:30px;
     bottom:30px;
     right:0;
     padding-right:30px;
-	overflow:hidd en;	
+	
 }
 
 
