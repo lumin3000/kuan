@@ -17,8 +17,6 @@ doc/app
 .autotest
 .watchr
 
-/Gemfile.lock
-
 /public/stylesheets/*.css
 .sass-cache
 /TAGS
