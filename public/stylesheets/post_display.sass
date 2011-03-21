@@ -67,19 +67,20 @@
 .photo_set .photos
   margin: 0
   padding: 0
-  width: 140px
-  float: left
-  display: inline
+  cursor: pointer
+  @include clear_fix
 
   .photo
     float: left
     list-style: none
-    margin: 2px
+    margin-right: 6px
     padding: 0
-    width: 60px
-    height: 60px
-    border: 1px solid #888
+    width: 128px
+    height: 128px
 
+    img
+      width: 128px
+      height: 128px
 
   .total_num
     color: $gray
@@ -415,7 +416,7 @@
     bottom: 10px
   line-height: 20px
   vertical-align: middle
-  padding: 0 10px 10px 10px
+  padding: 1px 10px 10px 10px
   border: 0
   position: relative
   @include border-radius(11px)
@@ -460,3 +461,15 @@
 
   .c_name a
     color: $blue
+
+.article .expanded_album
+  cursor: auto
+
+  .photo
+    float: none
+    height: auto
+    border: 0
+
+    img
+      height: auto
+      width: auto

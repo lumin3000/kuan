@@ -693,3 +693,23 @@ K.widgets.invite = function(el){
     new K.box(msg, {height:140, width: 420}).show()
   })
 }
+
+K.widgets.expandAlbum = function(context) {
+  context.addEvent('click', handler)
+  function handler(e) {
+    e.stop()
+    context.removeEvent('click', handler)
+    context.addClass('expanded_album')
+    context.getElements('img').each(function(img) {
+      var src = img.get("data-l")
+      if (!src) return
+      var desc = img.get("data-title")
+      new Element('a', {
+        href: img.get("data-o")
+      , target: '_blank'
+      }).wraps(
+        img.set("src", src).grab(new Element('p', {text: desc}), 'after')
+      )
+    })
+  }
+}
