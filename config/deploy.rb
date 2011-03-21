@@ -5,7 +5,7 @@ set :rvm_ruby_string, 'default'
 
 set :application, "kuan"
 set :whenever_command, "bundle exec whenever"
-set :whenever_update_flags, "--write-crontab #{whenever_identifier} --set environment=#{whenever_environment}"
+set :whenever_update_flags, "--write-crontab kuan --set environment=production"
 require "whenever/capistrano"
 
 
