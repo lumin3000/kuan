@@ -365,6 +365,17 @@
       cursor: pointer
 
 .article
+  position: relative
+  @include clear_fix
+
+  .author_arrow
+    background: url("/images/arrow1.gif") no-repeat
+    position: absolute
+    top: 32px
+    left: 65px
+    *left: 66px
+    @include size(13px, 13px)
+
   .writer_name
     float: left
     @include single_line(50px)
@@ -385,6 +396,12 @@
     margin: 0
 
 .hover
+  .author_arrow
+    background-image: url("/images/arrow2.gif")
+    border-right: 2px white solid
+    left: 67px
+    *left: 68px
+
   .content
     padding: 0 16px
     border:

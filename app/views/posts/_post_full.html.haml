@@ -1,4 +1,5 @@
 .article.tar_post{ class: (article_class ||= "") , :data => {:widget => 'fixHover'}}
+  .author_arrow
   .avatar
     .image{style: "background:url(#{post.blog.icon.url_for(:medium)})"}<
       %a{href: blog_path(post.blog)}<
