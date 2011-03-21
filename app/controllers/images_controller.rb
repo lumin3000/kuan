@@ -61,7 +61,7 @@ class ImagesController < ApplicationController
 
     render :text => {
       status: "success",
-      image: @image.to_a_fucking_hash('/' + filename)
+      image: @image.to_a_fucking_hash((params[:type] == "asset") ? ('/'+filename) : "")
     }.to_json
   end
 

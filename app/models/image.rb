@@ -117,13 +117,12 @@ class Image
     end
   end
 
-  def to_a_fucking_hash(suffix = '')
-    hash = {id: self.id}
-    AVAIL_VERSIONS.each do |k|
-      url = self.url_for k, 'pics'
-      hash[k] = url + suffix if not url.nil?
+  def to_a_fucking_hash(suffix = "")
+    AVAIL_VERSIONS.reduce({:id => self.id}) do |hash, k|
+      url = self.url_for k, suffix.blank? ? 'files' : 'pics'
+      hash[k] = url + suffix unless url.nil?
+      hash
     end
-    hash
   end
 
   def to_json()
