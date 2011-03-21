@@ -366,6 +366,7 @@
 
 .article
   .writer_name
+    float: left
     @include single_line(50px)
 
   .avatar
@@ -399,7 +400,19 @@
   vertical-align: middle
   padding: 0 10px 10px 10px
   border: 0
+  position: relative
   @include border-radius(11px)
+
+  [class="c_arrow"]
+    position: absolute
+    color: transparent
+    border-top: 0
+    border-left: 12px transparent solid
+    border-right: 12px transparent solid
+    border-bottom: 24px #f4f4f4 solid
+    top: -14px
+    right: 10px
+    @include size(0px, 0px)
 
   .c_content
     width: 100%

@@ -1,6 +1,7 @@
 - css 'post_display'
 
 .chat.chat_slim
+  .c_arrow
   .c_content
     %input{ :type => "hidden", :name => "count", :value => @post.comments.count }
     - @post.comments.each do |comment|
