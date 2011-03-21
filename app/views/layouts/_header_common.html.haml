@@ -1,0 +1,36 @@
+.header
+  %a.logo{href: fucking_root, title: "我的主页"}
+  .navigator{data: {widget: "navigator", highlight: (@nav_now || "dashboard")}}<
+    %a.now_dashboard{href: fucking_root}<
+      我的主页      
+    &nbsp;
+    .menu{href: "#"}
+      %div<
+        探索
+        %span<
+          &nbsp;
+      %div<
+        %a{href: wall_posts_path} 展示墙
+      %div<
+        %a{href: tags_path} 标签墙
+      %div<
+        %a{href: news_posts_path} 随便看看
+    %a.tar.now_discovery{href: "#"}<
+      探索
+      %span<
+        &nbsp;
+    .menu
+      %div<
+        我的账户
+        %span<
+          &nbsp;
+      %div<
+        %a{href: edit_user_path(current_user)} 账户设置
+      %div<
+        %a{href: "#{fucking_root}signup/#{current_user.inv_code}", data: {widget: "invite"}} 邀请好友
+      %div<
+        %a{href: signout_path, :data => { :confirm => "确定登出?"}} 退出
+    %a.tar.now_account{href: "#"}<
+      我的账户
+      %span<
+        &nbsp;

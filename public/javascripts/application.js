@@ -320,15 +320,18 @@ document.addEvent('domready', function(){
     })
   })
 
-  $(document.body).addEvent('click:relay([data-tgt])', function(e){
-    var tgt = e.target.get('data-tgt')
-    var func
-    if(tgt){
-      e.stop()
-      func = K.tgt[tgt]
-      func && func(e.target)
-    }
-  })
+    $(document.body).addEvents({
+      'click:relay([data-tgt])': function(e){
+        var tgt = e.target.get('data-tgt')
+        var ev = e.target.get('data-event')
+        var func
+        if(tgt && (!ev || ev == 'click')){
+          e.stop()
+          func = K.tgt[tgt]
+          func && func.call(this, e.target)
+        }
+      }
+    })
 
   // lightbox
   if($$('[rel=lightbox]').length > 0){
@@ -343,6 +346,8 @@ document.addEvent('domready', function(){
       }
     })
   }
+  //navigator
+  $$('.navigator .menu').hide()
 })
 
 K.widgets.rest = function() {
@@ -598,4 +603,75 @@ K.widgets.textboxlist = function(el){
       growingOptions: {startWidth: 30}
     }}
   });
+}
+
+K.widgets.navigator = function(el){
+  var nav_now = el.get('data-highlight')
+  el.getElements('.now_'+nav_now).addClass('highlight')
+  el.getElements('.tar').addEvent('mouseenter', function(){
+    el.getElements('.menu').hide()
+    this.getPrevious('.menu').setStyle('display', 'inline')
+  })
+  el.getElements('.menu').addEvent('mouseleave', function(){
+    this.hide()
+  })
+}
+
+K.box = new Class({
+  Implements: Options,
+  options: {
+    top: 200,
+    width: 420,
+    height: 180
+  },
+  initialize: function(msg, options){
+    this.setOptions(options)
+    this.box = new Element('div', {'class':'k_box'})
+      .setStyles({
+        'height': this.options.height,
+        'width': this.options.width
+      })
+    this.box_top = new Element('div', {'class':'k_box_top'})
+      .inject(this.box)
+    this.close = new Element('div', {'class':'k_box_close'})
+      .inject(this.box_top)
+      .addEvent('click', function(){
+        this.hide()
+      }.bind(this))
+    this.box_inner = new Element('div', {'class':'k_box_inner'})
+      .inject(this.box)
+    this.box_msg = new Element('div', {'class':'k_box_msg'})
+      .inject(this.box_inner)
+    msg.inject(this.box_msg)
+  },
+  show: function(){
+    document.body.set('mask', {onClick: function(){
+      this.hide()
+    }.bind(this)}).mask()
+    this.box.inject(document.body)
+    var h = document.body.scrollTop.toInt() + this.options.top
+    var w = (document.body.clientWidth-this.box.getStyle('width').toInt())/2
+    this.box.setStyles({
+      'top': h,
+      'left': w
+    })
+  },
+  hide: function(){
+    document.body.unmask()
+    this.box.destroy()
+  }
+})
+K.widgets.invite = function(el){
+  el.addEvent('click', function(e){
+    e.stop()
+    var link = this.get('href')
+    var msg = new Element('div', {'class':'box_invite'})
+    new Element('div', {'html':'复制链接邀请好友'})
+      .inject(msg)
+    new Element('input', {'value':link})
+      .addEvent('click', function(){
+        this.select()
+      }).inject(msg)
+    new K.box(msg, {height:140}).show()
+  })
 }

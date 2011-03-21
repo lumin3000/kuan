@@ -53,6 +53,7 @@ class UsersController < ApplicationController
       cond = {:blog_id.in => sub_id_list}
     end
     @posts = Post.desc(:created_at).where(cond).paginate(pagination)
+    render :layout => "common"
   end
 
   def buzz

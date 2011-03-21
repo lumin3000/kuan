@@ -1,23 +1,9 @@
 - content_for :head do
   = stylesheet_link_tag 'post_display', 'dashboard'
-
+- @site_layout = 'site'
 - flash.each do |k, v|
   .flash
     %div{:class => "#{k}"}= v
-
-.header
-  %a.logo{href: fucking_root, title: "我的主页"}
-  .dash_navigator
-    %a{href: wall_posts_path}墙
-    &nbsp;|&nbsp;
-    %a{href: news_posts_path}随便看看
-    &nbsp;|&nbsp;
-    %a{href: edit_user_path(current_user)}设置
-    &nbsp;| 邀请好友加入&nbsp;
-    - invite_url = "#{fucking_root}signup/#{current_user.inv_code}"
-    %input.invite{readonly: true, value: invite_url, onclick: "this.select();"}><
-    &nbsp;|&nbsp;
-    %a.logout{ :href => signout_path, :data => { :confirm => "确定登出?" } }><
 .dashboard
   .head
     .head_avatar{style: "background:url(#{@user.primary_blog.icon.url_for(:medium)})"}<
@@ -101,4 +87,3 @@
     .timeline
       = render :partial => "posts/post_full", :collection => @posts, :as => :post
     = pagination(@posts)
-= render :partial => 'shared/footer'
