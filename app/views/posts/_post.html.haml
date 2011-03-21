@@ -35,13 +35,12 @@
             = "#{tag}"
             = ", " unless tag == post.tags.last
     .left<
+      - unless post.parent.nil?
+        %span.repost_info
+          转自页面
+          %a{ :href => blog_path(post.parent.blog) }
+            = post.parent.blog.title
       %span.update_time= post.created_at
     .right
       %a.reply{ :href => post_comments_path(post), :title => "评论", :data => { :tgt => "comments" } }<
         = post.comments.count == 0 ? " " : post.comments.count
-      
-    .middle
-      - unless post.parent.nil?
-        %a{ :href => blog_path(post.parent.blog) }
-          = post.parent.blog.title
-        &#8594;

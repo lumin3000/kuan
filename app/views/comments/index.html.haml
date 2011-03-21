@@ -7,15 +7,16 @@
       .box
         %img.c_avatar{:src => comment.author.primary_blog.icon.url_for(:'16')}
         %span.c_body
-          %span.c_name<
-            %a{ :href => blog_path(comment.author.primary_blog) }<
-              = "#{comment.author.name}："
+          %span.c_name><
+            %a{ :href => blog_path(comment.author.primary_blog) }><
+              = "#{comment.author.name}"
+              ：
           = auto_link h(comment.content)
           %span.c_date<
-            = comment.created_at
+            = "(#{comment.created_at})"
   .c_input
     = form_tag( post_comments_path, :method => "post", :autocomplete => "off" ) do |f|
       .txt
         %input{ :type => "text", :name => "content", :onkeydown => "if(new Event(event).code==13){this.getParent('form').getElement('.c_submitter').getElement('input').click();return false;}" }
       .c_submitter
-        %input.c_submitter{ :type => "submit", :value => "回复", :data => { :tgt => "reply" } }
+        %input.c_submitter{ :type => "submit", :value => "评论", :data => { :tgt => "reply" } }

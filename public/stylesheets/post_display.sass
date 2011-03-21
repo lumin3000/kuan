@@ -322,47 +322,47 @@
     div
       margin: 0 0 5px 0
 
-  .c_input
-    width: 544px
+.c_input
+  width: 544px
+  height: 30px
+  background-color: #009fff
+  margin-top: 10px
+  border: 1px solid #1d1d1d
+  overflow: hidden
+  
+  form
+    border: 0
+    margin: 0
+    padding: 0
+
+  input
+    width: 100%
     height: 30px
-    background-color: #009fff
-    margin-top: 10px
-    border: 1px solid #1d1d1d
-    overflow: hidden
-    
-    form
-      border: 0
-      margin: 0
-      padding: 0
+    border: 0
+    padding: 0
+    margin: 0
+    line-height: 30px
+    font-size: 18px
+  
+  .txt
+    width: 470px
+    background-color: white
+    padding-top: 1px
+    padding-left: 8px
+    border-right: 1px solid black
+    float: left
 
+  .c_submitter
+    width: 60px
+    float: left
+    
     input
-      width: 100%
-      height: 30px
-      border: 0
-      padding: 0
-      margin: 0
-      line-height: 30px
-      font-size: 18px
-    
-    .txt
-      width: 470px
-      background-color: white
-      padding-top: 1px
-      padding-left: 8px
-      border-right: 1px solid black
-      float: left
-
-    .c_submitter
-      width: 60px
-      float: left
-      
-      input
-        width: 65px
-        _line-height: 38px
-        background-color: #009fff
-        color: #ffffff
-        text-align: center
-        cursor: pointer
+      width: 65px
+      _line-height: 38px
+      background-color: #009fff
+      color: #ffffff
+      text-align: center
+      cursor: pointer
 
 .article
   .writer_name
@@ -373,6 +373,9 @@
 
   .update_time
     font-size: 14px
+
+  .repost_info
+    color: #888
 
   .content
     padding: 2px 18px
@@ -387,10 +390,19 @@
       width: 3px
       color: #4a84f2
 
-.chat_slim
+.article .chat_slim
+  clear: both
+  margin:
+    top: 10px
+    bottom: 10px
   line-height: 20px
   vertical-align: middle
   padding: 0 10px 10px 10px
+  border: 0
+  @include border-radius(11px)
+
+  .c_content
+    width: 100%
 
   .box
     border-bottom: 1px #e7e7e7 solid
@@ -405,6 +417,16 @@
     margin-top: 1px
 
   .c_body
-    float: right
+    float: left
     width: 420px
-    margin-right: 100px
+    margin-left: 10px
+
+  .txt
+    border-right: none
+
+  .c_input
+    border: 1px #d5e2ee solid
+    @include border-radius(11px)
+
+  .c_name a
+    color: $blue
