@@ -17,8 +17,10 @@ class PostView
   end
 
   def load_comments
-    return (load_js +
-      @extra[:controller].render_to_string('comments/index', :layout => false)).html_safe
+    if @extra[:post_single]
+      (load_js + @extra[:controller].render_to_string('comments/index',
+                                                      :layout => false)).html_safe
+    end
   end
 
   expose :@post, :type, :favor_count, :repost_count
