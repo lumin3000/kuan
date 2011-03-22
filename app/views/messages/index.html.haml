@@ -1,4 +1,4 @@
-- @sub_title = @nav_user_title = '消息'
+- @sub_title = @nav_user_title = '我的消息'
 - content_for :title, @sub_title
 - css 'messages'
 
@@ -6,6 +6,7 @@
   - content_for :nav_user_append, do
     = %(共#{@unread_count}条新消息)
 
-.middle_box.messages
-  = render @messages
+.list_box.messages
+  %ul
+    = render @messages
   = pagination @messages
