@@ -1,6 +1,6 @@
 - @sub_title = @nav_user_title = "关注#{@blog.title}的"
 - content_for :title, @sub_title
-
+- @page_name = "关注"
 .list_box.followers
   %h1
     = @blog.followers_count > 0 ? "#{@blog.followers_count}人正在关注" : "还没有人关注哦T_T"

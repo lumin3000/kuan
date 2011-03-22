@@ -31,11 +31,7 @@
       %a.link{href: new_post_path("link", @blog)} 发布链接
       %a.video{href: new_post_path("video", @blog)} 发布视频
       .right
-    .head_txt<
-      - unless @at_dashboard
-        %a{ href: home_path }<
-          &#8592; 我的主页
-        = " > #{@blog.title}"
+    = render partial: "layouts/breadcrumbs"
   = render partial: "layouts/menu"
   .main{ :data => { :widget => "sugar" } }
     .timeline
