@@ -1,16 +1,16 @@
 %li.member
   .avatar_60
-    ._image{style: "background:url(#{editor.icon.url_for(:medium)})"}<
+    .z_image{style: "background:url(#{editor.icon.url_for(:medium)})"}<
       %a{ :href => blog_path(editor.primary_blog) }<
         &nbsp;
-  ._name
+  .z_name
     %a{ :href => blog_path(editor.primary_blog) }
       = editor.name
-  ._operation  
+  .z_operation  
     - if @blog.customed? editor
       %span.admin 管理员
     - elsif @blog.customed? current_user
-      %a.upgrade{:href => editor_blog_path(@blog, editor), :data => { widget: "rest", md: "put", callback: "replace", parent: "_operation" }}<
+      %a.upgrade{:href => editor_blog_path(@blog, editor), :data => { widget: "rest", md: "put", callback: "replace", parent: "z_operation" }}<
         升为管理员
       %a.kick{:href => editor_blog_path(@blog, editor), :data => {widget: "rest", md: "delete", callback: "del", parent: "member" }}<
         移除

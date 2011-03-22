@@ -1,36 +1,36 @@
 .nav_user
-  ._header
-  ._icon{style: "background:url(#{@user.primary_blog.icon.url_for(:medium)})"}<
+  .z_header
+  .z_icon{style: "background:url(#{@user.primary_blog.icon.url_for(:medium)})"}<
     %a{href: blog_path(@user.primary_blog)}<
       &nbsp;
   - if @blog && !@blog.primary
-    ._icon_s{style: "background:url(#{@blog.icon.url_for(:'30')})"}<
+    .z_icon_s{style: "background:url(#{@blog.icon.url_for(:'30')})"}<
       %a{href: home_path(@blog)}<
         &nbsp;
-  ._title
+  .z_title
     %h1<
       = @nav_user_title
     %h2<
       = yield :nav_user_append if content_for?(:nav_user_append)
-  ._container
-    ._following<
+  .z_container
+    .z_following<
       %a{ href: followings_path, title: "我关注的"}<
         我关注的
-    ._favor<
+    .z_favor<
       %a{ href: favors_posts_path, title: "我喜欢的"}<
         我喜欢的
-    ._buzz<
+    .z_buzz<
       %a{ href: buzz_path, title: "回复"}<
         回复
       %span<
         - if current_user.comments_notices.unreads.count > 0
           = current_user.comments_notices.unreads.count
-    ._message<
+    .z_message<
       %a{ href: messages_path, title: "消息"}<
         消息
       %span<
         - if current_user.messages.unreads.count > 0
           = current_user.messages.unreads.count
-  ._name
+  .z_name
     %a{href: home_path(@user.primary_blog)}<
       = @user.primary_blog.title

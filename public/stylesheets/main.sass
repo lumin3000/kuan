@@ -1,5 +1,4 @@
 @import 'lib'
-
 .nav_user
   a
     cursor: pointer
@@ -7,7 +6,7 @@
   position: relative
   padding: 0
   color: #fff
-  ._header
+  .z_header
     width: 900px
     height: 45px
     background-color: #548ff4
@@ -17,7 +16,7 @@
     right: 0
     left: 0
     bottom: 0
-  ._icon
+  .z_icon
     @include size(60px, 60px)
     background: url('/images/default_icon_60.jpg') no-repeat 0 0
     @include border-radius(5px)
@@ -29,7 +28,7 @@
       height: 60px
       display: block
       text-decoration: none
-  ._icon_s
+  .z_icon_s
     width: 30px
     height: 30px
     border: 3px solid #548ff4
@@ -50,7 +49,7 @@
       height: 30px
       display: block
       text-decoration: none
-  ._name
+  .z_name
     width: 60px
     position: absolute
     top: 80px
@@ -58,7 +57,7 @@
     left: 20px
     a
       color: #fff
-  ._title
+  .z_title
     position: absolute
     top: 0
     left: 100px
@@ -77,7 +76,7 @@
       padding: 0 10px
       position: relative
       bottom: -35px
-  ._container
+  .z_container
     width: 200px
     height: 50px
     position: absolute
@@ -99,26 +98,26 @@
       width: 40px
       height: 30px
       display: block
-    ._following
+    .z_following
       a
         background: url('/images/navi_icon.gif') no-repeat 0 -40px
         &:hover
           background: url('/images/navi_icon.gif') no-repeat 0 0
-    ._favor
+    .z_favor
       right: -50px
       top: -30px
       a
         background: url('/images/navi_icon.gif') no-repeat -40px -40px
         &:hover
           background: url('/images/navi_icon.gif') no-repeat -40px 0
-    ._buzz
+    .z_buzz
       right: -100px
       top: -60px
       a
         background: url('/images/navi_icon.gif') no-repeat -80px -40px
         &:hover
           background: url('/images/navi_icon.gif') no-repeat -80px 0
-    ._message
+    .z_message
       right: -150px
       top: -90px
       a
@@ -139,7 +138,7 @@
       font-size: 14px
       border-bottom: 1px solid #cadbea
       @include clear_fix
-      ._name
+      .z_name
         font-weight: bold
         line-height: 60px
         font-size: 18px
@@ -172,7 +171,7 @@
     overflow: hidden
 
 .members
-  .admin, ._operation, .upgrade, .kick, .exit
+  .admin, .z_operation, .upgrade, .kick, .exit
     font-size: 14px
     color: #68879F
     text-align: center
@@ -186,10 +185,10 @@
     a
       color: #f93
 
-  ._content
+  .z_content
     margin: 0px 100px 10px 75px
 
-  ._operation
+  .z_operation
     color: #68879F
     float: right
     width: 80px

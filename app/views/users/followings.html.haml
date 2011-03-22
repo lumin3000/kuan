@@ -8,9 +8,9 @@
     - @blogs.each do |blog|
       %li{ :id => "blog_#{blog.id}" }
         .avatar_60
-          ._image{style: "background:url(#{blog.icon.url_for(:medium)})"}<
+          .z_image{style: "background:url(#{blog.icon.url_for(:medium)})"}<
             %a{ :href => blog_path(blog) }
-        ._name
+        .z_name
           %a{ :href => blog_path(blog) }
             = blog.title
         = follow_tag blog
