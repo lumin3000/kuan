@@ -33,12 +33,13 @@
       %a.link{href: new_post_path("link", @blog)} 发布链接
       %a.video{href: new_post_path("video", @blog)} 发布视频
       .right
-    - flash.each do |k, v|
+    - unless flash.blank?
       .dashboard_flash
-        %div{:class => "#{k}"}<
-          = v
-          %a.cancel{onclick: "this.getParent('.dashboard_flash').destroy();return false;"}
-            关闭
+        - flash.each do |k, v|
+          %div{:class => "#{k}"}<
+            = v
+        %a.cancel{onclick: "this.getParent('.dashboard_flash').destroy();return false;"}
+          关闭
         
     = render partial: "layouts/breadcrumbs"
   = render partial: "layouts/menu"
