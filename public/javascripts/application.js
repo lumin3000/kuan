@@ -173,7 +173,7 @@ K.file_uploader = new Class({
       }.bind(this), 50)
     }else{
       for(var i=0, l = Math.min(this.file.files.length, this.options.limit); i<l; i++){
-        K.upload_log(this.path+' : begin : multi')
+        K.upload_log(this.path+' : start : multi')
         var el = this.options.onStart && this.options.onStart()
         this.html5upload.call(this, this.file.files[i], el)
       }
@@ -225,7 +225,7 @@ K.file_uploader = new Class({
       this.options.onFailure.call(this, v, el)
   },
   success: function(v, el){
-    K.upload_log(this.path+' : success')
+    K.upload_log(this.path+' : success : '+this.options.multiple ? 'multi' : 'single')
     this.options.onSuccess &&
       this.options.onSuccess.call(this, v, el)
   }
