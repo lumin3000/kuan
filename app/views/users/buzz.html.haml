@@ -1,5 +1,4 @@
-- @sub_title = '回复'
-- @nav_user_title = '我的回复'
+- @sub_title = @nav_user_title = '我的回复'
 - css 'buzz'
 - content_for :title, @sub_title
 - if current_user.comments_notices.unreads.count > 0

@@ -1,11 +1,8 @@
-- content_for :title, "我喜欢的_宽岛"
-- content_for :head do
-  = stylesheet_link_tag 'post_display', 'dashboard'
-
-.favor_list
-  %h1
-    = (@posts_count > 0) ? %(我喜欢的) : %(还没有任何喜欢的呢)
+- @sub_title = @nav_user_title = '我喜欢的'
+- content_for :title, @sub_title
     
-  .timeline
-    = render :partial => "posts/post_full", :collection => @posts, :as => :post
+.timeline{ :data => { :widget => "sugar" } }
+  - if @posts_count == 0
+    %h1 还没有任何喜欢的呢
+  = render :partial => "posts/post_full", :collection => @posts, :as => :post
   = pagination @posts
