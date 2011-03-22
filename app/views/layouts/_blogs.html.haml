@@ -7,8 +7,9 @@
       = @blog.title
     .selector_open_menu
       - @other_blogs.each do |b|
-        %div
-          %a.other_blog{href: path.call(b)}<
-            = b.title
+        - if !b.primary && b.edited?(current_user)
+          %div
+            %a.other_blog{href: path.call(b)}<
+              = b.title
     .selector_open_footer
       %a{href: new_blog_path} +新建页面
