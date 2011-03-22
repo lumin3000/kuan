@@ -1,9 +1,6 @@
 - content_for :head do
   = stylesheet_link_tag 'post_display', 'dashboard'
 - @site_layout = 'site'
-- flash.each do |k, v|
-  .flash
-    %div{:class => "#{k}"}= v
 .dashboard
   .head
     .head_avatar{style: "background:url(#{@user.primary_blog.icon.url_for(:medium)})"}<
@@ -36,6 +33,13 @@
       %a.link{href: new_post_path("link", @blog)} 发布链接
       %a.video{href: new_post_path("video", @blog)} 发布视频
       .right
+    - flash.each do |k, v|
+      .dashboard_flash
+        %div{:class => "#{k}"}<
+          = v
+          %a.cancel{onclick: "this.getParent('.dashboard_flash').destroy();return false;"}
+            关闭
+        
     = render partial: "layouts/breadcrumbs"
   = render partial: "layouts/menu"
   .main{ :data => { :widget => "sugar" } }
