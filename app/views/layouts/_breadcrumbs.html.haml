@@ -2,7 +2,8 @@
   - unless @at_dashboard
     当前位置: 
     %a{ href: home_path }<
-      我的主页 >
+      我的主页
+    >
     - if @blog.nil?
       = "#{@sub_title}"
     - else
