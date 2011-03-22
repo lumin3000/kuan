@@ -329,11 +329,11 @@
       margin: 0 0 5px 0
 
 .c_input
-  width: 544px
+  @include border-radius(11px)
+  border: 1px #d5e2ee solid
   height: 30px
   background-color: #009fff
   margin-top: 10px
-  border: 1px solid #1d1d1d
   overflow: hidden
   
   form
@@ -417,7 +417,7 @@
       width: 3px
       color: #4a84f2
 
-.article .chat_slim
+.post .chat_slim
   clear: both
   margin:
     top: 10px
@@ -428,20 +428,6 @@
   border: 0
   position: relative
   @include border-radius(11px)
-
-  [class="c_arrow"]
-    position: absolute
-    color: transparent
-    border-top: 0
-    border-left: 12px transparent solid
-    border-right: 12px transparent solid
-    border-bottom: 24px #f4f4f4 solid
-    top: -14px
-    right: 10px
-    @include size(0px, 0px)
-
-  .c_content
-    width: 100%
 
   .box
     border-bottom: 1px #e7e7e7 solid
@@ -463,12 +449,20 @@
   .txt
     border-right: none
 
-  .c_input
-    border: 1px #d5e2ee solid
-    @include border-radius(11px)
-
   .c_name a
     color: $blue
+
+.article
+  [class="c_arrow"]
+    position: absolute
+    color: transparent
+    border-top: 0
+    border-left: 12px transparent solid
+    border-right: 12px transparent solid
+    border-bottom: 24px #f4f4f4 solid
+    top: -14px
+    right: 10px
+    @include size(0px, 0px)
 
 .article .expanded_album
   cursor: auto
