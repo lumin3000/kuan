@@ -58,5 +58,4 @@ module UrlHelper
   def fucking_root
     root_url(:subdomain => 'www')
   end
-
 end

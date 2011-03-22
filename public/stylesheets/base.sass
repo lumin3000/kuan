@@ -291,3 +291,20 @@ a.logo
   .box_cancel
     background: #9f9f9f
 
+
+.avatar_60
+  width: 62px
+  float: left
+  ._image
+    @include size(60px, 60px)
+    display: block
+    -moz-border-radius: 6px
+    border-radius: 6px
+    margin-bottom: 5px
+    background: url('/images/default_blog_icon.jpg')
+    a
+      @include size(60px, 60px)
+      display: block
+      text-decoration: none
+  ._name
+    word-wrap: break-word        

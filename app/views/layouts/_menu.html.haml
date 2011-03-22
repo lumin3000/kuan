@@ -1,18 +1,5 @@
 .menu
-  .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
-    %a.selector{href: home_path(@blog)}
-      = @blog.title
-    - @other_blogs = @blogs.reject {|b| b == @blog}
-    .selector_open
-      .selector_open_head.selector
-        = @blog.title
-      .selector_open_menu
-        - @other_blogs.each do |b|
-          %div
-            %a.other_blog{href: home_path(b)}<
-              = b.title
-      .selector_open_footer
-        %a{href: new_blog_path} +新建页面
+  = blog_list
   .page_operation
     %div
       %span.icon_posts &nbsp;

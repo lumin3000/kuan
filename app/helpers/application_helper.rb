@@ -72,4 +72,17 @@ module ApplicationHelper
       base_url: base_url,
     }
   end
+
+  def blog_list
+    if params[:controller] == 'users' && params[:action] == 'show'
+      path = :home_path
+    elsif params[:controller] == 'blogs' && params[:action] == 'followers'
+      path = :followers_blog_path
+    elsif params[:controller] == 'blogs' && params[:action] == 'editors'
+      path = :editors_blog_path
+    end
+    render partial: 'layouts/blogs', locals: {
+      path: method(path)
+    }
+  end
 end

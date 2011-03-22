@@ -67,7 +67,9 @@ class BlogsController < ApplicationController
   end
 
   def followers
+    @blogs = @user.blogs
     @followers = @blog.followers
+    render :layout => 'main'
   end
 
   def follow_toggle

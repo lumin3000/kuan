@@ -1,0 +1,174 @@
+@import 'lib'
+
+.nav_user
+  a
+    cursor: pointer
+  height: 110px
+  position: relative
+  padding: 0
+  color: #ffffff
+  ._header
+    width: 900px
+    height: 45px
+    background-color: #548ff4
+    @include border-radius(8px)
+    position: absolute
+    top: 60px
+    right: 0
+    left: 0
+    bottom: 0
+  ._icon
+    width: 60px
+    height: 60px
+    background: url('/images/default_icon_60.jpg') no-repeat 0 0
+    @include border-radius(5px)
+    position: absolute
+    top: 15px
+    left: 20px
+    a
+      width: 60px
+      height: 60px
+      display: block
+      text-decoration: none
+  ._icon_s
+    width: 30px
+    height: 30px
+    border: 3px solid #548ff4
+    @include border-radius(5px)
+    background: url('/images/default_icon_30.jpg') no-repeat 0 0
+    overflow: hidden
+    position: absolute
+    top: 42px
+    left: 53px
+    z-index: 1
+  ._title
+    position: absolute
+    top: 0
+    left: 100px
+    height: 300px
+    height: 50px
+    z-index: 2
+    h1
+      font-size: 36px
+      color: #000000
+      line-height: 40px
+      float: left
+      padding: -25px 10px 0 30px
+    h2
+      float: left
+      font-size: 12px
+      padding: 0 10px
+      position: relative
+      bottom: -35px
+  ._container
+    width: 200px
+    height: 50px
+    position: absolute
+    bottom: 30px
+    right: 0
+    padding-right: 30px
+    div
+      width: 40px
+      height: 30px
+      position: relative
+      right: 0px
+      top: 0
+      text-align: center
+    span
+      color: #cfe9ff
+      text-align: center
+    a
+      @include hide_text
+      width: 40px
+      height: 30px
+      display: block
+    ._following
+      a
+        background: url('/images/navi_icon.gif') no-repeat 0 -40px
+        &:hover
+          background: url('/images/navi_icon.gif') no-repeat 0 0
+    ._favor
+      right: -50px
+      top: -30px
+      a
+        background: url('/images/navi_icon.gif') no-repeat -40px -40px
+        &:hover
+          background: url('/images/navi_icon.gif') no-repeat -40px 0
+    ._buzz
+      right: -100px
+      top: -60px
+      a
+        background: url('/images/navi_icon.gif') no-repeat -80px -40px
+        &:hover
+          background: url('/images/navi_icon.gif') no-repeat -80px 0
+    ._message
+      right: -150px
+      top: -90px
+      a
+        background: url('/images/navi_icon.gif') no-repeat -120px -40px
+        &:hover
+          background: url('/images/navi_icon.gif') no-repeat -120px 0
+    ._name
+      width: 200px
+      position: absolute
+      bottom: 5px
+      top: 85px
+      left: 30px
+
+.list_box
+  border: 1px solid #cadbea
+  @include border-radius(8px)
+  h1
+    padding: 15px 0 5px 20px
+  ul
+    li
+      width: 550px
+      padding: 15px 0 5px 20px
+      font-size: 14px
+      border-bottom: 1px solid #cadbea
+      @include clear_fix
+      ._name
+        font-weight: bold
+        line-height: 60px
+        font-size: 14px
+        width: 350px
+        padding-left: 20px
+        float: left
+        height: 60px
+        overflow: hidden
+        a
+          color: #f93
+
+.followers,
+.following,
+.members
+  .btn_unfollow
+    margin-top: 20px
+    width: 80px
+    height: 20px
+    background: url('/images/btn_unfollow.gif') no-repeat
+    float: left
+    cursor: pointer
+    overflow: hidden
+
+  .btn_follow
+    margin-top: 20px
+    width: 80px
+    height: 20px
+    background: url('/images/btn_follow.gif') no-repeat
+    float: left
+    cursor: pointer
+    overflow: hidden
+
+.members
+  .member_name
+    width: 320px
+
+  .admin, .member_operation, .upgrade, .kick, .exit
+    font-size: 14px
+    color: #68879F
+    text-align: center
+    line-height: 70px
+
+  .upgrade, .kick, .exit
+    text-decoration: underline

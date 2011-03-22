@@ -1,20 +1,23 @@
-- content_for :title, "关注#{@blog.title}的人_宽岛"
+- @sub_title = "关注#{@blog.title}的"
+- @nav_user_title = "关注#{@blog.title}的"
+- content_for :title, @sub_title
 
-.middle_box.followers
+.list_box.followers
   %h1
-    ="#{@blog.followers_count}人正在关注#{@blog.title}"
-
+    = @blog.followers_count > 0 ? "#{@blog.followers_count}人正在关注" : "还没有人关注哦T_T"
   - followed = current_user.all_blogs
-  - @followers.each do |user|
-    - blog = user.primary_blog
-    .follower{ :id => "blog_#{blog.id}" }
-      .avatar
-        %a{ :href => blog_path(blog) }
-          %img{ :src => blog.icon.url_for(:medium) }
-      .fo_name
-        %a{ :href => blog_path(blog) }
-          = user.name
-      - unless followed.include?(blog)
-        %a{:href => follow_toggle_blog_path(blog), :id => "tar_follow_#{blog.id}",
-          :data => {:method => "POST", :remote => "true"}}
-          .btn_follow
+  %ul
+    - @followers.each do |user|
+      - blog = user.primary_blog
+      %li{ :id => "blog_#{blog.id}" }
+        .avatar_60
+          ._image{style: "background:url(#{blog.icon.url_for(:medium)})"}<
+            %a{ :href => blog_path(blog) }<
+              &nbsp;
+        ._name<
+          %a{ :href => blog_path(blog) }<
+            = user.name
+        - unless followed.include?(blog)
+          %a{:href => follow_toggle_blog_path(blog), :id => "tar_follow_#{blog.id}",
+            :data => {:method => "POST", :remote => "true"}}
+            .btn_follow
