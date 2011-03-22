@@ -247,6 +247,8 @@
   text-decoration: none
 
 .post
+  padding: 2px 18px
+
   .remove, .edit, .repost, .reply, .open, .fave, .faved
     @include post_button
 
@@ -290,8 +292,10 @@
 
 
 .chat
-  width: 544px
-  margin: 16px
+  width: auto
+  margin:
+    top: 16px
+    bottom: 16px
   padding: 12px
   border: 1px solid #dcdcdc
   background: #f4f4f4
@@ -309,6 +313,7 @@
       text-decoration: none
       
   .c_content
+    width: 100%
     max-height: 390px
     overflow-y: auto
     overflow-x: hidden
@@ -368,6 +373,9 @@
 .article
   position: relative
   @include clear_fix
+
+  .post
+    padding: 0
 
   .author_arrow
     background: url("/images/arrow1.gif") no-repeat
