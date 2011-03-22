@@ -11,6 +11,7 @@ class MessagesController < ApplicationController
     @messages ||= [] 
     @unread_count = current_user.messages.unreads.count
     current_user.read_all_messages! 
+    render :layout => "main"
   end
 
   def ignore

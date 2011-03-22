@@ -1,0 +1,46 @@
+.menu
+  .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
+    %a.selector{href: home_path(@blog)}
+      = @blog.title
+    - @other_blogs = @blogs.reject {|b| b == @blog}
+    .selector_open
+      .selector_open_head.selector
+        = @blog.title
+      .selector_open_menu
+        - @other_blogs.each do |b|
+          %div
+            %a.other_blog{href: home_path(b)}<
+              = b.title
+      .selector_open_footer
+        %a{href: new_blog_path} +新建页面
+  .page_operation
+    %div
+      %span.icon_posts &nbsp;
+      %span
+        %a{href: home_path(@blog)}
+          ! #{@blog.total_post_num}篇文章
+    %div
+      %span.icon_followed &nbsp;
+      %span
+        %a{href: followers_blog_path(@blog)}
+          ! #{@blog.followers_count}人关注
+    - if !@blog.primary && @blog.edited?(current_user)
+      %div
+        %span.icon_members &nbsp;
+        %span
+          %a{href: editors_blog_path(@blog)}
+            ! 成员管理
+    - if @blog.customed? current_user
+      %div
+        %span.icon_config &nbsp;
+        %span
+          %a{href: edit_blog_path(@blog)} 自定义
+    -#
+      %div
+        %span.icon_remove &nbsp;
+        %span
+          %a{href: "#"} 删除
+    %div
+      %span.icon_view &nbsp;
+      %span
+        %a{href: blog_path(@blog)} 查看

@@ -1,8 +1,8 @@
 .message{class: (message.unread? ? "new" : "")}
-  .avatar
+  ._avatar
     %a{href: blog_path(message.sender.primary_blog)}<
       =image_tag message.sender.icon.url_for :medium
-  .operation
+  ._operation
     = render partial: message.type+"_oper", locals: {message: message}
-  .content
+  ._content
     = render partial: message.type+"_content", locals: {message: message}

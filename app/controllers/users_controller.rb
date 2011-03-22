@@ -62,7 +62,7 @@ class UsersController < ApplicationController
       :per_page => 10,
     }
     @buzz_list = current_user.comments_notices_list(pagination)
-    render :layout => "buzz"
+    render :layout => "main"
   end
 
   def read_all_comments_notices

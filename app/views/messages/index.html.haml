@@ -1,17 +1,11 @@
-- @sub_title = '消息_宽岛'
+- @sub_title = @nav_user_title = '消息'
 - content_for :title, @sub_title
+- css 'messages'
 
-- content_for :head do
-  = stylesheet_link_tag 'messages'
-
-.header
-  %a.logo{href: fucking_root, title: "我的主页"}
-  .navigator
-    %a.back_to_home{href: fucking_root}
-      回我的主页
+- if @unread_count > 0
+  - content_for :nav_user_append, do
+    = %(共#{@unread_count}条新消息)
 
 .middle_box.messages
-  %h1= %(共#{@unread_count}条新消息)
   = render @messages
   = pagination @messages
-= render partial: 'shared/footer'

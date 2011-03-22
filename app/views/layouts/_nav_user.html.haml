@@ -1,27 +1,36 @@
 .nav_user
   ._header
-  ._icon
-  ._icon_s
+  ._icon{style: "background:url(#{@user.primary_blog.icon.url_for(:medium)})"}<
+    %a{href: blog_path(@user.primary_blog)}<
+      &nbsp;
+  - if @blog && !@blog.primary
+    ._icon_s{style: "background:url(#{@blog.icon.url_for(:medium)})"}<
+      %a{href: home_path(@blog)}<
+        &nbsp;
   ._title
-    %h1
-      guanzhu xx
-    %a
-      链接哦
+    %h1<
+      = @nav_user_title
+    %h2<
+      = yield :nav_user_append if content_for?(:nav_user_append)
   ._container
     ._following<
-      %a<
+      %a{ href: followings_path, title: "我关注的"}<
         我关注的
     ._favor<
-      %a<
+      %a{ href: favors_posts_path, title: "我喜欢的"}<
         我喜欢的
     ._buzz<
-      %a<
+      %a{ href: buzz_path, title: "回复"}<
         回复
       %span<
-        11
+        - if current_user.comments_notices.unreads.count > 0
+          = current_user.comments_notices.unreads.count
     ._message<
-      %a<
+      %a{ href: messages_path, title: "消息"}<
         消息
       %span<
-        999
-  ._name
+        - if current_user.messages.unreads.count > 0
+          = current_user.messages.unreads.count
+  - if @blog && !@blog.primary
+    %a._name{href: home_path(@blog)}<
+      = @blog.title

@@ -1,0 +1,19 @@
+- @header = @footer = "common"
+- @site_layout ||= "site"
+- css "dashboard"
+- content_for :content, do
+  .dashboard
+    = render partial: 'layouts/nav_user'
+    -if @blog
+      = render partial: "layouts/menu"
+    .main
+      = yield
+  = render :partial => 'shared/footer'
+
+- content_for :head, do
+  = stylesheet_link_tag "common", "post_display", "dashboard"
+
+- content_for :site_layout, @site_layout 
+- @sub_title += '_宽岛'
+
+= render :file => 'layouts/application'

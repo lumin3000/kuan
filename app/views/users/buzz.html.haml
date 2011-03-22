@@ -1,17 +1,16 @@
-- @sub_title = '回复_宽岛'
+- @sub_title = '回复'
+- @nav_user_title = '我的回复'
+- css 'buzz'
 - content_for :title, @sub_title
-
-.reply_list
-  %h1<
-    回复&nbsp;
-    - if current_user.comments_notices.unreads.count > 0
-      %a{ :href => buzz_readall_path, :data => { :widget => "rest", :md => "put",
+- if current_user.comments_notices.unreads.count > 0
+  - content_for :nav_user_append, do
+    %a{ :href => buzz_readall_path, :data => { :widget => "rest", :md => "put",
       :callback => "redirect" } }<
-        全部标识为已读
-    
-  .timeline{ :data => { :widget => "sugar" } }
-    - @buzz_list.each do |b|
-      - if p = b.post
-        = render partial: "posts/post_full", object: p, as: :post,
-          locals: { article_class: (b.unread? ? "new_reply" : "") }
+      全部标识为已读
+  
+.timeline{ :data => { :widget => "sugar" } }
+  - @buzz_list.each do |b|
+    - if p = b.post
+      = render partial: "posts/post_full", object: p, as: :post,
+        locals: { article_class: (b.unread? ? "new_reply" : "") }
   = pagination(@buzz_list)
