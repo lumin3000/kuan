@@ -4,7 +4,7 @@
     %a{href: blog_path(@user.primary_blog)}<
       &nbsp;
   - if @blog && !@blog.primary
-    ._icon_s{style: "background:url(#{@blog.icon.url_for(:medium)})"}<
+    ._icon_s{style: "background:url(#{@blog.icon.url_for(:'30')})"}<
       %a{href: home_path(@blog)}<
         &nbsp;
   ._title

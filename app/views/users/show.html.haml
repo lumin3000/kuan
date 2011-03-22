@@ -9,6 +9,11 @@
     .head_avatar{style: "background:url(#{@user.primary_blog.icon.url_for(:medium)})"}<
       %a{href: blog_path(@user.primary_blog)}<
         &nbsp;
+    - if @blog && !@blog.primary
+      .icon_s{style: "background:url(#{@blog.icon.url_for(:'30')})"}<
+        %a{href: home_path(@blog)}<
+          &nbsp;
+
     .head_menu
       %a.my_follow{ href: followings_path, title: "我关注的"}<
         %span 我关注的

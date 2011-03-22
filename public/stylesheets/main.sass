@@ -18,8 +18,7 @@
     left: 0
     bottom: 0
   ._icon
-    width: 60px
-    height: 60px
+    @include size(60px, 60px)
     background: url('/images/default_icon_60.jpg') no-repeat 0 0
     @include border-radius(5px)
     position: absolute
@@ -34,7 +33,12 @@
     width: 30px
     height: 30px
     border: 3px solid #548ff4
-    @include border-radius(5px)
+    -webkit-border-top-left-radius: 5px
+    -webkit-border-top-right-radius: 5px
+    -moz-border-radius-topleft: 5px
+    -moz-border-radius-topright: 5px
+    border-top-left-radius: 5px
+    border-top-right-radius: 5px
     background: url('/images/default_icon_30.jpg') no-repeat 0 0
     overflow: hidden
     position: absolute

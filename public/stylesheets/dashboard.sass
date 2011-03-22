@@ -154,8 +154,8 @@ a.page_name
   .head_avatar
     @include size(60px, 60px)
     background: url('/images/default_icon_medium.gif')
-    -moz-border-radius: 6px
-    border-radius: 6px
+    -moz-border-radius: 5px
+    border-radius: 5px
     margin: 20px
     float: left
     
@@ -163,6 +163,22 @@ a.page_name
       @include size(60px, 60px)
       display: block
       text-decoration: none
+  .icon_s
+    width: 30px
+    height: 30px
+    border: 3px solid #548ff4
+    -webkit-border-top-left-radius: 5px
+    -webkit-border-top-right-radius: 5px
+    -moz-border-radius-topleft: 5px
+    -moz-border-radius-topright: 5px
+    border-top-left-radius: 5px
+    border-top-right-radius: 5px
+    background: url('/images/default_icon_30.jpg') no-repeat 0 0
+    overflow: hidden
+    position: absolute
+    top: 42px
+    left: 53px
+    z-index: 1
 
   .post_area
     margin-left: 60px
