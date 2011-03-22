@@ -100,7 +100,9 @@ class BlogsController < ApplicationController
   end
 
   def editors
+    @blogs = @user.blogs
     @editors = @blog.founders + @blog.members
+    render :layout => "main"
   end
   
   def upgrade

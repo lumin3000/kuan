@@ -1,7 +1,8 @@
-.member
-  .avatar
-    %a{ :href => blog_path(editor.primary_blog) }
-      %img{ :src => editor.icon.url_for(:medium) }
+%li
+  .avatar_60
+    ._image{style: "background:url(#{editor.icon.url_for(:medium)})"}<
+      %a{ :href => blog_path(editor.primary_blog) }<
+        &nbsp;
   .member_name
     %a{ :href => blog_path(editor.primary_blog) }
       = editor.name

@@ -1,6 +1,8 @@
-- content_for :title, "成员管理_宽岛"
+- @sub_title = @nav_user_title = "管理#{@blog.title}的成员"
+- content_for :title, @sub_title
 
-.middle_box.members
+.list_box.members
   %h1
     ="#{@blog.title}共#{@editors.length}位成员"
-  = render :partial => "editor", :collection => @editors
+  %ul
+    = render :partial => "editor", :collection => @editors
