@@ -194,7 +194,7 @@ class BlogsController < ApplicationController
       end
       render :text => rendered
     rescue Mustache::Parser::SyntaxError => e
-      render :status => 400, :text => "模板语法错误：\n#{e.to_s}",
+      render :status => 400, :text => "模板语法错误：\n#{e.to_s.force_encoding("utf-8")}",
         :content_type => 'text/plain'
     end
   end
