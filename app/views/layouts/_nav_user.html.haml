@@ -31,7 +31,6 @@
       %span<
         - if current_user.messages.unreads.count > 0
           = current_user.messages.unreads.count
-  - if @blog && !@blog.primary
-    ._name
-      %a{href: home_path(@blog)}<
-        = @blog.title
+  ._name
+    %a{href: home_path(@user.primary_blog)}<
+      = @user.primary_blog.title

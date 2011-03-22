@@ -1,19 +1,19 @@
-%li
+%li.member
   .avatar_60
     ._image{style: "background:url(#{editor.icon.url_for(:medium)})"}<
       %a{ :href => blog_path(editor.primary_blog) }<
         &nbsp;
-  .member_name
+  ._name
     %a{ :href => blog_path(editor.primary_blog) }
       = editor.name
-  .member_operation  
+  ._operation  
     - if @blog.customed? editor
       %span.admin 管理员
     - elsif @blog.customed? current_user
-      %a{:href => editor_blog_path(@blog, editor), :class => "upgrade", :data => { widget: "rest", md: "put", callback: "replace", parent: "member_operation" }}<
+      %a.upgrade{:href => editor_blog_path(@blog, editor), :data => { widget: "rest", md: "put", callback: "replace", parent: "_operation" }}<
         升为管理员
-      %a{:href => editor_blog_path(@blog, editor), :class => "kick", :data => {widget: "rest", md: "delete", callback: "del", parent: "member" }}<
+      %a.kick{:href => editor_blog_path(@blog, editor), :data => {widget: "rest", md: "delete", callback: "del", parent: "member" }}<
         移除
     - if editor == current_user and @blog.canexit? current_user
-      %a{:href => exit_path, :class => "exit", :data => { widget: "rest", md: "delete", callback: "redirect" }}
+      %a.exit{:href => exit_path, :data => { widget: "rest", md: "delete", callback: "redirect" }}
         退出

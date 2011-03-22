@@ -61,8 +61,8 @@
     height: 50px
     z-index: 2
     h1
-      font-size: 36px
-      color: #000000
+      font-size: 30px
+      color: #000
       line-height: 40px
       float: left
       padding: -25px 10px 0 30px
@@ -136,18 +136,17 @@
       ._name
         font-weight: bold
         line-height: 60px
-        font-size: 14px
+        font-size: 18px
         width: 350px
         padding-left: 20px
         float: left
         height: 60px
         overflow: hidden
         a
-          color: #f93
+          color: $blue
 
 .followers,
-.following,
-.members
+.following
   .btn_unfollow
     margin-top: 20px
     width: 80px
@@ -167,14 +166,10 @@
     overflow: hidden
 
 .members
-  .member_name
-    width: 320px
-
-  .admin, .member_operation, .upgrade, .kick, .exit
+  .admin, ._operation, .upgrade, .kick, .exit
     font-size: 14px
     color: #68879F
     text-align: center
     line-height: 70px
-
   .upgrade, .kick, .exit
     text-decoration: underline

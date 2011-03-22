@@ -1,5 +1,9 @@
 - @header = @footer = "common"
 - @site_layout ||= "site"
+- @sub_title
+- @nav_user_title
+- @page_name # for breadcrumbs
+- @exclude_primary # some options can't be shown in primary blog
 - css "common", "post_display", "dashboard", "main"
 - content_for :content, do
   .dashboard

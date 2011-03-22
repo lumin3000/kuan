@@ -7,7 +7,7 @@
       = @blog.title
     .selector_open_menu
       - @other_blogs.each do |b|
-        - if !b.primary && b.edited?(current_user)
+        - if !@exclude_primary || (!b.primary && b.edited?(current_user))
           %div
             %a.other_blog{href: path.call(b)}<
               = b.title
