@@ -6,6 +6,9 @@
     = %(共#{@unread_count}条新消息)
 
 .list_box.messages
+  - if @messages.blank?
+    %h1<
+      还没有消息呢:－)
   %ul
     = render @messages
   = pagination @messages
