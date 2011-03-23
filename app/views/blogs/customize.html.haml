@@ -7,7 +7,8 @@
     contents: 'fieldset', activateOnLoad: 0, name: 'customize'}}
     %li.blog_info 页面信息
     %li.template 模板
-    %li.appearance 调整界面
+    %li.appearance{data: {widget: 'reloadAppearance', source: 'fieldset.template',
+      target: '.box'}} 调整界面
     %li.advanced 高级选项
   .customize_commands
     %a.button.save{href: "###", data: {widget: 'submit', form: '.edit_blog'}} 保存
@@ -85,14 +86,7 @@
           返回
         %a.button{href: "#"} 帮助
   %fieldset.appearance.menu{ data: {widget: "appearance"}}
-    - if @variables.all? {|k,v| v.empty?}
-      .box
-        模板作者没有提供可以调整的变量
-    - else
-      .box
-        = render :partial => 'blogs/template_variables'
-      %div.buttons
-        %a.button.reset{data: {widget: "reload_appearance"}} 恢复为初始值
+    .box= render :partial => 'blogs/template_variables'
   %fieldset.advanced.menu
     .item.toggle_private
       = f.check_box :private

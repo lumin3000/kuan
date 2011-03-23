@@ -1,20 +1,19 @@
 - css 'post_display'
 
-.chat.chat_slim
-  .c_arrow
+.chat
   .c_content
     %input{ :type => "hidden", :name => "count", :value => @post.comments.count }
     - @post.comments.each do |comment|
       .box
-        %img.c_avatar{:src => comment.author.primary_blog.icon.url_for(:'16')}
-        %span.c_body
-          %span.c_name><
-            %a{ :href => blog_path(comment.author.primary_blog) }><
-              = "#{comment.author.name}"
-              ：
-          = auto_link h(comment.content)
+        %div.c_meta<
+          %span.c_name<
+            %a{ :href => blog_path(comment.author.primary_blog) }<
+              = comment.author.name
+          &nbsp;&nbsp;&nbsp;
           %span.c_date<
-            = "(#{comment.created_at})"
+            = comment.created_at
+        %div.c_body<
+          = auto_link h(comment.content)
   .c_input
     = form_tag( post_comments_path, :method => "post", :autocomplete => "off" ) do |f|
       .txt

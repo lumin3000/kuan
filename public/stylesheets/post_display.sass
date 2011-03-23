@@ -3,22 +3,21 @@
 .content
   margin-left: 77px
   *margin-left: 75px
-  width: 600px
+  width: 564px
   @include border-radius(15px)
   border: 1px solid #dcdcdc
   overflow: hidden
 
 .content_head
   height: 50px
-  padding: 0px 25px
 
 .content_body
-  padding: 0px 50px
+  padding: 0px 25px
   font-size: 14px
   @include clear_fix
 
 .content_footer
-  padding: 20px 15px 0px 15px
+  padding-top: 20px
   @include single_line(40px)
 
   .tags
@@ -53,7 +52,7 @@
     margin-top: 12px
 
 .writer_name a
-  color: #888888
+  color: $blue
   font-size: 14px
 
 .update_time
@@ -68,19 +67,20 @@
 .photo_set .photos
   margin: 0
   padding: 0
-  width: 140px
-  float: left
-  display: inline
+  cursor: pointer
+  @include clear_fix
 
   .photo
     float: left
     list-style: none
-    margin: 2px
+    margin-right: 6px
     padding: 0
-    width: 60px
-    height: 60px
-    border: 1px solid #888
+    width: 128px
+    height: 128px
 
+    img
+      width: 128px
+      height: 128px
 
   .total_num
     color: $gray
@@ -247,6 +247,8 @@
   text-decoration: none
 
 .post
+  padding: 2px 18px
+
   .remove, .edit, .repost, .reply, .open, .fave, .faved
     @include post_button
 
@@ -290,8 +292,10 @@
 
 
 .chat
-  width: 544px
-  margin: 16px
+  width: auto
+  margin:
+    top: 16px
+    bottom: 16px
   padding: 12px
   border: 1px solid #dcdcdc
   background: #f4f4f4
@@ -309,6 +313,7 @@
       text-decoration: none
       
   .c_content
+    width: 100%
     max-height: 390px
     overflow-y: auto
     overflow-x: hidden
@@ -316,51 +321,157 @@
     padding: 0
     margin: 0
 
-    .box
-      margin: 0 0 12px 0
-      height: auto
+  .box
+    margin: 0 0 12px 0
+    height: auto
 
-      div
-        margin: 0 0 5px 0
+    div
+      margin: 0 0 5px 0
 
-  .c_input
-    width: 544px
+.c_input
+  @include border-radius(11px)
+  border: 1px #d5e2ee solid
+  height: 30px
+  background-color: #009fff
+  margin-top: 10px
+  overflow: hidden
+  
+  form
+    border: 0
+    margin: 0
+    padding: 0
+
+  input
+    width: 100%
     height: 30px
-    background-color: #009fff
-    margin-top: 10px
-    border: 1px solid #1d1d1d
-    overflow: hidden
-    
-    form
-      border: 0
-      margin: 0
-      padding: 0
+    border: 0
+    padding: 0
+    margin: 0
+    line-height: 30px
+    font-size: 18px
+  
+  .txt
+    width: 470px
+    background-color: white
+    padding-top: 1px
+    padding-left: 8px
+    border-right: 1px solid black
+    float: left
 
+  .c_submitter
+    width: 60px
+    float: left
+    
     input
-      width: 100%
-      height: 30px
-      border: 0
-      padding: 0
-      margin: 0
-      line-height: 30px
-      font-size: 18px
-    
-    .txt
-      width: 470px
-      background-color: white
-      padding-top: 1px
-      padding-left: 8px
-      border-right: 1px solid black
-      float: left
+      width: 65px
+      _line-height: 38px
+      background-color: #009fff
+      color: #ffffff
+      text-align: center
+      cursor: pointer
 
-    .c_submitter
-      width: 60px
-      float: left
-      
-      input
-        width: 65px
-        _line-height: 38px
-        background-color: #009fff
-        color: #ffffff
-        text-align: center
-        cursor: pointer
+.article
+  position: relative
+  @include clear_fix
+
+  .post
+    padding: 0
+
+  .author_arrow
+    background: url("/images/arrow1.gif") no-repeat
+    position: absolute
+    top: 32px
+    left: 65px
+    *left: 66px
+    @include size(13px, 13px)
+
+  .writer_name
+    float: left
+    @include single_line(50px)
+
+  .avatar
+    text-align: center
+
+  .update_time
+    font-size: 14px
+
+  .repost_info
+    color: #888
+
+  .content
+    padding: 2px 18px
+
+  .chat
+    margin: 0
+
+.hover
+  .author_arrow
+    background-image: url("/images/arrow2.gif")
+    border-right: 2px white solid
+    left: 67px
+    *left: 68px
+
+  .content
+    padding: 0 16px
+    border:
+      width: 3px
+      color: #4a84f2
+
+.post .chat_slim
+  clear: both
+  margin:
+    top: 10px
+    bottom: 10px
+  line-height: 20px
+  vertical-align: middle
+  padding: 1px 10px 10px 10px
+  border: 0
+  position: relative
+  @include border-radius(11px)
+
+  .box
+    border-bottom: 1px #e7e7e7 solid
+    padding:
+      top: 8px
+      bottom: 7px
+    margin-bottom: 0
+    @include clear_fix
+
+  .c_avatar
+    float: left
+    margin-top: 1px
+
+  .c_body
+    float: left
+    width: 420px
+    margin-left: 10px
+
+  .txt
+    border-right: none
+
+  .c_name a
+    color: $blue
+
+.article
+  [class="c_arrow"]
+    position: absolute
+    color: transparent
+    border-top: 0
+    border-left: 12px transparent solid
+    border-right: 12px transparent solid
+    border-bottom: 24px #f4f4f4 solid
+    top: -14px
+    right: 10px
+    @include size(0px, 0px)
+
+.article .expanded_album
+  cursor: auto
+
+  .photo
+    float: none
+    height: auto
+    border: 0
+
+    img
+      height: auto
+      width: auto
