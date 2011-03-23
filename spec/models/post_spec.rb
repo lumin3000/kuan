@@ -90,6 +90,7 @@ describe Post do
     end
     it "should order desc" do
       @post_new = Factory.build(:text)
+      @blog_new = @user.create_primary_blog!
       @post_new.author = @user
       @post_new.blog = @blog_new
       @post_new.save!
@@ -326,6 +327,27 @@ EOF
         @post.reload
         @post.content.should == content
       end
+    end
+  end
+  describe "create post in private blog" do
+    before :each do
+      @user = Factory.build(:user_unique)
+      @user.save!
+      @blog = @user.create_primary_blog!
+      @post = Post.new
+      @post.author = @user
+    end
+    it "should be public when the blog is public" do
+      @post.blog = @blog
+      @post.save!
+      @post.private.should be_false
+    end
+    it "should be private when the blog is private" do
+      @blog.private = true
+      @blog.save!
+      @post.blog = @blog
+      @post.save!
+      @post.private.should be_true
     end
   end
 end

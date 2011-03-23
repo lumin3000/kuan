@@ -11,12 +11,13 @@ class Post
   field :parent_id
   field :ancestor_id
   index :ancestor_id
+  field :private, :type => Boolean, :default => false
   field :repost_count, :type => Integer, :default => 0
   field :favor_count, :type => Integer, :default => 0
   field :tags, :type => Array, :default => []
   index :tags
 
-  attr_accessible :blog, :author, :author_id, :blog_id, :created_at, :comments, :parent, :tags
+  attr_accessible :blog, :author, :author_id, :blog_id, :created_at, :comments, :parent, :tags, :private
 
   validates_presence_of :author_id
   validates_presence_of :blog_id, :message => "请选择要发布到的页面"
@@ -25,10 +26,11 @@ class Post
 
   before_destroy :clean_comments_notices
   before_create :type_setter
+  before_save :private_setter
   after_create :ancestor_reposts_inc, :update_blog
 
-  scope :tagged, lambda { |tag| where(:tags => tag).desc(:created_at) }
-  scope :pics_and_text, where(:_type.in => ["Text", "Pics"])
+  scope :tagged, lambda { |tag| where(:tags => tag, :private => false).desc(:created_at) }
+  scope :pics_and_text, where(:_type.in => ["Text", "Pics"], :private => false)
   scope :in_day, lambda { |date| where(:created_at.gte => date.midnight,
                                        :created_at.lte => date.end_of_day).desc(:created_at) }
 
@@ -138,6 +140,12 @@ class Post
 
   def type_setter
     self._type = self.class.to_s
+  end
+
+  def private_setter
+    blog = Blog.find(self.blog_id)
+    self.private = blog.private
+    true
   end
 
   def clean_comments_notices
