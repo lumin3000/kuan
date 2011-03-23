@@ -270,6 +270,12 @@ K.editor_toolbar = {
     }
     var toolbar = el.getElement('.mooeditable-ui-toolbar')
     var box = el.getElement('iframe')
+    if (K.editor.mode == 'textarea'){
+      K.editor.mode = 'iframe';
+      K.editor.iframe.setStyle('display', '');
+      K.editor.setContent(K.editor.textarea.value);
+      K.editor.textarea.setStyle('display', 'none');
+    }
     el.setStyle('height', 100)
     box.setStyles({
       'margin-top': 6,
