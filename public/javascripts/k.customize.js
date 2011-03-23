@@ -247,6 +247,10 @@ K.widgets.appearance = function(el){
         },
         onComplete: function(color){
           setColor(color, true)
+          this.options.startColor = color.rgb
+        },
+        onCancel: function(color){
+          this.manualSet(this.options.startColor);
         }
       })
       el.fireEvent('click')

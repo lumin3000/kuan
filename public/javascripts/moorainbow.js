@@ -24,7 +24,8 @@ var MooRainbow = new Class({
 		startColor: [255, 0, 0],
 		wheel: false,
 		onComplete: Class.empty,
-		onChange: Class.empty
+	  onChange: Class.empty,
+          onCancel: Class.empty
 	},
 	
 	initialize: function(el, options) {
@@ -71,11 +72,18 @@ var MooRainbow = new Class({
 		this.rePosition();
 		this.layout.setStyle('display', 'block');
 		this.visible = true;
+          document.body.set('mask', {onClick: function(){
+            document.body.unmask()
+            this.hide()
+	    this.fireEvent('onCancel', [this.sets, this]);
+          }.bind(this)}).mask()
+          this.layout.setStyle('z-index', 9999)
 	},
 	
 	hide: function() {
 		this.layout.setStyles({'display': 'none'});
 		this.visible = false;
+          document.body.unmask()
 	},
 	
 	manualSet: function(color, type) {
@@ -165,7 +173,10 @@ var MooRainbow = new Class({
 		inputs = this.arrRGB.concat(this.arrHSB, this.hexInput);
 
 		document.addEvent('click', function() { 
-			if(this.visible) this.hide(this.layout); 
+		  if(this.visible){
+	            this.fireEvent('onCancel', [this.sets, this]);
+                    this.hide(this.layout); 
+                  }
 		}.bind(this));
 
 		inputs.each(function(el) {
@@ -177,7 +188,10 @@ var MooRainbow = new Class({
 				'click': function(e) { new Event(e).stop(); },
 				'keyup': function(e) {
 					e = new Event(e);
-					if(e.key == 'esc' && this.visible) this.hide(this.layout);
+				  if(e.key == 'esc' && this.visible){
+	                            this.fireEvent('onCancel', [this.sets, this]);
+                                    this.hide(this.layout);
+                                  }
 				}.bind(this)
 			}, this);
 		}, this);
@@ -199,6 +213,7 @@ var MooRainbow = new Class({
 				'top': e.page.y - this.layout.overlay.getTop() - curH,
 				'left': e.page.x - this.layout.overlay.getLeft() - curW
 			});
+                  this.overlayDrag.call(this)
 			this.layout.drag.start(e);
 		}.bind(this));
 		
@@ -213,6 +228,12 @@ var MooRainbow = new Class({
 				this.hide();
 				this.fireEvent('onComplete', [this.sets, this]);
 			}
+                  return false
+		}.bind(this));
+		this.cancelButton.addEvent('click', function() {
+	          this.fireEvent('onCancel', [this.sets, this]);
+		  this.hide();
+                  return false
 		}.bind(this));
 	},
 	
@@ -244,6 +265,7 @@ var MooRainbow = new Class({
 			this.layout.arrows.setStyle(
 				'top', e.page.y - this.layout.slider.getTop() + this.snippet('slider') - arwH
 			);
+                  this.sliderDrag.call(this)
 			this.layout.sliderDrag.start(e);
 		}.bind(this));
 	},
@@ -490,11 +512,17 @@ var MooRainbow = new Class({
 
 		var hex = new Element('label').inject(box).setStyle('position', 'absolute').addClass(prefix + 'hexLabel').appendText('#hex: ').adopt(new Element('input').addClass(prefix + 'hexInput'));
 		
-		var ok = new Element('input', {
+		var ok = new Element('a', {
 			'styles': {'position': 'absolute'},
-			'type': 'button',
-			'value': '确定',
+			'href': '#',
+			'html': '确定',
 			'class': prefix + 'okButton'
+		}).inject(box);
+		var cancel = new Element('a', {
+			'styles': {'position': 'absolute'},
+			'href': '#',
+			'html': '取消',
+			'class': prefix + 'cancelButton'
 		}).inject(box);
 		
 		this.rePosition();
@@ -517,6 +545,7 @@ var MooRainbow = new Class({
 		this.arrRGB = [this.RedInput, this.GreenInput, this.BlueInput];
 		this.arrHSB = [this.HueInput, this.SatuInput, this.BrighInput];
 		this.okButton = Slick.find(document, '#' + idPrefix + 'okButton');
+		this.cancelButton = Slick.find(document, '#' + idPrefix + 'cancelButton');
 		
 		this.layout.cursor.setStyle('background-image', 'url(' + this.options.imgPath + 'moor_cursor.gif)');
 		
