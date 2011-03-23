@@ -117,7 +117,6 @@ span.suggestion
   -moz-border-top-colors:  none
   background-color:  #aaa
   border-color:  #C8C8C8 #B6B6B6 #B6B6B6 #C8C8C8
-  border-radius:  5px 5px 5px 5px
   border-right:  1px solid #B6B6B6
   border-style:  solid
   border-width:  1px
@@ -130,7 +129,7 @@ span.suggestion
   _margin-top: 5px
 
 .save
-  background: #57c328
+  background: #0095ff
 
 .customize_commands
   float: right
@@ -150,7 +149,7 @@ span.suggestion
     cursor: pointer
 
     &.activated
-      background: url("/images/customize_menu_bg_active.png") repeat-x scroll 0 0 #2E6DCC
+      background: #0095ff
       color: #ffffff
 
 form.edit_blog
@@ -165,7 +164,7 @@ form.edit_blog
     border-bottom-right-radius: 10px
     border-left: 1px solid #EEEEEE
     border-right: 1px solid #DDDDDD
-    padding: 15px
+    padding: 15px 9px
     font-size: 18px
     color: #444444
     position: absolute
@@ -178,7 +177,6 @@ form.edit_blog
   line-height: 16px
 
   label, input
-    margin-top: 12px
     margin-bottom: 12px
     height: 16px
 
@@ -194,9 +192,9 @@ form.edit_blog
       display: block
 
     input
-      background: url("/images/input_bg.gif") repeat-x scroll center top #FFFFFF
+      @include border-radius(8px)
       border: 1px solid #DDDDDD
-      padding: 5px
+      padding: 8px 5px
       font-size: 18px
 
     .textarea
@@ -225,7 +223,7 @@ form.edit_blog
 
     .root_domain
       float: right
-      padding-top: 18px
+      padding-top: 6px
 
     .image
       width: 200px
@@ -236,8 +234,17 @@ form.edit_blog
 
   .advanced
     width: 320px
-    height: 100px
     left: 225px
+
+    .invite_link
+      border: 1px solid #DDDDDD
+      padding: 8px 5px
+      font-size: 18px
+      width: 96%
+      @include border-radius(8px)
+
+    .invite_desc
+      font-size: 14px
 
     .item
       padding: 8px 0px
@@ -319,7 +326,13 @@ form.edit_blog
 
       .button
         margin: 5px
-        background: #57C328
+        background: transparent
+        color: #3366cc
+        border: 0
+
+      .strong
+        background: #3366cc
+        color: white
 
 .pool_field, .custom_field
   display: none
@@ -334,6 +347,9 @@ fieldset.appearance
   !important: 530px
   max-height: 530px
   left: 130px
+
+  .reset
+    font-size: 14px
 
   .box
     height: auto
@@ -395,9 +411,9 @@ fieldset.appearance
       margin-left: 3px
   .text
     input
-      background: url("/images/input_bg.gif") repeat-x scroll center top #FFFFFF
       border: 1px solid #DDDDDD
-      padding: 5px
+      @include border-radius(8px)
+      padding: 8px 5px
       font-size: 18px
 
   .buttons
