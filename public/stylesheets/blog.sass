@@ -123,9 +123,9 @@ span.suggestion
   color:  white
   cursor:  pointer
   font-size: 14px
-  padding:  6px 10px
+  padding:  6px 16px
   text-decoration:  none
-  _padding: 6px 10px 0px 10px
+  _padding: 6px 16px 0px 16px
   _margin-top: 5px
 
 .save
@@ -344,7 +344,6 @@ form.edit_blog
 fieldset.appearance
   width: 320px
   height: auto
-  !important: 530px
   max-height: 530px
   left: 130px
 
@@ -353,7 +352,6 @@ fieldset.appearance
 
   .box
     height: auto
-    !important: 480px
     max-height: 480px
     overflow: auto
 
@@ -366,7 +364,7 @@ fieldset.appearance
     margin-bottom: 10px
   .color_pick
     border-color: #CCCCCC #AAAAAA #AAAAAA #CCCCCC
-    border-radius: 5px 5px 5px 5px
+    @include border-radius(5px)
     border-right: 1px solid #AAAAAA
     border-style: solid
     border-width: 1px
@@ -390,7 +388,7 @@ fieldset.appearance
       color: white
       background-color: #aaa
       border-color: #C8C8C8 #B6B6B6 #B6B6B6 #C8C8C8
-      border-radius: 5px 5px 5px 5px
+      @include border-radius(5px)
       font-size: 14px
       padding: 4px 7px
     &.image_empty
