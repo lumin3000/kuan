@@ -194,6 +194,9 @@ K.widgets.preview = function(context) {
     action: '/preview'
   , method: 'POST'
   , target: 'preview'
+  , style: {
+      display: 'none'
+    }
   })
     , tplId = new Element('input', {
         type: 'hidden'
@@ -203,7 +206,10 @@ K.widgets.preview = function(context) {
     type: 'hidden'
   , name: 'blog[using_custom_html]'
   , value: 0
-  })).grab(tplId)
+  }))
+    .grab(new Element("input", { type: 'submit', name: 'foo', value: 'whatever' }))
+    .grab(tplId)
+    .inject(document.body, 'bottom')
 
   context.delegate('click', '.theme', function(e) {
     e.stop()
