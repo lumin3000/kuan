@@ -32,7 +32,8 @@
     - next if var['desc'].blank?
     .text
       %label= var['desc']
-      %input{name: "blog[template_conf][text][#{name}][value]", value: var['value']}
+      %input{name: "blog[template_conf][text][#{name}][value]", value: var['value'],
+        default_value: var['default_value']}
 
   %div.buttons
     %a.button.reset{data: {widget: ""}} 恢复为初始值
