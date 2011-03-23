@@ -238,9 +238,18 @@ K.widgets.appearance = function(el){
           el.getParent('form').diverseSubmit()
         }
       }
+
+      var co = el.getStyle('background-color')
+      if(co.indexOf('#')<0){
+        co = color2code[co]
+      }
+      var c = new Color(co)
+      if(c.filter(function(item){return isNaN(item)}).length>0){
+        c = [0,0,0]
+      }                        
       new MooRainbow(el, {
         id: 'moorainbow_'+Number.random(1,9999),
-        startColor: new Color(el.getStyle('background-color')),
+        startColor: c,
         imgPath: '/images/moorainbow/',
         onChange: function(color){
           setColor(color)
