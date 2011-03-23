@@ -142,7 +142,7 @@ K.widgets.radioButton = function(context) {
         })
       , type: 'hidden'
       , value: selected.get('data-value')
-      }).inject(form)
+      }).inject(context)
 
   context.delegate("click", childSelector, function(e) {
     e.stop()
@@ -264,28 +264,42 @@ K.widgets.appearance = function(el){
 
 }
 
-K.widgets.reload_appearance = function(el){
+K.widgets.reloadAppearance = function(el){
+  var dataSource = document.getElement(el.get('data-source'))
+    , target = document.getElement(el.get('data-target'))
+    , inputs, prevData
+  setTimeout(function() {
+    inputs = dataSource.getElements('[name]')
+    prevData = fetchData()
+  }, 10)
   el.addEvent('click', function(){
-    var form = el.getParent('form')
-    var fieldset_appearance = $$('fieldset.appearance')[0]
-    var box = fieldset_appearance.getElement('.box')
+    var dataToSend = fetchData()
+    if (Object.every(dataToSend, function(value, key) {
+      return prevData[key] == value
+    })) {
+      return
+    }
+    prevData = dataToSend
     new Request.HTML({
       url: '/extract_template_vars',
       method: 'post',
-      update: box,
+      update: target,
       useSpinner: true,
-      spinnerTarget: fieldset_appearance,
-      data: {
-        'blog[using_custom_html]': form.getElement('[name=blog[using_custom_html]]').value,
-        'blog[template_id]': form.getElement('[name=blog[template_id]]') && form.getElement('[name=blog[template_id]]').value,
-        'blog[custom_html]': form.getElement('[name=blog[custom_html]]').value
-      },
+      spinnerTarget: target,
+      data: dataToSend,
       onComplete: function(){
-        form.diverseSubmit()
-        box.getElements('input.uploader').each(init_uploader)
+        target.getElements('input.uploader').each(init_uploader)
       }
     }).send()
   })
+
+  function fetchData() {
+    var data =  {}
+    inputs.each(function(i) {
+      data[i.name] = i.value
+    })
+    return data
+  }
 }
 
 init_uploader = function(el){
