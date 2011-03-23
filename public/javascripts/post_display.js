@@ -244,7 +244,7 @@ K.Slide = {
     }
   })
 , instances: []
-, busyIndicator: "http://www.kuantu.com/images/spin.gif"
+, busyIndicator: "/images/spinner.gif"
 }
 
 document.addEvent("domready", function() {
