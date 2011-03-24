@@ -170,20 +170,15 @@ K.widgets.toggler = function(button) {
     if (!isUsingCustomHtml) return
 
     var tplId = $('blog_template_id').get('value')
-    if (!tplId) {
-      customHtml.set('value', initialValue)
-      return
-    }
     customHtml.set('disabled', true)
     new Request({
       method: 'GET'
-    , url: '/templates/' + tplId
+    , url: '/templates/' + (tplId || 'default')
     , noCache: true
     , onSuccess: function(tplHtml) {
         customHtml.set({
-          disabled: false
-        , value: tplHtml
-        })
+          value: tplHtml
+        }).erase('disabled').fireEvent('click').focus()
       }
     }).send()
   })
@@ -225,6 +220,8 @@ K.widgets.checkbox_preview = function(el){
 }
 
 K.widgets.appearance = function(el){
+  var reloader = document.getElement('[data-widget=reloadAppearance]')
+
   el.addEvents({
     'click': function(){
     },
@@ -271,6 +268,11 @@ K.widgets.appearance = function(el){
       el.removeClass('image_exist').addClass('image_empty')
       tar_url.value = ''
       el.getParent('form').diverseSubmit()
+    },
+    'click:relay(.reset)': function(e) {
+      e.stop()
+      console.log("boooooooooo")
+      reloader.tryReload(true)
     }
   })
   el.getElements('input.uploader').each(init_uploader)
@@ -285,9 +287,14 @@ K.widgets.reloadAppearance = function(el){
     inputs = dataSource.getElements('[name]')
     prevData = fetchData()
   }, 10)
-  el.addEvent('click', function(){
+  el.addEvent('click', function(e) {
+    el.tryReload()
+  })
+  el.tryReload = tryReload
+
+  function tryReload(forced){
     var dataToSend = fetchData()
-    if (Object.every(dataToSend, function(value, key) {
+    if (!forced && Object.every(dataToSend, function(value, key) {
       return prevData[key] == value
     })) {
       return
@@ -304,7 +311,7 @@ K.widgets.reloadAppearance = function(el){
         target.getElements('input.uploader').each(init_uploader)
       }
     }).send()
-  })
+  }
 
   function fetchData() {
     var data =  {}
