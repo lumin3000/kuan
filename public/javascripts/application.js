@@ -610,7 +610,7 @@ K.tgt.reply = function(){
       method: 'post',
       data: { content: input.value},
       useSpinner: true,
-      spinnerTarget: el,
+      spinnerTarget: el.getParent(),
       onSuccess: function(responseTree, responseElements){
         var els = responseElements[0].getChildren()
         chat.empty()

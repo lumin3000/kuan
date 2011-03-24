@@ -349,7 +349,7 @@
     font-size: 18px
   
   .txt
-    width: 470px
+    width: 469px
     background-color: white
     padding-top: 1px
     padding-left: 8px
@@ -357,12 +357,12 @@
     float: left
 
   .c_submitter
-    width: 60px
+    width: 65px
     float: left
 
     input
       _line-height: 38px
-      background-color: #009fff
+      background-color: transparent
       color: #ffffff
       text-align: center
       cursor: pointer
@@ -478,6 +478,7 @@
 
   .favor_count,
   .repost_count
+    @include clear_fix
     margin: 16px
     margin-right: 0
     float: right
@@ -494,3 +495,6 @@
     float: left
     margin: 0
     margin-right: 2px
+
+  .num
+    float: left

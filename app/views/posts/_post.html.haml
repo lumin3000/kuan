@@ -45,7 +45,9 @@
         = post.comments.count == 0 ? " " : post.comments.count
       %a.repost_count{href: post_path(post)}
         .repost_icon
-        = post.repost_count
+        .num
+          = post.repost_count
       %a.favor_count{href: post_path(post)}
         .favor_icon{class: faved ? 'faved' : 'fave'}
-        = post.favor_count
+        .num
+          = post.favor_count

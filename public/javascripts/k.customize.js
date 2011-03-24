@@ -202,7 +202,12 @@ K.widgets.preview = function(context) {
   , name: 'blog[using_custom_html]'
   , value: 0
   }))
-    .grab(new Element("input", { type: 'submit', name: 'foo', value: 'whatever' }))
+    .grab(new Element("input", {
+      type: 'submit'
+    , name: 'foo'
+    , value: 'heh'
+    , style: "display: none;"
+    }))
     .grab(tplId)
     .inject(document.body, 'bottom')
 
