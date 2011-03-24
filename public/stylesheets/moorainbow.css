@@ -46,7 +46,6 @@
   -moz-border-top-colors: none;
   background-color: #aaaaaa;
   border-color: #c8c8c8 #b6b6b6 #b6b6b6 #c8c8c8;
-  border-radius: 5px 5px 5px 5px;
   border-right: 1px solid #b6b6b6;
   border-style: solid;
   border-width: 1px;
@@ -57,7 +56,7 @@
   text-decoration: none;
   _padding: 6px 10px 0px 10px;
   _margin-top: 5px; 
-  background: #57c328;
+  background: #0095ff;
   margin-top: 275px;
   margin-left: 108px;
 }

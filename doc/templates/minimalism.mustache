@@ -3,7 +3,7 @@
   <!-- Credit goes to Simen <http://daylimeh.tumblr.com> -->
   <meta charset='utf-8'>
   {{#define}}
-    color background 背景颜色 #fff
+    color background 背景颜色
     text subtitle 副标题 在宽岛的小店
   {{/define}}
   {{#desc}}<meta name="description" content="{{meta_desc}}" />{{/desc}}
@@ -13,7 +13,9 @@
   body {
     padding: 0; margin: 0;
     font: 14px/20px sans-serif;
-    background-color: {{color_background}}
+    {{#color_background}}
+    background-color: {{color_background}};
+    {{/color_background}}
   }
   h1 { width: 540px; margin: 0 auto; }
   h1 a, h1 {

@@ -25,7 +25,7 @@
       .booleans
         %input{type: "hidden", value: "0", name: "blog[template_conf][bool][#{name}][value]"}
         %input{type: "checkbox", name: "blog[template_conf][bool][#{name}][value]",
-          checked: (var['value'] == "0" ? false : "checked"), value: 1, data: {default_value: var['default_value'], widget: "checkbox_preview"}}
+          checked: var['value'], value: 1, data: {default_value: var['default_value'], widget: "checkbox_preview"}}
         %label 
           = var['desc']
 

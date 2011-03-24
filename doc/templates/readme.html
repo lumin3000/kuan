@@ -178,6 +178,7 @@ Section里使用</p>
 <li>image_400 图片链接，宽度不超过400px</li>
 <li>image_250 图片链接，宽度不超过250px</li>
 <li>image_100 图片链接，宽度不超过100px</li>
+<li>image_150 150x150图片链接</li>
 <li>image_75 75x75图片链接</li>
 <li>image_60 60x60图片链接</li>
 </ul>
@@ -243,6 +244,7 @@ Section里使用</p>
 <li>title 页面标题</li>
 <li>url 页面链接</li>
 <li>icon_180 180x180页面图标链接</li>
+<li>icon_128 128x128页面图标链接</li>
 <li>icon_96 96x96页面图标链接</li>
 <li>icon_64 64x64页面图标链接</li>
 <li>icon_60 60x60页面图标链接</li>
@@ -317,13 +319,14 @@ Section里使用</p>
 &lt;/a&gt;
 </code></pre>
 
-<p>Define Section中的每一行都会被按照空格分割成四段，解析成一个变量的定义。上面例子中：</p>
+<p>Define
+Section中的每一行都会被按照空格分割成四段（或三段，最后一段可以为空），解析成一个变量的定义。上面例子中：</p>
 
 <ul>
 <li><code>text</code> 变量类型，此外还支持color，image和bool</li>
 <li><code>subtitle</code> 变量名字，可以是任意英文字母、数字和下划线的组合</li>
 <li><code>副标题</code> 变量描述，在自定义页面的"调整界面"选项卡里可以看到</li>
-<li><code>我在宽岛的小屋</code> 变量默认值</li>
+<li><code>我在宽岛的小屋</code> 变量默认值，可以为空</li>
 </ul>
 
 <p>bool型变量只能使用1/0 true/false yes/no
