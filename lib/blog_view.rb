@@ -74,7 +74,6 @@ module ObjectView
     #{ObjectView.js_tag('rails')}
     #{ObjectView.js_tag('mootools-more')}
     #{ObjectView.js_tag('application')}
-    #{ObjectView.js_tag('post_display')}
 EOF
 
   def load_js()
