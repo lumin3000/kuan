@@ -19,10 +19,10 @@ Element.implement({
 
 K = {
   log: function(l) {
-    if (typeof console != "undefined") {
-      return console.log.apply(console, arguments)
-    }
     if(document.location.href.indexOf('#debug')>0){
+      if (typeof console != "undefined") {
+        return console.log.apply(console, arguments)
+      }
       var body = document.body
       , text = Array.prototype.join.call(arguments, " ")
       body.appendChild(document.createElement("br"))
