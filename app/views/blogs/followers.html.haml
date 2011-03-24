@@ -1,5 +1,4 @@
 - @sub_title = @nav_user_title = "关注#{@blog.title}的"
-- content_for :title, @sub_title
 - @page_name = "关注"
 .list_box.followers
   %h1
@@ -10,10 +9,10 @@
       - blog = user.primary_blog
       %li{ :id => "blog_#{blog.id}" }
         .avatar_60
-          ._image{style: "background:url(#{blog.icon.url_for(:medium)})"}<
+          .z_image{style: "background:url(#{blog.icon.url_for(:medium)})"}<
             %a{ :href => blog_path(blog) }<
               &nbsp;
-        ._name<
+        .z_name<
           %a{ :href => blog_path(blog) }<
             = user.name
         - unless followed.include?(blog)

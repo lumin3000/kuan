@@ -12,7 +12,11 @@ class TemplatesController < ApplicationController
   end
 
   def show
-    @template = Template.find params[:id]
+    @template = if params[:id] == 'default'
+                  Template::DEFAULT
+                else
+                  Template.find params[:id]
+                end
     render :text => @template.html, :content_type => 'text/html'
   end
 

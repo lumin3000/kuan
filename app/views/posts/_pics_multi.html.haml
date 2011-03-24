@@ -1,29 +1,7 @@
-%ul.photos
+%ul.photos{data: {widget: 'expandAlbum'}}
   - pics_multi.photos.each_with_index do |p, index|
     - i = p.image
-    - c = index >= 4 ? 'hidden' : ''
-    %li.photo{class: c}
-      %img{src: i.url_for(:small), data: { l: i.url_for(:large), o: i.url_for(:original), title: p.desc, }}
-%p.total_num= "共#{pics_multi.photos.length}图"
+    %li.photo
+      %img{src: i.url_for(:'150'), title: p.desc,
+        data: { l: i.url_for(:large), o: i.url_for(:original), title: p.desc, }}
 %p.desc!= pics_multi.content
-- if not @slide_template_provided then
-  - @slide_template_provided = true
-  %div{style: "display: none;"}
-    #slide_for_kite.slide_holder
-      .slide_item
-      .slide_panel.slide_desc_wrapper
-        %p.slide_desc
-        %span.slide_desc_ph
-      .slide_control
-        %a.slide_button.prev{title: "", data: {slide_command: "prev"}}
-          Prev
-        %a.slide_button.play{title: "", data: {slide_command: "proceedAndPlay"}}
-          Play
-        %a.slide_button.pause{title: "", data: {slide_command: "pause"}}
-          Pause
-        %a.slide_button.next{title: "", data: {slide_command: "next"}}
-          Next
-        %a.slide_button.show_thumb{title: "", data: {slide_command: "showThumbList"}}
-          ShowThumb
-        %a.slide_button.hide_thumb{title: "", data: {slide_command: "hideThumbList"}}
-          HideThumb

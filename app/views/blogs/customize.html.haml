@@ -7,11 +7,12 @@
     contents: 'fieldset', activateOnLoad: 0, name: 'customize'}}
     %li.blog_info 页面信息
     %li.template 模板
-    %li.appearance 调整界面
+    %li.appearance{data: {widget: 'reloadAppearance', source: 'fieldset.template',
+      target: 'fieldset.appearance'}} 调整界面
     %li.advanced 高级选项
   .customize_commands
-    %a.button.save{href: "###", data: {widget: 'submit', form: '.edit_blog'}} 保存
-    %a.button.back{href: fucking_root} 取消
+    %a.button.save{href: "###", data: {widget: 'submit', form: '.edit_blog'}} 保 存
+    %a.button.back{href: fucking_root} 取 消
 
 = form_for(@blog) do |f|
   %fieldset.blog_info.menu
@@ -40,8 +41,7 @@
     .error
       &nbsp;
       = @blog.errors[:uri].first
-    %label
-      图标
+    %label Logo
     %div
       %img#blog_icon_img{ :src => @blog.icon.url_for(:medium) }
       %input.image#image_uploader{ :type => 'file', :name => 'file', :autocomplete => 'off' }
@@ -77,30 +77,26 @@
         %textarea{name: 'blog[custom_html]'}
           = @blog.template_in_use
       .buttons
-        %a.button{href: "#", data: {widget: 'diverseSubmit',
+        %a.button.strong{href: "#", data: {widget: 'diverseSubmit',
           action: '/preview', target: 'preview', methord: 'POST'}}
           预览效果
         %a.button{href: "#", data: {widget: 'toggler', target: 'fieldset.template',
           classes: 'editing_custom_html picking_template', field: 'blog[using_custom_html]'}}
-          返回
+          返回选择模板
         %a.button{href: "#"} 帮助
   %fieldset.appearance.menu{ data: {widget: "appearance"}}
-    - if @variables.all? {|k,v| v.empty?}
-      .box
-        模板作者没有提供可以调整的变量
-    - else
-      .box
-        = render :partial => 'blogs/template_variables'
-      %div.buttons
-        %a.button.reset{data: {widget: "reload_appearance"}} 恢复为初始值
+    = render :partial => 'blogs/template_variables'
   %fieldset.advanced.menu
     .item.toggle_private
       = f.check_box :private
-      = f.label :private, '设置为私密页面'
+      = f.label :private, '该页面设置为私密页面'
     - unless @blog.primary?
       .toggle_canjoin
         = f.check_box :canjoin
-        = f.label :canjoin, "其他人可以申请加入你的页面" + (@blog.canjoin? ? "( 邀请入口: #{editors_new_url} )" : "")
+        = f.label :canjoin, "其他人可以申请加入你的页面" 
+        - if @blog.canjoin?
+          %p.invite_desc 复制邀请链接邀请其他人
+          %input.invite_link{value: editors_new_url}
 
 %iframe#preview{name: 'preview', src: blog_path(@blog)}
 

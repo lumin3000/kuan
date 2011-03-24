@@ -1,9 +1,9 @@
 %li{class: (message.unread? ? "new" : "")}
   .avatar_60
-    ._image{style: "background:url(#{message.sender.icon.url_for(:medium)})"}<
+    .z_image{style: "background:url(#{message.sender.icon.url_for(:medium)})"}<
       %a{ :href => blog_path(message.sender.primary_blog) }<
         &nbsp;
-  ._operation
+  .z_operation
     = render partial: message.type+"_oper", locals: {message: message}
-  ._content
+  .z_content
     = render partial: message.type+"_content", locals: {message: message}

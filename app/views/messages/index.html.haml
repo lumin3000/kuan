@@ -1,11 +1,14 @@
 - @sub_title = @nav_user_title = '我的消息'
-- content_for :title, @sub_title
+- @now_path = "messages"
 
 - if @unread_count > 0
   - content_for :nav_user_append, do
     = %(共#{@unread_count}条新消息)
 
 .list_box.messages
+  - if @messages.blank?
+    %h1<
+      还没有消息呢:－)
   %ul
     = render @messages
   = pagination @messages

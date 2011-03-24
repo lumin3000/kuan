@@ -142,7 +142,7 @@ K.widgets.radioButton = function(context) {
         })
       , type: 'hidden'
       , value: selected.get('data-value')
-      }).inject(form)
+      }).inject(context)
 
   context.delegate("click", childSelector, function(e) {
     e.stop()
@@ -170,20 +170,15 @@ K.widgets.toggler = function(button) {
     if (!isUsingCustomHtml) return
 
     var tplId = $('blog_template_id').get('value')
-    if (!tplId) {
-      customHtml.set('value', initialValue)
-      return
-    }
     customHtml.set('disabled', true)
     new Request({
       method: 'GET'
-    , url: '/templates/' + tplId
+    , url: '/templates/' + (tplId || 'default')
     , noCache: true
     , onSuccess: function(tplHtml) {
         customHtml.set({
-          disabled: false
-        , value: tplHtml
-        })
+          value: tplHtml
+        }).erase('disabled').fireEvent('click').focus()
       }
     }).send()
   })
@@ -194,6 +189,9 @@ K.widgets.preview = function(context) {
     action: '/preview'
   , method: 'POST'
   , target: 'preview'
+  , style: {
+      display: 'none'
+    }
   })
     , tplId = new Element('input', {
         type: 'hidden'
@@ -203,7 +201,15 @@ K.widgets.preview = function(context) {
     type: 'hidden'
   , name: 'blog[using_custom_html]'
   , value: 0
-  })).grab(tplId)
+  }))
+    .grab(new Element("input", {
+      type: 'submit'
+    , name: 'foo'
+    , value: 'heh'
+    , style: "display: none;"
+    }))
+    .grab(tplId)
+    .inject(document.body, 'bottom')
 
   context.delegate('click', '.theme', function(e) {
     e.stop()
@@ -219,6 +225,8 @@ K.widgets.checkbox_preview = function(el){
 }
 
 K.widgets.appearance = function(el){
+  var reloader = document.getElement('[data-widget=reloadAppearance]')
+
   el.addEvents({
     'click': function(){
     },
@@ -232,15 +240,28 @@ K.widgets.appearance = function(el){
           el.getParent('form').diverseSubmit()
         }
       }
+
+      var co = el.getStyle('background-color')
+      if(co.indexOf('#')<0){
+        co = color2code[co]
+      }
+      var c = new Color(co)
+      if(c.filter(function(item){return isNaN(item)}).length>0){
+        c = [0,0,0]
+      }                        
       new MooRainbow(el, {
         id: 'moorainbow_'+Number.random(1,9999),
-        startColor: new Color(el.getStyle('background-color')),
+        startColor: c,
         imgPath: '/images/moorainbow/',
         onChange: function(color){
           setColor(color)
         },
         onComplete: function(color){
           setColor(color, true)
+          this.options.startColor = color.rgb
+        },
+        onCancel: function(color){
+          this.manualSet(this.options.startColor);
         }
       })
       el.fireEvent('click')
@@ -252,34 +273,58 @@ K.widgets.appearance = function(el){
       el.removeClass('image_exist').addClass('image_empty')
       tar_url.value = ''
       el.getParent('form').diverseSubmit()
+    },
+    'click:relay(.reset)': function(e) {
+      e.stop()
+      console.log("boooooooooo")
+      reloader.tryReload(true)
     }
   })
   el.getElements('input.uploader').each(init_uploader)
 
 }
 
-K.widgets.reload_appearance = function(el){
-  el.addEvent('click', function(){
-    var form = el.getParent('form')
-    var fieldset_appearance = $$('fieldset.appearance')[0]
-    var box = fieldset_appearance.getElement('.box')
+K.widgets.reloadAppearance = function(el){
+  var dataSource = document.getElement(el.get('data-source'))
+    , target = document.getElement(el.get('data-target'))
+    , inputs, prevData
+  setTimeout(function() {
+    inputs = dataSource.getElements('[name]')
+    prevData = fetchData()
+  }, 10)
+  el.addEvent('click', function(e) {
+    el.tryReload()
+  })
+  el.tryReload = tryReload
+
+  function tryReload(forced){
+    var dataToSend = fetchData()
+    if (!forced && Object.every(dataToSend, function(value, key) {
+      return prevData[key] == value
+    })) {
+      return
+    }
+    prevData = dataToSend
     new Request.HTML({
       url: '/extract_template_vars',
       method: 'post',
-      update: box,
+      update: target,
       useSpinner: true,
-      spinnerTarget: fieldset_appearance,
-      data: {
-        'blog[using_custom_html]': form.getElement('[name=blog[using_custom_html]]').value,
-        'blog[template_id]': form.getElement('[name=blog[template_id]]') && form.getElement('[name=blog[template_id]]').value,
-        'blog[custom_html]': form.getElement('[name=blog[custom_html]]').value
-      },
+      spinnerTarget: target,
+      data: dataToSend,
       onComplete: function(){
-        form.diverseSubmit()
-        box.getElements('input.uploader').each(init_uploader)
+        target.getElements('input.uploader').each(init_uploader)
       }
     }).send()
-  })
+  }
+
+  function fetchData() {
+    var data =  {}
+    inputs.each(function(i) {
+      data[i.name] = i.value
+    })
+    return data
+  }
 }
 
 init_uploader = function(el){

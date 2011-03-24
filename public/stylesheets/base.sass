@@ -21,7 +21,7 @@ a
     color: $light-blue
 
   &.page_name
-    color: #f93
+    color: $blue
     font-weight: bold
     line-height: 150%
 
@@ -51,7 +51,7 @@ label
   font-size: 18px
   line-height: 24px
   padding-top: 10px
-  font-family: "Hiragino Sans GB,hei,microsoft yahei"
+  padding-right: 3px
   a
     color: $blue
     padding: 5px 10px
@@ -85,7 +85,7 @@ label
     text-align: left
     position: absolute
     margin-left: -2px
-    margin-top: -6px
+    margin-top: -7px
     _width: 120px
     div
       border-top: 1px solid #eaeaea
@@ -180,7 +180,6 @@ a.logo
     padding: 3px 6px
     border-bottom-left-radius: 6px 6px
     border-bottom-right-radius: 6px 6px
-
 
 .page_control
   float: right
@@ -290,11 +289,10 @@ a.logo
   .box_cancel
     background: #9f9f9f
 
-
 .avatar_60
   width: 62px
   float: left
-  ._image
+  .z_image
     @include size(60px, 60px)
     display: block
     -moz-border-radius: 6px
@@ -305,5 +303,9 @@ a.logo
       @include size(60px, 60px)
       display: block
       text-decoration: none
-  ._name
+  .z_name
     word-wrap: break-word        
+
+.latest h1
+  margin: 30px 0px
+  color: #009fff

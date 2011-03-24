@@ -1,6 +1,6 @@
 - @sub_title = @nav_user_title = '我的回复'
+- @now_path = "buzz"
 - css 'buzz'
-- content_for :title, @sub_title
 - if current_user.comments_notices.unreads.count > 0
   - content_for :nav_user_append, do
     %a{ :href => buzz_readall_path, :data => { :widget => "rest", :md => "put",
@@ -8,6 +8,9 @@
       全部标识为已读
   
 .timeline{ :data => { :widget => "sugar" } }
+  - if @buzz_list.blank?
+    %h1
+      你还没回复过?!
   - @buzz_list.each do |b|
     - if p = b.post
       = render partial: "posts/post_full", object: p, as: :post,
