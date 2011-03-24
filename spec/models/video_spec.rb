@@ -52,7 +52,7 @@ describe Video do
     @video.should be_valid
     @video.player.should == %(http://www.tudou.com/v/iGHZOTo0qjU/v.swf)
     @video.content.should == "新西兰强震16名中国留学生被埋_在线视频观看_土豆网视频 新西兰 克赖斯特彻奇 中国留学生 国际救援队 抗震救灾"
-    @video.thumb.should == "http://i01.img.tudou.com/data/imgs/i/073/046/094/p.jpg"
+    @video.thumb.should == "http://i3.tdimg.com/073/046/094/p.jpg"
   end
 
   it "should accept the ku6 url" do
