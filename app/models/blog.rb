@@ -31,9 +31,10 @@ class Blog
 
   attr_accessible :uri, :title, :desc, :icon, :private, :canjoin, :posted_at, :custom_html,
   :using_custom_html, :custom_css, :template, :template_id, :template_conf, :tag
-
+  
+  after_update :post_privte_setter
   before_validation :sanitize_desc
-
+  
   validates_presence_of :title,
   :message => "请输入页面名字"
   validates_length_of :title,
@@ -203,5 +204,9 @@ class Blog
   def sanitize_desc
     require 'filters/rich_filter'
     self.desc = RichFilter.tags self.desc
+  end
+
+  def post_privte_setter
+    posts.each {|p| p.update!} 
   end
 end

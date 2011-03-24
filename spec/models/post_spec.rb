@@ -329,7 +329,7 @@ EOF
       end
     end
   end
-  describe "create post in private blog" do
+  describe "private of post" do
     before :each do
       @user = Factory.build(:user_unique)
       @user.save!
@@ -337,17 +337,41 @@ EOF
       @post = Post.new
       @post.author = @user
     end
-    it "should be public when the blog is public" do
-      @post.blog = @blog
-      @post.save!
-      @post.private.should be_false
+    describe "create post in private blog" do
+      it "should be public when the blog is public" do
+        @post.blog = @blog
+        @post.save!
+        @post.private.should be_false
+      end
+      it "should be private when the blog is private" do
+        @blog.private = true
+        @blog.save!
+        @post.blog = @blog
+        @post.save!
+        @post.private.should be_true
+      end
     end
-    it "should be private when the blog is private" do
-      @blog.private = true
-      @blog.save!
-      @post.blog = @blog
-      @post.save!
-      @post.private.should be_true
+    describe "toggle private post" do
+      it "should set to private" do
+        @post.blog = @blog
+        @post.save!
+        @post.private.should be_false
+        @blog.private = true
+        @blog.save!
+        @post.update!
+        @post.private.should be_true
+      end
+      it "should set to public" do
+        @post.blog = @blog
+        @blog.private = true
+        @blog.save!
+        @post.save!
+        @post.private.should be_true
+        @blog.private = false
+        @blog.save!
+        @post.update!
+        @post.private.should be_false
+      end
     end
   end
 end

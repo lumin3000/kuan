@@ -42,6 +42,10 @@ class Post
     self._type.downcase
   end
 
+  def update!
+    update_attributes :private => true
+  end
+
   # about the repost , parent and ancestor
   def parent=(parent)
     self.created_at = self.updated_at = Time.now

@@ -188,4 +188,32 @@ describe Blog do
       @blog.lord.should == @user
     end
   end
+  describe "update blog privacy" do
+    before :each do
+      @user = Factory.build(:user_unique)
+      @user.save!
+      @blog = @user.create_primary_blog!
+      @post = Factory.build(:text)
+      @post.author = @user
+      @post.blog = @blog
+    end
+    it "should set to private when blog update to private" do
+      @post.save!
+      @post.private.should be_false
+      @blog.private = true
+      @blog.save!
+      @post.reload
+      @post.private.should be_true
+    end
+    it "should set to public when blog update to public" do
+      @blog.private = true
+      @blog.save!
+      @post.save!
+      @post.private.should be_true
+      @blog.private = false
+      @blog.save!
+      @post.reload
+      @post.private.should be_false
+    end
+  end
 end
