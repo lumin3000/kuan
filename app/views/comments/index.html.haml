@@ -20,4 +20,4 @@
       .txt
         %input{ :type => "text", :name => "content", :onkeydown => "if(new Event(event).code==13){this.getParent('form').getElement('.c_submitter').getElement('input').click();return false;}" }
       .c_submitter
-        %input.c_submitter{ :type => "submit", :value => "评论", :data => { :tgt => "reply" } }
+        %input{ :type => "submit", :value => "评论", :data => { :tgt => "reply" } }
