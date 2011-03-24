@@ -28,7 +28,7 @@ module ObjectView
         define_method(f) do
           prop = instance_variable_get prop_name
           value = prop.send(f)
-          value.nil? ? ''.html_safe : value.html_safe
+          value.nil? ? nil : value.html_safe
         end
       end
     end
@@ -38,7 +38,7 @@ module ObjectView
         define_method(v) do
           prop = instance_variable_get prop_name
           value = prop.send k
-          value.nil? ? ''.html_safe : h(value)
+          value.nil? ? nil : h(value)
         end
       end
     end
@@ -138,6 +138,7 @@ class BlogView < Mustache
   end
 
   def escapeHTML(str)
+    return '' if str.nil?
     str.html_safe? ? str : CGI.escapeHTML(str)
   end
 
