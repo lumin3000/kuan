@@ -170,19 +170,15 @@ K.widgets.toggler = function(button) {
     if (!isUsingCustomHtml) return
 
     var tplId = $('blog_template_id').get('value')
-    if (!tplId) {
-      customHtml.set('value', initialValue)
-      return
-    }
     customHtml.set('disabled', true)
     new Request({
       method: 'GET'
-    , url: '/templates/' + tplId
+    , url: '/templates/' + (tplId || 'default')
     , noCache: true
     , onSuccess: function(tplHtml) {
         customHtml.set({
           value: tplHtml
-        }).erase('disabled')
+        }).erase('disabled').fireEvent('click').focus()
       }
     }).send()
   })
