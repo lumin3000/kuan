@@ -31,7 +31,7 @@
         标签：
         - post.tags.each do |tag|
           %a{ :href => tagged_path(tag) }<
-            = "#{tag}"
+            = "#{tag.to(12)}"
             = ", " unless tag == post.tags.last
     .left<
       - unless post.parent.nil?
@@ -43,11 +43,13 @@
     .right.post_stat
       %a.reply{ :href => post_comments_path(post), :title => "评论", :data => { :tgt => "comments" } }<
         = post.comments.count == 0 ? " " : post.comments.count
-      %a.repost_count{href: post_path(post)}
-        .repost_icon
-        .num
-          = post.repost_count
-      %a.favor_count{href: post_path(post)}
-        .favor_icon{class: faved ? 'faved' : 'fave'}
-        .num
-          = post.favor_count
+      - if post.repost_count && post.repost_count > 0
+        %a.repost_count{href: posts_blog_path(post)}
+          .repost_icon
+          .num
+            = post.repost_count
+      - if post.favor_count && post.favor_count > 0
+        %a.favor_count{href: posts_blog_path(post)}
+          .favor_icon{class: faved ? 'faved' : 'fave'}
+          .num
+            = post.favor_count
