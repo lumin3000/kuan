@@ -18,10 +18,10 @@ Element.implement({
 })
 
 K = {
-  log: function(l) {
+  log: function() {
     if(document.location.href.indexOf('#debug')>0){
       if (typeof console != "undefined") {
-        return console.log.apply(console, arguments)
+        console.log.apply(console, arguments)
       }
       var body = document.body
       , text = Array.prototype.join.call(arguments, " ")
