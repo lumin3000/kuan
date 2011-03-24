@@ -55,8 +55,9 @@ class BlogsController < ApplicationController
   def extract_template_vars
     p = params[:blog]
     p[:template_id] = nil if p[:template_id].blank?
-    @blog.use_template p
-    @variables = BlogView.extract_variables @blog
+    extractor = params[:reset].blank? ? @blog : Blog.new
+    extractor.use_template p
+    @variables = BlogView.extract_variables extractor
     render 'blogs/_template_variables', :layout => false
   end
 

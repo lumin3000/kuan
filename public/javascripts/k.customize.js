@@ -297,14 +297,17 @@ K.widgets.reloadAppearance = function(el){
   })
   el.tryReload = tryReload
 
-  function tryReload(forced){
+  function tryReload(reset){
     var dataToSend = fetchData()
-    if (!forced && Object.every(dataToSend, function(value, key) {
+    if (!reset && Object.every(dataToSend, function(value, key) {
       return prevData[key] == value
     })) {
       return
     }
     prevData = dataToSend
+    if (reset) {
+      dataToSend = Object.toQueryString(dataToSend) + '&reset=1'
+    }
     new Request.HTML({
       url: '/extract_template_vars',
       method: 'post',
