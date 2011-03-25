@@ -19,20 +19,27 @@ function imgFilter(arr){
 	return new_arr;
 }
 
-// 创建表单
-var _form = document.createElement('form');
-_form.method = 'post';
-_form.action = 'http://lvh.me:3000/posts/fetch/text';
-if(isNewWindow){
-  _form.target = 'kuandao';
-}
-
 // 选中的处理方式 ie与ff不同
 var selValue = '';
 if(document.selection && document.selection.createRange){
   selValue = document.selection.createRange().htmlText || '';
 }else if(document.getSelection){
   selValue = document.getSelection();
+}
+
+var _default
+if(selValue != ''){
+  _default = 'text'
+}else if(arr.length > 0){
+  _default = 'pics'
+}else{
+  _default = 'link'
+}
+var _form = document.createElement('form');
+_form.method = 'post';
+_form.action = 'http://lvh.me:3000/posts/fetch/'+_default;
+if(isNewWindow){
+  _form.target = 'kuandao';
 }
 
 var _title = document.createElement('input')
