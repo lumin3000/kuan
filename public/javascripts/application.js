@@ -1,3 +1,5 @@
+;(function($){
+
 Element.implement({
   delegate: function(type, selector, fn) {
     if (typeOf(fn) != 'function') {
@@ -746,3 +748,5 @@ K.widgets.expandAlbum = function(context) {
   }
 
 }
+
+})(document.id)
