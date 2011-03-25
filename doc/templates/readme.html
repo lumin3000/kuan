@@ -1,3 +1,24 @@
+<!DOCTYPE HTML>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>自定义模板文档_宽岛</title>
+  <style type="text/css">
+    #logo {
+      background: url("/images/logo.gif");
+      width: 270px;
+      height: 46px;
+      text-indent: -9999px;
+    }
+    body {
+      width: 800px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+<h1 id="logo"><a href="http://www.kuandao.com">宽岛</a></h1>
+  
 <h2>语法</h2>
 
 <h3>填充字段</h3>
@@ -336,23 +357,26 @@ on/off来标注逻辑真/假，其余写法会被模板系统忽略</p>
 
 <h4>Bool类变量的使用</h4>
 
-bool类变量应作为section使用，见例子：
+<p>bool类变量应作为section使用，见例子：</p>
 
+<pre><code>
     {{#define}}
       bool should_display_followings 显示我关注的页面 1
     {{/define}}
 
     {{#bool_should_display_followings}}
       {{#has_following}}
-        <ul>
+        &lt;ul&gt;
         {{#followings}}
-        <li>
-          <a href="{{url}}">
-            <img src="{{icon_60}}">
+        &lt;li&gt;
+          &lt;a href="{{url}}"&gt;
+            &lt;img src="{{icon_60}}"&gt;
             {{title}}
-          </a>
-        </li>
+          &lt;/a&gt;
+        &lt;/li&gt;
         {{/followings}}
-        </ul>
+        &lt;/ul&gt;
       {{/has_following}}
     {{/bool_should_display_followings}}
+</code></pre>
+</body>
