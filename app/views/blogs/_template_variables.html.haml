@@ -1,5 +1,5 @@
 - all_empty = @variables.all? {|k,v| v.empty?}
-
+%input{type: 'hidden', name: 'var_valid', value: '1'}
 .box
   - if not  all_empty
     - @variables['color'].each do |name, var|

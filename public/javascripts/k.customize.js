@@ -151,6 +151,7 @@ K.widgets.radioButton = function(context) {
     input.set('value', value)
     selected.removeClass('selected')
     selected = e.target.addClass('selected')
+    K.widgets.fireEvent('templateSelected', [value])
   })
 }
 
@@ -276,7 +277,6 @@ K.widgets.appearance = function(el){
     },
     'click:relay(.reset)': function(e) {
       e.stop()
-      console.log("boooooooooo")
       reloader.tryReload(true)
     }
   })
@@ -297,11 +297,16 @@ K.widgets.reloadAppearance = function(el){
   })
   el.tryReload = tryReload
 
+  K.widgets.addEvent('templateSelected', function() {
+    setValid(false)
+  })
+
   function tryReload(reset){
     var dataToSend = fetchData()
     if (!reset && Object.every(dataToSend, function(value, key) {
       return prevData[key] == value
     })) {
+      setValid(true)
       return
     }
     prevData = dataToSend
@@ -319,6 +324,12 @@ K.widgets.reloadAppearance = function(el){
         target.getElements('input.uploader').each(init_uploader)
       }
     }).send()
+
+  }
+
+  function setValid(isValid) {
+    input = target.getElement('[name=var_valid]')
+    input.set('value', isValid ? 1 : 0)
   }
 
   function fetchData() {

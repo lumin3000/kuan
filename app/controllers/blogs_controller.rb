@@ -35,6 +35,7 @@ class BlogsController < ApplicationController
     p = params[:blog]
     p.delete :icon if p[:icon].blank?
     p[:template_id] = nil if p[:template_id].blank?
+    p[:template_conf] = nil if params[:var_valid] == '0'
     if @blog.update_attributes p
       flash[:success] = "页面信息更新成功"
       redirect_to blog_path(@blog)
@@ -48,7 +49,8 @@ class BlogsController < ApplicationController
     fetch_posts
     p = params[:blog]
     p[:template_id] = nil if p[:template_id].blank?
-    @blog.use_template params[:blog]
+    p[:template_conf] = nil unless p.has_key? :template_conf
+    @blog.use_template p
     render_blog
   end
 
