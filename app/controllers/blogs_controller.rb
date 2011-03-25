@@ -49,7 +49,8 @@ class BlogsController < ApplicationController
     fetch_posts
     p = params[:blog]
     p[:template_id] = nil if p[:template_id].blank?
-    @blog.use_template params[:blog]
+    p[:template_conf] = nil unless p.has_key? :template_conf
+    @blog.use_template p
     render_blog
   end
 
