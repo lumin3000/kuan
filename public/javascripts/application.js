@@ -313,8 +313,9 @@ K.widgets.env = {
 K.widgets.shrinked = function(elem) {
   var context = elem
     , triggers = context.getElements(context.get('data-trigger'))
+    , shouldPropagate = elem.get('data-shouldPropagate')
   triggers.addEvent('click', function(e) {
-    e.stop()
+    if (!shouldPropagate) e.stop()
     context.toggleClass('shrinked')
   })
 }
