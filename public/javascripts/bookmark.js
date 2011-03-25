@@ -37,7 +37,7 @@ if(selValue != ''){
 }
 var _form = document.createElement('form');
 _form.method = 'post';
-_form.action = 'http://lvh.me:3000/posts/fetch/'+_default;
+_form.action = 'http://www.kuandao.com/posts/fetch/'+_default;
 if(isNewWindow){
   _form.target = 'kuandao';
 }
