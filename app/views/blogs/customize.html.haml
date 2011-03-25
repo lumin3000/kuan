@@ -83,7 +83,7 @@
         %a.button{href: "#", data: {widget: 'toggler', target: 'fieldset.template',
           classes: 'editing_custom_html picking_template', field: 'blog[using_custom_html]'}}
           返回选择模板
-        %a.button{href: "#"} 帮助
+        %a.button{href: fucking_root + 'doc/template.html', target: '_blank'} 帮助
   %fieldset.appearance.menu{ data: {widget: "appearance"}}
     = render :partial => 'blogs/template_variables'
   %fieldset.advanced.menu
@@ -91,12 +91,12 @@
       = f.check_box :private
       = f.label :private, '该页面设置为私密页面'
     - unless @blog.primary?
-      .toggle_canjoin
+      .toggle_canjoin{data: {widget: 'shrinked', trigger: 'input[type=checkbox]',
+        shouldPropagate: true}, class: @blog.canjoin? ? '' : 'shrinked'}
         = f.check_box :canjoin
         = f.label :canjoin, "其他人可以申请加入你的页面" 
-        - if @blog.canjoin?
-          %p.invite_desc 复制邀请链接邀请其他人
-          %input.invite_link{value: editors_new_url}
+        %p.invite_desc 复制邀请链接邀请其他人
+        %input.invite_link{value: editors_new_url}
 
 %iframe#preview{name: 'preview', src: blog_path(@blog)}
 

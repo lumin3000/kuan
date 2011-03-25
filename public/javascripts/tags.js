@@ -10,7 +10,7 @@ document.addEvent('domready', function(){
     item.addClass('bg'+Number.random(1,5))
   });*/
   
-  if(this.location.href.indexOf('#p')>0){
+  if(document.location.href.indexOf('#p')>0){
     K.puzzle.init().auto()
   }else{
     K.left2right.init().auto()

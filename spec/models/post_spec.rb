@@ -351,27 +351,5 @@ EOF
         @post.private.should be_true
       end
     end
-    describe "toggle private post" do
-      it "should set to private" do
-        @post.blog = @blog
-        @post.save!
-        @post.private.should be_false
-        @blog.private = true
-        @blog.save!
-        @post.update!
-        @post.private.should be_true
-      end
-      it "should set to public" do
-        @post.blog = @blog
-        @blog.private = true
-        @blog.save!
-        @post.save!
-        @post.private.should be_true
-        @blog.private = false
-        @blog.save!
-        @post.update!
-        @post.private.should be_false
-      end
-    end
   end
 end

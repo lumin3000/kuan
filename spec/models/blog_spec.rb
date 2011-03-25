@@ -215,5 +215,20 @@ describe Blog do
       @post.reload
       @post.private.should be_false
     end
+    it "should set all post" do
+      @post.save!
+      @post2 = Factory.build(:text)
+      @post2.author = @user
+      @post2.blog = @blog
+      @post2.save!
+      @post.private.should be_false
+      @post2.private.should be_false
+      @blog.private = true
+      @blog.save!
+      @post.reload
+      @post2.reload
+      @post.private.should be_true
+      @post2.private.should be_true
+    end
   end
 end

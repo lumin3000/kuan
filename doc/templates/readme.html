@@ -1,3 +1,33 @@
+<!DOCTYPE HTML>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>自定义模板文档_宽岛</title>
+  <style type="text/css">
+    #logo {
+      background: url("/images/logo.gif");
+      width: 270px;
+      height: 46px;
+    }
+    #logo a {
+      display: block;
+      text-indent: -9999px;
+    }
+    body {
+      width: 800px;
+      margin: 0 auto;
+      padding-bottom: 4em;
+    }
+  </style>
+</head>
+<body>
+
+<h1 id="logo"><a href="http://www.kuandao.com">宽岛</a></h1>
+
+<p>这里是宽岛自定义模板文档</p>
+
+<p>有问题请留言联系这里：<a
+  href="http://htmlization.kuandao.com/">模板这点事</a></p>
+
 <h2>语法</h2>
 
 <h3>填充字段</h3>
@@ -11,7 +41,7 @@
 
 <p>进入section之后可以访问相应数据（post, user, etc.）的字段</p>
 
-<p>下层section中可以访问到上层中的字段/section</p>
+<p>下层section中可以访问到上层中的字段或section</p>
 
 <p>下面例子中，posts是一个循环section, section中的模板代码会应用于每一条post。而text是条件判断section，类型为"文字"的帖子才会进入该section并使用其中的代码。</p>
 
@@ -20,7 +50,7 @@
 
   {{#post_single}}
     似乎只有一个帖子
-    &lt;!-- 已经进入posts section，但post_single section属于顶级作用域，仍可访问 --&gt;
+    &lt;!-- 已经进入posts section，虽然post_single section属于顶级作用域，仍可访问 --&gt;
   {{/post_single}}
 
   {{#text}}
@@ -81,7 +111,7 @@
 <li>other_pages
 页面拥有者参与的所有页面，用户主页面特有，其中字段见<a
   href="#blog-section">Blog Section</a></li>
-<li>has_other_pages</li>页面拥有者是否参与或关注了其它页面，用户主页面特有
+<li>has_other_pages 页面拥有者是否参与或关注了其它页面，用户主页面特有</li>
 <li>followings 页面拥有者所关注的页面，用户主页面特有，其中字段见<a href="#blog-section">Blog Section</a></li>
 <li>has_following 页面拥有者是否关注了其他页面，用户主页面特有</li>
 <li>define 定义可以由模板使用者自行调整的变量，详见<a href="#define-section">Define Section</a></li>
@@ -119,8 +149,8 @@
 <li>fave_tag 生成一个<code>&lt;a&gt;</code>标签用于喜欢该帖子；section中间的内容会放在<code>&lt;a&gt;</code>标签内</li>
 <li>is_repost 如果是转帖发布可以进入该section</li>
 <li>repost_parent 如果是转帖发布可以进入一个<a href="#blog-section">Blog Section</a>访问转帖来源页面的信息</li>
-<li>has_tag</li> 有标签的帖子可以进入该section
-<li>tags</li> 进入<a href="#tags-section">Tags Section</a>访问各个标签信息
+<li>has_tag 有标签的帖子可以进入该section</li>
+<li>tags 进入<a href="#tags-section">Tags Section</a>访问各个标签信息</li>
 </ul>
 
 <h4>表述帖子类型的section</h4>
@@ -128,9 +158,9 @@
 Section里使用</p>
 <ul>
 <li><a href="#text-section">text</a> 文字
-<li><a href="#photo-set-section">photo_single</a> 只有一张图片的图片帖子
-<li><a href="#photo-set-section">photo_set</a> 多张图片的图片帖子
-<li><a href="#link-sectio">link</a> 链接
+<li><a href="#photo-set-section">photo_single</a> 只有一张图片的图片帖
+<li><a href="#photo-set-section">photo_set</a> 多张图片的图片帖
+<li><a href="#link-section">link</a> 链接
 <li><a href="#video-section">video</a> 视频
 </ul>
 
@@ -178,6 +208,7 @@ Section里使用</p>
 <li>image_400 图片链接，宽度不超过400px</li>
 <li>image_250 图片链接，宽度不超过250px</li>
 <li>image_100 图片链接，宽度不超过100px</li>
+<li>image_150 150x150图片链接</li>
 <li>image_75 75x75图片链接</li>
 <li>image_60 60x60图片链接</li>
 </ul>
@@ -243,6 +274,7 @@ Section里使用</p>
 <li>title 页面标题</li>
 <li>url 页面链接</li>
 <li>icon_180 180x180页面图标链接</li>
+<li>icon_128 128x128页面图标链接</li>
 <li>icon_96 96x96页面图标链接</li>
 <li>icon_64 64x64页面图标链接</li>
 <li>icon_60 60x60页面图标链接</li>
@@ -317,13 +349,14 @@ Section里使用</p>
 &lt;/a&gt;
 </code></pre>
 
-<p>Define Section中的每一行都会被按照空格分割成四段，解析成一个变量的定义。上面例子中：</p>
+<p>Define
+Section中的每一行都会被按照空格分割成四段（或三段，最后一段可以为空），解析成一个变量的定义。上面例子中：</p>
 
 <ul>
 <li><code>text</code> 变量类型，此外还支持color，image和bool</li>
 <li><code>subtitle</code> 变量名字，可以是任意英文字母、数字和下划线的组合</li>
 <li><code>副标题</code> 变量描述，在自定义页面的"调整界面"选项卡里可以看到</li>
-<li><code>我在宽岛的小屋</code> 变量默认值</li>
+<li><code>我在宽岛的小屋</code> 变量默认值，可以为空</li>
 </ul>
 
 <p>bool型变量只能使用1/0 true/false yes/no
@@ -333,23 +366,31 @@ on/off来标注逻辑真/假，其余写法会被模板系统忽略</p>
 
 <h4>Bool类变量的使用</h4>
 
-bool类变量应作为section使用，见例子：
+<p>bool类变量应作为section使用，见例子：</p>
 
+<pre><code>
     {{#define}}
       bool should_display_followings 显示我关注的页面 1
     {{/define}}
 
     {{#bool_should_display_followings}}
       {{#has_following}}
-        <ul>
+        &lt;ul&gt;
         {{#followings}}
-        <li>
-          <a href="{{url}}">
-            <img src="{{icon_60}}">
+        &lt;li&gt;
+          &lt;a href="{{url}}"&gt;
+            &lt;img src="{{icon_60}}"&gt;
             {{title}}
-          </a>
-        </li>
+          &lt;/a&gt;
+        &lt;/li&gt;
         {{/followings}}
-        </ul>
+        &lt;/ul&gt;
       {{/has_following}}
     {{/bool_should_display_followings}}
+</code></pre>
+</body>
+
+<h2>还是看不懂！</h2>
+
+<p>试着来这里留言联系我们吧：<a
+  href="http://htmlization.kuandao.com/">http://htmlization.kuandao.com/</a></p>

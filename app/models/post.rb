@@ -25,12 +25,11 @@ class Post
   validate :posted_to_editable_blogs, :if => :new_record?
 
   before_destroy :clean_comments_notices
-  before_create :type_setter
-  before_save :private_setter
+  before_create :type_setter, :private_setter
   after_create :ancestor_reposts_inc, :update_blog
 
-  scope :tagged, lambda { |tag| where(:tags => tag, :private => false).desc(:created_at) }
-  scope :pics_and_text, where(:_type.in => ["Text", "Pics"], :private => false)
+  scope :tagged, lambda { |tag| where(:tags => tag, :private.ne => true).desc(:created_at) }
+  scope :pics_and_text, where(:_type.in => ["Text", "Pics"], :private.ne => true)
   scope :in_day, lambda { |date| where(:created_at.gte => date.midnight,
                                        :created_at.lte => date.end_of_day).desc(:created_at) }
 
@@ -40,10 +39,6 @@ class Post
 
   def type
     self._type.downcase
-  end
-
-  def update!
-    update_attributes :private => true
   end
 
   # about the repost , parent and ancestor
@@ -147,9 +142,8 @@ class Post
   end
 
   def private_setter
-    blog = Blog.find(self.blog_id)
-    self.private = blog.private
-    true
+    self.private = self.blog.private
+    ensure return true
   end
 
   def clean_comments_notices
