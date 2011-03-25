@@ -7,6 +7,9 @@
       background: url("/images/logo.gif");
       width: 270px;
       height: 46px;
+    }
+    #logo a {
+      display: block;
       text-indent: -9999px;
     }
     body {
@@ -18,7 +21,9 @@
 <body>
 
 <h1 id="logo"><a href="http://www.kuandao.com">宽岛</a></h1>
-  
+
+<p>这里是宽岛自定义模板文档</p>
+
 <h2>语法</h2>
 
 <h3>填充字段</h3>
@@ -32,7 +37,7 @@
 
 <p>进入section之后可以访问相应数据（post, user, etc.）的字段</p>
 
-<p>下层section中可以访问到上层中的字段/section</p>
+<p>下层section中可以访问到上层中的字段或section</p>
 
 <p>下面例子中，posts是一个循环section, section中的模板代码会应用于每一条post。而text是条件判断section，类型为"文字"的帖子才会进入该section并使用其中的代码。</p>
 
@@ -41,7 +46,7 @@
 
   {{#post_single}}
     似乎只有一个帖子
-    &lt;!-- 已经进入posts section，但post_single section属于顶级作用域，仍可访问 --&gt;
+    &lt;!-- 已经进入posts section，虽然post_single section属于顶级作用域，仍可访问 --&gt;
   {{/post_single}}
 
   {{#text}}
@@ -102,7 +107,7 @@
 <li>other_pages
 页面拥有者参与的所有页面，用户主页面特有，其中字段见<a
   href="#blog-section">Blog Section</a></li>
-<li>has_other_pages</li>页面拥有者是否参与或关注了其它页面，用户主页面特有
+<li>has_other_pages 页面拥有者是否参与或关注了其它页面，用户主页面特有</li>
 <li>followings 页面拥有者所关注的页面，用户主页面特有，其中字段见<a href="#blog-section">Blog Section</a></li>
 <li>has_following 页面拥有者是否关注了其他页面，用户主页面特有</li>
 <li>define 定义可以由模板使用者自行调整的变量，详见<a href="#define-section">Define Section</a></li>
@@ -140,8 +145,8 @@
 <li>fave_tag 生成一个<code>&lt;a&gt;</code>标签用于喜欢该帖子；section中间的内容会放在<code>&lt;a&gt;</code>标签内</li>
 <li>is_repost 如果是转帖发布可以进入该section</li>
 <li>repost_parent 如果是转帖发布可以进入一个<a href="#blog-section">Blog Section</a>访问转帖来源页面的信息</li>
-<li>has_tag</li> 有标签的帖子可以进入该section
-<li>tags</li> 进入<a href="#tags-section">Tags Section</a>访问各个标签信息
+<li>has_tag 有标签的帖子可以进入该section</li>
+<li>tags 进入<a href="#tags-section">Tags Section</a>访问各个标签信息</li>
 </ul>
 
 <h4>表述帖子类型的section</h4>
@@ -149,8 +154,8 @@
 Section里使用</p>
 <ul>
 <li><a href="#text-section">text</a> 文字
-<li><a href="#photo-set-section">photo_single</a> 只有一张图片的图片帖子
-<li><a href="#photo-set-section">photo_set</a> 多张图片的图片帖子
+<li><a href="#photo-set-section">photo_single</a> 只有一张图片的图片帖
+<li><a href="#photo-set-section">photo_set</a> 多张图片的图片帖
 <li><a href="#link-section">link</a> 链接
 <li><a href="#video-section">video</a> 视频
 </ul>
