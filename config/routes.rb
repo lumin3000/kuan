@@ -52,6 +52,7 @@ Kuan::Application.routes.draw do
   end
 
   get "/posts/new/:type(/to/:blog_uri)" => "posts#new", :as => "new_post"
+  post "/posts/fetch/:type(/to/:blog_uri)" => "posts#fetch", :as => "fetch_post"
   #Maybe favors should have a controller too
   get '/favors(/page/:page)' => 'posts#favors', :page => /\d+/, :as => "favors_posts"
   get '/news(/page/:page)', :to => 'posts#news', :page => /\d+/, :as => "news_posts"

@@ -188,30 +188,30 @@ K.post = (function(){
           init_toggle_upload()
         }
       },
+      url_upload: function(){
+        var url = $('url_uploader_url').value
+        var el = photo_item.create()
+        photo_item.attach(el)
+        new Request.JSON({
+          url: photo_path,
+          method: 'post',
+          data: {'url':url},
+          onComplete: function(result){
+            if(result.status == 'error'){
+              photo_item.failure(el, result)
+            }else{
+              $('url_uploader_url').value = ''
+              OverText.instances.each(function(item){
+                item.reposition()
+              })
+                photo_item.success(result, el)
+            }
+          }
+        }).send()
+      },
       init_url_upload: function(){
         new OverText($('url_uploader_url'))
-        $('url_uploader_btn') && $('url_uploader_btn').addEvent('click', function(){
-          var url = $('url_uploader_url').value
-          var el = photo_item.create()
-          photo_item.attach(el)
-          new Request.JSON({
-            url: photo_path,
-            method: 'post',
-            data: {'url':url},
-            onComplete: function(result){
-              if(result.status == 'error'){
-                photo_item.failure(el, result)
-              }else{
-                $('url_uploader_url').value = ''
-                OverText.instances.each(function(item){
-                  item.reposition()
-                })
-                  photo_item.success(result, el)
-              }
-            }
-          }).send()
-
-        })
+        $('url_uploader_btn') && $('url_uploader_btn').addEvent('click', this.url_upload)
       }
     }
 })()

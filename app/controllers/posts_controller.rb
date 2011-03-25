@@ -52,6 +52,12 @@ class PostsController < ApplicationController
       render 'renew'
     end
   end
+  
+  def fetch
+    @post = Post.new params
+    @p = params
+    get_target_blogs
+  end
 
   def destroy
     @post = Post.find(params[:id])
