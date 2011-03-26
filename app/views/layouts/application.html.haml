@@ -12,6 +12,8 @@
       = javascript_include_tag f
     = csrf_meta_tag
     %link{ :rel => "shortcut icon", :href => "/images/favicon.ico" }
+    :javascript
+      document.id(document.documentElement).addClass('js_enabled')
     = yield :head if content_for?(:head)
   %body
     #container{class: content_for?(:site_layout) ? yield(:site_layout) : "site"}

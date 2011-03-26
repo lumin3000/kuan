@@ -370,8 +370,6 @@ document.addEvent('domready', function(){
       }
     })
   }
-  //navigator
-  $$('.navigator .menu').hide()
 })
 
 K.widgets.rest = function() {
