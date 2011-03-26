@@ -19,6 +19,7 @@ document.addEvent('domready', function(){
 
 function trend_height(n){
   if(!n)n=0
+  n = n.toInt()
   return Math.min(n+1, 28)
 }
 

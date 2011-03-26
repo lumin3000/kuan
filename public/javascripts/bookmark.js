@@ -2,7 +2,7 @@
 var arr = imgFilter(document.getElementsByTagName('img'));
 var img_urls = '[';
 for(var i=0,l=arr.length; i<l; i++){
-	img_urls += '"'+arr[i].src+'"'+(i==l-1?'':',');
+  img_urls += '"'+arr[i].src+'"'+(i==l-1?'':',');
 }
 img_urls += ']';
 // 过滤图片
