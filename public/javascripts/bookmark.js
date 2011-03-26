@@ -7,16 +7,19 @@ for(var i=0,l=arr.length; i<l; i++){
 img_urls += ']';
 // 过滤图片
 function imgFilter(arr){
-	var new_arr = [];
-	var tmp;
-	for(var i=0,l=arr.length; i<l; i++){
-		tmp = arr[i];
-		if(tmp.width<100 || tmp.height<100){
-			continue;
-		}
-		new_arr.push(tmp);
-	}
-	return new_arr;
+  var new_arr = [];
+  var tmp;
+  for(var i=0,l=arr.length; i<l; i++){
+    tmp = arr[i];
+    if(tmp.width<100 || tmp.height<100){
+      continue;
+    }
+    if(tmp.parentNode.rel == 'lightbox' && tmp.parentNode.href){
+      tmp.src = tmp.parentNode.href
+    }
+    new_arr.push(tmp);
+  }
+  return new_arr;
 }
 
 // 选中的处理方式 ie与ff不同
