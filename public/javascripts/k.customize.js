@@ -153,6 +153,10 @@ K.widgets.radioButton = function(context) {
     selected = e.target.addClass('selected')
     K.widgets.fireEvent('templateSelected', [value])
   })
+
+  K.widgets.addEvent('templateDeselect', function() {
+    selected.removeClass('selected')
+  })
 }
 
 K.widgets.toggler = function(button) {
@@ -162,13 +166,24 @@ K.widgets.toggler = function(button) {
     , input = document.getElement('input[name='+ button.get('data-field') +']')
     , customHtml = $(input.form).getElement('[name=blog[custom_html]]')
     , initialValue = customHtml.get('value')
+    , shouldKeepHtmlCode = true
+
+  K.widgets.addEvent('templateSelected', function() {
+    shouldKeepHtmlCode = false
+  })
 
   button.addEvent('click', function(e) {
     e.stop()
     var isUsingCustomHtml = input.get('value') == 1 ? 0 : 1
     classes.each(function(c) { target.toggleClass(c) })
     input.set('value', isUsingCustomHtml)
-    if (!isUsingCustomHtml) return
+    if (!isUsingCustomHtml) {
+      shouldKeepHtmlCode = true
+      K.widgets.fireEvent('templateDeselect')
+      return
+    }
+
+    if (shouldKeepHtmlCode) return
 
     var tplId = $('blog_template_id').get('value')
     customHtml.set('disabled', true)
