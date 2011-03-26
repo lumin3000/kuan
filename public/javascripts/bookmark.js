@@ -14,7 +14,7 @@ function imgFilter(arr){
     if(tmp.width<100 || tmp.height<100){
       continue;
     }
-    if(tmp.parentNode.rel == 'lightbox' && tmp.parentNode.href){
+    if((tmp.parentNode.rel == 'lightbox' && tmp.parentNode.href) || tmp.parentNode.href.test(/\.(jpg|jpeg|png|bmp|gif)$/i)){
       tmp.src = tmp.parentNode.href
     }
     new_arr.push(tmp);
