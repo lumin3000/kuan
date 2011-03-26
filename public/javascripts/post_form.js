@@ -187,6 +187,22 @@ K.post = (function(){
           this.init_url_upload()
           init_toggle_upload()
         }
+        this.before_submit()
+      },
+      before_submit: function(){
+        var f = $('submit_btn').getParent('form')
+        f.addEvent('submit', function(e){
+          if($('photos_list') && $('photos_list').getElement('.loading')){
+            e.stop()
+            $$('.post_error')[0].set('html', '请图片上传完成后再提交')
+            return
+          }
+          if(f.hasClass('loading')){
+            e.stop()
+            return
+          }
+          f.addClass('loading')
+        })
       },
       url_upload: function(){
         var url = $('url_uploader_url').value
@@ -224,6 +240,7 @@ K.photo_upload = {
     return Elements.from(tmpl)[0].clone()
   },
   spin: function(el){
+    el.addClass('loading')
     var msg = new Element('span')
     new Element('span', {'html': '上传中...'}).inject(msg)
     new Element('a', { href: '#', 'html':'取消' })
@@ -235,6 +252,7 @@ K.photo_upload = {
     el.spin()
   },
   unspin: function(el){
+    el.removeClass('loading')
     el.unspin()
   },
   spin_error: function(el, v){
