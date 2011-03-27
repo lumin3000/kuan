@@ -246,7 +246,7 @@ K.render_editor = function(el, fix){
   }
   K.editor = new MooEditable(textarea, {
     'actions':'toggleview | bold italic underline strikethrough | createlink unlink | urlimage ',
-    'extraCSS':'pre{white-space:pre-wrap;word-wrap:break-word}',
+    'extraCSS':'pre{white-space:pre-wrap;word-wrap:break-word;font-family: "Hiragino Sans GB", hei, "microsoft yahei";line-height:1.5}',
     'dimensions':{x:w,y:h},
     'rootElement':''
   })
