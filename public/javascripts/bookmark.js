@@ -14,7 +14,7 @@ function imgFilter(arr){
     if(tmp.width<100 || tmp.height<100){
       continue;
     }
-    if((tmp.parentNode.rel == 'lightbox' && tmp.parentNode.href) || (tmp.parentNode.href && tmp.parentNode.href.test(/\.(jpg|jpeg|png|bmp|gif)$/i))){
+    if(tmp.parentNode.href && (tmp.parentNode.rel == 'lightbox' ||  /\.(jpg|jpeg|png|bmp|gif)$/i.test(tmp.parentNode.href))){
       new_arr.push(tmp.parentNode.href);
     }else{
       new_arr.push(tmp.src);
@@ -39,35 +39,33 @@ if(selValue != ''){
 }else{
   _default = 'link'
 }
-var _form = document.createElement('form');
-_form.method = 'post';
-_form.action = 'http://www.kuandao.com/posts/fetch/'+_default;
+var form = document.createElement('form');
+form.method = 'post';
+form.action = 'http://lvh.me:3000/posts/fetch/'+_default;
 if(isNewWindow){
-  _form.target = 'kuandao';
+  form.target = 'kuandao';
 }
 
-var _title = document.createElement('input')
-_title.type = 'hidden'
-_title.name = 'title'
-_title.value = document.title
-var _url = document.createElement('input')
-_url.type = 'hidden'
-_url.name = 'url'
-_url.value = document.URL
-var _content = document.createElement('input')
-_content.type = 'hidden'
-_content.name = 'content'
-_content.value = selValue
-var _imgs = document.createElement('input')
-_imgs.type = 'hidden'
-_imgs.name = 'imgs'
-_imgs.value = img_urls
+var f_title = document.createElement('input')
+f_title.type = 'hidden'
+f_title.name = 'title'
+f_title.value = document.title
+var f_url = document.createElement('input')
+f_url.type = 'hidden'
+f_url.name = 'url'
+f_url.value = document.URL
+var f_content = document.createElement('input')
+f_content.type = 'hidden'
+f_content.name = 'content'
+f_content.value = selValue
+var f_imgs = document.createElement('input')
+f_imgs.type = 'hidden'
+f_imgs.name = 'imgs'
+f_imgs.value = img_urls
 
-console.log(_content.value)
-
-_form.appendChild(_title);
-_form.appendChild(_url);
-_form.appendChild(_content);
-_form.appendChild(_imgs);
-document.body.appendChild(_form);
-_form.submit();
+form.appendChild(f_title);
+form.appendChild(f_url);
+form.appendChild(f_content);
+form.appendChild(f_imgs);
+document.body.appendChild(form);
+form.submit();
