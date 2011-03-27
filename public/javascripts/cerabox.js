@@ -1,12 +1,33 @@
 /**
  * @package		CeraBox
  * 
- * @copyright 	Copyright (c) 2011-2012 Ceramedia
  * @author 		Sven
  * @since 		13-01-2011
- * @version 	1.2.7-r
+ * @version 	1.2.11-r
  * 
  * This package requires MooTools 1.3.* + MooTools More Assets
+ * 
+ * @license The MIT License
+ * 
+ * Copyright (c) 2011-2012 Ceramedia, <http://ceramedia.nl/>
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 var CeraBox = new Class({
@@ -20,12 +41,21 @@ var CeraBox = new Class({
 		items: new Array(),
 		cerabox: null,
 		windowOpen: false,
-		busy: false
+		busy: false,
+		currentIndex: [0,0]
 	},
 	
 	options: {
 		group:					true,
-		errorLoadingMessage:	'无法打开，请稍候重试。。。'
+		errorLoadingMessage:	'The requested content cannot be loaded. Please try again later.',
+		events:					{
+			onClose:	function(){},
+			onOpen:		function(){},
+			onChange:	function(){},
+			_onClose:	null,
+			_onOpen:	null,
+			_onChange:	null
+		}
 	},
 	
 	//initialization
@@ -61,7 +91,22 @@ var CeraBox = new Class({
 	 * Add items to the box
 	 * 
 	 * @param mixed container
-	 * @param object options {ajax:{}, group:bool, width:int, height:int, displayTitle:bool, fullSize:bool, displayOverlay:bool, clickToClose:bool, animation:'fade'|'ease'}
+	 * @param object options {
+	 * 		ajax:			{},
+	 * 		group:			bool,
+	 * 		width:			int,
+	 * 		height:			int,
+	 * 		displayTitle:	bool,
+	 * 		fullSize:		bool,
+	 * 		displayOverlay:	bool,
+	 * 		clickToClose:	bool,
+	 * 		animation:		'fade'|'ease',
+	 * 		events:			{
+	 * 			onOpen:			function(currentItem, collection){},
+	 * 			onChange:		function(currentItem, collection){},
+	 * 			onClose:		function(currentItem, collection){}
+	 * 		}
+	 * }
 	 */
 	addItems: function(container, options) {
 		var items = $$(container);
@@ -86,10 +131,17 @@ var CeraBox = new Class({
 				this.vars.items[itemsIndex][index] = item;
 				index = [itemsIndex,index];
 			}
+			
 			//this.vars.cerabox.getElement('.cerabox-left').removeEvents('click').setStyle('display','none');
 			if (typeof options.ajax != 'undefined') {
 				item.addEvent('click', function(event){
-					event.stop();
+					event.preventDefault();
+					if (this.vars.busy)
+						return;
+					this.vars.busy=true;
+					// Add events
+					this._addCallbacks((typeof options.events != 'undefined')?options.events:null);
+					
 					this.vars.cerabox.setStyle('cursor','auto').removeEvents('click');
 					if (true===options.clickToClose)
 						this.vars.cerabox.setStyle('cursor','pointer').addEvent('click', function(event){event.stop(); this.close();}.bind(this));
@@ -97,10 +149,16 @@ var CeraBox = new Class({
 					this.showAjax(index, options);
 				}.bind(this));
 			}
-//			else if (item.get('href').test(/\.jpg|jpeg|png|gif$/i) || item.get('href').test(/\/files\//i)) {
-			else if (true) {
+                  else if (true){
+			//else if (item.get('href').replace(/(\?.*)/,'').test(/\.jpg|jpeg|png|gif$/i)) {
 				item.addEvent('click', function(event){
-					event.stop();
+					event.preventDefault();
+					if (this.vars.busy)
+						return;
+					this.vars.busy=true;
+					// Add events
+					this._addCallbacks((typeof options.events != 'undefined')?options.events:null);
+					
 					this.vars.cerabox.setStyle('cursor','auto').removeEvents('click');
 					if (true===options.clickToClose)
 						this.vars.cerabox.setStyle('cursor','pointer').addEvent('click', function(event){event.stop(); this.close();}.bind(this));
@@ -110,7 +168,13 @@ var CeraBox = new Class({
 			}
 			else if (item.get('href').test(/\.swf$/i)) {
 				item.addEvent('click', function(event){
-					event.stop();
+					event.preventDefault();
+					if (this.vars.busy)
+						return;
+					this.vars.busy=true;
+					// Add events
+					this._addCallbacks((typeof options.events != 'undefined')?options.events:null);
+					
 					this.vars.cerabox.setStyle('cursor','auto').removeEvents('click');
 					if (true===options.clickToClose)
 						this.vars.cerabox.setStyle('cursor','pointer').addEvent('click', function(event){event.stop(); this.close();}.bind(this));
@@ -120,7 +184,13 @@ var CeraBox = new Class({
 			}
 			else {
 				item.addEvent('click', function(event){
-					event.stop();
+					event.preventDefault();
+					if (this.vars.busy)
+						return;
+					this.vars.busy=true;
+					// Add events
+					this._addCallbacks((typeof options.events != 'undefined')?options.events:null);
+					
 					this.vars.cerabox.setStyle('cursor','auto').removeEvents('click');
 					if (true===options.clickToClose)
 						this.vars.cerabox.setStyle('cursor','pointer').addEvent('click', function(event){event.stop(); this.close();}.bind(this));
@@ -138,8 +208,8 @@ var CeraBox = new Class({
 	 * @param object options
 	 */
 	showAjax: function(index, options) {
-		if (this.vars.busy)
-			return;
+		//if (this.vars.busy)
+			//return;
 		
 		var ceraBox = this;
 		
@@ -154,7 +224,8 @@ var CeraBox = new Class({
 			data: options.ajax.data?options.ajax.data:'',
 			
 			onSuccess: function(responseTree) {
-				ceraBox.vars.busy = true;
+				if (false===ceraBox.vars.busy)
+					return;
 				
 				clearInterval(ceraBox.loaderTimer);
 				$('cerabox-loading').setStyle('display', 'none');
@@ -186,8 +257,11 @@ var CeraBox = new Class({
 				
 				ceraBox.vars.cerabox.getElement('.cerabox-content').set('tween', {duration: 300}).tween('opacity','0')
 					.get('tween')
-					.addEvent('complete', complFnc=function(){
-						this.removeEvent('complete',complFnc);
+					.addEvent('complete', function(){
+						this.removeEvents('complete');
+						
+						if (false===ceraBox.vars.busy)
+							return;
 						
 						if (false!==options.displayTitle)
 							ceraBox.vars.cerabox.getElement('.cerabox-title span')
@@ -224,8 +298,8 @@ var CeraBox = new Class({
 	 * @param object options
 	 */
 	showImage: function(index, options) {
-		if (this.vars.busy)
-			return;
+		//if (this.vars.busy)
+			//return;
 		
 		var ceraBox = this;
 		
@@ -236,7 +310,10 @@ var CeraBox = new Class({
 		
 		var image = new Asset.image(currentItem.get('href'), {
 			onload: function() {
-				ceraBox.vars.busy = true;
+				//ceraBox.vars.busy = true;
+				
+				if (false===ceraBox.vars.busy)
+					return;
 				
 				clearInterval(ceraBox.loaderTimer);
 				$('cerabox-loading').setStyle('display', 'none');
@@ -261,21 +338,21 @@ var CeraBox = new Class({
 				
 				ceraBox.vars.cerabox.getElement('.cerabox-content').set('tween', {duration: 300}).tween('opacity','0')
 					.get('tween')
-					.addEvent('complete', complFnc=function(){
-						this.removeEvent('complete',complFnc);
+					.addEvent('complete', function(){
+						this.removeEvents('complete');
+						
+						if (false===ceraBox.vars.busy)
+							return;
 						
 						if (false!==options.displayTitle)
 							ceraBox.vars.cerabox.getElement('.cerabox-title span')
 								.setStyle('display','block')
 								.set('text',(items.length>1?'Item ' + (index[1]+1) + ' / ' + items.length + ' ':'') + (currentItem.get('title')?currentItem.get('title'):''));
 						
-//                                          var _a = new Element('a', {'target': '_blank', 'href': currentItem.get('href')})
-  //                                        image.inject(_a)
 						ceraBox.vars.cerabox.getElement('.cerabox-content')
 							.empty()
 							.set('opacity',0)
-//							.adopt(_a)
-                                                        .adopt(image)
+							.adopt(image)
 							.set('tween', {duration: 100}).tween('opacity','1');
 						
 						if (items.length>1)
@@ -303,8 +380,8 @@ var CeraBox = new Class({
 	 * @param object options
 	 */
 	showSwf: function(index, options) {
-		if (this.vars.busy)
-			return;
+		//if (this.vars.busy)
+			//return;
 		
 		this.vars.busy = true;
 		
@@ -338,8 +415,11 @@ var CeraBox = new Class({
 		
 		ceraBox.vars.cerabox.getElement('.cerabox-content').set('tween', {duration: 300}).tween('opacity','0')
 			.get('tween')
-			.addEvent('complete', complFnc=function(){
-				this.removeEvent('complete',complFnc);
+			.addEvent('complete', function(){
+				this.removeEvents('complete');
+				
+				if (false===ceraBox.vars.busy)
+					return;
 				
 				if (false!==options.displayTitle)
 					ceraBox.vars.cerabox.getElement('.cerabox-title span')
@@ -371,8 +451,8 @@ var CeraBox = new Class({
 	 * @param object options
 	 */
 	showIframe: function(index, options) {
-		if (this.vars.busy)
-			return;
+		//if (this.vars.busy)
+			//return;
 		
 		var ceraBox = this;
 		
@@ -444,8 +524,8 @@ var CeraBox = new Class({
 	 * Close box
 	 */
 	close: function() {
-		if (this.vars.busy)
-			return;
+		//if (this.vars.busy)
+			//return;
 		
 		this.vars.busy = true;
 
@@ -456,16 +536,27 @@ var CeraBox = new Class({
 		var ceraBox = this;
 		
 		ceraBox.vars.cerabox.set('tween', {duration: 50}).tween('opacity', '0').get('tween')
-			.addEvent('complete', complFnc=function() {
+			.addEvent('complete', function() {
+				this.removeEvents('complete');
+				
 				this.element.setStyle('display','none');
 				$('cerabox-background').set('tween', {duration: 150,link:'chain'}).tween('opacity','0').tween('display','none');
 				
 				ceraBox.vars.cerabox.getElement('.cerabox-content').empty();
 				ceraBox.vars.cerabox.getElement('.cerabox-left').removeEvents('click').setStyle('display','none');
 				ceraBox.vars.cerabox.getElement('.cerabox-right').removeEvents('click').setStyle('display','none');
-				ceraBox.vars.windowOpen = false;
 				
-				this.removeEvent('complete',complFnc);
+				var collection	= ceraBox.vars.items[ceraBox.vars.currentIndex[0]];
+				var currentItem = collection[ceraBox.vars.currentIndex[1]];
+				
+				if (ceraBox.vars.windowOpen){
+					if (null!==ceraBox.options.events._onClose)
+						ceraBox.options.events._onClose.call(ceraBox, currentItem, collection);
+					else
+						ceraBox.options.events.onClose.call(ceraBox, currentItem, collection);
+				}
+				
+				ceraBox.vars.windowOpen = false;
 				ceraBox.vars.busy = false;
 			});
 	},
@@ -496,9 +587,7 @@ var CeraBox = new Class({
 	 * @param array index
 	 */
 	_timedOut: function(index, options) {
-		if (this.vars.busy)
-			return;
-		
+				
 		this.vars.busy = true;
 		
 		clearInterval(this.loaderTimer);
@@ -516,8 +605,11 @@ var CeraBox = new Class({
 		
 		this.vars.cerabox.getElement('.cerabox-content').set('tween', {duration: 300}).tween('opacity','0')
 			.get('tween')
-			.addEvent('complete', complFnc=function(){
-				this.removeEvent('complete',complFnc);
+			.addEvent('complete', function(){
+				this.removeEvents('complete');
+				
+				if (false===ceraBox.vars.busy)
+					return;
 				
 				ceraBox.vars.cerabox.getElement('.cerabox-content')
 					.empty()
@@ -627,8 +719,8 @@ var CeraBox = new Class({
 	 * Initialize show function
 	 */
 	_showInit: function() {
-		if (this.vars.busy)
-			return;
+		//if (this.vars.busy)
+			//return;
 		
 		// Make sure it doesnt time out when started a new request and prev loader is gone
 		clearInterval(this.timeOuter);
@@ -648,13 +740,20 @@ var CeraBox = new Class({
 		if (this.vars.cerabox.getElement('.cerabox-content iframe'))
 			this.vars.cerabox.getElement('.cerabox-content iframe').setStyles({'width':width,'height':height});
 		
-		if (this.vars.windowOpen==true)
+		this.vars.currentIndex = index;
+		var currentItem = this.vars.items[index[0]][index[1]];
+
+		if (this.vars.windowOpen==true) {
+			// onChange event
+			if (null!==this.options.events._onChange)
+				this.options.events._onChange.call(this, currentItem, this.vars.items[index[0]]);
+			else
+				this.options.events.onChange.call(this, currentItem, this.vars.items[index[0]]);
 			return;
-		
+		}
+
 		switch (animation) {
-		case 'ease':
-			currentItem	= this.vars.items[index[0]][index[1]];
-			
+		case 'ease':	
 			this.vars.cerabox.setStyles({
 				'display':'block',
 				'left':currentItem.getPosition().x + 'px',
@@ -687,7 +786,13 @@ var CeraBox = new Class({
 			}).set('tween', {duration: 150}).tween('opacity', '1');
 			break;
 		}
+		// onOpen event
+		if (null!==this.options.events._onOpen)
+			this.options.events._onOpen.call(this, currentItem, this.vars.items[index[0]]);
+		else
+			this.options.events.onOpen.call(this, currentItem, this.vars.items[index[0]]);
 		
+		currentItem.blur();
 		this.vars.windowOpen = true;
 	},
 	
@@ -783,6 +888,9 @@ var CeraBox = new Class({
 		return (typeof size == 'string' && size.test('%')?window.getSize()[dimension]*(size.toInt()/100):size.toInt());
 	},
 	
+	/**
+	 * Resizing window
+	 */
 	_resize: function() {
 		if(this.vars.windowOpen==true) {
 			if (window.getSize().x > this.vars.cerabox.getSize().x+40) {
@@ -821,6 +929,23 @@ var CeraBox = new Class({
 				}
 			}
 			$('cerabox-background').setStyles({'height':$(document.body).getScrollSize().y + 'px','width':$(document.body).getScrollSize().x + 'px'});
+		}
+	},
+	
+	/**
+	 * Add callback functions to cerabox
+	 */
+	_addCallbacks: function(events) {
+		this.options.events._onClose	= null;
+		this.options.events._onOpen		= null;
+		this.options.events._onChange	= null;
+		if (null !== events) {
+			if (typeof events.onClose == 'function')
+				this.options.events._onClose = events.onClose;
+			if (typeof events.onOpen == 'function')
+				this.options.events._onOpen = events.onOpen;
+			if (typeof events.onChange == 'function')
+				this.options.events._onChange = events.onChange;
 		}
 	},
 	

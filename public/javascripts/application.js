@@ -306,15 +306,16 @@ K.blog  = (function(){
     }
 })()
 
-K.widgets = {}
+K.widgets = new Events()
 K.widgets.env = {
   post_single: false
 }
 K.widgets.shrinked = function(elem) {
   var context = elem
     , triggers = context.getElements(context.get('data-trigger'))
+    , shouldPropagate = elem.get('data-shouldPropagate')
   triggers.addEvent('click', function(e) {
-    e.stop()
+    if (!shouldPropagate) e.stop()
     context.toggleClass('shrinked')
   })
 }
@@ -339,7 +340,7 @@ document.addEvent('domready', function(){
     else return
     types.each(function(t) {
       var func = K.widgets[t]
-      func && func(e)
+      if (typeof func == 'function') func(e)
     })
   })
 
@@ -351,7 +352,7 @@ document.addEvent('domready', function(){
         if(tgt && (!ev || ev == 'click')){
           e.stop()
           func = K.tgt[tgt]
-          func && func.call(this, e.target)
+          if (typeof func == 'function') func.call(this, e.target)
         }
       }
     })
@@ -369,8 +370,6 @@ document.addEvent('domready', function(){
       }
     })
   }
-  //navigator
-  $$('.navigator .menu').hide()
 })
 
 K.widgets.rest = function() {

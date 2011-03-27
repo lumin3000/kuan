@@ -7,10 +7,10 @@ Locale.define('zh-CN', 'MooEditable', {
 	italic: '斜体',
 	underline: '下划线',
 	strikethrough: '删除线',
-	unorderedList: 'Unordered List',
-	orderedList: 'Ordered List',
-	indent: 'Indent',
-	outdent: 'Outdent',
+	unorderedList: '项目符号',
+	orderedList: '编号',
+	indent: '增加缩进量',
+	outdent: '减少缩进量',
 	undo: '撤销',
 	redo: '重做',
 	removeHyperlink: '删除链接',
@@ -40,7 +40,7 @@ Locale.define('zh-CN', 'MooEditable', {
 	
 	// MooEditable.Flash
 	embed: '输入嵌入代码',
-	flashEmbed: 'Flash Embed',
+	flashEmbed: '嵌入Flash',
 	
 	// MooEditable.Forecolor
 	changeColor: '更改颜色',
@@ -56,10 +56,10 @@ Locale.define('zh-CN', 'MooEditable', {
 	addEditImage: '添加/编辑图片',
 	
 	// MooEditable.Pagebreak
-	pageBreak: 'Page break',
+	pageBreak: '分页符',
 	
 	// MooEditable.Smiley
-	insertSmiley: 'Insert Smiley',
+	insertSmiley: '插入表情',
 	
 	// MooEditable.Table
 	tableColumns: 'columns',
@@ -78,26 +78,26 @@ Locale.define('zh-CN', 'MooEditable', {
 	tableValignTop: 'top',
 	tableValignMiddle: 'middle',
 	tableValignBottom: 'bottom',
-	addTable: 'Add Table',
-	editTable: 'Edit Table',
-	addTableRow: 'Add Table Row',
-	editTableRow: 'Edit Table Row',
-	mergeTableRow: 'Merge Table Row',
-	splitTableRow: 'Split Table Row',
-	deleteTableRow: 'Delete Table Row',
-	addTableCol: 'Add Table Column',
-	editTableCol: 'Edit Table Column',
-	mergeTableCell: 'Merge Table Cell',
-	splitTableCell: 'Split Table Cell',
-	deleteTableCol: 'Delete Table Column',
+	addTable: '新建表格',
+	editTable: '编辑表格',
+	addTableRow: '添加行',
+	editTableRow: '编辑行',
+	mergeTableRow: '合并行',
+	splitTableRow: '拆分行',
+	deleteTableRow: '增加行',
+	addTableCol: '增加列',
+	editTableCol: '编辑列',
+	mergeTableCell: '合并单元格',
+	splitTableCell: '拆分单元格',
+	deleteTableCol: '删除列',
     
     // MooEditable.UI.ExtendedLinksDialog
     protocol: 'protocol',
     link: 'link',
     email: 'e-Mail',
     urlWithoutHttp: 'URL (without http://)',
-    window: 'window',
-    sameWindow: 'same window',
-    newWindow: 'new window'
+    window: '窗口',
+    sameWindow: '当前窗口',
+    newWindow: '新窗口'
     
 });

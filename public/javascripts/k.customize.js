@@ -151,6 +151,11 @@ K.widgets.radioButton = function(context) {
     input.set('value', value)
     selected.removeClass('selected')
     selected = e.target.addClass('selected')
+    K.widgets.fireEvent('templateSelected', [value])
+  })
+
+  K.widgets.addEvent('templateDeselect', function() {
+    selected.removeClass('selected')
   })
 }
 
@@ -161,13 +166,24 @@ K.widgets.toggler = function(button) {
     , input = document.getElement('input[name='+ button.get('data-field') +']')
     , customHtml = $(input.form).getElement('[name=blog[custom_html]]')
     , initialValue = customHtml.get('value')
+    , shouldKeepHtmlCode = true
+
+  K.widgets.addEvent('templateSelected', function() {
+    shouldKeepHtmlCode = false
+  })
 
   button.addEvent('click', function(e) {
     e.stop()
     var isUsingCustomHtml = input.get('value') == 1 ? 0 : 1
     classes.each(function(c) { target.toggleClass(c) })
     input.set('value', isUsingCustomHtml)
-    if (!isUsingCustomHtml) return
+    if (!isUsingCustomHtml) {
+      shouldKeepHtmlCode = true
+      K.widgets.fireEvent('templateDeselect')
+      return
+    }
+
+    if (shouldKeepHtmlCode) return
 
     var tplId = $('blog_template_id').get('value')
     customHtml.set('disabled', true)
@@ -276,7 +292,6 @@ K.widgets.appearance = function(el){
     },
     'click:relay(.reset)': function(e) {
       e.stop()
-      console.log("boooooooooo")
       reloader.tryReload(true)
     }
   })
@@ -297,11 +312,16 @@ K.widgets.reloadAppearance = function(el){
   })
   el.tryReload = tryReload
 
+  K.widgets.addEvent('templateSelected', function() {
+    setValid(false)
+  })
+
   function tryReload(reset){
     var dataToSend = fetchData()
     if (!reset && Object.every(dataToSend, function(value, key) {
       return prevData[key] == value
     })) {
+      setValid(true)
       return
     }
     prevData = dataToSend
@@ -319,6 +339,12 @@ K.widgets.reloadAppearance = function(el){
         target.getElements('input.uploader').each(init_uploader)
       }
     }).send()
+
+  }
+
+  function setValid(isValid) {
+    input = target.getElement('[name=var_valid]')
+    input.set('value', isValid ? 1 : 0)
   }
 
   function fetchData() {
