@@ -1,0 +1,766 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<!--
+	
+	Dainty Fresh
+	
+-->
+{{#define}}
+	color Text 文字 #333333
+	color Link 链接 #b23a3b
+{{/define}}
+
+<title>{{title}}</title>
+<link rel="shortcut icon" href="{{icon_16}}">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+{{#desc}}<meta name="description" content="{{meta_desc}}" />{{/desc}}
+
+
+
+<meta name="color:Background" content="#efeedf"/>
+<meta name="color:ContentBackground" content="#ffffff"/>
+<meta name="color:Text" content="#333333"/>
+<meta name="color:Link" content="#b23a3b"/>
+<meta name="font:Body" content="Helvetica, Arial, Geneva, sans-serif"/>
+<meta name="font:Header" content="'Georgia, Times New Roman, serif"/>
+<meta name="if:Show SearchBar" content="1"/>
+<meta name="if:Show Post Notes" content="1"/>
+<meta name="if:Show Twitter" content="0"/>
+<meta name="text:Disqus Shortname" content="" />
+<meta name="if:Show Install Theme Button" content="1" />
+
+<meta name="viewport" content="width=610" />
+
+<style type="text/css">
+html {
+	height: 100%;
+}
+body {
+	background: #efeedf url("http://static.tumblr.com/mnnnpqx/JFDkvgao8/dainty-fresh-bg.jpg") repeat fixed;
+	margin: 0px;
+	font: 16px/22px Helvetica, Arial, Geneva, sans-serif,Hiragino Sans GB,hei,microsoft yahei;
+}
+#container {
+	width: 500px;
+	padding: 25px;
+	margin-left: auto;
+	margin-right: auto;
+	background: url('http://static.tumblr.com/mnnnpqx/U45kvgaqu/dainty-fresh-container-bg.jpg') repeat-y;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+}
+#header {
+	 background: url('http://static.tumblr.com/mnnnpqx/gaXkvgapg/dainty-fresh-header.jpg') no-repeat;
+	  width: 550px;
+	  height: 487px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#nav {
+	font-size: 20px;
+	text-align: center;
+	float: none;
+	margin-left: 25px;
+	margin-bottom: 10px;
+	font-weight: bold;
+	margin-top: 5px;
+	margin-right: 25px;
+}
+#nav span {
+	color: #cccccc;
+}
+img {
+	border: none;
+}
+a {
+	color: #b23a3b;
+	text-decoration: underline;
+}
+a:hover {
+	color: #29201c;
+	text-decoration: none;
+	border-bottom: none;
+}
+:focus {
+	-moz-outline-style: none;
+}
+sup {
+	line-height: 0px;
+}
+sup a:link {
+	padding: 2px;
+}
+thead {
+	font-weight: bold;
+}
+
+#header h1 {
+	font-size:2.5em;
+	font-style:italic;
+	padding-left:170px;
+	padding-right:99px;
+	padding-top:130px;
+}
+
+#header h1 a {
+	color: #29201c;
+	text-decoration: none;
+}
+
+#header h1 a:hover {
+	color: #b23a3b;
+}
+
+
+h1 {
+	color: #29201c;
+	font-size: 36px;
+	line-height: 1em;
+	margin: 0px 0px 0px;
+	padding: 0;
+}
+h1 a {
+	color: #b23a3b;
+	text-decoration: none;
+}
+h1 a:hover {
+	color: #29201c;
+}
+h1 img {
+}
+
+#description {
+	color:#333333;
+	font-size:10px;
+	line-height:11px;
+	margin-left:120px;
+	margin-right:162px;
+	margin-top:255px;
+	text-align:right;
+	text-transform:uppercase;
+}
+.date {
+	margin: 25px 0px 0px 0px;
+	color: #004646;
+	font-size: 18px;
+	text-transform: lowercase;
+	text-align: right;
+	margin-bottom: 25px;
+	border-bottom: solid 1px #e5e5e5;
+	font-weight: normal;
+	letter-spacing: -1px;
+}
+div.post {
+	margin-bottom: 30px;
+	position: relative;
+}
+div.post .permalink {
+	background: #29201c;
+	padding: 5px;
+	vertical-align: middle;
+	margin: 0;
+	position: absolute;
+	left: -65px;
+	width: 30px;
+	text-decoration: none;
+	border: none;
+	-moz-border-radius-bottomleft: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-webkit-border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-top-left-radius: 5px;
+	text-align: center;
+	font-family: Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+	font-size: 12px;
+	line-height: 12px;
+}
+
+div.post .permalink a {
+	color: #efe6d4;
+	text-decoration: none;
+}
+
+div.post .permalink a:hover {
+	color: #b23a3b;
+	text-decoration: none;
+}
+
+
+div.post h2 {
+	font-size: 24px;
+	line-height: 30px;
+	font-weight: normal;
+	color: #000000;
+	margin: 0px 0px 5px 0px;
+}
+/* Regular Post */
+div.post div.regular h2 {
+	color:#29201C;
+	font-weight:normal;
+	text-transform:uppercase;
+}
+div.post div.regular h2 a {
+	text-decoration: none;
+}
+div.post div.regular h2 a:hover {
+	text-decoration: underline;
+}
+div.post p {
+	margin: .8em;
+	margin-left: 0;
+	margin-right: 0;
+}
+blockquote {
+	border-left: solid 5px #726763;
+	padding-left: 20px;
+	margin-left: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background: url('http://static.tumblr.com/mnnnpqx/luikvgaas/dainty-fresh-blockquote-bg.png') no-repeat -30% top;
+}
+blockquote p {
+	margin: .5em;
+	margin-left: 0;
+	margin-right: 0;
+}
+blockquote strong, blockquote em, blockquote a {
+	display: inline;
+}
+blockquote cite {
+	display: block;
+	font-style: normal;
+	text-align: right;
+}
+
+div.post div.regular a {
+	color: #b23a3b;
+}
+div.post div.regular a:hover {
+	color: #29201c;
+}
+
+div.post div.regular img {
+    max-width: 500px;
+}
+div.post div.regular blockquote img {
+    max-width: 150px;
+}
+/* Photo Post */
+div.post div.photo img {
+	border-width: 0px;
+}
+div.post div.photo div.caption {
+	margin-top: 15px;
+	color: {{color_Text}};
+}
+div.post div.photo div.caption a {
+	color: #b23a3b;
+}
+div.post div.photo div.caption a:hover {
+	color: #29201c;
+}
+/* Quote Post */
+div.post div.quote {
+	padding: 0px 0px 0px 0px;
+	font: 25px/1.2em;
+	color: #7c1213;
+	font-style: italic;
+}
+div.post div.quote div.source {
+	color:#333333;
+	font-size:12px;
+	font-style:normal;
+	line-height:18px;
+	margin-left:20px;
+	margin-top:5px;
+}
+div.post div.quote span.caption {
+	font: 15px;
+	line-height: 21px;
+	color: {{color_Text}};
+	margin-top: 10px;
+	text-align: left;
+	display: block;
+}
+div.post div.quote a {
+	color: #b23a3b;
+}
+div.post div.quote a:hover {
+	color: #29201c;
+}
+
+div.quote span.quote {
+	display:inline;
+}
+div.quote p {
+	display:inline;
+	margin-right: 10px;
+}
+/* Link Post */
+div.post div.link {
+	font-size: 24px;
+	line-height: 30px;
+}
+div.post div.link div.description {
+	line-height: 21px;
+	font-size: 15px;
+	margin-top: 15px;
+	color: {{color_Text}};
+}
+div.post div.link div.description a {
+	color: #b23a3b;
+}
+
+div.post div.link div.description a:hover {
+	color: #29201c;
+}
+div.post div.link div.description p {
+	margin: .5em;
+	margin-left: auto;
+	margin-right: auto;
+}
+/* Conversation Post */
+div.post div.conversation h2 {
+	margin-bottom: 15px;
+}
+div.post div.conversation h2 a {
+	color: {{color_Text}};
+	text-decoration: none;
+}
+div.post div.conversation h2 a:hover {
+	text-decoration: underline;
+}
+div.post div.conversation ul {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+div.post div.conversation ul li {
+	padding: 3px;
+	padding-left: 6px;
+	padding-right: 6px;
+	margin: 0;
+	color: {{color_Text}};
+}
+div.post div.conversation ul li span.label {
+	font-weight: bold;
+	color: #BE686B;
+}
+/* Audio Post */
+div.post div.audio span, div.post div.audio span a {
+	font-size: 11px;
+	color: #555555;
+	line-height: 20px;
+}
+div.post div.audio div.caption {
+	margin-top: 10px;
+	color: {{color_Text}};
+}
+div.post div.audio div.caption a {
+	color: #b23a3b;
+}
+
+div.post div.audio div.caption a:hover {
+	color: #29201c;
+}
+
+/* Video Post */
+div.post div.video div.caption {
+	margin-top: 15px;
+	color: {{color_Text}};
+}
+div.post div.video div.caption p {
+	margin: .5em;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+
+div.post div.video div.caption a {
+	color: #b23a3b;
+}
+
+div.post div.video div.caption a:hover {
+	color: #29201c;
+}
+
+
+/* Other Stuff */
+#navigation {
+	font-weight: bold;
+	clear: both;
+	line-height: normal;
+	padding-bottom: 20px;
+}
+#navigation a {
+	color: {{color_Text}};
+	font-weight: bold;
+	text-decoration: none;
+}
+#navigation a:hover {
+	color: {{color_Link}};
+	text-decoration: underline;
+}
+#navigation .left {
+	float: left;
+}
+#navigation .center {
+	float: right;
+	text-align: center;
+	margin-right: 230px;
+}
+#navigation .centerindex {
+	float: right;
+	text-align: center;
+	margin-right: 210px;
+}
+#navigation .right {
+	float: right;
+	margin-bottom: -25px;
+}
+#navigation p {
+	clear: both;
+	text-align: center;
+	font-weight: normal;
+	margin:0px;
+}
+#navigation a:hover {
+	text-decoration: underline;
+}
+.reblog {
+	color: #29201c;
+	margin-top: 5px;
+	margin-top:5px;
+	top:0;
+	border: none;
+	-moz-border-radius-bottomright: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	-webkit-border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	font-size: 12px;
+	padding: 3px;
+	text-align: center;
+	text-transform: uppercase;
+}
+.reblog a {
+	color: #29201c;
+	font-weight: bold;
+	text-decoration: none;
+	padding:3px 2px 0;
+}
+
+.reblog a:hover {
+	color: #b23a3b;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#footer {
+	width: 550px;
+	background: url('http://s3.amazonaws.com/data.tumblr.com/tumblr_kveykiFyLT1qacsbeo1_1280.jpg?AWSAccessKeyId=0RYTHV9YYQ4W5Q3HQMG2&Expires=1262176011&Signature=UxggdYSBrN2zdn%2B5MAlT4YcAAXA%3D') repeat-y;
+	font-size: 14px;
+	margin-top: 25px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	clear: both;
+	-moz-border-radius-topright: 20px;
+	-webkit-border-top-right-radius: 20px;
+	-moz-border-radius-topleft: 20px;
+	-webkit-border-top-left-radius: 20px;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+}
+#footer strong {
+	color: {{color_Link}};
+}
+#footer a {
+	color: #b23a3b;
+	font-weight: bold;
+	text-decoration: none;
+}
+#footer a:hover {
+	color: #e6dcc6;
+	text-decoration: none;
+}
+div.sub {
+	margin-top: 10px;
+	font-size: 14px;
+	display: block;
+}
+#search {
+	float:right;
+	margin:-5px 51px 0 -68px;
+	position:relative;
+	text-align:left;
+}
+#search form {
+	margin: 0;
+	padding: 0;
+}
+#search .text {
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background:#F0E6D3 none repeat scroll 0 0;
+	border:1px solid #B23A3B;	font-size: 18px;
+	padding: 8px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	line-height: normal;
+	width: 130px;
+	vertical-align: middle;
+	margin: 0;
+}
+#search .submit {
+	background: #b23a3b;
+	color:#F0E6D3;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size: 18px;
+	padding: 4px 8px 4px 8px;
+	line-height: normal;
+	width: 75px;
+	margin: 0;
+	text-decoration: none;
+	border: 0;
+	font-weight: bold;
+	}
+#search .submit:hover {
+	background: #29201c;
+	border: 0;
+}
+.regular ol {
+	margin-left: 35px;
+}
+ol.notes {
+	padding: 0px;
+	margin: 25px 0px;
+	list-style-type: none;
+	border-bottom: solid 1px #eee;
+
+}
+ol.notes a {
+	color: #B23A3B;
+	text-decoration: none;
+}
+
+ol.notes a:hover {
+	color: #29201c;
+	text-decoration: none;
+}
+
+ol.notes li.note {
+	border-top: solid 1px #eee;
+	padding: 10px;
+	color:#29201C;
+	font-size:10px;
+	margin-top:5px;
+	padding:3px;
+	text-align:left;
+	text-transform:uppercase;
+	top:0;
+
+}
+ol.notes li.note img.avatar {
+	vertical-align: -4px;
+	margin-right: 10px;
+	width: 16px;
+	height: 16px;
+}
+ol.notes li.note span.action {
+}
+ol.notes li.note .answer_content {
+	font-weight: normal;
+}
+ol.notes li.note blockquote {
+	border-color: #eee;
+	padding: 4px 10px;
+	margin: 10px 0px 0px 25px;
+}
+ol.notes li.note blockquote a {
+	text-decoration: none;
+}
+
+#nav .buttons {
+	display:inline;
+	height:32px;}
+
+#nav .buttons a {
+	background: #b23a3b;
+	color: #eee7d5;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size: 18px;
+	padding: 4px 8px 4px 8px;
+	font-family: Arial, sans-serif;
+	line-height: normal;
+	width: 65px;
+	margin: 0;
+	text-decoration: none;
+}
+#nav .buttons a:hover {
+	background: #29201c;
+	color: #eee7d5;
+}
+a.install {
+	width: 96px;
+	height: 20px;
+	background: url(http://static.tumblr.com/thpaaos/dHHkt0jor/install_theme.png);
+	display: block;
+	position: absolute;
+	top: 26px;
+	right: 3px;
+}
+
+
+.chat a{text-decoration:none}
+
+.chat .c_content{
+	border-top:1px solid #222;
+	max-height:500px;
+	overflow-y:auto;
+	overflow-x:hidden;
+	}
+
+.chat .c_input {
+    width: 498px;
+    height: 30px;
+    background-color: #222;
+    margin-top: 10px;
+    border: 1px solid #1d1d1d;
+    overflow: hidden; }
+    .chat .c_input form {
+      border: 0;
+      margin: 0;
+      padding: 0; }
+    .chat .c_input input {
+      width: 100%;
+      height: 30px;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      line-height: 30px;
+      font-size: 18px; }
+    .chat .c_input .txt {
+      width: 424px;
+      background-color: white;
+      padding-top: 1px;
+      padding-left: 8px;
+      border-right: 1px solid black;
+      float: left; }
+    .chat .c_input .c_submitter {
+      width: 60px;
+      float: left; }
+      .chat .c_input .c_submitter input {
+        width: 65px;
+        _line-height: 38px;
+        background-color: #222;
+        color: white;
+        text-align: center;
+        cursor: pointer; }
+
+</style>
+</head>
+<body class="{{#post_index}}index{{/post_index}}{{#post_single}}permalink{{/post_single}}">
+	<div id="header">	
+		<h1><a href="/" title="{{title}}">{{title}}</a></h1>
+		{{#desc}}
+		<div id="description">{{desc}}</div>{{/desc}}
+	</div>
+<div id="container">
+	{{#posts}}
+	<div class="post content">
+		<div class="permalink">
+		<a href="{{url}}">
+		{{#create_date}}
+		{{month_number}}
+		<img src="http://static.tumblr.com/mnnnpqx/AlSkvgasx/dainty-fresh-permalink.png">
+		{{month_number_with_zero}}</a>
+		{{/create_date}}
+		</div>
+		{{#text}}
+        	<div class="regular">
+			{{#title}}
+            <h2>{{title}}</h2>{{/title}}
+			{{content}}
+			</div>
+        {{/text}}
+		{{#photo_single}}
+        	{{#photos}}		
+        	<div class="photo">
+
+			<a href="{{image_original}}"><img src="{{image_500}}" /></a>
+			{{#desc}}
+				<div class="caption">{{desc}}</div>
+			{{/desc}}
+			{{#content}}
+				<div class="caption">{{content}}</div>
+			{{/content}}
+				</div>			{{/photos}}{{/photo_single}}        
+		{{#photo_set}}
+        	<div class="photo">
+        	{{#photos}}
+			<a href="{{image_original}}"><img src="{{image_500}}" /></a>
+			{{#desc}}
+				<div class="caption">{{desc}}</div>
+			{{/desc}}
+			{{/photos}}
+			{{#content}}
+				<div class="caption">{{content}}</div>
+			{{/content}}
+				</div>{{/photo_set}}{{#link}}<div class="link">
+			<a href="{{shared_url}}" class="link" target="_blank" >{{title}}</a>
+			{{#content}}
+				<div class="description">{{content}}</div>
+			{{/content}}
+		</div>{{/link}}{{#video}}<div class="video">
+			{{video_code_500}}
+			{{#content}}
+				<div class="caption">{{content}}</div>
+			{{/content}}
+		</div>{{/video}}
+		{{#has_tag}}
+		<div class="notecontainer" style="margin-top:20px;font-size:12px">标签：	{{#tags}}  <a href="{{url}}">{{name}}</a>  {{/tags}}</div>
+		{{/has_tag}}
+		<div class="notecontainer" style="margin-bottom:90px"><a href="{{url}}">{{comments_count}}回复</a></div>	
+		{{#post_single}}
+			{{load_comments}}
+		{{/post_single}}
+		
+	</div>
+
+{{/posts}}
+	
+	<div id="navigation">
+	{{#pagination}}       
+	{{#next_page}}
+		<span class="right"><a href="{{next_page}}">过去的 &rarr;</a></span>
+	{{/next_page}}
+	<p class="centerindex">{{current_page}} / {{total_pages}}</p>
+	 {{#prev_page}}
+		<span class="left"><a href="{{prev_page}}">&larr; 最新的</a></span>
+	 {{/prev_page}}
+	</div>
+		{{/pagination}}       
+	
+</div>
+
+<div id="footer">
+
+</div>
+
+</body>
+</html>

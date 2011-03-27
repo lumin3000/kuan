@@ -1,0 +1,904 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+		<!-- DEFAULT COLORS 168-->
+		{{#define}}
+			color header_title_color 标题 #ff4d4d
+			color text 文字 #888
+			color post_title_color 文章标题 #9CCA68
+			color description 描述 #888
+			color inline_links 链接 #A0B451
+			bool show_followers 显示关注的页面 1
+			bool show_pages 显示我所有的页面 1
+		{{/define}}		
+		<meta name="color:Header Title Color" content="#ff4d4d"/>
+		<meta name="color:Text" content="#888"/>
+		<meta name="color:Post Title Color" content="#9CCA68"/>
+		<meta name="color:Description" content="#888"/>
+		<meta name="color:Inline Links" content="#A0B451"/>
+		<!-- END DEFAULT COLORS -->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>{{title}}</title>
+		<link rel="icon" href="{{icon_16}}"/>
+		{{#desc}}<meta name="description" content="{{meta_desc}}" />{{/desc}}
+		<meta name="viewport" content="width=775"/> <!-- iPhone -->
+		 <style type="text/css">
+*{outline:none}		 
+body {
+	color:#222;
+	margin:10px 20px -20px 20px;
+	background: #dddfdb; 
+	font-family:      'Lucida Grande', Helvetica, sans-serif, Hiragino Sans GB, hei, microsoft yahei;
+}
+
+
+#container {
+	margin:auto;
+	background-color:#f8fafb;
+	width:900px;  
+	min-height:700px;
+}
+
+
+
+
+/* ROunded Corners */
+
+.box { 
+  background: #F8FAFB; 
+}
+.boxtop { 
+  background: url(http://static.tumblr.com/dbcxhwx/3vLke90al/ne.gif) no-repeat top right; 
+}
+.boxtop div { 
+  font-size: 0;
+  height: 20px; 
+  background: url(http://static.tumblr.com/dbcxhwx/3LEke90b3/nw.gif) no-repeat top left; 
+}
+
+.boxcontent {
+  padding: 0px;
+}
+
+
+
+
+
+/* Inline Links   */
+
+a { 
+	color:{{color_inline_links}};
+}
+
+a:hover {
+	color:#ff6912;
+	text-decoration:  none;
+}
+
+
+/* Header  */
+h1 {
+		padding:          0px;
+		margin:           0px;
+		font: normal 65px Helvetica,Arial, sans-serif,Hiragino Sans GB,hei,microsoft yahei;
+		line-height:      55px;
+		letter-spacing:   1px;
+		color:#ff4d4d;
+}
+
+h1 a {
+		color:            {{color_header_title_color}};
+		text-decoration:  none;
+}
+
+h1 a:hover {
+	color: #59A5D1; 
+}
+
+#header {
+		margin:auto;
+		margin:0px 30px 10px 10px;
+		padding:0 30px 20px 20px;
+}   
+
+/*  End of the Header */
+
+blockquote { 
+	margin:.5em 1.5em;
+	background-color: #faf8f8;
+	border:1px solid #ccc;
+	padding: 5px 15px 5px 15px;
+}
+
+
+/* Posts */
+
+.post {
+	color:#888;
+	margin:auto;
+	margin-bottom:15px;
+
+}
+
+.postcont {
+	color:{{color_text}};
+	margin: 0px 30px 10px 20px;   
+	background-color:#fff;
+	width:530px;
+	padding: 5px 10px 5px 10px;
+	border: 3px solid #fff;
+	margin-bottom:15px;          
+}
+
+/* The pointy thing and date*/
+.kerouac .peak {
+	width: 550px;
+	margin: 0px 20px 10px 20px;
+	margin-bottom: 10px;
+	border: 3px solid #fff;
+	background-color: #b7e0ff;
+	font: 14px Arial, Helvetica, Verdana, sans-serif, Hiragino Sans GB, hei, microsoft yahei;
+	text-transform: uppercase;  
+	font-weight: 800;
+	height:20px;
+	}
+
+.kerouac .postmark {
+	float:left;
+	padding: 2px 0px 2px 5px;
+	color:#fff;
+}
+
+.kerouac .date {
+	float: right;
+	padding: 2px 5px 2px 0px; 
+	text-transform:none;
+}
+
+.kerouac .date a, .kerouac .date a:visited, .kerouac .date a:active{
+	color:#fff;
+	text-decoration:none;
+
+}
+
+.kerouac .date a:hover {
+	color:#6699cc;
+	text-decoration:none;
+}
+
+.pointy {
+	position: relative;
+	margin: 0px;
+	margin-bottom:-5px;
+	padding-left: 15px;
+	padding-top: 15px;
+	top: -13px;
+	background:  url(http://static.tumblr.com/dbcxhwx/4Q6ke909b/tip-rounded.gif) no-repeat 465px 0;
+}
+
+
+
+
+
+/* Regular And Chat Post Titles  */ 
+
+.post h2 {
+	font: 20px Verdana,Arial, sans-serif,Hiragino Sans GB,hei,microsoft yahei;
+	font-weight: 500;
+	margin: 0px 0px 10px 0px;
+}
+
+.post h2 a {
+	color: {{color_post_title_color}};           
+	text-decoration:  none;
+}
+
+.post h2 a:hover {
+	color: #a5b97a;
+	background-color: #F8FEFF;
+	text-decoration:underline;
+}
+
+/* Regular Post */
+.post .regular {
+	font-size:14px;
+}
+
+.post .regular blockquote {
+	font-style: italic;
+	}
+
+.post .regular img { max-width: 100%; }
+
+
+/* Link Post */
+.post .link { 
+	font-size: 20px;
+	letter-spacing: 0.5px;
+}
+
+
+.post .link a.link {
+	padding: 1px 3px 1px 3px;
+	margin:2px 2px 0 0px;
+	background-color: #FFF15F;
+	color: #666;
+	text-decoration: none;
+}
+
+.post .link a.link:hover {
+	text-decoration: underline;
+	background-color:#CFAE74;
+	color: #fff;
+}
+
+.post .link .description {
+	padding-top:12px;
+	font-size: 13px;
+	color: #888;
+	letter-spacing: 0px;
+	line-height: 20px;
+}
+
+/* Quote Post */
+
+.quote {
+	font: italic 18px Georgia,Times, serif,Hiragino Sans GB,hei,microsoft yahei;
+	line-height: 1.25em;
+}
+
+.quote a {
+	color:#ff6912;
+}
+
+.quote .source {
+	text-align: right;
+	color: #8bcf00;
+}
+
+.quote .source a:hover{
+	color: #6698cc;
+	background-color:transparent;
+}
+
+/* Photo And Video Post */
+
+.post .photo, .post .video {  
+	border: solid 1px #eee;
+	padding: 11px 0px 11px 0px; 
+	text-align: center;  
+}
+
+.post .photo:hover,.post .video:hover {
+	border: solid 1px #BFCEB9;
+}
+
+
+.post .photo img {
+	border-width: 0px;
+}
+
+.post .photo .caption, .post .video .caption  {
+	font-size: 13px;
+	margin-top: 5px;
+	color: #555;
+	text-align: left;
+	padding-left:5px;
+}
+
+.post .photo .caption:hover, .post .video .caption:hover {
+	color: #59A5D1;
+}
+
+/*  AUDIO */
+
+.post .audio {
+	text-align:center;
+	border:           1px solid #ccc;
+	background-color: #E5F2F6;
+	background-image: url(http://static.tumblr.com/dbcxhwx/svDke9071/pattern.gif);
+}
+
+.audiocaption {
+				margin-top:       10px;
+				font-size:        13px;
+
+
+			}
+
+
+/* Conversation Post */
+.post .conversation ul {
+	list-style-type:  none;
+	margin:           0px 0px 5px 0px;
+	padding:          1px;
+	border-left:           solid 3px #ccc;
+	border-right:           solid 3px #ccc;  
+}
+
+.post .conversation ul li {
+	font-size:        12px;
+	padding:          4px 0px 4px 8px;
+	color:            #444;   
+}
+
+.post .conversation ul li span.label {
+	font-weight:      bold;
+	color:#506363;
+}
+
+.post .conversation ul li.odd {
+	background-color: #F4F8F0;   
+}
+
+.post .conversation ul li.even {
+	background-color: #E3F1DC;
+}
+
+
+
+
+
+   /* Footer */
+			#footer {
+				margin:           20px 0px 0px 0px;				
+				text-align:       center;
+				font-size:        120px;
+
+			}
+
+			#footer a {
+				text-decoration:  none;
+				color:#59a5d1;
+			}
+
+			#footer a:hover {
+
+				color:#ff4d4d;
+			}
+
+
+
+
+
+/* The Sidebar */
+#sidebar {
+position: absolute;
+width: 290px;
+top:115px;
+margin-left: 592px;
+}
+
+#sidebar .mirza {
+width: 270px;
+font-size: 14px;
+background-color:#fff;
+color:{{color_description}};
+padding: 7px 10px 7px 10px;
+}
+
+
+#sidebar a{
+color:#A0B451;
+}
+
+#sidebar a:hover{
+color:#FF5D38;
+}
+
+#sidebar div.following{
+	margin-top: 5px;
+	margin-bottom: 5px;
+
+}
+#sidebar div.following a img{
+	border: 2px solid #eee;
+	padding: 1px;
+	margin: 1px;
+}
+#sidebar div.following a img:hover{
+	border: 2px solid #BFCEB9;
+	padding: 1px;
+	margin: 1px;
+}
+/*   Menu */
+ul#menu {
+	list-style:none;
+	font-family:Arial;
+	font-weight:700;
+	text-align:center;
+	white-space:nowrap;
+	margin:0 0 10px 0px;
+	padding:5px 10px 10px 0px;   
+}
+
+ul#menu li {
+	display:inline;
+	margin:0 3px
+}
+
+ul#menu a {
+	text-decoration:none;
+	border-bottom:4px solid #FFF;
+	color:#999;
+	padding:0 0 3px
+}
+
+ul#menu a:hover {
+	color:#59A5D1;
+	border-color:#ff6912;
+}
+
+/* Description   */
+
+#description {
+	font-size:        15px;
+	margin-top:       10px;
+	color:            #094E7C;
+}
+
+#description a {
+		color:            #094E7C;
+}   
+
+
+
+/* Search Styling */
+.searchmatch{
+background-color:yellow;
+}
+.searchresultbox{
+}
+.searchresultrow {
+background:#FFF;
+font-family:verdana;
+font-size:12px;
+padding:5px;
+margin-top:10px;
+overflow:hidden;
+}
+.searchresultrow:hover {
+cursor:pointer;
+background:#FAFAFA;
+}
+.searchresultrow a {
+font-weight:bold;
+text-decoration:none;
+}
+.searchexcerpt {
+color:#AAA;
+font-size:10px;
+}
+.searchexcerpt span {
+background:yellow;
+font-size:10px;
+}
+
+.tags{
+	font-size:12px;
+	text-align: left;
+	font-weight: normal;
+}
+
+.chat{
+		width:500px;
+		padding:10px;
+		background:white;
+}
+
+.chat .c_content{
+	width:418px;
+	margin:auto;
+	max-height:500px;
+	overflow-y:auto;
+	overflow-x:hidden;
+	}
+
+.chat .c_input {
+    width: 418px;
+    height: 30px;
+    background-color: #222;
+    margin: 10px auto 0 auto;
+    border: 1px solid #B7E0FF;
+    overflow: hidden; }
+    .chat .c_input form {
+      border: 0;
+      margin: 0;
+      padding: 0; }
+    .chat .c_input input {
+      width: 100%;
+      height: 30px;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      line-height: 30px;
+      font-size: 18px; }
+    .chat .c_input .txt {
+      width: 344px;
+      background-color: white;
+      padding-top: 1px;
+      padding-left: 8px;
+      border-right: 1px solid #B7E0FF;
+      float: left; }
+    .chat .c_input .c_submitter {
+      width: 60px;
+      float: left; }
+      .chat .c_input .c_submitter input {
+        width: 65px;
+        _line-height: 38px;
+        background-color: #B7E0FF;
+        color: white;
+        text-align: center;
+        cursor: pointer; }
+
+
+		</style>
+		</head>
+
+<body>
+
+<div id="container">
+
+
+<!-- Begin Rounded Corners -->
+<div class='box'>
+ <div class='boxtop'><div>
+ </div></div>
+<!-- End Rounded Corners -->
+
+	   <div id="header">
+	   <h1><a href="/">{{title}}</a></h1>
+	   </div>
+
+{{#posts}}
+	<div class="post">
+	{{#text}}
+			<!-- Regular Post -->
+						<div class="kerouac">
+								<div class="peak">
+									<div class="postmark">TEXT</div>
+
+									{{#create_date}}
+										<div class="date">
+											<a href="{{url}}" class="permalink">
+												{{year}}年{{month_number}}月{{day_of_month_with_zero}}日 {{24hour_with_zero}}:{{minutes}} | {{comments_count}}回复
+											</a>
+										</div>
+									{{/create_date}}
+
+								</div>
+							<div class="pointy"></div>
+						</div>
+
+						<div class="postcont">
+
+							<div class="regular">
+								{{#title}}<h2><a href="{{url}}">{{title}}</a></h2>{{/title}}
+									{{content}}	
+{{#has_tag}}
+
+  <div class="tags"> 
+             标签: 
+       	{{#tags}} <a href="{{url}}">{{name}}</a>   	{{/tags}}     
+  </div>
+{{/has_tag}}
+{{#post_single}}
+	<div>{{load_comments}}</div>
+{{/post_single}}
+							</div>  
+
+						</div> 
+	{{/text}} 
+			<!-- End Regular Post -->
+
+
+
+
+
+			<!-- Link Post -->
+			{{#link}}
+						<div class="kerouac">
+							<div class="peak">
+								<div class="postmark">LINK</div>
+
+									{{#create_date}}
+										<div class="date">
+											<a href="{{url}}" class="permalink">
+												{{year}}年{{month_number}}月{{day_of_month_with_zero}}日 {{24hour_with_zero}}:{{minutes}} | {{comments_count}}回复
+											</a>
+										</div>
+									{{/create_date}}
+								</div>
+							<div class="pointy"></div>
+						</div>
+
+
+						<div class="postcont"> 					  
+							 <div class="link">
+									<a href="{{shared_url}}" class="link" target="_blank">{{title}}</a>
+										{{#content}}
+											<div class="description">{{content}}</div>
+										{{/content}}
+{{#has_tag}}
+
+  <div class="tags"> 
+             标签: 
+       	{{#tags}} <a href="{{url}}">{{name}}</a>   	{{/tags}}     
+  </div>
+{{/has_tag}}
+{{#post_single}}
+	<div>{{load_comments}}</div>
+{{/post_single}}
+							</div>
+						</div> 
+				{{/link}}
+			<!-- End Link Post -->
+
+
+
+
+		<!-- Photo Post -->
+			  {{#photo_single}}
+			  {{#photos}}
+				<div class="kerouac">
+							<div class="peak">
+								<div class="postmark">PHOTO</div>
+
+									{{#create_date}}
+										<div class="date">
+											<a href="{{url}}" class="permalink">
+												{{year}}年{{month_number}}月{{day_of_month_with_zero}}日 {{24hour_with_zero}}:{{minutes}} | {{comments_count}}回复
+											</a>
+										</div>
+									{{/create_date}}
+								</div>
+							<div class="pointy"></div>
+					</div>
+
+				<div class="postcont">     
+					<div class="photo">
+						 <a href="{{image_original}}" target="_blank"><img src="{{image_500}}" /></a>
+
+						{{#desc}}
+							<div class="caption">{{desc}}</div>
+						{{/desc}}
+						{{#content}}
+							<div class="caption">{{content}}</div>
+						{{/content}}
+{{#has_tag}}
+
+  <div class="tags"> 
+             标签: 
+       	{{#tags}} <a href="{{url}}">{{name}}</a>   	{{/tags}}     
+  </div>
+{{/has_tag}}
+{{#post_single}}
+	<div>{{load_comments}}</div>
+{{/post_single}}
+					</div>
+				</div>	
+				{{/photos}}
+			  	{{/photo_single}}
+
+		<!-- End Photo Post -->
+		
+		<!-- Photo set Post -->
+			  {{#photo_set}}
+				<div class="kerouac">
+							<div class="peak">
+								<div class="postmark">PHOTO</div>
+
+									{{#create_date}}
+										<div class="date">
+											<a href="{{url}}" class="permalink">
+												{{year}}年{{month_number}}月{{day_of_month_with_zero}}日 {{24hour_with_zero}}:{{minutes}} | {{comments_count}}回复
+											</a>
+										</div>
+									{{/create_date}}
+								</div>
+							<div class="pointy"></div>
+					</div>
+
+				<div class="postcont">     
+				{{#photos}}
+					<div class="photo">
+						 <a href="{{image_original}}" target="_blank"><img src="{{image_500}}" /></a>
+
+						{{#desc}}
+							<div class="caption">{{desc}}</div>
+						{{/desc}}
+					</div>
+				{{/photos}}
+				{{#content}}
+					<div class="caption">{{content}}</div>
+				{{/content}}	
+{{#has_tag}}
+
+  <div class="tags"> 
+             标签: 
+       	{{#tags}} <a href="{{url}}">{{name}}</a>   	{{/tags}}     
+  </div>
+{{/has_tag}}
+{{#post_single}}
+	<div>{{load_comments}}</div>
+{{/post_single}}
+				</div>	
+			  	{{/photo_set}}
+
+		<!-- End Photo set Post -->
+
+		<!-- Video Post -->
+		 {{#video}}
+				<div class="kerouac">
+							<div class="peak">
+								<div class="postmark">VIDEO</div>
+
+									{{#create_date}}
+										<div class="date">
+											<a href="{{url}}" class="permalink">
+												{{year}}年{{month_number}}月{{day_of_month_with_zero}}日 {{24hour_with_zero}}:{{minutes}} | {{comments_count}}回复
+											</a>
+										</div>
+									{{/create_date}}
+
+								</div>
+							<div class="pointy"></div>
+					</div>
+
+				<div class="postcont">
+					<div class="video">
+						{{video_code_500}}
+
+						{{#content}}
+							<div class="caption">{{content}}</div>
+						{{/content}}
+
+{{#has_tag}}
+
+  <div class="tags"> 
+             标签: 
+       	{{#tags}} <a href="{{url}}">{{name}}</a>   	{{/tags}}     
+  </div>
+{{/has_tag}}
+{{#post_single}}
+	<div>{{load_comments}}</div>
+{{/post_single}}
+					</div>
+				</div>
+		 {{/video}}
+		<!-- End Video Post -->
+
+
+		<!-- Audio Post
+		{block:Audio}
+				<div class="kerouac">
+							<div class="peak">
+								<div class="postmark">AUDIO</div>
+
+									{block:NewDayDate}
+										<div class="date">
+											<a href="{Permalink}" class="permalink">
+												{DayOfMonth}{DayOfMonthSuffix} {ShortMonth} {ShortYear}
+											</a>
+										</div>
+									{/block:NewDayDate}
+
+									{block:SameDayDate}
+										<div class="date">
+												<a href="{Permalink}" class="permalink">
+													{12Hour}&#58;{Minutes} {CapitalAmPm}
+												</a>
+										</div>
+									{/block:SameDayDate}
+
+								</div>
+							<div class="pointy"></div>
+					</div>
+
+				<div class="postcont">   
+					<div class="audio">
+					   {AudioPlayerWhite}					
+					</div>
+						<div class="audiocaption">
+									{Caption}
+						</div>
+				</div>
+			{/block:Audio}
+		End Audio Post -->
+
+
+</post>
+{{/posts}}
+
+<div id="footer">
+{{#post_index}}
+{{#pagination}}   
+				   {{#prev_page}}
+					<a href="{{prev_page}}">&#171;</a> &nbsp;&nbsp;
+				   {{/prev_page}}
+
+					{{#next_page}} 
+					<a href="{{next_page}}">&#187;</a>
+					{{/next_page}} 
+
+{{/pagination}}
+{{/post_index}}
+</div>
+
+
+		<!-- Sidebar -->
+<div id="sidebar">
+				<!--<div class="mirza">				
+					<ul id="menu">
+						<li><a href="/">home</a></li>
+						<li><a href="/rss">rss</a></li>
+						<li><a href="/archive">archives</a>
+						<li><a href="/random">random</a></li>
+					</ul>
+					{Description}
+				</div>
+
+				<p></p>-->
+				{{#desc}}
+				<div class="mirza">
+					{{desc}}
+				</div>
+				<p></p>
+				{{/desc}}
+{{#bool_show_pages}}				
+				{{#has_other_pages}}
+					<div class="mirza">
+	
+							
+								<strong>{{title}}的兴趣:</strong>
+								<div class="following">
+								{{#other_pages}}
+								<a href="{{url}}" title="{{title}}"><img src="{{icon_24}}" /></a>
+								{{/other_pages}}
+								</div>
+								
+					</div>
+				{{/has_other_pages}}
+{{/bool_show_pages}}
+
+
+<p></p>
+
+{{#bool_show_followers}}				
+				{{#has_following}}
+					<div class="mirza">
+	
+							
+								<strong>关注的页面:</strong>
+								<div class="following">
+								{{#followings}}
+								<a href="{{url}}" title="{{title}}"><img src="{{icon_24}}" /></a>
+								{{/followings}}
+								</div>
+								
+					</div>
+				{{/has_following}}
+{{/bool_show_followers}}
+
+<p></p>
+
+</div> 
+		<!-- End Sidebar -->
+
+
+
+
+
+
+
+
+</div> <!-- End Container -->
+
+
+
+
+
+
+
+</body>
+</html>
