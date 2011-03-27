@@ -3,8 +3,6 @@ class UsersController < ApplicationController
   before_filter :signin_auth, :only => [:show, :edit, :update, :followings, :buzz, :read_all_comments_notices]
   before_filter :signup_auth, :only => [:new, :create]
 
-  SIGNUP_FOLLOW_BLOGS = %w[kuaniao]
-
   def new
     if signed_in?
       redirect_to home_path and return
@@ -23,7 +21,7 @@ class UsersController < ApplicationController
     @inv_user.blogs.each {|b| @user.follow! b unless b.private?}
 
     #follow administrator's blog
-    SIGNUP_FOLLOW_BLOGS.each do |uri|
+    business_config["signup_follow_blogs"].each do |uri|
       blog = Blog.find_by_uri! uri
       @user.follow! blog unless blog.nil?
     end
