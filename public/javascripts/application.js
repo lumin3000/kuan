@@ -246,6 +246,7 @@ K.render_editor = function(el, fix){
   }
   K.editor = new MooEditable(textarea, {
     'actions':'toggleview | bold italic underline strikethrough | createlink unlink | urlimage ',
+    'extraCSS':'pre{white-space:pre-wrap;word-wrap:break-word}',
     'dimensions':{x:w,y:h},
     'rootElement':''
   })
@@ -260,8 +261,8 @@ K.editor_toolbar = {
     var toolbar = el.getElement('.mooeditable-ui-toolbar')
     var box = el.getElement('iframe')
     el.setStyle('height', 340)
-    toolbar.show()
-    box.setStyles({
+    toolbar && toolbar.show()
+    box && box.setStyles({
       'margin-top': 0,
       'height': 300
     })
@@ -281,11 +282,11 @@ K.editor_toolbar = {
       K.editor.textarea.setStyle('display', 'none');
     }
     el.setStyle('height', 100)
-    box.setStyles({
+    box && box.setStyles({
       'margin-top': 6,
       'height': 90
     })
-    toolbar.hide()
+    toolbar && toolbar.hide()
   }
 }
 K.blog  = (function(){
