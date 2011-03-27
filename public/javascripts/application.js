@@ -647,12 +647,19 @@ K.widgets.textboxlist = function(el){
 K.widgets.navigator = function(el){
   var nav_now = el.get('data-highlight')
   el.getElements('.now_'+nav_now).addClass('highlight')
-  el.getElements('.tar').addEvent('mouseenter', function(){
+  function open(){
     el.getElements('.menu').hide()
     this.getPrevious('.menu').setStyle('display', 'inline')
-  })
-  el.getElements('.menu').addEvent('mouseleave', function(){
+  }
+  function close(){
     this.hide()
+  }
+  el.getElements('.tar').addEvents({
+    'mouseenter': open,
+    'click': open
+  })
+  el.getElements('.menu').addEvents({
+    'mouseleave': close
   })
 }
 
