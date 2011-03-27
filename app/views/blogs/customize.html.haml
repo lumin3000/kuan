@@ -20,28 +20,35 @@
       = f.label :title, "名称"
       %div
         = f.text_field :title, class: 'title'
+      - if @blog.errors[:title].any?
+        .error
+          &nbsp;
+          = @blog.errors[:title].first
     .page_tag
       = f.label :tag, "兴趣类型"
       %div
         = f.text_field :tag, class: 'tag'
+      .error
+        - if @blog.errors[:tag].any?
+          = @blog.errors[:tag].first
+        - else
+          .suggestion 只可以填写一个类型，文字中不可以包含“逗号”
     .page_desc
       = f.label :desc, "描述"
       %div.textarea
         %textarea{id: "blog_desc", name: "blog[desc]", data: {widget: "textarea"},
           rows: 80}
           = @blog.desc
-    .error
-      &nbsp;
-      = @blog.errors[:title].first
     .page_url
       = f.label :uri, "自定义网址"
       %div.who_did_this
         = f.text_field :uri, class: 'link'
         %span.root_domain
           = "."+request.domain
-    .error
-      &nbsp;
-      = @blog.errors[:uri].first
+      - if @blog.errors[:uri].any?
+        .error
+          &nbsp;
+          = @blog.errors[:uri].first
     %label Logo
     %div
       %img#blog_icon_img{ :src => @blog.icon.url_for(:medium) }
@@ -105,7 +112,7 @@
         %p.invite_desc 复制邀请链接邀请其他人
         %input.invite_link{value: editors_new_url}
 
-%iframe#preview{name: 'preview', src: blog_path(@blog)}
+%iframe#preview{name: 'preview', src: @preview_url || blog_path(@blog)}
 
 :javascript
   document.addEvent('domready', function(){

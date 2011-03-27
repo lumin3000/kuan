@@ -28,7 +28,8 @@ class BlogsController < ApplicationController
     @templates = Template.all.to_a
     @templates.unshift(Template::DEFAULT)
     @variables = BlogView.extract_variables(@blog)
-    render :layout => 'application'
+    @preview_url ||= blog_path(@blog)
+    render 'customize', :layout => 'application'
   end
 
   def update
@@ -36,11 +37,12 @@ class BlogsController < ApplicationController
     p.delete :icon if p[:icon].blank?
     p[:template_id] = nil if p[:template_id].blank?
     p[:template_conf] = nil if params[:var_valid] == '0'
+    @preview_url = blog_path(@blog)
     if @blog.update_attributes p
       flash[:success] = "页面信息更新成功"
       redirect_to blog_path(@blog)
     else
-      render 'edit'
+      customize
     end
   end
 
