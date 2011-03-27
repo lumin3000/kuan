@@ -1,26 +1,24 @@
-- @action = '抓取'
+- @action = '分享'
+- @post_type = capture do
+  内容
+= render_form(@post)
 %form{id: "fetch_form", method: "post"}
-  %a{href: "#", onclick: "f=$('fetch_form');f.action='/posts/fetch/text';f.submit();return false;"} 发布文字
-  %a{href: "#", onclick: "f=$('fetch_form');f.action='/posts/fetch/pics';f.submit();return false;"} 发布图片
-  %a{href: "#", onclick: "f=$('fetch_form');f.action='/posts/fetch/link';f.submit();return false;"} 发布链接
   %input{type: "hidden", name: "title", value: @p[:title]}
   %input{type: "hidden", name: "url", value: @p[:url]}
   %input{type: "hidden", name: "content", value: @p[:content]}
-  #fetch_img_list
   %input{type: "hidden", name: "imgs", value: @p[:imgs]}
-= render_form(@post)
 :javascript
   document.addEvent('domready', function(){
-  if(!$('url_uploader_url'))return
+  //if(!$('url_uploader_url'))return
   var arr = eval($$('[name=imgs]')[0].value)
-  console.log(arr)
+  if(arr.length == 0)return
+  var el = new Element('div', {'class':'fetch_list'}).inject($$('.textboxlist')[0], 'after')
+  new Element('h2', {'html':'点图片可插到内容中'}).inject(el, 'before')
   arr.each(function(item){
   new Element('img', {src:item})
-  .setStyles({height:60, width:60})
-    .inject($('fetch_img_list'))
+    .inject(el)
       .addEvent('click', function(){
-      $('url_uploader_url').value = item
-      $('url_uploader_btn').fireEvent('click')
+        K.editor.execute('insertimage', false, item.trim());
       })
   })
   })

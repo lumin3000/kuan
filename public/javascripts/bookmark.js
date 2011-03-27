@@ -31,17 +31,18 @@ if(document.selection && document.selection.createRange){
   selValue = document.getSelection();
 }
 
-var _default
+/*var _default
 if(selValue != ''){
   _default = 'text'
 }else if(arr.length > 0){
   _default = 'pics'
 }else{
   _default = 'link'
-}
+}*/
 var form = document.createElement('form');
 form.method = 'post';
-form.action = 'http://lvh.me:3000/posts/fetch/'+_default;
+//form.action = 'http://lvh.me:3000/posts/fetch/'+_default;
+form.action = 'http://lvh.me:3000/posts/fetch/text';
 if(isNewWindow){
   form.target = 'kuandao';
 }
@@ -57,7 +58,7 @@ f_url.value = document.URL
 var f_content = document.createElement('input')
 f_content.type = 'hidden'
 f_content.name = 'content'
-f_content.value = selValue
+f_content.value = '<pre>'+selValue+'</pre>'
 var f_imgs = document.createElement('input')
 f_imgs.type = 'hidden'
 f_imgs.name = 'imgs'
