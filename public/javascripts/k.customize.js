@@ -146,11 +146,12 @@ K.widgets.radioButton = function(context) {
 
   context.delegate("click", childSelector, function(e) {
     e.stop()
-    if (e.target == selected) return
-    var value = e.target.get('data-value')
-    input.set('value', value)
     selected.removeClass('selected')
-    selected = e.target.addClass('selected')
+    e.target.addClass('selected')
+    if (e.target == selected) return
+    selected = e.target
+    var value = selected.get('data-value')
+    input.set('value', value)
     K.widgets.fireEvent('templateSelected', [value])
   })
 
