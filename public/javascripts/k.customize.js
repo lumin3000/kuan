@@ -193,7 +193,7 @@ K.widgets.toggler = function(button) {
     , noCache: true
     , onSuccess: function(tplHtml) {
         customHtml.set({
-          value: tplHtml
+          html: tplHtml
         }).erase('disabled').fireEvent('click').focus()
       }
     }).send()
