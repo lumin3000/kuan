@@ -2,7 +2,7 @@ require 'nokogiri'
 require 'uri'
 
 class RichFilter
-  TAG_WHITE_LIST = %w{pre code tt a p s i b div span table thead tbody tfoot tr th td h1 h2 h3 h4 h5 h6 img strong em br hr ul ol li blockquote cite sub sup ins video audio object embed section footer header nav article small hgroup}
+  TAG_WHITE_LIST = %w{pre code tt a p s i b div span table thead tbody tfoot tr th td h1 h2 h3 h4 h5 h6 img strong em br hr ul ol li blockquote cite sub sup ins video audio object embed section footer header nav article small hgroup font}
   ATTR_WHITE_LIST = %w{href title src style width height alt}
   MALICIOUS_CSS = Regexp.union(/e\s*x\s*p\s*r\s*e\s*s\s*s\s*i\s*o\s*n/i, /u\s*r\s*l/i)
   LEGAL_URL = lambda { |url|
