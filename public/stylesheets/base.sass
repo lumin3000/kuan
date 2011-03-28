@@ -54,14 +54,17 @@ pre
 .navigator
   margin-left: $logo-width
   text-align: right
-  font-size: 18px
+  font-size: 14px
   line-height: 24px
   padding-top: 10px
   padding-right: 3px
+  span
+    color: $blue
   a
     color: $blue
-    padding: 5px 10px
+    padding: 5px 12px
     text-decoration: none
+    margin: 0 -5px
     span
       display: inline-block
       width: 14px
@@ -72,6 +75,8 @@ pre
       _top: 0px
       _zoom: 1
       overflow: hidden
+    &.z_account
+      margin-right: 0
   .highlight
     color: #fff
     @include border-radius(8px)
@@ -81,9 +86,9 @@ pre
   .menu
     z-index: 9999
     background-color: #ffffff
-    border: 3px solid $blue
+    border: 1px solid $blue
     display: inline
-    font-size: 18px
+    font-size: 14px
     line-height: 24px
     padding: 0px 5px
     @include border-radius(8px)
@@ -91,7 +96,7 @@ pre
     text-align: left
     position: absolute
     margin-left: -2px
-    margin-top: -7px
+    margin-top: -4.5px
     _width: 120px
     div
       border-top: 1px solid #eaeaea

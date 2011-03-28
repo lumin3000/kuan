@@ -646,7 +646,7 @@ K.widgets.textboxlist = function(el){
 
 K.widgets.navigator = function(el){
   var nav_now = el.get('data-highlight')
-  el.getElements('.now_'+nav_now).addClass('highlight')
+  el.getElements('.z_'+nav_now).addClass('highlight')
   function open(){
     el.getElements('.menu').hide()
     this.getPrevious('.menu').setStyle('display', 'inline')
