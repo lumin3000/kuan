@@ -229,7 +229,7 @@ K.file_uploader = new Class({
       this.options.onFailure.call(this, v, el)
   },
   success: function(v, el){
-    K.upload_log(this.path+' : success : '+this.options.multiple ? 'multi' : 'single')
+    K.upload_log(this.path+' : success : '+ (this.multiple ? 'multi' : 'single'))
     this.options.onSuccess &&
       this.options.onSuccess.call(this, v, el)
   }
