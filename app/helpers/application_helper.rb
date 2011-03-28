@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'uri'
 
 module ApplicationHelper
@@ -84,5 +85,14 @@ module ApplicationHelper
     render partial: 'layouts/blogs', locals: {
       path: method(path)
     }
+  end
+
+  def content_summary(post, length=400)
+    c = strip_tags(post.content)
+    if(c.length>length)
+      truncate(c, length: length) + " <a href=\""+posts_blog_path(post)+"\" target=\"_blank\">全文</a>"
+    else
+      post.content
+    end
   end
 end
