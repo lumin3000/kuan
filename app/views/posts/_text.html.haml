@@ -1,4 +1,5 @@
 - if not text.title.blank?
   = text.title
 %br
-!= text.content
+- preserve do
+  != text.content

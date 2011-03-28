@@ -21,7 +21,7 @@
     float: right
     padding-top: 35px
     h2
-      font-family: microsoft yahei
+      font-family: $font-main
       font-size: 18px
       line-height: 18px
       color: #68879F
@@ -29,7 +29,6 @@
 
   h1
     @include heading
-    color: $green
 
   label
     color: gray
@@ -391,3 +390,13 @@
     color: $gray
     &:hover
       background: url('images/mypages_close.png')
+
+.fetch_list
+  height: 300px
+  width: 200px
+  overflow-y: auto
+  img
+    height: 60px
+    width: 60px
+    cursor: pointer
+  

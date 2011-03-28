@@ -6,7 +6,7 @@ $green: #68879F
 $light-gray: #8e9494
 $gray: #777
 
-$font-main: "Hiragino Sans GB", hei, "microsoft yahei"
+$font-main: "Hiragino Sans GB", hei, "microsoft yahei", sans-serif
 
 $logo-width: 270px
 
@@ -60,6 +60,7 @@ $slide-button-size: 18px
   // TODO use custom function to calculate color for MS
 
 @mixin heading
-  font-family: microsoft yahei
+  font-family: $font-main
   font-weight: normal
   font-size: 30px
+  color: $green

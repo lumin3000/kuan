@@ -246,6 +246,7 @@ K.render_editor = function(el, fix){
   }
   K.editor = new MooEditable(textarea, {
     'actions':'toggleview | bold italic underline strikethrough | createlink unlink | urlimage ',
+    'extraCSS':'pre{white-space:pre-wrap;word-wrap:break-word;font-family: "Hiragino Sans GB", hei, "microsoft yahei";line-height:1.5}',
     'dimensions':{x:w,y:h},
     'rootElement':''
   })
@@ -260,8 +261,8 @@ K.editor_toolbar = {
     var toolbar = el.getElement('.mooeditable-ui-toolbar')
     var box = el.getElement('iframe')
     el.setStyle('height', 340)
-    toolbar.show()
-    box.setStyles({
+    toolbar && toolbar.show()
+    box && box.setStyles({
       'margin-top': 0,
       'height': 300
     })
@@ -281,11 +282,11 @@ K.editor_toolbar = {
       K.editor.textarea.setStyle('display', 'none');
     }
     el.setStyle('height', 100)
-    box.setStyles({
+    box && box.setStyles({
       'margin-top': 6,
       'height': 90
     })
-    toolbar.hide()
+    toolbar && toolbar.hide()
   }
 }
 K.blog  = (function(){
@@ -646,12 +647,19 @@ K.widgets.textboxlist = function(el){
 K.widgets.navigator = function(el){
   var nav_now = el.get('data-highlight')
   el.getElements('.now_'+nav_now).addClass('highlight')
-  el.getElements('.tar').addEvent('mouseenter', function(){
+  function open(){
     el.getElements('.menu').hide()
     this.getPrevious('.menu').setStyle('display', 'inline')
-  })
-  el.getElements('.menu').addEvent('mouseleave', function(){
+  }
+  function close(){
     this.hide()
+  }
+  el.getElements('.tar').addEvents({
+    'mouseenter': open,
+    'click': open
+  })
+  el.getElements('.menu').addEvents({
+    'mouseleave': close
   })
 }
 

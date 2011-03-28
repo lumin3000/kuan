@@ -1,0 +1,874 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+
+Revista 16073
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+<title>{{title}}</title>
+<link rel="shortcut icon" href="{{icon_16}}">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+{{#desc}}<meta name="description" content="{{meta_desc}}" />{{/desc}}
+
+
+{{#define}}
+  image Background 背景图
+  image Title 标题
+  bool show_tilte_image 用图片取代标题 0
+  color Background 背景色 #eee
+  color AlternateBackground 次背景 #ddd
+  color Blogfont 字体 #000
+  color Link 链接 #000
+  color BOXBackground 方块背景 #333
+  color BoxFont 方块字体 #fff
+  color PostBackground 帖子背景 #eee
+  color Tags 标签 #ff0044
+  color PaginationHover 翻页 #ccc
+  color ButtonBackground 按钮 #000
+  color ButtonFont 按钮字体 #fff
+  bool show_followers 显示关注的页面 1
+  bool show_pages 显示我所有的页面 1  
+{{/define}}
+
+
+        <!--DEFAULTS-->
+            <meta name="color:Background" content="#eee" />
+            <meta name="color:Alternate Background" content="#ddd" />
+            <meta name="color:Blog font" content="#000" />
+            <meta name="color:Link" content="#000" />
+            <meta name="color:Box Background" content="#333" />
+            <meta name="color:Box Font" content="#fff" />
+            <meta name="color:Post Background" content="#eee" />
+            <meta name="color:Question Background" content="#333" />
+            <meta name="color:Question Font" content="#fff" />
+            <meta name="color:Tags" content="#ff0044" />
+            <meta name="color:Pagination Hover" content="#ccc" />
+            <meta name="color:Button Background" content="#000" />
+            <meta name="color:Button Font" content="#fff" />
+            <meta name="image:Background" content="" />
+            <meta name="image:Title" content="" />
+            <meta name="font:Title" content="Helvetica" />
+            <meta name="font:Blog" content="Helvetica" />
+            <meta name="font:Question" content="Georgia" />
+            <meta name="font:Quotes" content="Georgia" />
+            <meta name="if:Show Note Count" content="1" />
+            <meta name="if:Show Individual Notes" content="1" />
+            <meta name="if:Show Following or Group Members" content="1" />
+            <meta name="text:Disqus Shortname" content="" />
+        <!--DEFAULTS-->
+
+       <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+        <script type="text/javascript" src="http://static.tumblr.com/s5hml8q/58Rlbegb6/global.js"></script>
+        <script type="text/javascript" src="http://static.tumblr.com/s5hml8q/d26lb6c07/resize.js"></script>
+        <script type="text/javascript" src="http://static.tumblr.com/mtfg37s/XwIl7t2i1/killphotoset.js"></script>
+        <script type="text/javascript" src="http://static.tumblr.com/hsg2gdh/SM3l7bcqa/photovideo.js"></script>
+        <script type="text/javascript" src="http://static.tumblr.com/s5hml8q/1s4lb69pp/video.js"></script>-->
+        <link rel="stylesheet" type="text/css" href="http://static.tumblr.com/s5hml8q/YbVlbaufm/style.css"/>
+        {{#post_index}}
+        <link rel="stylesheet" type="text/css" href="http://static.tumblr.com/s5hml8q/QAFlb9qmw/index.css"/>
+        {{/post_index}}
+        {{#post_single}}
+        <link rel="stylesheet" type="text/css" href="http://static.tumblr.com/s5hml8q/ynplbefbc/permalink.css"/>
+        {{/post_single}}
+
+        <style type="text/css">
+           /**********************out_link******************************/
+           
+           body {
+		display: none;
+		margin: 0;
+		padding: 0;
+		}
+
+		a {
+		text-decoration: none;
+		}
+
+		h3 {
+		margin: 0;
+		padding: 0;
+		}
+
+		img {
+		border: 0;
+		}
+
+		iframe#ask_form, iframe#submit_form {
+		width: 830px;
+		}
+
+		.clear {
+		clear: both;
+		}
+
+		#header {
+		margin: 40px auto 10px;
+		width: 1180px;
+		}
+
+		#title {
+		float: left;
+		font-size: 40px;
+		letter-spacing: 5pt;
+		line-height: 28px;
+		margin: -4px 0 0 -3px;
+		text-transform: uppercase;
+		}
+
+		#pages {
+		float: right;
+		font-size: 12px;
+		margin: 14px 0 0;
+		position: relative;
+		}
+
+		#pages a {
+		margin: 0 0 0 10px;
+		}
+
+		#container {
+		font-size: 12px;
+		line-height: 1.5em;
+		margin: auto;
+		padding: 10px;
+		position: relative;
+		width: 1160px;
+		}
+
+		#box_container {
+		float: left;
+		}
+
+		#box {
+		width: 250px;
+		height: 250px;
+		margin: 10px;
+		text-align: justify;
+		overflow: hidden;
+		}
+
+		#box a {
+		font-weight: bold;
+		}
+
+		#tags {
+		font-weight: bold;
+		margin: 20px 10px 10px;
+		width: 250px;
+		text-align: justify;
+		}
+
+		.comma:last-child {
+		display: none;
+		}
+
+		.posts {
+		float: left;
+		margin: 10px;
+		overflow: hidden;
+		width:expression(document.body.clientWidth > 830? "830px": "auto" );
+		max-width: 830px;
+		min-width: 250px;
+		min-height: 250px;
+		position: relative;
+		}
+
+		.posts a {
+		font-weight: bold;
+		}
+
+		.permalink {
+		font-weight: bold;
+		position: absolute;
+		background: transparent;-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#E5000000,endColorstr=#E5000000)"; /* IE8 */
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E5000000,endColorstr=#E5000000);   /* IE6 & 7 */
+		zoom: 1;
+		background-color: rgba(0,0,0,0.9);
+		width: 230px;
+		height: 30px;
+		padding: 110px 10px;
+		display: none;
+		color: white;
+		z-index: 1;
+		}
+
+		.permalink a {
+		color: white;
+		}
+
+		.photo {
+		text-align: center;
+		}
+
+		.set {
+		margin: -10px 0 0;
+		text-align: center;
+		}
+
+		.caption {
+		text-align: left;
+		}
+
+		.short {
+		font-size: 30px;
+		font-style: italic;
+		line-height: 1em;
+		}
+
+		.medium {
+		font-size: 24px;
+		font-style: italic;
+		line-height: 1em;
+		}
+
+		.long {
+		font-size: 16px;
+		font-style: italic;
+		line-height: 1em;
+		}
+
+		.source {
+		margin: 10px 0 0;
+		text-align: right;
+		}
+
+		ul.chat {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		}
+
+		ul.chat li {
+		margin: 0 0 5px;
+		padding: 5px;
+		}
+
+		.label {
+		font-weight: bold;
+		}
+
+		.video {
+		background: black;
+		text-align: center;
+		}
+
+		div.asker {
+		font-size: 32px;
+		font-style: italic;
+		line-height: 1.2em;
+		padding: 10px;
+		}
+
+		img.asker {
+		float: left;
+		padding: 3px;
+		}
+
+		.date, .notecount, .disqus, .reblogged {
+		float: left;
+		font-weight: bold;
+		padding: 5px;
+		margin: 10px 10px 0 0;
+		}
+
+		iframe#flike {
+		float: left;
+		margin: 14px 0 0;
+		}
+
+		#likebutton {
+		padding: 3px 4px 4px;
+		margin: 10px;
+		float: left;
+		}
+
+		#followbutton {
+		padding: 3px 4px 4px;
+		margin: 10px;
+		float: right;
+		}
+
+		#pagination {
+		float: right;
+		margin: 13px 10px 0;
+		}
+
+		.jump_page, .next, .previous {
+		font-size: 12px;
+		padding: 5px;
+		}
+
+		.current_page {
+		font-size: 12px;
+		padding: 5px;
+		}
+
+		#likes_container {
+		width: 1160px;
+		}
+
+		ul#likes {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		}
+
+		li.like_post {
+		margin: 10px;
+		width: 192px;
+		height: 192px;
+		overflow: hidden;
+		float: left;
+		}
+
+		li.like_post img {
+		max-width: 100%;
+		}
+
+		li.like_post blockquote {
+		margin: 0;
+		padding: 0 0 0 10px;
+		}
+
+		li.like_post ol,
+		li.like_post ul {
+		margin: 0 0 0 15px;
+		padding: 0;
+		}
+
+		li.like_post .like_link a {
+		font-weight: bold;
+		}
+
+		li.like_post .like_title {
+		font-weight: bold;
+		}
+
+		li.like_post .post_info_bottom {
+		margin: 10px 0 0 0;
+		display: block !important;
+		}
+
+		#following img {
+		float: left;
+		margin: 10px;
+		padding: 10px;
+		width: 105px;
+		height: 105px;
+		}
+
+		#footer {
+		margin: 10px auto 40px;
+		width: 1180px;
+		font-size: 12px;
+		}
+
+		#copy {
+		float: left;
+		margin: -4px 0 0;
+		text-transform: capitalize;
+		}
+
+		form#searching {
+		float: left;
+		margin: -4px 0 0 10px;
+		}
+
+		#footlinks {
+		float: right;
+		}
+
+		#footlinks a {
+		font-size: 10px;
+		font-weight: bold;
+		text-transform: uppercase;
+		margin: 0 0 0 10px;
+		}
+
+		.archive {
+		height: 12px;
+		width: auto;
+		}
+
+		.mobile {
+		height: 12px;
+		width: auto;
+		}
+
+		.rss {
+		height: 12px;
+		}
+        
+
+        .posts {
+		float: left;
+		margin: 10px;
+		overflow: hidden;
+		max-width: 250px;
+		height: 250px;
+		position: relative;
+		}
+
+		.posts:hover .permalink {
+		display: block;
+		}
+
+		.photo img, .set img {
+		margin: 0 0 0 -30%;
+		}
+
+		.set img {
+		max-width: 400px;
+		height: auto;
+		}
+
+		.video iframe, .video embed {
+		background: transparent;
+		height: 250px;
+		z-index: -1;
+		}
+
+		.audio img {
+		width: 250px;
+		height: 250px;
+		}
+
+		div.asker {
+		width: 230px;
+		height: 230px;
+		}
+		
+		
+		.posts {
+		width: 830px;
+		border: solid 10px #eee;
+		background: #eee;
+		float: left;
+		margin: 10px;
+		overflow: hidden;
+		height: auto;
+		position: relative;
+		}
+
+		.posts img {
+		margin: 0;
+		max-width: 830px;
+		width:expression(document.body.clientWidth > 830? "830px": "auto" );
+		height: auto;
+		}
+
+		.posts:hover .permalink {
+		display: none;
+		}
+
+		div.permalink {
+		display: none;
+		text-align: center;
+		}
+
+		a.datelink {
+		display: block;
+		}
+
+		.short {
+		font-family: Georgia;
+		font-size: 72px;
+		font-style: italic;
+		line-height: 1em;
+		}
+
+		.medium {
+		font-family: Georgia;
+		font-size: 60px;
+		font-style: italic;
+		line-height: 1em;
+		}
+
+		.long {
+		font-family: Georgia;
+		font-size: 24px;
+		font-style: italic;
+		line-height: 1em;
+		}
+
+		.video, .video embed, .video iframe {
+		width: 830px;
+		height: 460px;
+		}
+
+		.audio ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		}
+
+		.audio ul li {
+		margin: 5px 0 0;
+		padding: 5px;
+		}
+
+		ol.notes {
+		padding: 0px;
+		margin: 10px 0 0;
+		list-style-type: none;
+		}
+
+		ol.notes li.note {
+		width: 100%;
+		padding: 10px 0;
+		}
+
+		ol.notes li.note img.avatar {
+		vertical-align: -4px;
+		margin-right: 10px;
+		width: 16px;
+		height: 16px;
+		}
+
+		ol.notes li.note span.action {
+		font-weight: bold;
+		}
+
+		ol.notes li.note .answer_content {
+		font-weight: normal;
+		}
+
+		ol.notes li.note blockquote {
+		padding: 4px 10px;
+		margin: 10px 0px 0px 25px;
+		}
+
+		ol.notes li.note blockquote a {
+		text-decoration: none;
+		}
+
+
+
+           /**********************out_link_end*************************************/
+
+
+
+
+
+            body {
+            	display:block;	
+                background-color: {{color_Background}};
+                background-position:center;
+                background-attachment:fixed;
+                background-repeat:no-repeat;
+                font-family: Helvetica,Hiragino Sans GB,hei,microsoft yahei;
+                color: {{color_Blogfont}};
+                background-image:url({{image_Background}});
+            }
+
+            a {color: {{color_Link}};}
+
+            div#container, ul.chat li {background: {{color_AlternateBackground}};}
+
+            div#box, div#tags {
+                background: {{color_BoxBackground}};
+                border: solid 10px {{color_BoxBackground}};
+                color: {{color_BoxFont}};
+            }
+
+            div#box a {
+                color: {{color_BoxFont}};
+            }
+
+            div#tags a,
+            a.sourcename {
+                color: {{color_Tags}};
+            }
+
+            div.posts,
+            li.like_post {
+                background: {{color_PostBackground}};
+                border: solid 10px {{color_PostBackground}};
+            }
+
+
+            div#following img,
+            a.jump_page,
+            a.next,
+            a.previous {
+                background: {{color_PostBackground}};
+            }
+
+            a.jump_page:hover,
+            a.next:hover,
+            a.previous:hover {
+                background: {{color_PaginationHover}};
+            }
+
+            div#likebutton,
+            div#likebutton a,
+            div#followbutton,
+            div#followbutton a,
+            div.date,
+            div.notecount,
+            div.disqus,
+            div.disqus a,
+            div.reblogged,
+            span.current_page {
+                background: {{color_ButtonBackground}};
+                color: {{color_ButtonFont}};
+            }
+
+            ol.notes {border-top: solid 1px {{color_AlternateBackground}};}
+            ol.notes li {border-bottom: solid 1px {{color_AlternateBackground}};}
+
+            img.tumblr {
+                display:none
+            }
+            .set img{margin:0}
+            
+            
+.chat .c_content{
+	width:518px;
+	margin:30px auto;
+	max-height:500px;
+	overflow-y:auto;
+	overflow-x:hidden;
+	}
+
+.chat .c_input {
+    width: 518px;
+    height: 30px;
+    background-color: #222;
+    margin: 10px auto 0 auto;
+    border: 1px solid #1d1d1d;
+    overflow: hidden; }
+    .chat .c_input form {
+      border: 0;
+      margin: 0;
+      padding: 0; }
+    .chat .c_input input {
+      width: 100%;
+      height: 30px;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      line-height: 30px;
+      font-size: 18px; }
+    .chat .c_input .txt {
+      width: 444px;
+      background-color: white;
+      padding-top: 1px;
+      padding-left: 8px;
+      border-right: 1px solid black;
+      float: left; }
+    .chat .c_input .c_submitter {
+      width: 60px;
+      float: left; }
+      .chat .c_input .c_submitter input {
+        width: 65px;
+        _line-height: 38px;
+        background-color: #222;
+        color: white;
+        text-align: center;
+        cursor: pointer; }
+
+        </style>
+    </head>
+    <body>
+        <div id="header">
+            <div id="title">
+                {{#bool_show_tilte_image}}
+                    <a href="/"><img src="{{image_Title}}" /></a>
+                    <style>.text_title{display:none}</style>
+                {{/bool_show_tilte_image}}
+                    <a href="/" class="text_title">{{title}}</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div id="container">
+            <div id="box_container">
+                {{#desc}}
+                    <div id="box">
+                        {{desc}}
+                    </div>
+                {{/desc}}
+
+                {{#post_single}}
+                    {{#posts}}
+                        {{#has_tag}}
+                            <div id="tags">
+                                <b>标签:</b> 
+                                {{#tags}}
+                                    <a href="{{url}}">{{name}}</a>
+                                    <span class="comma">,</span>
+                                {{/tags}}
+                            </div>
+                        {{/has_tag}}
+                    {{/posts}}
+                {{/post_single}}
+            </div>
+
+            {{#posts}}
+                <div class="posts">
+                    {{#create_date}}
+                        <a class="datelink" href="{{url}}">
+                            <div class="permalink"><center>发布于{{year}}年{{month_number}}月{{day_of_month_with_zero}}日<br />{{comments_count}}回复</center></div>
+                        </a>
+                    {{/create_date}}
+
+                    {{#text}}
+                        <div class="text">
+                            {{#title}}
+                                <h3><a href="{url}">{{title}}</a></h3>
+                            {{/title}}
+
+                            {{content}}
+                        </div>
+                    {{/text}}
+
+                    {{#photo_single}}{{#photos}}
+                        <div class="photo">
+                            {{#post_index}}
+                                <img src="{{image_400}}" alt="{{desc}}" />
+                            {{/post_index}}
+
+                            {{#post_single}}
+                                   <a href="{{image_original}}" target="_blank"><img src="{{image_original}}" /></a>
+                            {{/post_single}}
+                            {{#content}}
+                                <div class="caption">{{content}}</div>
+                            {{/content}}
+                        </div>
+                    {{/photos}}{{/photo_single}}
+                
+                     {{#photo_set}}
+                        <div class="set">
+                        	{{#photos}}
+                            {{#post_index}}
+                                <img src="{{image_100}}" alt="{{desc}}" />
+                            {{/post_index}}
+                            {{#post_single}}
+                                   <a href="{{image_original}}" target="_blank"><img src="{{image_original}}" /></a><br />
+                                   {{#desc}}{{desc}}{{/desc}}<br />
+                            {{/post_single}}
+                            {{/photos}}
+                            {{#content}}
+                                <div class="caption">{{content}}</div>
+                            {{/content}}
+                        </div>
+                    {{/photo_set}}
+
+                    {{#link}}
+                        <div class="link">
+                            <h3><a href="{{shared_url}}" target="_blank">{{title}}</a></h3>
+
+                            {{#content}}
+                                <div class="description">{{content}}</div>
+                            {{/content}}
+                        </div>
+                    {{/link}}
+
+                    {{#video}}
+
+                            <div class="video">{{video_code_500}}</div>
+                            {{#content}}
+                                <div class="caption">{{content}}</div>
+                            {{/content}}
+                    {{/video}}
+
+                    {{#post_single}}
+                        {{#create_date}}
+                            <div class="date">
+                                发布于{{year}}年{{month_number}}月{{day_of_month_with_zero}}日 {{24hour_with_zero}}:{{minutes}}
+                            </div>
+                        {{/create_date}}
+
+
+						 {{#is_repost}}
+                        {{#repost_parent}}
+                            <div class="reblogged">
+                                转帖自
+                                <a class="sourcename" href="{{url}}">{{title}}</a>
+                            </div>
+                       {{/repost_parent}}
+                         {{/is_repost}}
+
+                        <div class="clear"></div>
+
+
+						<div>{{load_comments}}</div>
+
+                    {{/post_single}}
+
+                </div><!--posts-->
+            {{/posts}}
+
+            <div class="clear"></div>
+
+
+{{#pagination}} 
+                <div id="pagination">
+                     {{#prev_page}}
+                        <a class="previous" href="/">&#0171;</a>
+                        <a class="previous" href=" {{prev_page}}">&#8249;</a>
+                     {{/prev_page}}
+
+                    {{#next_page}} 
+                        <a class="next" href="{{next_page}}">&#8250;</a>
+                        <a class="next" href="/page/{{total_pages}}">&#0187;</a>
+                    {{/next_page}} 
+                </div><!--pagination-->
+{{/pagination}} 
+
+            <div class="clear"></div>
+
+
+            <div class="clear"></div>
+            
+
+
+{{#post_index}}
+{{#bool_show_pages}}
+{{#has_other_pages}}
+                    <div id="likebutton">
+                        其他的兴趣
+                    </div>
+
+                    <div class="clear"></div>
+
+                    <div id="following">
+                       {{#other_pages}}
+                            <a href="{{url}}">
+                                <img src="{{icon_96}}" title="{{title}}" />
+                            </a>
+                       {{/other_pages}}
+
+                        <div class="clear"></div>
+                    </div>
+{{/has_other_pages}}
+{{/bool_show_pages}}
+            
+            
+{{#bool_show_followers}}
+{{#has_following}}
+                    <div id="likebutton">
+                        关注的页面
+                    </div>
+					<div class="clear"></div>
+                    <div id="following">
+                        {{#followings}}
+                            <a href="{{url}}"><img src="{{icon_96}}" title="{{title}}" /></a>
+                       {{/followings}}
+
+                        <div class="clear"></div>
+                    </div>
+{{/has_following}}                    
+{{/bool_show_followers}}
+{{/post_index}}
+            <div class="clear"></div>
+        </div><!--container-->
+
+        <div id="footer">
+
+            <div class="clear"></div>
+        </div>
+    </body>
+</html>

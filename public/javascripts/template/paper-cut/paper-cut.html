@@ -1,0 +1,731 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head><!--/26799-->
+<title>{{title}}</title>
+<link rel="shortcut icon" href="{{icon_16}}">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+{{#desc}}<meta name="description" content="{{meta_desc}}" />{{/desc}}
+
+
+
+
+{{#define}}
+  color Text 文字 #333333
+  color Headings 页首 #555555
+  color MinorText 次要文字 #777777
+  color TextShadow 文字阴影 #888888
+  color PageBackground 页面背景 #dddddd
+  color Link 链接 #4E66B4
+  color HoverLink 链接悬浮 #c0c0c0
+  color SecondaryLink 次要链接 #555555
+  color SecondaryHoverLink 次要链接悬浮 #999999
+{{/define}}
+
+  <meta name="color:Text" content="#333333"/>
+  <meta name="color:Headings" content="#555555"/>
+  <meta name="color:Minor Text" content="#777777"/>
+  <meta name="color:Text Shadow" content="#FFFFFF"/>
+  <meta name="color:Page Background" content="#DDDDDD"/>
+  <meta name="color:Shadows" content="#888888"/>
+  <meta name="color:Link" content="#4E66B4"/>
+  <meta name="color:Hover Link" content="#C0C0C0"/>
+  <meta name="color:Secondary Link" content="#555555"/>
+  <meta name="color:Secondary Hover Link" content="#999999"/>
+
+
+
+<style type="text/css">
+body,div,h1,h2,h3,h4,h5,h6,p,blockquote,pre,code,dl,dt,dd,ul,ol,li,th,td,form,fieldset,legend,input,textarea{margin:0;padding:0;}
+html{font-size:13px;}
+table{border-collapse:collapse;border-spacing:0;}
+fieldset,img{border:0;}
+caption,cite,code,dfn,th,var{font-style:normal;font-weight:200;}
+abbr,acronym{border:0;}
+
+body {
+        background:{{color_PageBackground}}; 
+        color:{{color_Text}}; 
+        font-size:12px;
+        font-family:Lucida Grande,Hiragino Sans GB,hei,microsoft yahei;
+        margin:0;
+}
+
+{block:ifTexturedBackground}
+
+body {
+        background-image:url(http://static.tumblr.com/qxaauuk/Hj3lgwftn/seattlebg.png);
+        background-repeat:repeat;
+}
+
+{/block:ifTexturedBackground}
+
+h1, h3 {font-weight:bold; font-size:24px; margin:0 0 40px 0}
+
+pre,code {font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif,Hiragino Sans GB,hei,microsoft yahei;}
+
+a:link, a:visited {color:{{color_Link}}; text-decoration:none;}
+a:hover, a:active {
+color:{{color_HoverLink}};
+-webkit-transition: color .25s linear;
+        transition: color .25s linear;
+}
+
+
+#container {margin:90px auto 0 auto; padding-bottom:0px; padding-left:350px; width:580px; position:relative;}
+
+#posts {font-size:12px; line-height:18px; font-weight:200;}
+#posts .post {background-color:#fff; list-style:none; margin:0 0 60px 0; padding:40px; width:500px; clear:both; position:relative;
+-o-box-shadow: 0px 2px 3px {{color_Shadows}};
+-icab-box-shadow: 0px 2px 3px {{color_Shadows}};
+-khtml-box-shadow: 0px 2px 3px {{color_Shadows}};
+-moz-box-shadow: 0px 2px 3px {{color_Shadows}};
+-webkit-box-shadow: 0px 2px 3px {{color_Shadows}};
+box-shadow: 0px 2px 3px {{color_Shadows}};
+}
+#posts .content {color:{{color_Text}}; padding:0; margin:0;}
+
+
+
+{block:ifCurvedTop}
+
+#posts .post:before {
+        content:"";
+        width:580px;
+        height:20px;
+        background-image:url(http://static.tumblr.com/qxaauuk/7p8lgwhoq/toppost.png);
+        background-repeat:no-repeat;
+        position:absolute;
+        top:-18px;
+        left:0;
+}
+
+{/block:ifCurvedTop}
+
+
+
+.themeinfo { 
+        margin:80px 0 24px 0;
+        font-size:9px; 
+        line-height:15px;
+        color:#999;
+	text-align:right;
+}
+
+.themeinfo a:link, .themeinfo a:visited, .themeinfo a:active {color:{{color_SecondaryLink}}; text-decoration:none;}
+.themeinfo a:hover {
+color:{{color_SecondaryHoverLink}};
+-webkit-transition: color .25s linear; 
+transition: color .25s linear;}
+
+
+#userbox {
+        position:absolute; 
+        top:0px; 
+        left:0px; 
+        margin:0; 
+        width:290px; 
+        padding:0;
+        color:{{color_MinorText}};
+	text-align:right;
+        line-height:18px;
+}
+
+#userbox {text-shadow:0px 1px 1px {{color_TextShadow}};}
+
+
+#userbox a{
+        color:{{color_SecondaryLink}};
+}
+
+#userbox a:hover{
+        color:{{color_SecondaryHoverLink}};
+        -webkit-transition: color .25s linear;
+        transition: color .25s linear;
+}
+
+
+
+#pagination p {
+        font-size:18px; 
+        min-width:40px; 
+        line-height:18px; 
+        margin:30px 0; 
+        white-space:nowrap; 
+        color:{{color_Headings}};
+}
+
+
+#pagination p {text-shadow:0px 1px 1px {{color_TextShadow}};}
+
+
+#pagination p.next {
+        display:inline;
+        text-align:right;  
+        float:right; 
+        margin:-8px 40px 0 0;
+        padding:8px 40px 8px 30px;
+}
+#pagination p.prev {
+        display:inline; 
+        float:left; 
+        margin:-8px 0 0 40px;
+        padding:8px 30px 8px 40px;
+}
+#pagination a {color:{{color_SecondaryLink}}; font-weight:bold;}
+#pagination a:hover {
+        color:{{color_SecondaryHoverLink}}; 
+        font-weight:bold;
+        -webkit-transition: all .25s linear;
+        transition: all .25s linear;
+}
+#pagination .page {
+        text-align:center; 
+        font-size:18px;
+        font-weight:bold;  
+        margin:30px 0 60px 0;
+        text-transform:lowercase; 
+        color:{{color_Headings}};
+}
+
+
+#pagination .page {text-shadow:0px 1px 1px {{color_TextShadow}};}
+
+
+
+p {margin-bottom:20px;}
+form .submit {height:0; overflow:hidden; display:block;}
+
+
+
+.content a {}
+.content a:hover {}
+.content .photo a {border:none !important;}
+.content ul, .content ol {margin:20px;}
+.content ul li {list-style:none;}
+
+blockquote {margin:0 20px 20px; font-style:italic;}
+blockquote i, blockquote em, blockquote [lang="ja"] {font-style:normal;}
+pre, code {font-size:12px; line-height:150%;}
+pre {background:#e1e1e1; margin:15px; padding:10px;
+     overflow-x:auto;}
+pre code {display:block;}
+pre i, code i {font-style:normal; color:{{color_MinorText}};}
+
+ins {text-decoration:none; font-style:italic;}
+blockquote ins, em ins, ins em {font-style:normal;}
+
+abbr, acronym, .caps {font-size:14px; letter-spacing:0.1em; word-spacing:0.1em;}
+abbr, acronym {text-transform:uppercase;}
+.caps {text-transform:uppercase;}
+
+
+.text, .caption {margin-bottom:20px;}
+.post img, .post object, .post embed {max-width:100%;}
+
+.link-post h3 {padding:0; font-size:24px; margin-bottom:40px; font-weight:bold;word-break:break-all;line-height:150%}
+
+.photo-post .photo, .video-post .video {margin-bottom:20px;}
+
+.quote-post .quote {font-weight:200; margin-top:20px;}
+.quote-post .source, .cite
+  {float:right; margin:0 40px 20px 50px; text-indent:-1.5em; font-weight:300;}
+.quote-post .source a:first-child, .cite
+  {letter-spacing:0;}
+.short-quote .quote, .medium-quote .quote
+  {font-size:14px; line-height:16px; margin:20px 40px 20px 0;}
+.long-quote .quote {margin:20px;}
+
+.audio-post .audio {height:30px;}
+.audio-post .audio_player {width:auto; margin:0; display:inline-block;}
+
+.chat-post ol {list-style:none; margin:20px 0;}
+.chat-post li {margin-left:1.5em; text-indent:-1.5em;}
+.chat-post .label {font-weight:200; padding-right:0.125em;}
+.chat-post .speaker {font-style:italic;}
+.chat-post .speaker2 .label, .chat-post .speaker4 .label,
+  .chat-post .speaker6 .label, .chat-post .speaker8 .label
+    {color:{{color_MinorText}};}
+.chat-post .speaker3 .label, .chat-post .speaker4 .label,
+  .chat-post .speaker7 .label, .chat-post .speaker8 .label
+    {text-transform:uppercase; letter-spacing:0.1em;}
+
+.answer-post {margin:0;}
+
+.audioarea {
+        background:#eeeeee;
+        padding:20px 20px 25px 20px;
+        margin:0 0 20px 0;
+        position:relative;
+}
+
+
+
+.playcount {
+        background:#eeeeee;
+        top:0px;
+        left:48px;
+        width:220px; 
+        height:30px;
+        padding:24px 0 0 20px;
+        margin:0;
+        position:absolute;
+        z-index:100;
+}
+
+.audioalbumart {position:absolute; top:20px; right:20px; margin:0 0 20px 20px; width:170px; height:170px;}
+
+.albumcover {
+        width:150px;
+        border:10px solid #fff;
+        -o-box-shadow: 0px 2px 3px {{color_Shadows}};
+        -icab-box-shadow: 0px 2px 3px {{color_Shadows}};
+        -khtml-box-shadow: 0px 2px 3px {{color_Shadows}};
+        -moz-box-shadow: 0px 2px 3px {{color_Shadows}};
+        -webkit-box-shadow: 0px 2px 3px {{color_Shadows}};
+        box-shadow: 0px 2px 3px {{color_Shadows}};
+}
+
+.audioartist, .audiotrack, .audioalbum {
+        background-color:#fff;
+	width: 250px;
+        height: 30px;
+        line-height:30px;
+        overflow:hidden;
+        padding:0 8px;
+        margin:16px 0 0 0;
+        -o-box-shadow: 0px 2px 3px {{color_Shadows}};
+        -icab-box-shadow: 0px 2px 3px {{color_Shadows}};
+        -khtml-box-shadow: 0px 2px 3px {{color_Shadows}};
+        -moz-box-shadow: 0px 2px 3px {{color_Shadows}};
+        -webkit-box-shadow: 0px 2px 3px {{color_Shadows}};
+        box-shadow: 0px 2px 3px {{color_Shadows}};
+}
+
+
+.questionbubble {
+        position:relative;
+	padding:20px;
+	margin:0 0 40px 0;
+	color:#555;
+	background:#eeeeee;
+	-moz-border-radius:40px;
+	-webkit-border-radius:40px;
+	border-radius:40px;
+}
+
+
+#questionbubble {text-shadow:0px 1px 1px {{color_TextShadow}};}
+
+
+
+.questionbubble:after {
+	content:"";
+	display:block; /* reduce the damage in FF3.0 */
+	position:absolute;
+	bottom:-15px; /* value = - border-top-width - border-bottom-width */
+	right:58px; /* controls horizontal position */
+	width:0;
+	height:0;
+	border-width:15px 15px 0; /* vary these values to change the angle of the vertex */
+	border-style:solid;
+	border-color:#eeeeee transparent;
+}
+
+.question {
+        font-size:18px; 
+        line-height:18px;
+        font-weight:bold; 
+        margin:20px 0;
+        padding:0 20px;
+        color:{color:Headings};
+}
+
+
+#question {text-shadow:0px 1px 1px {{color_TextShadow}};}
+
+
+.askedby {
+        font-size:12px; 
+        line-height:18px;
+        font-weight:normal; 
+        margin:0 52px 20px 0;
+        padding:0;
+        color:{{color_Text}};
+        float:right;
+        text-align:right;
+}
+
+.answerer {
+        font-size:12px; 
+        line-height:18px;
+        font-weight:normal; 
+        margin:20px 0 10px 0;
+        padding:0;
+        color:{{color_Text}};
+        clear:both;
+}
+.answer {
+        font-size:12px; 
+        line-height:18px;
+        font-weight:normal; 
+        margin:20px 0;
+        padding:0;
+        color:{{color_Text}};
+}
+
+#postfooter {
+        width:500px;
+        padding:40px 0 0 0;
+}
+
+#postfooterleft {
+        width:155px;
+        padding:0;
+        float:left;
+}
+
+#postlikes {
+        width:500px;
+        padding:20px 0 0 0;
+		font-size: 11px;
+}
+
+.tags {
+	    font-size: 12px;
+        width:320px;
+        text-align:right;
+        margin:0;
+        float:right;
+}
+
+.tags a {
+        background-color:#ccc;
+        color:#fff;
+        margin:0 0 5px 0;
+        padding:0 8px;
+        border-radius: 8px;
+        -moz-border-radius: 8px;
+        -webkit-border-radius: 8px;
+        display:inline-block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+}
+.tags a:hover {
+        background-color:#fff;
+        color:#ccc;
+        -webkit-transition: all .25s linear;
+        transition: all .25s linear;
+}
+
+.notes, .reblogs {
+	    font-size: 12px;
+        text-align:left;
+        width:150px;
+}
+
+.date {
+        font-size: 12px;
+        width:150px;
+        margin:0;
+}
+
+.blogtitle {
+        color:{{color_Headings}};
+        font-weight:bold;
+        font-size:18px;
+        margin:60px 0 24px 0;
+}
+
+.sidebartitle {
+        color:{{color_Headings}};
+        font-weight:bold;
+        font-size:18px;
+        margin:60px 0 24px 0;
+        text-transform:lowercase;
+}
+
+.avatar {
+        border:10px solid #fff;
+        -o-box-shadow: 0px 2px 3px {{color_Shadows}};
+        -icab-box-shadow: 0px 2px 3px {{color_Shadows}};
+        -khtml-box-shadow: 0px 2px 3px {{color_Shadows}};
+        -moz-box-shadow: 0px 2px 3px {{color_Shadows}};
+        -webkit-box-shadow: 0px 2px 3px {{color_Shadows}};
+        box-shadow: 0px 2px 3px {{color_Shadows}};
+}
+.avatar:hover {
+        -webkit-transition: all .25s ease-in;
+        transition: all .25s ease-in;       
+}
+
+
+
+
+
+.multi {font-size:12px; line-height:18px;}
+
+
+.content.text-post img {
+max-width: 100%;
+}
+
+.icons {margin: 0 0 0 15px; opacity:1.0;}
+
+.blogicons {width:16px; margin:2px 10px 0 0; padding: 0; vertical-align:top; border:none;}
+
+.answericon {width:24px; margin:0 10px; padding: 0; vertical-align:middle; border:none;}
+
+.icons:hover {
+opacity:0.7; 
+-webkit-transition: opacity .25s linear; 
+transition: opacity .25s linear;
+}
+
+.formcenter {margin:0 auto;}
+
+.clear {clear:both; height:1px;}
+
+
+
+
+
+
+.chat{
+		width:480px;
+		padding:20px;
+		background:white;
+}
+
+.chat .c_content{
+	width:418px;
+	margin:auto;
+	max-height:500px;
+	overflow-y:auto;
+	overflow-x:hidden;
+	}
+
+*{outline:none}
+.chat .c_input {
+    width: 418px;
+    height: 30px;
+    background-color: #222;
+    margin: 10px auto 0 auto;
+    border: 1px solid #1d1d1d;
+    overflow: hidden; }
+    .chat .c_input form {
+      border: 0;
+      margin: 0;
+      padding: 0; }
+    .chat .c_input input {
+      width: 100%;
+      height: 30px;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      line-height: 30px;
+      font-size: 18px; }
+    .chat .c_input .txt {
+      width: 344px;
+      background-color: white;
+      padding-top: 1px;
+      padding-left: 8px;
+      border-right: 1px solid black;
+      float: left; }
+    .chat .c_input .c_submitter {
+      width: 60px;
+      float: left; }
+      .chat .c_input .c_submitter input {
+        width: 65px;
+        _line-height: 38px;
+        background-color: #222;
+        color: white;
+        text-align: center;
+        cursor: pointer; }
+
+
+  </style>
+
+</head>
+<body>
+
+
+
+<div id="container">
+
+
+
+
+
+<div id="userbox">
+
+<p>
+<a href="/"><img class="avatar" src="{{icon_180}}" style="width:128px;height:128px"></a>
+</p>
+
+<p class="blogtitle">{{title}}</p>
+
+
+  {{#desc}}
+    {{desc}}
+  {{/desc}}
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<ol id="posts">
+{{#posts}}
+  <li class="post" id="post{PostID}">
+
+
+    {{#text}}
+    <div class="content text-post">
+      {{#title}}<h3>{{title}}</h3>{{/title}}
+
+      <div class="text">{{content}}</div>
+    </div>
+    {{/text}}
+
+
+
+  {{#photo_single}}
+  {{#photos}}
+
+    <div class="content photo-post">
+      <div class="photo">
+        <a href="{{image_original}}"><img src="{{image_500}}" /></a>
+      </div>
+
+      {{#desc}}<div class="caption">{{desc}}</div>{{/desc}}
+      {{#content}}<div class="caption">{{content}}</div>{{/content}}
+    </div>
+  {{/photos}}
+  {{/photo_single}}
+
+  {{#photo_set}}
+
+    <div class="content photo-post">
+  {{#photos}}    
+      <div class="photo">
+        <a href="{{image_original}}"><img src="{{image_500}}" /></a>
+      </div>
+
+      {{#desc}}<div class="caption">{{desc}}</div>{{/desc}}
+  {{/photos}}
+      {{#content}}<div class="caption">{{content}}</div>{{/content}}
+    </div>
+
+  {{/photo_set}}
+
+
+
+    {{#link}}
+
+    <div class="content link-post">
+      <h3 class="link"><a href="{{shared_url}}">{{title}}</a></h3>
+
+      {{#content}}<div class="caption">{{content}}</div>{{/content}}
+    </div>
+    {{/link}}
+
+
+
+
+    {{#video}}
+
+    <div class="content video-post">
+      <div class="video">{{video_code_500}}</div>
+
+   {{#content}}<div class="caption">{{content}}</div>{{/content}}
+    </div>
+    {{/video}}
+
+
+
+
+<div class="clear">&nbsp;</div>
+
+
+<div id="postfooter">
+
+
+
+{{#has_tag}}
+<div class="tags">
+<img class="blogicons" src="http://static.tumblr.com/qxaauuk/rwClgxmhe/tag.png"> {{#tags}}&nbsp;<a href="{{url}}">{{name}}</a>&nbsp;{{/tags}}
+</div>
+{{/has_tag}}
+
+
+
+<div id="postfooterleft">
+
+
+        	{{#create_date}}
+	<div class="date">
+	<a href="{{url}}"><img class="blogicons" src="http://static.tumblr.com/qxaauuk/kDflgxmgr/attach.png"></a> <a title="posts from this date" href="{{url}}">{{month_number}}月{{day_of_month_with_zero}}日 {{comments_count}}回复</a>
+	</div>
+        	{{/create_date}}
+
+
+	<div class="reblogs">
+	
+	</div>
+
+{{#post_single}}
+	<div>{{load_comments}}</div>
+{{/post_single}}
+
+
+
+
+
+</div>
+
+
+<div class="clear">&nbsp;</div>
+
+
+
+  </li>
+
+{{/posts}}
+      
+</ol>
+
+
+{{#post_index}}
+<div id="pagination">
+
+{{#pagination}}
+    <p class="next">&nbsp;{{#next_page}}
+      <a href="{{next_page}}">过去的</a>
+    {{/next_page}}</p>
+    <p class="prev">           {{#prev_page}}
+      <a href="{{prev_page}}">最近的</a>
+               {{/prev_page}}&nbsp;</p>
+    <p class="page">
+      {{current_page}} / {{total_pages}}
+    </p>
+{{/pagination}}
+
+  </div>
+{{/post_index}}
+<div class="clear">&nbsp;</div>
+
+</div>
+
+</body>
+</html>
