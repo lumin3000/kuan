@@ -148,6 +148,8 @@
 <li>repost_tag 生成一个<code>&lt;a&gt;</code>标签用于转帖；section中间的内容会放在<code>&lt;a&gt;</code>标签内</li>
 <li>fave_tag 生成一个<code>&lt;a&gt;</code>标签用于喜欢该帖子；section中间的内容会放在<code>&lt;a&gt;</code>标签内</li>
 <li>is_repost 如果是转帖发布可以进入该section</li>
+<li>repost_history 进入<a href="#repost-section">Repost
+  Section</a>用以访问每一个转帖动作的信息</li>
 <li>repost_parent 如果是转帖发布可以进入一个<a href="#blog-section">Blog Section</a>访问转帖来源页面的信息</li>
 <li>has_tag 有标签的帖子可以进入该section</li>
 <li>tags 进入<a href="#tags-section">Tags Section</a>访问各个标签信息</li>
@@ -337,6 +339,20 @@ Section里使用</p>
 
 
 <p>展示分页信息时可能会经常用到<a href="#tip-empty-field">用Section处理空字段</a>的技巧</p>
+
+<h3 id="repost-section">Repost Section</h3>
+
+<p>Repost Section包含了转帖动作的信息</p>
+
+<h4>字段</h4>
+<p>无</p>
+
+<h4>Sections</h4>
+
+<ul>
+  <li>source 进入一个<a href="#blog-section">Blog Section</a>访问转帖来源页面信息</li>
+  <li>target 进入一个<a href="#blog-section">Blog Section</a>访问转帖目标页面信息</li>
+</ul>
 
 <h3 id="define-section">Define Section</h3>
 
