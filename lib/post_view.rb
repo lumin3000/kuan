@@ -62,11 +62,11 @@ CODE
   end
 
   def is_faved
-    fetch_faved
-    ! @faved_by.empty?
+    favor_count && favor_count > 0
   end
 
   def faved_by
+    return nil unless is_faved
     fetch_faved
     @faved_by
   end
