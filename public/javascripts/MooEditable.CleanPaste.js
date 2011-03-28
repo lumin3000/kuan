@@ -32,7 +32,7 @@ provides: [MooEditable.CleanPaste]
 
 ...
 */
-
+if(!Browser.ie){
 (function(){
     
     MooEditable = Class.refactor(MooEditable, {
@@ -181,3 +181,4 @@ provides: [MooEditable.CleanPaste]
     });
     
 })();
+}
