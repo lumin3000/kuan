@@ -215,7 +215,7 @@ describe "BlogView.parse_custom_vars" do
     before :each do
       @input = <<EOF
   color   foo 	  背景色 #333 	
-  color   shit 	   3字段，被忽略
+  color   shit 	   3字段
   bool  show_comments 显示评论 1
   undefined_type mess_you_up ahahahahahah blah
 EOF
@@ -224,7 +224,11 @@ EOF
           'foo' => {
             'desc' => '背景色',
             'value' => '#333',
-          }
+          },
+          'shit' => {
+            'desc' => '3字段',
+            'value' => nil,
+          },
         },
         'bool' => {
           'show_comments' => {
