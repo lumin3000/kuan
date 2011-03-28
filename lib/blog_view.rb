@@ -201,12 +201,24 @@ class BlogView < Mustache
   end
 
   def followings
-    @blog.lord.subs.map {|b| BlogView.new(b, @extra)} if has_following
+    return nil unless has_following
+    fetch_followings
+    @followings
   end
 
   def has_following
-    is_primary && !@blog.lord.subs.blank?
+    return false unless is_primary
+    fetch_followings
+    !@followings.empty?
   end
+
+  def fetch_followings
+    @followings ||= @blog.lord.subs.reduce [] do |result, b|
+      result << BlogView.new(b, @extra) unless b.private?
+      result
+    end
+  end
+  private :fetch_followings
 
   def other_pages
     return nil unless has_other_pages
@@ -221,8 +233,12 @@ class BlogView < Mustache
   end
 
   def fetch_other_pages
-    @other_pages ||= @blog.lord.other_blogs.map {|b| ObjectView.wrap b, @extra}
+    @other_pages ||= @blog.lord.other_blogs.reduce [] do |result, b|
+      result << ObjectView.wrap(b, @extra) unless b.private?
+      result
+    end
   end
+  private :fetch_other_pages
 
   def define
     Proc.new do |str|
