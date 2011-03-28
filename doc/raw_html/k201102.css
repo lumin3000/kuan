@@ -755,6 +755,7 @@ form.edit_page .submit_box input{
 	background:url('images/post_cancel.gif');
 	cursor:pointer;
 	text-indent: -1000px;
+	overflow:hidden;
 }
 
 
