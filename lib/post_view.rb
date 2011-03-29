@@ -62,11 +62,11 @@ CODE
   end
 
   def is_faved
-    fetch_faved
-    ! @faved_by.empty?
+    favor_count && favor_count > 0
   end
 
   def faved_by
+    return nil unless is_faved
     fetch_faved
     @faved_by
   end
@@ -101,6 +101,13 @@ CODE
     else
       @post.repost_count
     end
+  end
+
+  def repost_history
+    return nil unless repost_count && repost_count > 1
+    @repost_history ||= Post.desc(:created_at).
+      where(:ancestor_id => @post.ancestor_id || @post.id).
+      limit(100).map {|p| RepostView.new p, @extra}
   end
 
   private
