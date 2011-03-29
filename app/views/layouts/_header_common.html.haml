@@ -19,16 +19,16 @@
       |    
     .menu><
       %div<
-        我的账户
+        我的帐户
         %span<
           &nbsp;
       %div<
-        %a{href: edit_user_path(current_user)} 账户设置
+        %a{href: edit_user_path(current_user)} 帐户设置
       %div<
         %a{href: "#{fucking_root}signup/#{current_user.inv_code}", data: {widget: "invite"}} 邀请好友
       %div<
         %a{href: signout_path, :data => { :confirm => "确定登出?"}} 退出
     %a.tar.z_account{href: "#"}><
-      我的账户
+      我的帐户
       %span<
         &nbsp;
