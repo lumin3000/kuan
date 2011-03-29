@@ -255,7 +255,7 @@ form.edit_blog
         margin-left: 3px
 
   .template
-    width: 750px
+    width: 1000px
     height: 530px
     left: 69px
 
@@ -318,7 +318,7 @@ form.edit_blog
     .custom_html
       width: 750px
       height: 480px
-      
+
       textarea
         width: 100%
         height: 100%
@@ -433,3 +433,32 @@ fieldset.appearance
 
 #preview
   width: 100%
+
+.custom_field
+  overflow: hidden
+  @include clear_fix
+
+  .aside
+    float: left
+    width: 186px
+    padding: 0 10px
+
+    input
+      background: none
+
+  .assets
+    border: 1px solid #ddd
+    padding: 5px
+    max-height: 235px
+    *height: 235px
+    overflow-y: auto
+    font-size: 12px
+
+    li
+      border-bottom: 1px #ddd dashed
+      padding-bottom: 8px
+      margin-bottom: 8px
+
+  .main
+    float: left
+    width: 750px

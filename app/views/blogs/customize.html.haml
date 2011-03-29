@@ -73,17 +73,23 @@
           编辑当前模板HTML
     = f.hidden_field :using_custom_html, :value => @blog.using_custom_html ? 1 : 0
     .custom_field
-      .custom_html
-        %textarea{name: 'blog[custom_html]'}
-          = @blog.template_in_use
-      .buttons
-        %a.button.strong{href: "#", data: {widget: 'diverseSubmit',
-          action: '/preview', target: 'preview', methord: 'POST'}}
-          预览效果
-        %a.button{href: "#", data: {widget: 'toggler', target: 'fieldset.template',
-          classes: 'editing_custom_html picking_template', field: 'blog[using_custom_html]'}}
-          返回选择模板
-        %a.button{href: fucking_root + 'doc/template.html', target: '_blank'} 帮助
+      .main
+        .custom_html
+          %textarea{name: 'blog[custom_html]'}
+            = @blog.template_in_use
+        .buttons
+          %a.button.strong{href: "#", data: {widget: 'diverseSubmit',
+            action: '/preview', target: 'preview', methord: 'POST'}}
+            预览效果
+          %a.button{href: "#", data: {widget: 'toggler', target: 'fieldset.template',
+            classes: 'editing_custom_html picking_template', field: 'blog[using_custom_html]'}}
+            返回选择模板
+          %a.button{href: fucking_root + 'doc/template.html', target: '_blank'} 帮助
+      .aside
+        %p 上传图片素材
+        .upload_asset
+          %input{type: 'file', name: 'file'}
+        %ul.assets
   %fieldset.appearance.menu{ data: {widget: "appearance"}}
     = render :partial => 'blogs/template_variables'
   %fieldset.advanced.menu
@@ -103,4 +109,19 @@
 :javascript
   document.addEvent('domready', function(){
     K.blog.init_upload_icon();
+  })
+
+  document.addEvent('domready', function(){
+    var context = document.getElement('.aside')
+      , list = context.getElement('.assets')
+      , fileInput = context.getElement('input[type=file]')
+      , UPLOAD_PATH = '/upload/asset'
+      , TPL = '<img width=62 height=62 src="{src}"><p>{src}</p>'
+      , uploader = new K.file_uploader(fileInput, UPLOAD_PATH, {
+          onSuccess: function(res) {
+            var src = 'http://img.kuandao.com' + res.image.original
+              , elem = new Element('li', {html: TPL.substitute({src: src})})
+            list.grab(elem, 'top')
+          }
+        })
   })
