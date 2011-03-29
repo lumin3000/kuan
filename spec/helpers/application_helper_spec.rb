@@ -46,5 +46,12 @@ describe ApplicationHelper do
       @post.reload
       helper.content_summary(@post, 10).should == @post.content
     end
+    it "should do nothing when content is blank" do
+      @post.content = ""
+      @post.title = "title"
+      @post.save!
+      @post.reload
+      helper.content_summary(@post, 10).should be_blank 
+    end
   end
 end
