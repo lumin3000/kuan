@@ -32,7 +32,7 @@ provides: [MooEditable.CleanPaste]
 
 ...
 */
-if(!Browser.ie){
+if(!Browser.ie && !Browser.safari){
 (function(){
     
     MooEditable = Class.refactor(MooEditable, {
