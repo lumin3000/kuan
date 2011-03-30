@@ -309,7 +309,7 @@ class BlogView < Mustache
                    else "" end
     edit_link = controller.edit_blog_path(@blog)
     edit_tag = if !post_single && @blog.customed?(current_user)
-                 "<a class='edit' href='#{edit_link}'>自定义</a>"
+                 "<a class='btn_customize' href='#{edit_link}'>自定义</a>"
                else "" end
 
     <<CODE.html_safe
