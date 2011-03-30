@@ -79,7 +79,7 @@ EOF
   def load_js()
     return '' if @extra[:js]
     @extra[:js] = true
-    JS_CODE
+    JS_CODE + @extra[:controller].render_to_string(partial: 'shared/analytics')
   end
 end
 
