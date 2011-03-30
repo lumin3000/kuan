@@ -157,6 +157,10 @@ var color2code = {
 "yellow":"#FFFF00",
 "yellowgreen":"#9ACD32"
 } 
+$chk = function(obj){
+  return !!(obj || obj === 0);
+};
+
 var MooRainbow = new Class({
 	options: {
 		id: 'mooRainbow',
@@ -321,8 +325,8 @@ var MooRainbow = new Class({
 		}.bind(this));
 
 		inputs.each(function(el) {
-			el.addEvent('keydown', this.eventKeydown.bind(this, [el]));
-			el.addEvent('keyup', this.eventKeyup.bind(this, [el]));
+			el.addEvent('keydown', this.eventKeydown.bind(this, el));
+			el.addEvent('keyup', this.eventKeyup.bind(this, el));
 		}, this);
 		[this.element, this.layout].each(function(el) {
 			el.addEvents({
@@ -492,7 +496,7 @@ var MooRainbow = new Class({
 		e.stop();
 	},
 	
-	eventKeydown: function(e, el) {
+	eventKeydown: function(el, e) {
 		var n = e.code, k = e.key;
 
 		if 	((!el.className.test(/hexInput/) && !(n >= 48 && n <= 57)) &&
@@ -500,9 +504,8 @@ var MooRainbow = new Class({
 		e.stop();
 	},
 	
-	eventKeyup: function(e, el) {
+	eventKeyup: function(el, e) {
 		var n = e.code, k = e.key, pass, prefix, chr = el.value.charAt(0);
-
 		if (!$chk(el.value)) return;
 		if (el.className.test(/hexInput/)) {
 			if (chr != "#" && el.value.length != 6) return;
@@ -539,7 +542,9 @@ var MooRainbow = new Class({
 		} else {
 			pass = el.value.hexToRgb(true);
 			if (isNaN(pass[0])||isNaN(pass[1])||isNaN(pass[2])) return;
-
+          $chk = function(obj){
+	    return !!(obj || obj === 0);
+          };
 			if ($chk(pass)) {
 				this.manualSet(pass);
 				this.fireEvent('onChange', [this.sets, this]);
