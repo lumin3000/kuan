@@ -1,15 +1,26 @@
 - @action = '分享'
-- @post_type = capture do
-  内容
-= render_form(@post)
 %form{id: "fetch_form", method: "post"}
+  (
+  - if @post.type != 'text'
+    %a{href: "#", onclick: "f=$('fetch_form');f.action='/posts/fetch/text';f.submit();return false;"} 文字
+  - if @post.type != 'pics'
+    %a{href: "#", onclick: "f=$('fetch_form');f.action='/posts/fetch/pics';f.submit();return false;"} 图片
+  - if @post.type != 'link'
+    %a{href: "#", onclick: "f=$('fetch_form');f.action='/posts/fetch/link';f.submit();return false;"} 链接
+  )
   %input{type: "hidden", name: "title", value: @p[:title]}
   %input{type: "hidden", name: "url", value: @p[:url]}
   %input{type: "hidden", name: "content", value: @p[:content]}
   %input{type: "hidden", name: "imgs", value: @p[:imgs]}
+= render_form(@post)
 :javascript
   document.addEvent('domready', function(){
-  //if(!$('url_uploader_url'))return
+  $('fetch_form').setStyles({
+  position: 'relative',
+  height: 0,
+  left: 160,
+  top: 30
+  })
   var arr = eval($$('[name=imgs]')[0].value)
   if(arr.length == 0)return
   var el = new Element('div', {'class':'fetch_list'}).inject($$('.textboxlist')[0], 'after')
@@ -18,7 +29,12 @@
   new Element('img', {src:item})
     .inject(el)
       .addEvent('click', function(){
-        K.editor.execute('insertimage', false, item.trim());
+        if($('url_uploader_url')){
+          $('url_uploader_url').value = item               
+          $('url_uploader_btn').fireEvent('click')
+        }else{
+          K.editor.execute('insertimage', false, item.trim());
+        }
       })
   })
   })
