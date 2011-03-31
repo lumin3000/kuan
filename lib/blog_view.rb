@@ -79,7 +79,7 @@ EOF
   def load_js()
     return '' if @extra[:js]
     @extra[:js] = true
-    JS_CODE
+    JS_CODE + @extra[:controller].render_to_string(partial: 'shared/analytics')
   end
 end
 
@@ -300,11 +300,17 @@ class BlogView < Mustache
   end
 
   def control_buttons
-    follow_widget = @extra[:controller].render_to_string partial: 'blogs/follow_toggle', locals: {blog: @blog}
-    apply_link = @extra[:controller].editors_new_path
-    apply_widget = if @blog.applied? @extra[:current_user]
+    current_user = @extra[:current_user]
+    controller = @extra[:controller]
+    follow_widget = controller.render_to_string partial: 'blogs/follow_toggle', locals: {blog: @blog}
+    apply_link = controller.editors_new_path
+    apply_widget = if @blog.applied? current_user
                     "<a class='btn_apply' href='#{apply_link}'>申请加入</a>"
                    else "" end
+    edit_link = controller.edit_blog_path(@blog)
+    edit_tag = if !post_single && @blog.customed?(current_user)
+                 "<a class='btn_customize' href='#{edit_link}'>自定义</a>"
+               else "" end
 
     <<CODE.html_safe
 #{load_js}
@@ -314,6 +320,7 @@ class BlogView < Mustache
 }))</script>
 <div class='commands'>
   <a class='back_to_home' href='#{home_url}'>回我的主页</a>
+  #{edit_tag}
   #{follow_widget}
   #{apply_widget}
 </div>
