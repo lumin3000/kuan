@@ -27,7 +27,8 @@
     .page_desc
       = f.label :desc, "描述"
       %div.textarea
-        %textarea{id: "blog_desc", name: "blog[desc]", data: {widget: "textarea"}}
+        %textarea{id: "blog_desc", name: "blog[desc]", data: {widget: "textarea"},
+          rows: 80}
           = @blog.desc
     .error
       &nbsp;
