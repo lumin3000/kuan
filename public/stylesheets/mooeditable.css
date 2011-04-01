@@ -164,6 +164,14 @@
 
 .mooeditable-ui-dialog input.text{
 	width: 300px;
+        height: auto;
+        font-size: 12px;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        border: 0;
+        padding-left: 3px;
+        line-height: 15px;
 }
 
 .mooeditable-ui-button-overlay{
