@@ -87,11 +87,11 @@ module ApplicationHelper
     }
   end
 
-  def content_summary(post, length=400)
+  def content_summary(post, length=400, summary_length=60)
     c = strip_tags(post.content)
     if(!c.blank? && c.length>length)
-      suffix = " <a href=\""+posts_blog_path(post)+"\" target=\"_blank\">全文</a>"
-      truncate(c, length: length) + suffix
+      suffix = " <a href=\""+posts_blog_path(post)+"\" target=\"_blank\">查看全文</a>"
+      truncate(c, length: summary_length) + suffix
     else
       post.content
     end
