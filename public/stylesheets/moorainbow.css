@@ -5,6 +5,11 @@
 
 #mooRainbow { font-size: 11px; color: #000; }
 
+.moor-drag {
+    margin-left: 370px;
+    cursor: move;
+    font-size: 15px
+}
 .moor-box {
 	width: 390px; 
 	height: 310px; 

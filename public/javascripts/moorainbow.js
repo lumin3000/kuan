@@ -567,6 +567,13 @@ var MooRainbow = new Class({
 			'class': prefix + 'box'
 		}).inject(this.layout);
 			
+		var drag = new Element('div', {
+			'styles': {'position': 'absolute'},
+		  'class': prefix + 'drag',
+                  'html':'+'
+		}).inject(box);
+          new Drag(this.layout, {handle: drag})
+			
 		var div = new Element('div', {
 			'styles': {'position': 'absolute', 'overflow': 'hidden'},
 			'class': prefix + 'overlayBox'
