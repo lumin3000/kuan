@@ -12,14 +12,17 @@ class Link < Post
   before_validation :sanitize_content
 
   validates_presence_of :url,
-    :message => "请输入链接"
+  :message => "请输入有效链接"
 
   private
 
   def convert_to_http
-    orig_url = self.url
-    parsed = URI.parse orig_url
-    self.url = 'http://' + orig_url if parsed.instance_of? URI::Generic
+    begin
+      parsed = URI.parse url
+      self.url = 'http://' + url if parsed.instance_of? URI::Generic
+    rescue Exception => e
+      self.url = nil
+    end
   end
 
 end
