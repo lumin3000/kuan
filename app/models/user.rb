@@ -50,7 +50,7 @@ class User
 
   class << self
     def authenticate(email, password)
-      user  = User.where(:email => email).first
+      user  = User.where(:email => email.downcase).first
       return nil, :email if user.nil?
       (user.has_password? password) ? user : [nil, :password]
     end
