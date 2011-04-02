@@ -241,7 +241,7 @@ K.render_editor = function(el, fix){
   var fix = fix || {width:0, height: 0}
   if($('box_text')){
     var w  = $('box_text').getComputedSize().width + fix.width
-    var h  = $('box_text').getComputedSize().width - fix.height
+    var h  = $('box_text').getComputedSize().height - fix.height
   }else{
     var w  = textarea.getStyle('width').toInt() + fix.width
     var h  = textarea.getStyle('height').toInt() - fix.height
