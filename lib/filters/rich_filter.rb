@@ -25,6 +25,7 @@ class RichFilter
     'src' => LEGAL_URL,
     'href' => LEGAL_URL,
   }
+  LEGAL_URL_SCHEMES = %w[]
   N = Nokogiri::XML::Node
 
   class << self
@@ -49,11 +50,11 @@ class RichFilter
     end
 
     def auto_link!(str)
-      links = URI.extract str
-      links.each do |link|
-        str[link] = "<a href=\"#{link}\">#{link}</a>"
-      end
-      str
+      str_with_links = str.dup
+      URI.extract(str, %w[http https ftp mailto]) do |link|
+        str_with_links[link] = %(<a href="#{link}">#{link}</a>)
+      end 
+      str_with_links
     end
 
     def has_parent?(node, parent_name)
