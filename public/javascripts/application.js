@@ -54,7 +54,7 @@ K.file_uploader = new Class({
         onFailure: nil
         */
         multiple: false,
-        limit: 10,
+        limit: 99,
         type: 'image/*',
         tar: null
     },
