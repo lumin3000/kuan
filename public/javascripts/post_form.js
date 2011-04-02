@@ -121,7 +121,7 @@ K.post = (function(){
 
   var init_editor = function(){
     if($$('.text')[0] && $$('.text')[0].hasClass('rich_text')){
-      K.render_editor($('content'), {width:50, height:50})
+      K.render_editor($('content'), {height:50})
     }
     if($('tar_tog_textarea')){
       init_toggle_textarea()

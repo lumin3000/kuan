@@ -239,11 +239,17 @@ K.editor = null
 K.render_editor = function(el, fix){
   var textarea = $(el)
   var fix = fix || {width:0, height: 0}
-  var w  = textarea.getStyle('width').toInt() + fix.width
-  var h  = textarea.getStyle('height').toInt() - fix.height
+  if($('box_text')){
+    var w  = $('box_text').getComputedSize().width + fix.width
+    var h  = $('box_text').getComputedSize().width - fix.height
+  }else{
+    var w  = textarea.getStyle('width').toInt() + fix.width
+    var h  = textarea.getStyle('height').toInt() - fix.height
+  }
   if(K.checkMobile()){
     return
   }
+
   K.editor = new MooEditable(textarea, {
     'actions':'toggleview | bold italic underline strikethrough | createlink unlink | urlimage ',
     'extraCSS':'pre{white-space:pre-wrap;word-wrap:break-word;font-family: "Hiragino Sans GB", hei, "microsoft yahei";line-height:1.5}',
