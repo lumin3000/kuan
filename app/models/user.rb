@@ -191,6 +191,10 @@ class User
     comments_notices.desc(:created_at).paginate(pagination)
   end
 
+  def unread_comments_notices_list(pagination)
+    comments_notices.where(:unread => true).desc(:created_at).paginate(pagination)
+  end
+
   def insert_unread_comments_notices!(post)
     c = comments_notices.where( :post_id => post.id )
     c.destroy if c.length > 0

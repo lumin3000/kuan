@@ -60,6 +60,7 @@ Kuan::Application.routes.draw do
   
   get '/followings', :to => 'users#followings'
   get '/buzz(/page/:page)', :to => 'users#buzz', :page => /\d+/, :as => "buzz"
+  get '/buzz/unread(/page/:page)', :to => 'users#buzz', :page => /\d+/, :unread => true, :as => "buzz_unread"
   put '/buzz/readall', :to => 'users#read_all_comments_notices', :as => "buzz_readall"
 
   namespace :messages do

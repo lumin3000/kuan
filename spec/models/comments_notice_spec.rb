@@ -63,6 +63,13 @@ describe CommentsNotice do
       tmp = @user.comments_notices_list(@pagination)
       tmp.first.post.should == @post
     end
+
+    it "should list unread" do
+      @user.comments_notices.first.unread = false
+      tmp = @user.unread_comments_notices_list(@pagination)
+      tmp.length.should == 1
+      tmp.first.post.should == @post
+    end
   end
 
   describe "insert comments notices" do

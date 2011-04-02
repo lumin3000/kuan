@@ -3,9 +3,13 @@
 - css 'buzz'
 - if current_user.comments_notices.unreads.count > 0
   - content_for :nav_user_append, do
-    %a{ :href => buzz_readall_path, :data => { :widget => "rest", :md => "put",
-      :callback => "redirect" } }<
-      全部标识为已读
+    - if @unread
+      %a{ :href => buzz_readall_path, :data => { :widget => "rest", :md => "put",
+        :callback => "redirect" } }<
+        全部标识为已读
+    - else
+      %a{ :href => buzz_unread_path }<
+        只看未读
   
 .timeline{ :data => { :widget => "sugar" } }
   - if @buzz_list.blank?

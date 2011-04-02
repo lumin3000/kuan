@@ -59,7 +59,12 @@ class UsersController < ApplicationController
       :page => params[:page] || 1,
       :per_page => 10,
     }
-    @buzz_list = current_user.comments_notices_list(pagination)
+    if(params[:unread])
+      @buzz_list = current_user.unread_comments_notices_list(pagination)
+      @unread = true
+    else
+      @buzz_list = current_user.comments_notices_list(pagination)
+    end
     render :layout => "main"
   end
 
