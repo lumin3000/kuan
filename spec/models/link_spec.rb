@@ -6,4 +6,13 @@ describe Link do
     subject.url.should_not be_nil
     subject.title.should_not be_nil
   end
+
+  it "should receive this bad url" do
+    bad = Link.new(:url => "1234", :title => "1234")
+    author = Factory :user_unique
+    bad.author = author
+    bad.blog = author.create_primary_blog!
+    bad.should be_valid
+    bad.save
+  end
 end
