@@ -25,7 +25,7 @@ class RichFilter
     'src' => LEGAL_URL,
     'href' => LEGAL_URL,
   }
-  LEGAL_URL_SCHEMES = %w[]
+  LEGAL_URL_SCHEMES = %w[http https ftp mailto ed2k thunder mms telnet]
   N = Nokogiri::XML::Node
 
   class << self
@@ -51,7 +51,7 @@ class RichFilter
 
     def auto_link!(str)
       str_with_links = str.dup
-      URI.extract(str, %w[http https ftp mailto]) do |link|
+      URI.extract(str, LEGAL_URL_SCHEMES) do |link|
         str_with_links[link] = %(<a href="#{link}">#{link}</a>)
       end 
       str_with_links
