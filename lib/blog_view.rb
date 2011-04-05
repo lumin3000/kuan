@@ -287,8 +287,10 @@ class BlogView < Mustache
   end
 
   def follow_tag
-    widget = @extra[:controller].render_to_string partial: 'blogs/follow_toggle', locals: {blog: @blog}
-    (load_js + widget).html_safe
+    if !post_single
+      widget = @extra[:controller].render_to_string partial: 'blogs/follow_toggle', locals: {blog: @blog}
+      (load_js + widget).html_safe
+    else "" end
   end
 
   def apply_tag
@@ -311,8 +313,16 @@ class BlogView < Mustache
   #{edit_tag}
   #{follow_tag}
   #{apply_widget}
+  #{repost_tag}
 </div>
 CODE
+  end
+
+  def repost_tag
+    if post_single
+      repost_link = controller.renew_post_path(@extra[:posts].first)
+      "<a class='btn_repost' href='#{repost_link}'>转帖</a>"
+    else "" end
   end
 
   def edit_tag
@@ -323,7 +333,7 @@ CODE
   end
 
   def apply_widget
-    if @blog.applied? current_user
+    if !post_single && @blog.applied?(current_user)
       apply_link = controller.editors_new_path
       "<a class='btn_apply' href='#{apply_link}'>申请加入</a>"
     else "" end
