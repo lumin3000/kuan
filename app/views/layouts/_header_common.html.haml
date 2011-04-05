@@ -1,10 +1,11 @@
 .header
   %a.logo{href: fucking_root, title: "我的主页"}
   .navigator{data: {widget: "navigator", highlight: (@nav_now || "dashboard")}}<
-    %a.z_dashboard{href: fucking_root}><
-      我的主页
-    %span><
-      |    
+    - if current_user
+      %a.z_dashboard{href: fucking_root}><
+        我的主页
+      %span><
+        |    
     %a.z_wall{href: wall_posts_path}><
       展示墙
     %span><
@@ -17,18 +18,19 @@
       随便看看
     %span><
       |    
-    .menu><
-      %div<
+    - if current_user
+      .menu><
+        %div<
+          我的帐户
+          %span<
+            &nbsp;
+        %div<
+          %a{href: edit_user_path(current_user)} 帐户设置
+        %div<
+          %a{href: "#{fucking_root}signup/#{current_user.inv_code}", data: {widget: "invite"}} 邀请好友
+        %div<
+          %a{href: signout_path, :data => { :confirm => "确定登出?"}} 退出
+      %a.tar.z_account{href: "#"}><
         我的帐户
         %span<
           &nbsp;
-      %div<
-        %a{href: edit_user_path(current_user)} 帐户设置
-      %div<
-        %a{href: "#{fucking_root}signup/#{current_user.inv_code}", data: {widget: "invite"}} 邀请好友
-      %div<
-        %a{href: signout_path, :data => { :confirm => "确定登出?"}} 退出
-    %a.tar.z_account{href: "#"}><
-      我的帐户
-      %span<
-        &nbsp;

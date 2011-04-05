@@ -10,19 +10,20 @@
       = link_to "编辑", edit_post_path(post), :class => 'edit', :title => '编辑'
     %a.open{ :href => posts_blog_path(post), :target => "_blank",
       title: '展开' }
-    = link_to "转贴", renew_post_path(post), :class => 'repost', :title => '转贴'
-    - favor_href, favor_data = favor_toggle_post_path(post), { :widget => "rest", :callback => "toggle", :md => "put" }
-    - faved = current_user && post.favored_by?(current_user)
-    - if faved
-      - favor_data["class"] = "fave"
-      - favor_data["title"] = "喜欢"
-      %a{ :href => favor_href, :title => '不喜欢', :class => 'faved', :data => favor_data }<
-        不喜欢
-    - else
-      - favor_data["class"] = "faved"
-      - favor_data["title"] = "不喜欢"
-      %a{ :href => favor_href, :title => '喜欢', :class => 'fave', :data => favor_data}<
-        喜欢
+    - if current_user
+      = link_to "转贴", renew_post_path(post), :class => 'repost', :title => '转贴'
+      - favor_href, favor_data = favor_toggle_post_path(post), { :widget => "rest", :callback => "toggle", :md => "put" }
+      - faved = current_user && post.favored_by?(current_user)
+      - if faved
+        - favor_data["class"] = "fave"
+        - favor_data["title"] = "喜欢"
+        %a{ :href => favor_href, :title => '不喜欢', :class => 'faved', :data => favor_data }<
+          不喜欢
+      - else
+        - favor_data["class"] = "faved"
+        - favor_data["title"] = "不喜欢"
+        %a{ :href => favor_href, :title => '喜欢', :class => 'fave', :data => favor_data}<
+          喜欢
   .content_body
     = render partial: sub_template, object: post
   .content_footer
@@ -41,8 +42,9 @@
             = post.parent.blog.title
       %span.update_time= post.created_at
     .right.post_stat
-      %a.reply{ :href => post_comments_path(post), :title => "评论", :data => { :tgt => "comments" } }<
-        = post.comments.count == 0 ? " " : post.comments.count
+      - if current_user
+        %a.reply{ :href => post_comments_path(post), :title => "评论", :data => { :tgt => "comments" } }<
+          = post.comments.count == 0 ? " " : post.comments.count
       - if post.repost_count && post.repost_count > 0
         %a.repost_count{href: posts_blog_path(post)}
           .repost_icon

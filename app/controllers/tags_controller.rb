@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 class TagsController < ApplicationController
-  before_filter :signin_auth
-  
+
   def show
     pagination = {
       :page => params[:page] || 1,
