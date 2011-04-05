@@ -300,18 +300,6 @@ class BlogView < Mustache
   end
 
   def control_buttons
-    current_user = @extra[:current_user]
-    controller = @extra[:controller]
-    follow_widget = controller.render_to_string partial: 'blogs/follow_toggle', locals: {blog: @blog}
-    apply_link = controller.editors_new_path
-    apply_widget = if @blog.applied? current_user
-                    "<a class='btn_apply' href='#{apply_link}'>申请加入</a>"
-                   else "" end
-    edit_link = controller.edit_blog_path(@blog)
-    edit_tag = if !post_single && @blog.customed?(current_user)
-                 "<a class='btn_customize' href='#{edit_link}'>自定义</a>"
-               else "" end
-
     <<CODE.html_safe
 #{load_js}
 <script>document.getElement("head").grab(new Element("link", {
@@ -321,10 +309,24 @@ class BlogView < Mustache
 <div class='commands'>
   <a class='back_to_home' href='#{home_url}'>回我的主页</a>
   #{edit_tag}
-  #{follow_widget}
+  #{follow_tag}
   #{apply_widget}
 </div>
 CODE
+  end
+
+  def edit_tag
+    if !post_single && @blog.customed?(current_user)
+      edit_link = controller.edit_blog_path(@blog)
+      "<a class='btn_customize' href='#{edit_link}'>自定义</a>"
+    else "" end
+  end
+
+  def apply_widget
+    if @blog.applied? current_user
+      apply_link = controller.editors_new_path
+      "<a class='btn_apply' href='#{apply_link}'>申请加入</a>"
+    else "" end
   end
 
   EXTRACTOR = BlogView.new(Blog.new)
@@ -336,6 +338,14 @@ CODE
   end
 
   private
+
+  def current_user
+    @extra[:current_user]
+  end
+
+  def controller
+    @extra[:controller]
+  end
 
   def normalize_variables(conf)
     VALUE_PARSERS.each do |type, parser|
