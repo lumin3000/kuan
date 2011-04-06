@@ -301,6 +301,7 @@ class BlogView < Mustache
   end
 
   def control_buttons
+    return '' unless current_user
     <<CODE.html_safe
 #{load_js}
 <script>document.getElement("head").grab(new Element("link", {
@@ -322,7 +323,7 @@ CODE
 
   def fave_tag
     return '' unless post_single
-    posts.first.fave_tag.call('')
+    fave_tag = posts.first.fave_tag.call('')
   end
 
   def delete_tag
@@ -341,7 +342,7 @@ CODE
   end
 
   def repost_tag
-    if post_single
+    if post_single && current_user
       repost_link = controller.renew_post_path(@extra[:posts].first)
       "<a class='btn_repost' href='#{repost_link}'>转帖</a>"
     else "" end
