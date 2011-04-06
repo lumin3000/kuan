@@ -33,7 +33,7 @@ class PostView
   end
 
   def repost_tag
-    return '' if @extra[:current_user].nil?
+    return nil if @extra[:current_user].nil?
     Proc.new do |text|
       <<CODE.html_safe
 #{load_js}
@@ -47,7 +47,7 @@ CODE
   end
 
   def fave_tag
-    return '' if @extra[:current_user].nil?
+    return nil if @extra[:current_user].nil?
     faved = @post.favored_by?(@extra[:current_user])
     statuses = %w{喜欢 不喜欢}
     classes = %w{faved fave}
