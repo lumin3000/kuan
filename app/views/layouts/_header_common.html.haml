@@ -16,9 +16,9 @@
       |    
     %a.z_news{href: news_posts_path}><
       随便看看
-    %span><
-      |    
     - if current_user
+      %span><
+        |    
       .menu><
         %div<
           我的帐户
@@ -34,3 +34,6 @@
         我的帐户
         %span<
           &nbsp;
+    - else
+      %span><
+        &nbsp;
