@@ -7,7 +7,7 @@
   float: right;
 }
 
-.commands .remove, .commands .edit, .commands .fave, .commands .faved
+.commands .remove, .commands .edit, .commands .fave, .commands .faved,
 .back_to_home, .btn_unfollow, .btn_follow, .btn_apply, .btn_customize, .btn_repost {
   text-indent: -9999px;
   margin-left: 10px;
