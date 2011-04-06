@@ -18,7 +18,7 @@ class PostView
 
   def load_comments
     if @extra[:post_single]
-      (load_js + @extra[:controller].render_to_string('comments/index',
+      (load_js + @extra[:controller].render_to_string('comments/index_on_blog',
                                                       :layout => false)).html_safe
     end
   end
