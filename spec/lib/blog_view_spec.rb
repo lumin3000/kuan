@@ -225,10 +225,6 @@ EOF
             'desc' => '背景色',
             'value' => '#333',
           },
-          'shit' => {
-            'desc' => '3字段',
-            'value' => nil,
-          },
         },
         'bool' => {
           'show_comments' => {
