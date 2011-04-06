@@ -1,13 +1,13 @@
 ;(function() {
-  var context = $('tar_follow_<%= @blog.id %>')
+  var context = document.getElementById('tar_follow_<%= @blog.id %>')
   if (!context) return
   var btnFollow = context.getElement('.btn_follow')
     , btnUnfollow = context.getElement('.btn_unfollow')
   if (<%= @follow %>) {
-    btnFollow && btnFollow.hide()
-    btnUnfollow && btnUnfollow.show()
+    btnFollow && btnFollow.setStyle('display', 'none')
+    btnUnfollow && btnUnfollow.setStyle('display', 'block')
   } else {
-    btnFollow && btnFollow.show()
-    btnUnfollow && btnUnfollow.hide()
+    btnFollow && btnFollow.setStyle('display', 'block')
+    btnUnfollow && btnUnfollow.setStyle('display', 'none')
   }
 })()
