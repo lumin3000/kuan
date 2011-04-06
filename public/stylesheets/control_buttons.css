@@ -7,7 +7,7 @@
   float: right;
 }
 
-.commands .remove, .commands .edit,
+.commands .remove, .commands .edit, .commands .fave, .commands .faved
 .back_to_home, .btn_unfollow, .btn_follow, .btn_apply, .btn_customize, .btn_repost {
   text-indent: -9999px;
   margin-left: 10px;
@@ -16,7 +16,7 @@
 .back_to_home, .btn_unfollow, .btn_follow, .btn_apply, .btn_customize, .btn_repost {
   width: 80px;
 }
-.commands .remove, .commands .edit {
+.commands .remove, .commands .edit, .commands .fave, .commands .faved {
   width: 20px;
 }
 .btn_repost {
@@ -42,4 +42,10 @@
 }
 .commands .edit {
   background: url('/images/btn_edit.gif')
+}
+.commands .fave {
+  background: url('/images/btn_fave.gif')
+}
+.commands .faved {
+  background: url('/images/btn_fave2.gif')
 }

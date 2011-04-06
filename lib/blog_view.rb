@@ -316,8 +316,14 @@ class BlogView < Mustache
   #{repost_tag}
   #{delete_tag}
   #{edit_tag}
+  #{fave_tag}
 </div>
 CODE
+  end
+
+  def fave_tag
+    return '' unless post_single
+    posts.first.fave_tag.call('')
   end
 
   def delete_tag
