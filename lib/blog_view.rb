@@ -287,10 +287,8 @@ class BlogView < Mustache
   end
 
   def follow_tag
-    if !post_single
-      widget = @extra[:controller].render_to_string partial: 'blogs/follow_toggle', locals: {blog: @blog}
-      (load_js + widget).html_safe
-    else "" end
+    widget = @extra[:controller].render_to_string partial: 'blogs/follow_toggle', locals: {blog: @blog}
+    (load_js + widget).html_safe
   end
 
   def apply_tag
