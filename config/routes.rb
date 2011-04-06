@@ -58,6 +58,7 @@ Kuan::Application.routes.draw do
   get '/news(/page/:page)', :to => 'posts#news', :page => /\d+/, :as => "news_posts"
   get '/news/all(/page/:page)', :to => 'posts#news', :page => /\d+/, :all => true
   get '/wall', :to => 'posts#wall', :as => "wall_posts"
+  get '/posts/all(/page/:page)', :to => 'posts#all', :page => /\d+/
   
   get '/followings', :to => 'users#followings'
   get '/buzz(/page/:page)', :to => 'users#buzz', :page => /\d+/, :as => "buzz"

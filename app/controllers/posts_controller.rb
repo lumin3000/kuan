@@ -2,6 +2,8 @@
 
 class PostsController < ApplicationController
   before_filter :signin_auth, :except => [:wall, :news]
+  before_filter :content_admin_auth, :only => [:all]
+
 
   def new
     @post = Post.new params
@@ -108,6 +110,15 @@ class PostsController < ApplicationController
       @posts = Post.news(pagination)
     end
     render :layout => "common"
+  end
+
+  def all
+    pagination = {
+      :page => params[:page] || 1,
+      :per_page => 50,
+    }
+    @posts = Post.all.paginate(pagination)
+    render "news", :layout => "common"
   end
 
   def wall

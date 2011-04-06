@@ -73,4 +73,15 @@ module SessionsHelper
       render :nothing => true, :status => 418
     end
   end
+
+  CONTENT_ADMINS = [
+    'sjerrys@gmail.com',
+    'pinkskyanger@yahoo.com.cn',
+  ]
+  def content_admin_auth
+    if not current_user && CONTENT_ADMINS.include?(current_user.email)
+      render :nothing => true, :status => 418
+    end
+  end
+
 end
