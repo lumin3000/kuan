@@ -55,6 +55,7 @@ Kuan::Application.routes.draw do
   #Maybe favors should have a controller too
   get '/favors(/page/:page)' => 'posts#favors', :page => /\d+/, :as => "favors_posts"
   get '/news(/page/:page)', :to => 'posts#news', :page => /\d+/, :as => "news_posts"
+  get '/news/all(/page/:page)', :to => 'posts#news', :page => /\d+/, :all => true, :as => "news_posts"
   get '/wall', :to => 'posts#wall', :as => "wall_posts"
   
   get '/followings', :to => 'users#followings'

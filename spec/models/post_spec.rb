@@ -56,7 +56,7 @@ describe Post do
     end
   end
 
-  describe "list news" do
+  describe "list posts" do
     before :each do
       Post.delete_all
       Blog.delete_all
@@ -88,32 +88,58 @@ describe Post do
         :per_page => 999,
       }
     end
-    it "should order desc" do
-      @post_new = Factory.build(:text)
-      @blog_new = @user.create_primary_blog!
-      @post_new.author = @user
-      @post_new.blog = @blog_new
-      @post_new.save!
-      @blog_new.reload
-
-      @news = Post.news(@pagination)
-      @news.first.should == @post_new
-      @news.last.should == @post
+    describe "list news" do
+      it "should order desc" do
+        @post_new = Factory.build(:text)
+        @blog_new = @user.create_primary_blog!
+        @post_new.author = @user
+        @post_new.blog = @blog_new
+        @post_new.save!
+        @blog_new.reload
+   
+        @news = Post.news(@pagination)
+        @news.first.should == @post_new
+        @news.last.should == @post
+      end
+      it "should not show private" do
+        @post_private = Factory.build(:text)
+        @post_private.author = @user
+        @post_private.blog = @blog_private
+        @post_private.save
+   
+        @news = Post.news(@pagination)
+        @news.length.should == 1
+      end
+   
+      it "should handle when all posts in blog was deleted" do
+        @post.destroy
+        @news = Post.news(@pagination)
+        @news.length.should == 0
+      end
     end
-    it "should not show private" do
-      @post_private = Factory.build(:text)
-      @post_private.author = @user
-      @post_private.blog = @blog
-      @post_private.save
-
-      @news = Post.news(@pagination)
-      @news.length.should == 1
-    end
-
-    it "should handle when all posts in blog was deleted" do
-      @post.destroy
-      @news = Post.news(@pagination)
-      @news.length.should == 0
+    describe "list all public posts" do
+      it "should order desc" do
+        @post_new = Factory.build(:text)
+        @blog_new = @user.create_primary_blog!
+        @post_new.author = @user
+        @post_new.blog = @blog_new
+        @post_new.save!
+        @blog_new.reload
+   
+        @news = Post.publics.paginate(@pagination)
+        @news.first.should == @post_new
+        @news.last.should == @post
+      end
+      it "should not show private" do
+        @post_private = Factory.build(:text)
+        @post_private.author = @user
+        @post_private.blog = @blog_private
+        @post_private.private = true
+        @post_private.save!
+   
+        @news = Post.publics.paginate(@pagination)
+        @news.length.should == 1
+      end
     end
   end
 

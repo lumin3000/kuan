@@ -102,7 +102,11 @@ class PostsController < ApplicationController
       :page => params[:page] || 1,
       :per_page => 10,
     }
-    @posts = Post.news(pagination)
+    if params[:all]
+      @posts = Post.publics.paginate(pagination)
+    else
+      @posts = Post.news(pagination)
+    end
     render :layout => "common"
   end
 

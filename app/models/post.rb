@@ -28,6 +28,7 @@ class Post
   before_create :type_setter, :private_setter
   after_create :ancestor_reposts_inc, :update_blog
 
+  scope :publics, where(:private.ne => true).desc(:created_at)
   scope :tagged, lambda { |tag| where(:tags => tag, :private.ne => true).desc(:created_at) }
   scope :pics_and_text, where(:_type.in => ["Text", "Pics"], :private.ne => true)
   scope :in_day, lambda { |date| where(:created_at.gte => date.midnight,
