@@ -1,4 +1,4 @@
 .number_page_control
-  - start_page.upto(end_page) do |i|
-    %a{href: "#{base_url}/page/#{i}", class: (current_page == i ? "clicked" : "")}<
-      = i
+  - pages.each do |p|
+    %a{href: p[:url], class: (p[:current?] ? "clicked" : "")}<
+      = p[:num]

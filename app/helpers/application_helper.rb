@@ -41,7 +41,7 @@ module ApplicationHelper
     if current_page > 1
       result[:prev_page_url] = base_url.dup.tap{|u| u.path += "/page/#{current_page - 1}"}
     end
-    if !collection.empty? && collection.length >= opt[:per_page]
+    if !collection.blank? && collection.length >= opt[:per_page]
       result[:next_page_url] = base_url.dup.tap{|u| u.path += "/page/#{current_page + 1}"}
     end
     result.update(opt)
@@ -60,13 +60,7 @@ module ApplicationHelper
   def pagination_standard(options = {})
     options = { max_page: 10, show_page: 10, default_position: 4 }.update(options)
 
-    if m = %r{page/(\d+)/?$}.match(request.url)
-      current_page, base_url = m[1].to_i(10), m.pre_match
-    else
-      current_page, base_url = 1, request.url
-    end
-    current_page = current_page
-    base_url.sub! %r{/?$}, ""
+    current_page, base_url = infer_pagination(request.url)
 
     if current_page < options[:default_position]
       start_page = 1
@@ -75,14 +69,21 @@ module ApplicationHelper
     else
       start_page = current_page - options[:default_position] + 1
     end
-
     end_page = start_page + options[:show_page] - 1
 
+    pages = []
+    start_page.upto(end_page) do |i|
+      pages << {
+        url: base_url.dup.tap{|u| u.path += "/page/#{i}"},
+        current?: current_page == i,
+        num: i
+      }
+    end
+
     render partial: "shared/pagination_standard", locals: {
-      current_page: current_page,
+      pages: pages,                                                                               
       start_page: start_page,
       end_page: end_page,
-      base_url: base_url,
     }
   end
 
