@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 class BlogsController < ApplicationController
   before_filter :signin_auth, :except => [:show]
-  before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick, :customize]
+  before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick]
   before_filter :editor_auth, :only => [:followers, :editors, :exit]
   before_filter :find_by_uri, :only => [:show, :follow_toggle, :apply, :apply_entry,
-    :extract_template_vars, :customize]
+    :extract_template_vars, :edit]
   before_filter :blog_display, :only => [:show, :preview]
 
   def new
@@ -22,14 +22,11 @@ class BlogsController < ApplicationController
   end
 
   def edit
-  end
-
-  def customize
     @templates = Template.all.to_a
     @templates.unshift(Template::DEFAULT)
     @variables = BlogView.extract_variables(@blog)
     @preview_url ||= blog_path(@blog)
-    render 'customize', :layout => 'application'
+    render 'edit', :layout => 'application'
   end
 
   def update
@@ -42,7 +39,7 @@ class BlogsController < ApplicationController
       flash[:success] = "页面信息更新成功"
       redirect_to blog_path(@blog)
     else
-      customize
+      edit
     end
   end
 
