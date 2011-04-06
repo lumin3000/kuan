@@ -42,6 +42,10 @@ CODE
     end
   end
 
+  def faved_by?(user)
+    @post.favored_by(user)
+  end
+
   def fave_tag
     return '' if @extra[:current_user].nil?
     faved = @post.favored_by?(@extra[:current_user])

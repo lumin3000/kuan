@@ -310,12 +310,20 @@ class BlogView < Mustache
 }))</script>
 <div class='commands'>
   <a class='back_to_home' href='#{home_url}'>回我的主页</a>
-  #{edit_tag}
+  #{customize_tag}
   #{follow_tag}
   #{apply_widget}
   #{repost_tag}
+  #{edit_tag}
 </div>
 CODE
+  end
+
+  def edit_tag
+    post = @extra[:posts].first
+    return '' unless post_single && post.editable_by?(current_user)
+    edit_link = controller.edit_post_path(post)
+    "<a class='edit' href='#{edit_link}'>编辑</a>"
   end
 
   def repost_tag
@@ -325,7 +333,7 @@ CODE
     else "" end
   end
 
-  def edit_tag
+  def customize_tag
     if !post_single && @blog.customed?(current_user)
       edit_link = controller.edit_blog_path(@blog)
       "<a class='btn_customize' href='#{edit_link}'>自定义</a>"
