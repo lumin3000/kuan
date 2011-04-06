@@ -71,7 +71,7 @@
               - if t.id
                 %a{href: blog_path(t.author.primary_blog), target: '_blank',
                   data: {widget: 'sureLink'}}
-                  = t.author.name
+                  .author_name= t.author.name
                 %span.template_name= t.name
               - else
                 .author_name 管理员
