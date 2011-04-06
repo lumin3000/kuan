@@ -34,6 +34,7 @@ K = {
 }
 
 K.upload_log = function(msg){
+  /*
   msg = Browser.name+Browser.version+' : '+Browser.Platform.name + ' : ' + msg
   new Request({
     url: '/upload_log',
@@ -42,6 +43,7 @@ K.upload_log = function(msg){
     onComplete: function(){
     }
   }).send()
+  */
 }
 K.file_uploader = new Class({
     Implements: [Options],
