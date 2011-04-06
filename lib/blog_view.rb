@@ -314,16 +314,25 @@ class BlogView < Mustache
   #{follow_tag}
   #{apply_widget}
   #{repost_tag}
+  #{delete_tag}
   #{edit_tag}
 </div>
 CODE
+  end
+
+  def delete_tag
+    post = @extra[:posts].first
+    return '' unless post_single && post.editable_by?(current_user)
+    link = controller.post_path(post)
+    "<a href='#{link}' class='remove' title='删除' data-widget='rest' data-md='delete'\
+      data-doconfirm='确定删除该条帖子吗?' data-callback='redirect'>删除</a>"
   end
 
   def edit_tag
     post = @extra[:posts].first
     return '' unless post_single && post.editable_by?(current_user)
     edit_link = controller.edit_post_path(post)
-    "<a class='edit' href='#{edit_link}'>编辑</a>"
+    "<a class='edit' href='#{edit_link}' title='编辑'>编辑</a>"
   end
 
   def repost_tag
