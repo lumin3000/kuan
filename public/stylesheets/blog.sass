@@ -155,6 +155,23 @@ span.suggestion
       color: #ffffff
 
 form.edit_blog
+  .page_name,
+  .page_tag,
+  .page_url
+    @include clear_fix
+
+  .page_url
+    margin-top: 10px
+
+  .error
+    font-size: 12px
+    float: right
+    color: red
+    margin-top: -8px
+
+  .suggestion
+    color: #888
+
   .menu
     display: none
     border: none
