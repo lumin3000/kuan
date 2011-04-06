@@ -110,8 +110,9 @@ class BlogView < Mustache
     result = {'color' => {}, 'image' => {}, 'text' => {}, 'bool' => {}}
     str.split(/\r\n?|\n/).each do |rule|
       pieces = rule.strip.split($;, 4)
-      next if pieces.length < 3
       type = pieces[0]
+      next if pieces.length < 4 && type == 'color'
+      next if pieces.length < 3
       next if not self::VALUE_PARSERS.has_key? type
       result[type][pieces[1]] = {
         'desc' => pieces[2],
