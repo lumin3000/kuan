@@ -126,6 +126,10 @@ K.widgets.submit = function(button) {
   })
 }
 
+K.widgets.sureLink = function(a) {
+  a.addEvent('click', function(e) { e.stopPropagation() })
+}
+
 K.widgets.radioButton = function(context) {
   var form = context.getParent('form')
   if (!form) return

@@ -69,7 +69,8 @@
             .shadow
             %div
               - if t.id
-                %a{href: blog_path(t.author.primary_blog)}
+                %a{href: blog_path(t.author.primary_blog), target: '_blank',
+                  data: {widget: 'sureLink'}}
                   = t.author.name
                 = t.name
               - else
