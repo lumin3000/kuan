@@ -325,6 +325,10 @@ K.widgets.reloadAppearance = function(el){
       setValid(true)
       return
     }
+
+    if (prevData['blog[template_id]'] != dataToSend['blog[template_id]']) {
+      reset = true
+    }
     prevData = dataToSend
     if (reset) {
       dataToSend = Object.toQueryString(dataToSend) + '&reset=1'
