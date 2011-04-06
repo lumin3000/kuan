@@ -287,8 +287,10 @@ class BlogView < Mustache
   end
 
   def follow_tag
-    widget = @extra[:controller].render_to_string partial: 'blogs/follow_toggle', locals: {blog: @blog}
-    (load_js + widget).html_safe
+    if !post_single
+      widget = @extra[:controller].render_to_string partial: 'blogs/follow_toggle', locals: {blog: @blog}
+      (load_js + widget).html_safe
+    else "" end
   end
 
   def apply_tag
@@ -308,14 +310,45 @@ class BlogView < Mustache
 }))</script>
 <div class='commands'>
   <a class='back_to_home' href='#{home_url}'>回我的主页</a>
-  #{edit_tag}
+  #{customize_tag}
   #{follow_tag}
   #{apply_widget}
+  #{repost_tag}
+  #{delete_tag}
+  #{edit_tag}
+  #{fave_tag}
 </div>
 CODE
   end
 
+  def fave_tag
+    return '' unless post_single
+    posts.first.fave_tag.call('')
+  end
+
+  def delete_tag
+    post = @extra[:posts].first
+    return '' unless post_single && post.editable_by?(current_user)
+    link = controller.post_path(post)
+    "<a href='#{link}' class='remove' title='删除' data-widget='rest' data-md='delete'\
+      data-doconfirm='确定删除该条帖子吗?' data-callback='redirect'>删除</a>"
+  end
+
   def edit_tag
+    post = @extra[:posts].first
+    return '' unless post_single && post.editable_by?(current_user)
+    edit_link = controller.edit_post_path(post)
+    "<a class='edit' href='#{edit_link}' title='编辑'>编辑</a>"
+  end
+
+  def repost_tag
+    if post_single
+      repost_link = controller.renew_post_path(@extra[:posts].first)
+      "<a class='btn_repost' href='#{repost_link}'>转帖</a>"
+    else "" end
+  end
+
+  def customize_tag
     if !post_single && @blog.customed?(current_user)
       edit_link = controller.edit_blog_path(@blog)
       "<a class='btn_customize' href='#{edit_link}'>自定义</a>"
@@ -323,7 +356,7 @@ CODE
   end
 
   def apply_widget
-    if @blog.applied? current_user
+    if !post_single && @blog.applied?(current_user)
       apply_link = controller.editors_new_path
       "<a class='btn_apply' href='#{apply_link}'>申请加入</a>"
     else "" end
