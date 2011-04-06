@@ -61,7 +61,7 @@
       .pool{data: {widget: 'radioButton preview', contents: '.theme', fieldName: 'blog[template_id]'}}
         - @templates.each do |t|
           .theme{data: {value: t.id}, class: t.id == @blog.template.id ? 'selected' : ''}
-            %span
+            %span.template_thumb
               - if t.id
                 %img{src: t.thumbnail.url_for(:small)}
               - else
@@ -72,10 +72,10 @@
                 %a{href: blog_path(t.author.primary_blog), target: '_blank',
                   data: {widget: 'sureLink'}}
                   = t.author.name
-                = t.name
+                %span.template_name= t.name
               - else
                 .author_name 管理员
-                默认模板
+                %span.template_name 默认模板
       .buttons
         %a.button{href: "###", data: {widget: 'toggler', target: 'fieldset.template',
           classes: 'editing_custom_html picking_template', field: 'blog[using_custom_html]'}}
