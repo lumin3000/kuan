@@ -125,7 +125,7 @@ class BlogView < Mustache
   def self.extract_variables(blog)
     EXTRACTOR.blog = blog
     EXTRACTOR.template = blog.template_in_use
-    EXTRACTOR.render
+    EXTRACTOR.render rescue nil
     EXTRACTOR.variables || {
         'color' => {
         },
