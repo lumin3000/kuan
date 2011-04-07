@@ -11,6 +11,7 @@ class Blog
   field :private, :type => Boolean, :default => false
   field :canjoin, :type => Boolean, :default => false
   field :posted_at, :type => Time
+  index :posted_at
   field :tag
   index :tag
 
