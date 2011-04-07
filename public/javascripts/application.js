@@ -200,8 +200,6 @@ K.file_uploader = new Class({
       }
     }.bind(this), false)
     function progress(e){
-      console.log('a')
-      console.log('b')
       function status(n){
         el && el.get('spinner') && el.get('spinner').msg.getElement('span') && el.get('spinner').msg.getElement('span').set('html', n)
       }
