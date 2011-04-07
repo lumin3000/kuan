@@ -242,7 +242,7 @@ K.photo_upload = {
   spin: function(el){
     el.addClass('loading')
     var msg = new Element('span')
-    new Element('span', {'html': '上传中...'}).inject(msg)
+    new Element('span', {'html': '上传中...'}).setStyle('padding-right', 6).inject(msg)
     new Element('a', { href: '#', 'html':'取消' })
       .addEvent('click', function(){
         el.unspin()

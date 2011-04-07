@@ -199,14 +199,21 @@ K.file_uploader = new Class({
         this.complete(xhr.responseText, el)
       }
     }.bind(this), false)
-    xhr.addEventListener('progress', function(e){
+    function progress(e){
+      console.log('a')
+      console.log('b')
       function status(n){
-        //el && el.get('spinner').msg.set('html', n)
+        el && el.get('spinner') && el.get('spinner').msg.getElement('span') && el.get('spinner').msg.getElement('span').set('html', n)
       }
       if(e.lengthComputable){
         status(''+(e.loaded/e.total*100).toInt()+'%')
       }
-    }.bind(this), false)
+    }
+    if(Browser.chrome){
+      xhr.upload['onprogress'] = progress.bind(this)
+    }else{
+      xhr.addEventListener('progress', progress.bind(this), false)
+    }
     xhr.open('POST', this.path, true)
     xhr.send(form_data)
   },
