@@ -39,9 +39,29 @@
 
 <h3>Section</h3>
 
-<p>进入section之后可以访问相应数据（post, user, etc.）的字段</p>
+<p>section是模板系统中的主要结构，与编程语言的代码块（block）有相似之处。宽岛模板系统中有循环section，条件判断
+section，数据对象section，呃...一共三种。</p>
 
-<p>下层section中可以访问到上层中的字段或section</p>
+<h4>数据对象section</h4>
+
+<p>有那么一些数据总是有关联的 -
+比当前页码（current_page）和总页数（total_pages）都属于分页信息。为了结构上更加清晰我们把这两个数据共同放在pagination
+section里：</p>
+
+<pre><code>
+{{#pagination}}
+  第{{current_page}}页，共{{total_pages}}页
+{{/pagination}}
+{{current_page}} &lt;--在section外面什么也不会显示
+</code></pre>
+
+<h4>循环Section</h4>
+
+<p>与数据对象section类似，循环section也会允许模板作者访问某些数据对象的字段/section。唯一的区别就在于这里会循环出现－比如多条帖子，比如关注的多个页面－每一个条目都会让section中的代码渲染输出一次。</p>
+
+<h4>条件判断Section</h4>
+
+<p>用来处理"也许是，也许不是"的情况。</p>
 
 <p>下面例子中，posts是一个循环section, section中的模板代码会应用于每一条post。而text是条件判断section，类型为"文字"的帖子才会进入该section并使用其中的代码。</p>
 
@@ -78,9 +98,9 @@
 <pre><code>{{#desc}}&lt;meta name="description" content="{{meta_desc}}" /&gt;{{/desc}}
 </code></pre>
 
-<p>虽然desc只是一个普通字段，但模板系统支持这样的使用技巧。</p>
+<p>虽然desc只是一个普通字段，但模板系统支持把它当作条件判断section来使用。</p>
 
-<h2>字段们</h2>
+<h2>字段完整参考</h2>
 
 <h3>顶级作用域</h3>
 
@@ -362,7 +382,7 @@ Section里使用</p>
   text subtitle 副标题 我在宽岛的小屋
 {{/define}}
 
-&lt;a href="{{url}}"&gt;
+&lt;a href="/"&gt;
   &lt;h1&gt;{{title}} - {{text_subtitle}}&lt;/h1&gt;
 &lt;/a&gt;
 </code></pre>
