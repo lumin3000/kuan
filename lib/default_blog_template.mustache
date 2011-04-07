@@ -7,6 +7,14 @@
     <link href="/stylesheets/post_display.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="/stylesheets/blog_show.css" media="screen" rel="stylesheet" type="text/css" />
     <meta name="description" content="{{meta_desc}}"></meta>
+    {{#define}}
+      color background 背景颜色 #fff
+    {{/define}}
+    <style type='text/css'>
+      body {
+        background-color: {{color_background}};
+      }
+    </style>
   </head>
   <body>
     <div id="wrapper">
@@ -121,6 +129,9 @@
             <a href='{{url}}'>
               <img src='{{icon_180}}' />
             </a>
+          </div>
+          <div id='description'>
+            {{desc}}
           </div>
         </div>
       </div>
