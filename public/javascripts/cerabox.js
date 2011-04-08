@@ -365,6 +365,7 @@ var CeraBox = new Class({
 						
 						ceraBox.vars.busy = false;
                                           ceraBox.vars.cerabox.makeDraggable() //add by hsy
+                                          ceraBox.vars.cerabox.setStyle('cursor', 'move') //add by hsy
 					});
 			},
 			onerror: function() {
