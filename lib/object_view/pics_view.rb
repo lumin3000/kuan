@@ -28,6 +28,10 @@ class PicsView < PostView
             ).html_safe
   end
 
+  def title
+    nil
+  end
+
   def post_type
     photo_set ? "photo_set" : "photo_single"
   end

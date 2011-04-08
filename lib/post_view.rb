@@ -121,4 +121,8 @@ CODE
       ObjectView.wrap u,@extra
     end
   end
+
+  def title
+    nil
+  end
 end
