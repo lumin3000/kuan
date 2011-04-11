@@ -33,4 +33,8 @@ SOURCE
 </div>
 CODE
   end
+
+  def title
+    nil
+  end
 end
