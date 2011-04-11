@@ -22,7 +22,7 @@ describe "Favor" do
       @post.reload
       @post.favor_count.should == 1
     end
-
+ 
     it "should not add the same favor" do
       @user.add_favor_post! @post
       @user.add_favor_post! @post

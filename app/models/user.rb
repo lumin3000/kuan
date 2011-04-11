@@ -168,7 +168,10 @@ class User
   end
 
   def favor_posts
-    favors.map {|f| f.post}
+    favors.reduce([]) do |posts, f|
+      posts << f.post unless f.post.nil?
+      posts
+    end
   end
 
   #Messages operations
