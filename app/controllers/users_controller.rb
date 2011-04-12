@@ -28,6 +28,8 @@ class UsersController < ApplicationController
 
     sign_in @user
     flash[:success] = "欢迎注册"
+    #log register user's reference
+    logging_refer
     redirect_to home_path
   end
 
@@ -104,5 +106,10 @@ class UsersController < ApplicationController
     render 'shared/404', :status => 404 and return if params[:code].blank?
     @inv_user = User.find_by_code params[:code]
     render 'shared/404', :status => 404 if @inv_user.nil? 
+  end
+
+  def logging_refer
+    logger = Logger.new("#{Rails.root.to_s}/log/register_refer.log")
+    logger.info %(#{Time.now} : #{request.remote_ip} : #{@user.email} : #{params[:refer]})
   end
 end
