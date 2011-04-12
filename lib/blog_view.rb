@@ -307,7 +307,12 @@ class BlogView < Mustache
 <script>document.getElement("head").grab(new Element("link", {
   rel: "stylesheet"
 , href: "/stylesheets/control_buttons.css"
-}))</script>
+})).grab(new Element("link", {
+  rel: "stylesheet"
+, href: "/stylesheets/k_box.css"
+}))
+console.log("blah")
+</script>
 <div class='commands'>
   <a class='back_to_home' href='#{home_url}'>回我的主页</a>
   #{customize_tag}

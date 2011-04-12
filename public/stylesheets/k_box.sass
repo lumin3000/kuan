@@ -1,0 +1,53 @@
+@import 'lib'
+
+.k_box
+  border: 8px solid #548ff4
+  @include border-radius(21px)
+  background: white
+  position: absolute
+  .k_box_top
+    height: 24px
+    .k_box_close
+      width: 14px
+      height: 14px
+      margin: 8px 8px 0 0
+      float: right
+      background: url('/images/icons.gif') -100px -20px
+      overflow: hidden
+      cursor: pointer
+  .k_box_inner
+    .k_box_msg
+
+.box_invite
+  padding: 15px 25px
+  div
+    font-size: 18px
+  input
+    @include border-radius(8px)
+    padding-left: 5px
+    width: 360px
+    height: 32px
+    border: 1px solid #CADBEA
+    font-size: 12px
+
+.box_confirm
+  text-align: center
+  div
+    font-size: 18px
+    margin: 15px
+  a
+    padding: 5px 10px
+    margin: 15px
+    width: 60px
+    height: 30px
+    text-decoration: none
+    color: white
+    cursor: pointer
+    font-size: 15px
+    &:hover
+      text-decoration: none
+  .box_ok
+    background: #548ff4
+  .box_cancel
+    background: #9f9f9f
+
