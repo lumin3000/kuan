@@ -1,6 +1,6 @@
 // MooTools: the javascript framework.
-// Load this file's selection again by visiting: http://mootools.net/more/81ccdbe0ca359ee0f80b91ef7c290eec 
-// Or build this file again with packager using: packager build More/Elements.From More/Element.Delegation More/OverText More/Fx.Accordion More/Fx.Move More/Fx.Reveal More/Fx.Slide More/Fx.SmoothScroll More/Sortables More/Assets More/Color More/Spinner More/Locale
+// Load this file's selection again by visiting: http://mootools.net/more/5885fb96c26b83620722a4232b0e6a82 
+// Or build this file again with packager using: packager build More/Elements.From More/Element.Delegation More/Form.Request.Append More/OverText More/Fx.Accordion More/Fx.Move More/Fx.Reveal More/Fx.Slide More/Fx.SmoothScroll More/Sortables More/Assets More/Color More/Spinner More/Locale
 /*
 ---
 
@@ -521,6 +521,49 @@ Class.Occlude = new Class({
 /*
 ---
 
+script: Class.Refactor.js
+
+name: Class.Refactor
+
+description: Extends a class onto itself with new property, preserving any items attached to the class's namespace.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Core/Class
+  - /MooTools.More
+
+# Some modules declare themselves dependent on Class.Refactor
+provides: [Class.refactor, Class.Refactor]
+
+...
+*/
+
+Class.refactor = function(original, refactors){
+
+	Object.each(refactors, function(item, name){
+		var origin = original.prototype[name];
+		if (origin && origin.$origin) origin = origin.$origin;
+		original.implement(name, (typeof item == 'function') ? function(){
+			var old = this.previous;
+			this.previous = origin || function(){};
+			var value = item.apply(this, arguments);
+			this.previous = old;
+			return value;
+		} : item);
+	});
+
+	return original;
+
+};
+
+
+/*
+---
+
 script: Element.Measure.js
 
 name: Element.Measure
@@ -918,6 +961,857 @@ Element.implement({
 /*
 ---
 
+script: IframeShim.js
+
+name: IframeShim
+
+description: Defines IframeShim, a class for obscuring select lists and flash objects in IE.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Core/Element.Event
+  - Core/Element.Style
+  - Core/Options
+  - Core/Events
+  - /Element.Position
+  - /Class.Occlude
+
+provides: [IframeShim]
+
+...
+*/
+
+var IframeShim = new Class({
+
+	Implements: [Options, Events, Class.Occlude],
+
+	options: {
+		className: 'iframeShim',
+		src: 'javascript:false;document.write("");',
+		display: false,
+		zIndex: null,
+		margin: 0,
+		offset: {x: 0, y: 0},
+		browsers: (Browser.ie6 || (Browser.firefox && Browser.version < 3 && Browser.Platform.mac))
+	},
+
+	property: 'IframeShim',
+
+	initialize: function(element, options){
+		this.element = document.id(element);
+		if (this.occlude()) return this.occluded;
+		this.setOptions(options);
+		this.makeShim();
+		return this;
+	},
+
+	makeShim: function(){
+		if (this.options.browsers){
+			var zIndex = this.element.getStyle('zIndex').toInt();
+
+			if (!zIndex){
+				zIndex = 1;
+				var pos = this.element.getStyle('position');
+				if (pos == 'static' || !pos) this.element.setStyle('position', 'relative');
+				this.element.setStyle('zIndex', zIndex);
+			}
+			zIndex = ((this.options.zIndex != null || this.options.zIndex === 0) && zIndex > this.options.zIndex) ? this.options.zIndex : zIndex - 1;
+			if (zIndex < 0) zIndex = 1;
+			this.shim = new Element('iframe', {
+				src: this.options.src,
+				scrolling: 'no',
+				frameborder: 0,
+				styles: {
+					zIndex: zIndex,
+					position: 'absolute',
+					border: 'none',
+					filter: 'progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0)'
+				},
+				'class': this.options.className
+			}).store('IframeShim', this);
+			var inject = (function(){
+				this.shim.inject(this.element, 'after');
+				this[this.options.display ? 'show' : 'hide']();
+				this.fireEvent('inject');
+			}).bind(this);
+			if (!IframeShim.ready) window.addEvent('load', inject);
+			else inject();
+		} else {
+			this.position = this.hide = this.show = this.dispose = Function.from(this);
+		}
+	},
+
+	position: function(){
+		if (!IframeShim.ready || !this.shim) return this;
+		var size = this.element.measure(function(){
+			return this.getSize();
+		});
+		if (this.options.margin != undefined){
+			size.x = size.x - (this.options.margin * 2);
+			size.y = size.y - (this.options.margin * 2);
+			this.options.offset.x += this.options.margin;
+			this.options.offset.y += this.options.margin;
+		}
+		this.shim.set({width: size.x, height: size.y}).position({
+			relativeTo: this.element,
+			offset: this.options.offset
+		});
+		return this;
+	},
+
+	hide: function(){
+		if (this.shim) this.shim.setStyle('display', 'none');
+		return this;
+	},
+
+	show: function(){
+		if (this.shim) this.shim.setStyle('display', 'block');
+		return this.position();
+	},
+
+	dispose: function(){
+		if (this.shim) this.shim.dispose();
+		return this;
+	},
+
+	destroy: function(){
+		if (this.shim) this.shim.destroy();
+		return this;
+	}
+
+});
+
+window.addEvent('load', function(){
+	IframeShim.ready = true;
+});
+
+
+/*
+---
+
+script: Mask.js
+
+name: Mask
+
+description: Creates a mask element to cover another.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Core/Options
+  - Core/Events
+  - Core/Element.Event
+  - /Class.Binds
+  - /Element.Position
+  - /IframeShim
+
+provides: [Mask]
+
+...
+*/
+
+var Mask = new Class({
+
+	Implements: [Options, Events],
+
+	Binds: ['position'],
+
+	options: {/*
+		onShow: function(){},
+		onHide: function(){},
+		onDestroy: function(){},
+		onClick: function(event){},
+		inject: {
+			where: 'after',
+			target: null,
+		},
+		hideOnClick: false,
+		id: null,
+		destroyOnHide: false,*/
+		style: {},
+		'class': 'mask',
+		maskMargins: false,
+		useIframeShim: true,
+		iframeShimOptions: {}
+	},
+
+	initialize: function(target, options){
+		this.target = document.id(target) || document.id(document.body);
+		this.target.store('mask', this);
+		this.setOptions(options);
+		this.render();
+		this.inject();
+	},
+
+	render: function(){
+		this.element = new Element('div', {
+			'class': this.options['class'],
+			id: this.options.id || 'mask-' + String.uniqueID(),
+			styles: Object.merge({}, this.options.style, {
+				display: 'none'
+			}),
+			events: {
+				click: function(event){
+					this.fireEvent('click', event);
+					if (this.options.hideOnClick) this.hide();
+				}.bind(this)
+			}
+		});
+
+		this.hidden = true;
+	},
+
+	toElement: function(){
+		return this.element;
+	},
+
+	inject: function(target, where){
+		where = where || (this.options.inject ? this.options.inject.where : '') || this.target == document.body ? 'inside' : 'after';
+		target = target || (this.options.inject && this.options.inject.target) || this.target;
+
+		this.element.inject(target, where);
+
+		if (this.options.useIframeShim){
+			this.shim = new IframeShim(this.element, this.options.iframeShimOptions);
+
+			this.addEvents({
+				show: this.shim.show.bind(this.shim),
+				hide: this.shim.hide.bind(this.shim),
+				destroy: this.shim.destroy.bind(this.shim)
+			});
+		}
+	},
+
+	position: function(){
+		this.resize(this.options.width, this.options.height);
+
+		this.element.position({
+			relativeTo: this.target,
+			position: 'topLeft',
+			ignoreMargins: !this.options.maskMargins,
+			ignoreScroll: this.target == document.body
+		});
+
+		return this;
+	},
+
+	resize: function(x, y){
+		var opt = {
+			styles: ['padding', 'border']
+		};
+		if (this.options.maskMargins) opt.styles.push('margin');
+
+		var dim = this.target.getComputedSize(opt);
+		if (this.target == document.body){
+			this.element.setStyles({width: 0, height: 0});
+			var win = window.getScrollSize();
+			if (dim.totalHeight < win.y) dim.totalHeight = win.y;
+			if (dim.totalWidth < win.x) dim.totalWidth = win.x;
+		}
+		this.element.setStyles({
+			width: Array.pick([x, dim.totalWidth, dim.x]),
+			height: Array.pick([y, dim.totalHeight, dim.y])
+		});
+
+		return this;
+	},
+
+	show: function(){
+		if (!this.hidden) return this;
+
+		window.addEvent('resize', this.position);
+		this.position();
+		this.showMask.apply(this, arguments);
+
+		return this;
+	},
+
+	showMask: function(){
+		this.element.setStyle('display', 'block');
+		this.hidden = false;
+		this.fireEvent('show');
+	},
+
+	hide: function(){
+		if (this.hidden) return this;
+
+		window.removeEvent('resize', this.position);
+		this.hideMask.apply(this, arguments);
+		if (this.options.destroyOnHide) return this.destroy();
+
+		return this;
+	},
+
+	hideMask: function(){
+		this.element.setStyle('display', 'none');
+		this.hidden = true;
+		this.fireEvent('hide');
+	},
+
+	toggle: function(){
+		this[this.hidden ? 'show' : 'hide']();
+	},
+
+	destroy: function(){
+		this.hide();
+		this.element.destroy();
+		this.fireEvent('destroy');
+		this.target.eliminate('mask');
+	}
+
+});
+
+Element.Properties.mask = {
+
+	set: function(options){
+		var mask = this.retrieve('mask');
+		if (mask) mask.destroy();
+		return this.eliminate('mask').store('mask:options', options);
+	},
+
+	get: function(){
+		var mask = this.retrieve('mask');
+		if (!mask){
+			mask = new Mask(this, this.retrieve('mask:options'));
+			this.store('mask', mask);
+		}
+		return mask;
+	}
+
+};
+
+Element.implement({
+
+	mask: function(options){
+		if (options) this.set('mask', options);
+		this.get('mask').show();
+		return this;
+	},
+
+	unmask: function(){
+		this.get('mask').hide();
+		return this;
+	}
+
+});
+
+
+/*
+---
+
+script: Spinner.js
+
+name: Spinner
+
+description: Adds a semi-transparent overlay over a dom element with a spinnin ajax icon.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Core/Fx.Tween
+  - Core/Request
+  - /Class.refactor
+  - /Mask
+
+provides: [Spinner]
+
+...
+*/
+
+var Spinner = new Class({
+
+	Extends: Mask,
+
+	Implements: Chain,
+
+	options: {/*
+		message: false,*/
+		'class': 'spinner',
+		containerPosition: {},
+		content: {
+			'class': 'spinner-content'
+		},
+		messageContainer: {
+			'class': 'spinner-msg'
+		},
+		img: {
+			'class': 'spinner-img'
+		},
+		fxOptions: {
+			link: 'chain'
+		}
+	},
+
+	initialize: function(target, options){
+		this.target = document.id(target) || document.id(document.body);
+		this.target.store('spinner', this);
+		this.setOptions(options);
+		this.render();
+		this.inject();
+
+		// Add this to events for when noFx is true; parent methods handle hide/show.
+		var deactivate = function(){ this.active = false; }.bind(this);
+		this.addEvents({
+			hide: deactivate,
+			show: deactivate
+		});
+	},
+
+	render: function(){
+		this.parent();
+
+		this.element.set('id', this.options.id || 'spinner-' + String.uniqueID());
+
+		this.content = document.id(this.options.content) || new Element('div', this.options.content);
+		this.content.inject(this.element);
+
+		if (this.options.message){
+			this.msg = document.id(this.options.message) || new Element('p', this.options.messageContainer).appendText(this.options.message);
+			this.msg.inject(this.content);
+		}
+
+		if (this.options.img){
+			this.img = document.id(this.options.img) || new Element('div', this.options.img);
+			this.img.inject(this.content);
+		}
+
+		this.element.set('tween', this.options.fxOptions);
+	},
+
+	show: function(noFx){
+		if (this.active) return this.chain(this.show.bind(this));
+		if (!this.hidden){
+			this.callChain.delay(20, this);
+			return this;
+		}
+
+		this.active = true;
+
+		return this.parent(noFx);
+	},
+
+	showMask: function(noFx){
+		var pos = function(){
+			this.content.position(Object.merge({
+				relativeTo: this.element
+			}, this.options.containerPosition));
+		}.bind(this);
+
+		if (noFx){
+			this.parent();
+			pos();
+		} else {
+			if (!this.options.style.opacity) this.options.style.opacity = this.element.getStyle('opacity').toFloat();
+			this.element.setStyles({
+				display: 'block',
+				opacity: 0
+			}).tween('opacity', this.options.style.opacity);
+			pos();
+			this.hidden = false;
+			this.fireEvent('show');
+			this.callChain();
+		}
+	},
+
+	hide: function(noFx){
+		if (this.active) return this.chain(this.hide.bind(this));
+		if (this.hidden){
+			this.callChain.delay(20, this);
+			return this;
+		}
+		this.active = true;
+		return this.parent(noFx);
+	},
+
+	hideMask: function(noFx){
+		if (noFx) return this.parent();
+		this.element.tween('opacity', 0).get('tween').chain(function(){
+			this.element.setStyle('display', 'none');
+			this.hidden = true;
+			this.fireEvent('hide');
+			this.callChain();
+		}.bind(this));
+	},
+
+	destroy: function(){
+		this.content.destroy();
+		this.parent();
+		this.target.eliminate('spinner');
+	}
+
+});
+
+Request = Class.refactor(Request, {
+
+	options: {
+		useSpinner: false,
+		spinnerOptions: {},
+		spinnerTarget: false
+	},
+
+	initialize: function(options){
+		this._send = this.send;
+		this.send = function(options){
+			var spinner = this.getSpinner();
+			if (spinner) spinner.chain(this._send.pass(options, this)).show();
+			else this._send(options);
+			return this;
+		};
+		this.previous(options);
+	},
+
+	getSpinner: function(){
+		if (!this.spinner){
+			var update = document.id(this.options.spinnerTarget) || document.id(this.options.update);
+			if (this.options.useSpinner && update){
+				update.set('spinner', this.options.spinnerOptions);
+				var spinner = this.spinner = update.get('spinner');
+				['complete', 'exception', 'cancel'].each(function(event){
+					this.addEvent(event, spinner.hide.bind(spinner));
+				}, this);
+			}
+		}
+		return this.spinner;
+	}
+
+});
+
+Element.Properties.spinner = {
+
+	set: function(options){
+		var spinner = this.retrieve('spinner');
+		if (spinner) spinner.destroy();
+		return this.eliminate('spinner').store('spinner:options', options);
+	},
+
+	get: function(){
+		var spinner = this.retrieve('spinner');
+		if (!spinner){
+			spinner = new Spinner(this, this.retrieve('spinner:options'));
+			this.store('spinner', spinner);
+		}
+		return spinner;
+	}
+
+};
+
+Element.implement({
+
+	spin: function(options){
+		if (options) this.set('spinner', options);
+		this.get('spinner').show();
+		return this;
+	},
+
+	unspin: function(){
+		this.get('spinner').hide();
+		return this;
+	}
+
+});
+
+
+/*
+---
+
+script: String.QueryString.js
+
+name: String.QueryString
+
+description: Methods for dealing with URI query strings.
+
+license: MIT-style license
+
+authors:
+  - Sebastian Markbåge
+  - Aaron Newton
+  - Lennart Pilon
+  - Valerio Proietti
+
+requires:
+  - Core/Array
+  - Core/String
+  - /MooTools.More
+
+provides: [String.QueryString]
+
+...
+*/
+
+String.implement({
+
+	parseQueryString: function(decodeKeys, decodeValues){
+		if (decodeKeys == null) decodeKeys = true;
+		if (decodeValues == null) decodeValues = true;
+
+		var vars = this.split(/[&;]/),
+			object = {};
+		if (!vars.length) return object;
+
+		vars.each(function(val){
+			var index = val.indexOf('=') + 1,
+				value = index ? val.substr(index) : '',
+				keys = index ? val.substr(0, index - 1).match(/([^\]\[]+|(\B)(?=\]))/g) : [val],
+				obj = object;
+			if (!keys) return;
+			if (decodeValues) value = decodeURIComponent(value);
+			keys.each(function(key, i){
+				if (decodeKeys) key = decodeURIComponent(key);
+				var current = obj[key];
+
+				if (i < keys.length - 1) obj = obj[key] = current || {};
+				else if (typeOf(current) == 'array') current.push(value);
+				else obj[key] = current != null ? [current, value] : value;
+			});
+		});
+
+		return object;
+	},
+
+	cleanQueryString: function(method){
+		return this.split('&').filter(function(val){
+			var index = val.indexOf('='),
+				key = index < 0 ? '' : val.substr(0, index),
+				value = val.substr(index + 1);
+
+			return method ? method.call(null, key, value) : (value || value === 0);
+		}).join('&');
+	}
+
+});
+
+
+/*
+---
+
+script: Form.Request.js
+
+name: Form.Request
+
+description: Handles the basic functionality of submitting a form and updating a dom element with the result.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Core/Request.HTML
+  - /Class.Binds
+  - /Class.Occlude
+  - /Spinner
+  - /String.QueryString
+  - /Element.Delegation
+
+provides: [Form.Request]
+
+...
+*/
+
+if (!window.Form) window.Form = {};
+
+(function(){
+
+	Form.Request = new Class({
+
+		Binds: ['onSubmit', 'onFormValidate'],
+
+		Implements: [Options, Events, Class.Occlude],
+
+		options: {/*
+			onFailure: function(){},
+			onSuccess: function(){}, // aliased to onComplete,
+			onSend: function(){}*/
+			requestOptions: {
+				evalScripts: true,
+				useSpinner: true,
+				emulation: false,
+				link: 'ignore'
+			},
+			sendButtonClicked: true,
+			extraData: {},
+			resetForm: true
+		},
+
+		property: 'form.request',
+
+		initialize: function(form, update, options){
+			this.element = document.id(form);
+			if (this.occlude()) return this.occluded;
+			this.update = document.id(update);
+			this.setOptions(options);
+			this.makeRequest();
+			if (this.options.resetForm){
+				this.request.addEvent('success', function(){
+					Function.attempt(function(){
+						this.element.reset();
+					}.bind(this));
+					if (window.OverText) OverText.update();
+				}.bind(this));
+			}
+			this.attach();
+		},
+
+		toElement: function(){
+			return this.element;
+		},
+
+		makeRequest: function(){
+			this.request = new Request.HTML(Object.merge({
+					update: this.update,
+					emulation: false,
+					spinnerTarget: this.element,
+					method: this.element.get('method') || 'post'
+			}, this.options.requestOptions)).addEvents({
+				success: function(tree, elements, html, javascript){
+					['complete', 'success'].each(function(evt){
+						this.fireEvent(evt, [this.update, tree, elements, html, javascript]);
+					}, this);
+				}.bind(this),
+				failure: function(){
+					this.fireEvent('complete', arguments).fireEvent('failure', arguments);
+				}.bind(this),
+				exception: function(){
+					this.fireEvent('failure', arguments);
+				}.bind(this)
+			});
+		},
+
+		attach: function(attach){
+			if (attach == null) attach = true;
+			var method = attach ? 'addEvent' : 'removeEvent';
+
+			this.element[method]('click:relay(button, input[type=submit])', this.saveClickedButton.bind(this));
+
+			var fv = this.element.retrieve('validator');
+			if (fv) fv[method]('onFormValidate', this.onFormValidate);
+			else this.element[method]('submit', this.onSubmit);
+		},
+
+		detach: function(){
+			this.attach(false);
+			return this;
+		},
+
+		//public method
+		enable: function(){
+			this.attach();
+			return this;
+		},
+
+		//public method
+		disable: function(){
+			this.detach();
+			return this;
+		},
+
+		onFormValidate: function(valid, form, event){
+			//if there's no event, then this wasn't a submit event
+			if (!event) return;
+			var fv = this.element.retrieve('validator');
+			if (valid || (fv && !fv.options.stopOnFailure)){
+				event.stop();
+				this.send();
+			}
+		},
+
+		onSubmit: function(event){
+			var fv = this.element.retrieve('validator');
+			if (fv){
+				//form validator was created after Form.Request
+				this.element.removeEvent('submit', this.onSubmit);
+				fv.addEvent('onFormValidate', this.onFormValidate);
+				this.element.validate();
+				return;
+			}
+			if (event) event.stop();
+			this.send();
+		},
+
+		saveClickedButton: function(event, target){
+			if (!this.options.sendButtonClicked || !target.get('name')) return;
+			this.options.extraData[target.get('name')] = target.get('value') || true;
+			this.clickedCleaner = function(){
+				delete this.options.extraData[target.get('name')];
+				this.clickedCleaner = function(){};
+			}.bind(this);
+		},
+
+		clickedCleaner: function(){},
+
+		send: function(){
+			var str = this.element.toQueryString().trim(),
+				data = Object.toQueryString(this.options.extraData);
+
+			if (str) str += "&" + data;
+			else str = data;
+
+			this.fireEvent('send', [this.element, str.parseQueryString()]);
+			this.request.send({
+				data: str,
+				url: this.options.requestOptions.url || this.element.get('action')
+			});
+			this.clickedCleaner();
+			return this;
+		}
+
+	});
+
+	Element.Properties.formRequest = {
+
+		set: function(){
+			var opt = Array.link(arguments, {options: Type.isObject, update: Type.isElement, updateId: Type.isString}),
+				update = opt.update || opt.updateId,
+				updater = this.retrieve('form.request');
+			if (update){
+				if (updater) updater.update = document.id(update);
+				this.store('form.request:update', update);
+			}
+			if (opt.options){
+				if (updater) updater.setOptions(opt.options);
+				this.store('form.request:options', opt.options);
+			}
+			return this;
+		},
+
+		get: function(){
+			var opt = Array.link(arguments, {options: Type.isObject, update: Type.isElement, updateId: Type.isString}),
+				update = opt.update || opt.updateId;
+			if (opt.options || update || !this.retrieve('form.request')){
+				if (opt.options || !this.retrieve('form.request:options')) this.set('form.request', opt.options);
+				if (update) this.set('form.request', update);
+				this.store('form.request', new Form.Request(this, this.retrieve('form.request:update'), this.retrieve('form.request:options')));
+			}
+			return this.retrieve('form.request');
+		}
+
+	};
+
+	Element.implement({
+
+		formUpdate: function(update, options){
+			this.get('formRequest', update, options).send();
+			return this;
+		}
+
+	});
+
+}).call(this);
+
+
+/*
+---
+
 script: Element.Shortcuts.js
 
 name: Element.Shortcuts
@@ -988,6 +1882,332 @@ Document.implement({
 				document.selection.empty();
 			} catch(e){}
 		}
+	}
+
+});
+
+
+/*
+---
+
+script: Fx.Reveal.js
+
+name: Fx.Reveal
+
+description: Defines Fx.Reveal, a class that shows and hides elements with a transition.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+
+requires:
+  - Core/Fx.Morph
+  - /Element.Shortcuts
+  - /Element.Measure
+
+provides: [Fx.Reveal]
+
+...
+*/
+
+(function(){
+
+
+var hideTheseOf = function(object){
+	var hideThese = object.options.hideInputs;
+	if (window.OverText){
+		var otClasses = [null];
+		OverText.each(function(ot){
+			otClasses.include('.' + ot.options.labelClass);
+		});
+		if (otClasses) hideThese += otClasses.join(', ');
+	}
+	return (hideThese) ? object.element.getElements(hideThese) : null;
+};
+
+
+Fx.Reveal = new Class({
+
+	Extends: Fx.Morph,
+
+	options: {/*
+		onShow: function(thisElement){},
+		onHide: function(thisElement){},
+		onComplete: function(thisElement){},
+		heightOverride: null,
+		widthOverride: null,*/
+		link: 'cancel',
+		styles: ['padding', 'border', 'margin'],
+		transitionOpacity: !Browser.ie6,
+		mode: 'vertical',
+		display: function(){
+			return this.element.get('tag') != 'tr' ? 'block' : 'table-row';
+		},
+		opacity: 1,
+		hideInputs: Browser.ie ? 'select, input, textarea, object, embed' : null
+	},
+
+	dissolve: function(){
+		if (!this.hiding && !this.showing){
+			if (this.element.getStyle('display') != 'none'){
+				this.hiding = true;
+				this.showing = false;
+				this.hidden = true;
+				this.cssText = this.element.style.cssText;
+
+				var startStyles = this.element.getComputedSize({
+					styles: this.options.styles,
+					mode: this.options.mode
+				});
+				if (this.options.transitionOpacity) startStyles.opacity = this.options.opacity;
+
+				var zero = {};
+				Object.each(startStyles, function(style, name){
+					zero[name] = [style, 0];
+				});
+
+				this.element.setStyles({
+					display: Function.from(this.options.display).call(this),
+					overflow: 'hidden'
+				});
+
+				var hideThese = hideTheseOf(this);
+				if (hideThese) hideThese.setStyle('visibility', 'hidden');
+
+				this.$chain.unshift(function(){
+					if (this.hidden){
+						this.hiding = false;
+						this.element.style.cssText = this.cssText;
+						this.element.setStyle('display', 'none');
+						if (hideThese) hideThese.setStyle('visibility', 'visible');
+					}
+					this.fireEvent('hide', this.element);
+					this.callChain();
+				}.bind(this));
+
+				this.start(zero);
+			} else {
+				this.callChain.delay(10, this);
+				this.fireEvent('complete', this.element);
+				this.fireEvent('hide', this.element);
+			}
+		} else if (this.options.link == 'chain'){
+			this.chain(this.dissolve.bind(this));
+		} else if (this.options.link == 'cancel' && !this.hiding){
+			this.cancel();
+			this.dissolve();
+		}
+		return this;
+	},
+
+	reveal: function(){
+		if (!this.showing && !this.hiding){
+			if (this.element.getStyle('display') == 'none'){
+				this.hiding = false;
+				this.showing = true;
+				this.hidden = false;
+				this.cssText = this.element.style.cssText;
+
+				var startStyles;
+				this.element.measure(function(){
+					startStyles = this.element.getComputedSize({
+						styles: this.options.styles,
+						mode: this.options.mode
+					});
+				}.bind(this));
+				if (this.options.heightOverride != null) startStyles.height = this.options.heightOverride.toInt();
+				if (this.options.widthOverride != null) startStyles.width = this.options.widthOverride.toInt();
+				if (this.options.transitionOpacity){
+					this.element.setStyle('opacity', 0);
+					startStyles.opacity = this.options.opacity;
+				}
+
+				var zero = {
+					height: 0,
+					display: Function.from(this.options.display).call(this)
+				};
+				Object.each(startStyles, function(style, name){
+					zero[name] = 0;
+				});
+				zero.overflow = 'hidden';
+
+				this.element.setStyles(zero);
+
+				var hideThese = hideTheseOf(this);
+				if (hideThese) hideThese.setStyle('visibility', 'hidden');
+
+				this.$chain.unshift(function(){
+					this.element.style.cssText = this.cssText;
+					this.element.setStyle('display', Function.from(this.options.display).call(this));
+					if (!this.hidden) this.showing = false;
+					if (hideThese) hideThese.setStyle('visibility', 'visible');
+					this.callChain();
+					this.fireEvent('show', this.element);
+				}.bind(this));
+
+				this.start(startStyles);
+			} else {
+				this.callChain();
+				this.fireEvent('complete', this.element);
+				this.fireEvent('show', this.element);
+			}
+		} else if (this.options.link == 'chain'){
+			this.chain(this.reveal.bind(this));
+		} else if (this.options.link == 'cancel' && !this.showing){
+			this.cancel();
+			this.reveal();
+		}
+		return this;
+	},
+
+	toggle: function(){
+		if (this.element.getStyle('display') == 'none'){
+			this.reveal();
+		} else {
+			this.dissolve();
+		}
+		return this;
+	},
+
+	cancel: function(){
+		this.parent.apply(this, arguments);
+		if (this.cssText != null) this.element.style.cssText = this.cssText;
+		this.hiding = false;
+		this.showing = false;
+		return this;
+	}
+
+});
+
+Element.Properties.reveal = {
+
+	set: function(options){
+		this.get('reveal').cancel().setOptions(options);
+		return this;
+	},
+
+	get: function(){
+		var reveal = this.retrieve('reveal');
+		if (!reveal){
+			reveal = new Fx.Reveal(this);
+			this.store('reveal', reveal);
+		}
+		return reveal;
+	}
+
+};
+
+Element.Properties.dissolve = Element.Properties.reveal;
+
+Element.implement({
+
+	reveal: function(options){
+		this.get('reveal').setOptions(options).reveal();
+		return this;
+	},
+
+	dissolve: function(options){
+		this.get('reveal').setOptions(options).dissolve();
+		return this;
+	},
+
+	nix: function(options){
+		var params = Array.link(arguments, {destroy: Type.isBoolean, options: Type.isObject});
+		this.get('reveal').setOptions(options).dissolve().chain(function(){
+			this[params.destroy ? 'destroy' : 'dispose']();
+		}.bind(this));
+		return this;
+	},
+
+	wink: function(){
+		var params = Array.link(arguments, {duration: Type.isNumber, options: Type.isObject});
+		var reveal = this.get('reveal').setOptions(params.options);
+		reveal.reveal().chain(function(){
+			(function(){
+				reveal.dissolve();
+			}).delay(params.duration || 2000);
+		});
+	}
+
+});
+
+}).call(this);
+
+
+/*
+---
+
+script: Form.Request.Append.js
+
+name: Form.Request.Append
+
+description: Handles the basic functionality of submitting a form and updating a dom element with the result. The result is appended to the DOM element instead of replacing its contents.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+
+requires:
+  - /Form.Request
+  - /Fx.Reveal
+  - /Elements.from
+
+provides: [Form.Request.Append]
+
+...
+*/
+
+Form.Request.Append = new Class({
+
+	Extends: Form.Request,
+
+	options: {
+		//onBeforeEffect: function(){},
+		useReveal: true,
+		revealOptions: {},
+		inject: 'bottom'
+	},
+
+	makeRequest: function(){
+		this.request = new Request.HTML(Object.merge({
+				url: this.element.get('action'),
+				method: this.element.get('method') || 'post',
+				spinnerTarget: this.element
+			}, this.options.requestOptions, {
+				evalScripts: false
+			})
+		).addEvents({
+			success: function(tree, elements, html, javascript){
+				var container;
+				var kids = Elements.from(html);
+				if (kids.length == 1){
+					container = kids[0];
+				} else {
+					 container = new Element('div', {
+						styles: {
+							display: 'none'
+						}
+					}).adopt(kids);
+				}
+				container.inject(this.update, this.options.inject);
+				if (this.options.requestOptions.evalScripts) Browser.exec(javascript);
+				this.fireEvent('beforeEffect', container);
+				var finish = function(){
+					this.fireEvent('success', [container, this.update, tree, elements, html, javascript]);
+				}.bind(this);
+				if (this.options.useReveal){
+					container.set('reveal', this.options.revealOptions).get('reveal').chain(finish);
+					container.reveal();
+				} else {
+					finish();
+				}
+			}.bind(this),
+			failure: function(xhr){
+				this.fireEvent('failure', xhr);
+			}.bind(this)
+		});
 	}
 
 });
@@ -1610,254 +2830,6 @@ Element.implement({
 	}
 
 });
-
-
-/*
----
-
-script: Fx.Reveal.js
-
-name: Fx.Reveal
-
-description: Defines Fx.Reveal, a class that shows and hides elements with a transition.
-
-license: MIT-style license
-
-authors:
-  - Aaron Newton
-
-requires:
-  - Core/Fx.Morph
-  - /Element.Shortcuts
-  - /Element.Measure
-
-provides: [Fx.Reveal]
-
-...
-*/
-
-(function(){
-
-
-var hideTheseOf = function(object){
-	var hideThese = object.options.hideInputs;
-	if (window.OverText){
-		var otClasses = [null];
-		OverText.each(function(ot){
-			otClasses.include('.' + ot.options.labelClass);
-		});
-		if (otClasses) hideThese += otClasses.join(', ');
-	}
-	return (hideThese) ? object.element.getElements(hideThese) : null;
-};
-
-
-Fx.Reveal = new Class({
-
-	Extends: Fx.Morph,
-
-	options: {/*
-		onShow: function(thisElement){},
-		onHide: function(thisElement){},
-		onComplete: function(thisElement){},
-		heightOverride: null,
-		widthOverride: null,*/
-		link: 'cancel',
-		styles: ['padding', 'border', 'margin'],
-		transitionOpacity: !Browser.ie6,
-		mode: 'vertical',
-		display: function(){
-			return this.element.get('tag') != 'tr' ? 'block' : 'table-row';
-		},
-		opacity: 1,
-		hideInputs: Browser.ie ? 'select, input, textarea, object, embed' : null
-	},
-
-	dissolve: function(){
-		if (!this.hiding && !this.showing){
-			if (this.element.getStyle('display') != 'none'){
-				this.hiding = true;
-				this.showing = false;
-				this.hidden = true;
-				this.cssText = this.element.style.cssText;
-
-				var startStyles = this.element.getComputedSize({
-					styles: this.options.styles,
-					mode: this.options.mode
-				});
-				if (this.options.transitionOpacity) startStyles.opacity = this.options.opacity;
-
-				var zero = {};
-				Object.each(startStyles, function(style, name){
-					zero[name] = [style, 0];
-				});
-
-				this.element.setStyles({
-					display: Function.from(this.options.display).call(this),
-					overflow: 'hidden'
-				});
-
-				var hideThese = hideTheseOf(this);
-				if (hideThese) hideThese.setStyle('visibility', 'hidden');
-
-				this.$chain.unshift(function(){
-					if (this.hidden){
-						this.hiding = false;
-						this.element.style.cssText = this.cssText;
-						this.element.setStyle('display', 'none');
-						if (hideThese) hideThese.setStyle('visibility', 'visible');
-					}
-					this.fireEvent('hide', this.element);
-					this.callChain();
-				}.bind(this));
-
-				this.start(zero);
-			} else {
-				this.callChain.delay(10, this);
-				this.fireEvent('complete', this.element);
-				this.fireEvent('hide', this.element);
-			}
-		} else if (this.options.link == 'chain'){
-			this.chain(this.dissolve.bind(this));
-		} else if (this.options.link == 'cancel' && !this.hiding){
-			this.cancel();
-			this.dissolve();
-		}
-		return this;
-	},
-
-	reveal: function(){
-		if (!this.showing && !this.hiding){
-			if (this.element.getStyle('display') == 'none'){
-				this.hiding = false;
-				this.showing = true;
-				this.hidden = false;
-				this.cssText = this.element.style.cssText;
-
-				var startStyles;
-				this.element.measure(function(){
-					startStyles = this.element.getComputedSize({
-						styles: this.options.styles,
-						mode: this.options.mode
-					});
-				}.bind(this));
-				if (this.options.heightOverride != null) startStyles.height = this.options.heightOverride.toInt();
-				if (this.options.widthOverride != null) startStyles.width = this.options.widthOverride.toInt();
-				if (this.options.transitionOpacity){
-					this.element.setStyle('opacity', 0);
-					startStyles.opacity = this.options.opacity;
-				}
-
-				var zero = {
-					height: 0,
-					display: Function.from(this.options.display).call(this)
-				};
-				Object.each(startStyles, function(style, name){
-					zero[name] = 0;
-				});
-				zero.overflow = 'hidden';
-
-				this.element.setStyles(zero);
-
-				var hideThese = hideTheseOf(this);
-				if (hideThese) hideThese.setStyle('visibility', 'hidden');
-
-				this.$chain.unshift(function(){
-					this.element.style.cssText = this.cssText;
-					this.element.setStyle('display', Function.from(this.options.display).call(this));
-					if (!this.hidden) this.showing = false;
-					if (hideThese) hideThese.setStyle('visibility', 'visible');
-					this.callChain();
-					this.fireEvent('show', this.element);
-				}.bind(this));
-
-				this.start(startStyles);
-			} else {
-				this.callChain();
-				this.fireEvent('complete', this.element);
-				this.fireEvent('show', this.element);
-			}
-		} else if (this.options.link == 'chain'){
-			this.chain(this.reveal.bind(this));
-		} else if (this.options.link == 'cancel' && !this.showing){
-			this.cancel();
-			this.reveal();
-		}
-		return this;
-	},
-
-	toggle: function(){
-		if (this.element.getStyle('display') == 'none'){
-			this.reveal();
-		} else {
-			this.dissolve();
-		}
-		return this;
-	},
-
-	cancel: function(){
-		this.parent.apply(this, arguments);
-		if (this.cssText != null) this.element.style.cssText = this.cssText;
-		this.hiding = false;
-		this.showing = false;
-		return this;
-	}
-
-});
-
-Element.Properties.reveal = {
-
-	set: function(options){
-		this.get('reveal').cancel().setOptions(options);
-		return this;
-	},
-
-	get: function(){
-		var reveal = this.retrieve('reveal');
-		if (!reveal){
-			reveal = new Fx.Reveal(this);
-			this.store('reveal', reveal);
-		}
-		return reveal;
-	}
-
-};
-
-Element.Properties.dissolve = Element.Properties.reveal;
-
-Element.implement({
-
-	reveal: function(options){
-		this.get('reveal').setOptions(options).reveal();
-		return this;
-	},
-
-	dissolve: function(options){
-		this.get('reveal').setOptions(options).dissolve();
-		return this;
-	},
-
-	nix: function(options){
-		var params = Array.link(arguments, {destroy: Type.isBoolean, options: Type.isObject});
-		this.get('reveal').setOptions(options).dissolve().chain(function(){
-			this[params.destroy ? 'destroy' : 'dispose']();
-		}.bind(this));
-		return this;
-	},
-
-	wink: function(){
-		var params = Array.link(arguments, {duration: Type.isNumber, options: Type.isObject});
-		var reveal = this.get('reveal').setOptions(params.options);
-		reveal.reveal().chain(function(){
-			(function(){
-				reveal.dissolve();
-			}).delay(params.duration || 2000);
-		});
-	}
-
-});
-
-}).call(this);
 
 
 /*
@@ -3242,612 +4214,6 @@ String.implement({
 
 }).call(this);
 
-
-
-/*
----
-
-script: Class.Refactor.js
-
-name: Class.Refactor
-
-description: Extends a class onto itself with new property, preserving any items attached to the class's namespace.
-
-license: MIT-style license
-
-authors:
-  - Aaron Newton
-
-requires:
-  - Core/Class
-  - /MooTools.More
-
-# Some modules declare themselves dependent on Class.Refactor
-provides: [Class.refactor, Class.Refactor]
-
-...
-*/
-
-Class.refactor = function(original, refactors){
-
-	Object.each(refactors, function(item, name){
-		var origin = original.prototype[name];
-		if (origin && origin.$origin) origin = origin.$origin;
-		original.implement(name, (origin && typeof item == 'function') ? function(){
-			var old = this.previous;
-                 	this.previous = origin;
-			var value = item.apply(this, arguments);
-			this.previous = old;
-			return value;
-		} : item);
-	});
-
-	return original;
-
-};
-
-
-/*
----
-
-script: IframeShim.js
-
-name: IframeShim
-
-description: Defines IframeShim, a class for obscuring select lists and flash objects in IE.
-
-license: MIT-style license
-
-authors:
-  - Aaron Newton
-
-requires:
-  - Core/Element.Event
-  - Core/Element.Style
-  - Core/Options
-  - Core/Events
-  - /Element.Position
-  - /Class.Occlude
-
-provides: [IframeShim]
-
-...
-*/
-
-var IframeShim = new Class({
-
-	Implements: [Options, Events, Class.Occlude],
-
-	options: {
-		className: 'iframeShim',
-		src: 'javascript:false;document.write("");',
-		display: false,
-		zIndex: null,
-		margin: 0,
-		offset: {x: 0, y: 0},
-		browsers: (Browser.ie6 || (Browser.firefox && Browser.version < 3 && Browser.Platform.mac))
-	},
-
-	property: 'IframeShim',
-
-	initialize: function(element, options){
-		this.element = document.id(element);
-		if (this.occlude()) return this.occluded;
-		this.setOptions(options);
-		this.makeShim();
-		return this;
-	},
-
-	makeShim: function(){
-		if (this.options.browsers){
-			var zIndex = this.element.getStyle('zIndex').toInt();
-
-			if (!zIndex){
-				zIndex = 1;
-				var pos = this.element.getStyle('position');
-				if (pos == 'static' || !pos) this.element.setStyle('position', 'relative');
-				this.element.setStyle('zIndex', zIndex);
-			}
-			zIndex = ((this.options.zIndex != null || this.options.zIndex === 0) && zIndex > this.options.zIndex) ? this.options.zIndex : zIndex - 1;
-			if (zIndex < 0) zIndex = 1;
-			this.shim = new Element('iframe', {
-				src: this.options.src,
-				scrolling: 'no',
-				frameborder: 0,
-				styles: {
-					zIndex: zIndex,
-					position: 'absolute',
-					border: 'none',
-					filter: 'progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0)'
-				},
-				'class': this.options.className
-			}).store('IframeShim', this);
-			var inject = (function(){
-				this.shim.inject(this.element, 'after');
-				this[this.options.display ? 'show' : 'hide']();
-				this.fireEvent('inject');
-			}).bind(this);
-			if (!IframeShim.ready) window.addEvent('load', inject);
-			else inject();
-		} else {
-			this.position = this.hide = this.show = this.dispose = Function.from(this);
-		}
-	},
-
-	position: function(){
-		if (!IframeShim.ready || !this.shim) return this;
-		var size = this.element.measure(function(){
-			return this.getSize();
-		});
-		if (this.options.margin != undefined){
-			size.x = size.x - (this.options.margin * 2);
-			size.y = size.y - (this.options.margin * 2);
-			this.options.offset.x += this.options.margin;
-			this.options.offset.y += this.options.margin;
-		}
-		this.shim.set({width: size.x, height: size.y}).position({
-			relativeTo: this.element,
-			offset: this.options.offset
-		});
-		return this;
-	},
-
-	hide: function(){
-		if (this.shim) this.shim.setStyle('display', 'none');
-		return this;
-	},
-
-	show: function(){
-		if (this.shim) this.shim.setStyle('display', 'block');
-		return this.position();
-	},
-
-	dispose: function(){
-		if (this.shim) this.shim.dispose();
-		return this;
-	},
-
-	destroy: function(){
-		if (this.shim) this.shim.destroy();
-		return this;
-	}
-
-});
-
-window.addEvent('load', function(){
-	IframeShim.ready = true;
-});
-
-
-/*
----
-
-script: Mask.js
-
-name: Mask
-
-description: Creates a mask element to cover another.
-
-license: MIT-style license
-
-authors:
-  - Aaron Newton
-
-requires:
-  - Core/Options
-  - Core/Events
-  - Core/Element.Event
-  - /Class.Binds
-  - /Element.Position
-  - /IframeShim
-
-provides: [Mask]
-
-...
-*/
-
-var Mask = new Class({
-
-	Implements: [Options, Events],
-
-	Binds: ['position'],
-
-	options: {/*
-		onShow: function(){},
-		onHide: function(){},
-		onDestroy: function(){},
-		onClick: function(event){},
-		inject: {
-			where: 'after',
-			target: null,
-		},
-		hideOnClick: false,
-		id: null,
-		destroyOnHide: false,*/
-		style: {},
-		'class': 'mask',
-		maskMargins: false,
-		useIframeShim: true,
-		iframeShimOptions: {}
-	},
-
-	initialize: function(target, options){
-		this.target = document.id(target) || document.id(document.body);
-		this.target.store('mask', this);
-		this.setOptions(options);
-		this.render();
-		this.inject();
-	},
-
-	render: function(){
-		this.element = new Element('div', {
-			'class': this.options['class'],
-			id: this.options.id || 'mask-' + String.uniqueID(),
-			styles: Object.merge({}, this.options.style, {
-				display: 'none'
-			}),
-			events: {
-				click: function(event){
-					this.fireEvent('click', event);
-					if (this.options.hideOnClick) this.hide();
-				}.bind(this)
-			}
-		});
-
-		this.hidden = true;
-	},
-
-	toElement: function(){
-		return this.element;
-	},
-
-	inject: function(target, where){
-		where = where || (this.options.inject ? this.options.inject.where : '') || this.target == document.body ? 'inside' : 'after';
-		target = target || (this.options.inject && this.options.inject.target) || this.target;
-
-		this.element.inject(target, where);
-
-		if (this.options.useIframeShim){
-			this.shim = new IframeShim(this.element, this.options.iframeShimOptions);
-
-			this.addEvents({
-				show: this.shim.show.bind(this.shim),
-				hide: this.shim.hide.bind(this.shim),
-				destroy: this.shim.destroy.bind(this.shim)
-			});
-		}
-	},
-
-	position: function(){
-		this.resize(this.options.width, this.options.height);
-
-		this.element.position({
-			relativeTo: this.target,
-			position: 'topLeft',
-			ignoreMargins: !this.options.maskMargins,
-			ignoreScroll: this.target == document.body
-		});
-
-		return this;
-	},
-
-	resize: function(x, y){
-		var opt = {
-			styles: ['padding', 'border']
-		};
-		if (this.options.maskMargins) opt.styles.push('margin');
-
-		var dim = this.target.getComputedSize(opt);
-		if (this.target == document.body){
-			this.element.setStyles({width: 0, height: 0});
-			var win = window.getScrollSize();
-			if (dim.totalHeight < win.y) dim.totalHeight = win.y;
-			if (dim.totalWidth < win.x) dim.totalWidth = win.x;
-		}
-		this.element.setStyles({
-			width: Array.pick([x, dim.totalWidth, dim.x]),
-			height: Array.pick([y, dim.totalHeight, dim.y])
-		});
-
-		return this;
-	},
-
-	show: function(){
-		if (!this.hidden) return this;
-
-		window.addEvent('resize', this.position);
-		this.position();
-		this.showMask.apply(this, arguments);
-
-		return this;
-	},
-
-	showMask: function(){
-		this.element.setStyle('display', 'block');
-		this.hidden = false;
-		this.fireEvent('show');
-	},
-
-	hide: function(){
-		if (this.hidden) return this;
-
-		window.removeEvent('resize', this.position);
-		this.hideMask.apply(this, arguments);
-		if (this.options.destroyOnHide) return this.destroy();
-
-		return this;
-	},
-
-	hideMask: function(){
-		this.element.setStyle('display', 'none');
-		this.hidden = true;
-		this.fireEvent('hide');
-	},
-
-	toggle: function(){
-		this[this.hidden ? 'show' : 'hide']();
-	},
-
-	destroy: function(){
-		this.hide();
-		this.element.destroy();
-		this.fireEvent('destroy');
-		this.target.eliminate('mask');
-	}
-
-});
-
-Element.Properties.mask = {
-
-	set: function(options){
-		var mask = this.retrieve('mask');
-		if (mask) mask.destroy();
-		return this.eliminate('mask').store('mask:options', options);
-	},
-
-	get: function(){
-		var mask = this.retrieve('mask');
-		if (!mask){
-			mask = new Mask(this, this.retrieve('mask:options'));
-			this.store('mask', mask);
-		}
-		return mask;
-	}
-
-};
-
-Element.implement({
-
-	mask: function(options){
-		if (options) this.set('mask', options);
-		this.get('mask').show();
-		return this;
-	},
-
-	unmask: function(){
-		this.get('mask').hide();
-		return this;
-	}
-
-});
-
-
-/*
----
-
-script: Spinner.js
-
-name: Spinner
-
-description: Adds a semi-transparent overlay over a dom element with a spinnin ajax icon.
-
-license: MIT-style license
-
-authors:
-  - Aaron Newton
-
-requires:
-  - Core/Fx.Tween
-  - Core/Request
-  - /Class.refactor
-  - /Mask
-
-provides: [Spinner]
-
-...
-*/
-
-var Spinner = new Class({
-
-	Extends: Mask,
-
-	Implements: Chain,
-
-	options: {/*
-		message: false,*/
-		'class': 'spinner',
-		containerPosition: {},
-		content: {
-			'class': 'spinner-content'
-		},
-		messageContainer: {
-			'class': 'spinner-msg'
-		},
-		img: {
-			'class': 'spinner-img'
-		},
-		fxOptions: {
-			link: 'chain'
-		}
-	},
-
-	initialize: function(target, options){
-		this.target = document.id(target) || document.id(document.body);
-		this.target.store('spinner', this);
-		this.setOptions(options);
-		this.render();
-		this.inject();
-
-		// Add this to events for when noFx is true; parent methods handle hide/show.
-		var deactivate = function(){ this.active = false; }.bind(this);
-		this.addEvents({
-			hide: deactivate,
-			show: deactivate
-		});
-	},
-
-	render: function(){
-		this.parent();
-
-		this.element.set('id', this.options.id || 'spinner-' + String.uniqueID());
-
-		this.content = document.id(this.options.content) || new Element('div', this.options.content);
-		this.content.inject(this.element);
-
-		if (this.options.message){
-			this.msg = document.id(this.options.message) || new Element('p', this.options.messageContainer).appendText(this.options.message);
-			this.msg.inject(this.content);
-		}
-
-		if (this.options.img){
-			this.img = document.id(this.options.img) || new Element('div', this.options.img);
-			this.img.inject(this.content);
-		}
-
-		this.element.set('tween', this.options.fxOptions);
-	},
-
-	show: function(noFx){
-		if (this.active) return this.chain(this.show.bind(this));
-		if (!this.hidden){
-			this.callChain.delay(20, this);
-			return this;
-		}
-
-		this.active = true;
-
-		return this.parent(noFx);
-	},
-
-	showMask: function(noFx){
-		var pos = function(){
-			this.content.position(Object.merge({
-				relativeTo: this.element
-			}, this.options.containerPosition));
-		}.bind(this);
-
-		if (noFx){
-			this.parent();
-			pos();
-		} else {
-			if (!this.options.style.opacity) this.options.style.opacity = this.element.getStyle('opacity').toFloat();
-			this.element.setStyles({
-				display: 'block',
-				opacity: 0
-			}).tween('opacity', this.options.style.opacity);
-			pos();
-			this.hidden = false;
-			this.fireEvent('show');
-			this.callChain();
-		}
-	},
-
-	hide: function(noFx){
-		if (this.active) return this.chain(this.hide.bind(this));
-		if (this.hidden){
-			this.callChain.delay(20, this);
-			return this;
-		}
-		this.active = true;
-		return this.parent(noFx);
-	},
-
-	hideMask: function(noFx){
-		if (noFx) return this.parent();
-		this.element.tween('opacity', 0).get('tween').chain(function(){
-			this.element.setStyle('display', 'none');
-			this.hidden = true;
-			this.fireEvent('hide');
-			this.callChain();
-		}.bind(this));
-	},
-
-	destroy: function(){
-		this.content.destroy();
-		this.parent();
-		this.target.eliminate('spinner');
-	}
-
-});
-
-Request = Class.refactor(Request, {
-
-	options: {
-		useSpinner: false,
-		spinnerOptions: {},
-		spinnerTarget: false
-	},
-
-	initialize: function(options){
-		this._send = this.send;
-		this.send = function(options){
-			var spinner = this.getSpinner();
-			if (spinner) spinner.chain(this._send.pass(options, this)).show();
-			else this._send(options);
-			return this;
-		};
-		this.previous(options);
-	},
-
-	getSpinner: function(){
-		if (!this.spinner){
-			var update = document.id(this.options.spinnerTarget) || document.id(this.options.update);
-			if (this.options.useSpinner && update){
-				update.set('spinner', this.options.spinnerOptions);
-				var spinner = this.spinner = update.get('spinner');
-				['complete', 'exception', 'cancel'].each(function(event){
-					this.addEvent(event, spinner.hide.bind(spinner));
-				}, this);
-			}
-		}
-		return this.spinner;
-	}
-
-});
-
-Element.Properties.spinner = {
-
-	set: function(options){
-		var spinner = this.retrieve('spinner');
-		if (spinner) spinner.destroy();
-		return this.eliminate('spinner').store('spinner:options', options);
-	},
-
-	get: function(){
-		var spinner = this.retrieve('spinner');
-		if (!spinner){
-			spinner = new Spinner(this, this.retrieve('spinner:options'));
-			this.store('spinner', spinner);
-		}
-		return spinner;
-	}
-
-};
-
-Element.implement({
-
-	spin: function(options){
-		if (options) this.set('spinner', options);
-		this.get('spinner').show();
-		return this;
-	},
-
-	unspin: function(){
-		this.get('spinner').hide();
-		return this;
-	}
-
-});
 
 
 /*
