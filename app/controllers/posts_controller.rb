@@ -14,7 +14,10 @@ class PostsController < ApplicationController
     params[:author] = current_user
     @post = Post.new params
     if @post.save
-      redirect_to home_path(@post.blog)
+      respond_to do |format|
+        format.json { render :text => {:status => "success", :location => root_url}.to_json }
+        format.all { redirect_to home_path(@post.blog) }
+      end
     else
       get_target_blogs
       render 'new'

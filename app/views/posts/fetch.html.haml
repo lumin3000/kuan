@@ -15,26 +15,26 @@
 = render_form(@post)
 :javascript
   document.addEvent('domready', function(){
-  $('fetch_form').setStyles({
-  position: 'relative',
-  height: 0,
-  left: 160,
-  top: 30
-  })
-  var arr = eval($$('[name=imgs]')[0].value)
-  if(arr.length == 0)return
-  var el = new Element('div', {'class':'fetch_list'}).inject($$('.textboxlist')[0], 'after')
-  new Element('h2', {'html':'点图片可插到内容中'}).inject(el, 'before')
-  arr.each(function(item){
-  new Element('img', {src:item})
-    .inject(el)
-      .addEvent('click', function(){
-        if($('url_uploader_url')){
-          $('url_uploader_url').value = item               
-          $('url_uploader_btn').fireEvent('click')
-        }else{
-          K.editor.execute('insertimage', false, item.trim());
-        }
-      })
-  })
+    $('fetch_form').setStyles({
+      position: 'relative',
+      height: 0,
+      left: 160,
+      top: 30
+    })
+    var arr = eval($$('[name=imgs]')[0].value)
+    if(arr.length == 0)return
+    var el = new Element('div', {'class':'fetch_list'}).inject($$('.textboxlist')[0], 'after')
+    new Element('h2', {'html':'点图片可插到内容中'}).inject(el, 'before')
+    arr.each(function(item){
+    new Element('img', {src:item})
+      .inject(el)
+        .addEvent('click', function(){
+          if($('url_uploader_url')){
+            $('url_uploader_url').value = item               
+            $('url_uploader_btn').fireEvent('click')
+          }else{
+            K.editor.execute('insertimage', false, item.trim());
+          }
+        })
+    })
   })
