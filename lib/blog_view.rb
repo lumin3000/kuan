@@ -311,7 +311,6 @@ class BlogView < Mustache
   rel: "stylesheet"
 , href: "/stylesheets/k_box.css"
 }))
-console.log("blah")
 </script>
 <div class='commands'>
   <a class='back_to_home' href='#{home_url}'>回我的主页</a>
