@@ -114,15 +114,15 @@ CODE
       limit(100).map {|p| RepostView.new p, @extra}
   end
 
+  def title
+    nil
+  end
+
   private
 
   def fetch_faved
     @faved_by ||= User.where('favors.post_id' => @post.id).map do |u|
       ObjectView.wrap u,@extra
     end
-  end
-
-  def title
-    nil
   end
 end
