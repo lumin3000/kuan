@@ -24,7 +24,7 @@ class BlogsController < ApplicationController
   end
 
   def edit
-    @templates = Template.all.to_a
+    @templates = Template.find_public.to_a
     @templates.unshift(Template::DEFAULT)
     @variables = BlogView.extract_variables(@blog)
     @preview_url ||= blog_path(@blog)
