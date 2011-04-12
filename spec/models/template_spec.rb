@@ -1,4 +1,30 @@
 require 'spec_helper'
 
 describe Template do
+  describe "Given a valid instance" do
+    before :each do
+      @author = Factory :user_unique
+      @tpl = Template.new
+      @tpl.author = @author
+      @tpl.name = 'fuzzy template'
+    end
+
+    it "shouldn't be present as public" do
+      @tpl.save!
+      Template.find_public.should_not be_include @tpl
+    end
+
+    describe "when we mark it as public" do
+      before :each do
+        @tpl.public = true
+        @tpl.save!
+      end
+
+      it "should be present in template selection page" do
+        templates = Template.find_public
+        templates.should_not be_empty
+        templates.should be_include(@tpl)
+      end
+    end
+  end
 end

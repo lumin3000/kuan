@@ -5,6 +5,7 @@ class Template
 
   field :name
   field :html
+  field :public, :type => Boolean, :default => false
   referenced_in :author, :class_name => 'User'
   referenced_in :thumbnail, :class_name => 'Image'
 
@@ -16,5 +17,9 @@ class Template
     :thumbnail => Image.last, :author => User.first
   DEFAULT.define_singleton_method :id, do
     nil
+  end
+
+  def self.find_public
+    where :public.ne => false
   end
 end
