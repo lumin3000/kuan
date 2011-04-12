@@ -1,5 +1,7 @@
 - @sub_title = '宽岛，每个人都是生活艺术家'
 - content_for :title, '登陆_宽岛'
+- content_for :meta, do
+  %meta{name: "Description", content: "宽岛是个人的兴趣展示中心，在这里你可以建立不同的“兴趣页面”展示生活中的多个侧面；在这里你可以通过探索不同的兴趣结识不同圈子的新朋友。"}
 
 = form_for(@user, :as => :session, :url => sessions_path, :html => {:class => 'login'}) do |f|
   .email_box
