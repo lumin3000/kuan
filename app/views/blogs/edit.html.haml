@@ -14,7 +14,7 @@
     %a.button.save{href: "###", data: {widget: 'submit', form: '.edit_blog'}} 保 存
     %a.button.back{href: fucking_root} 取 消
 
-= form_for(@blog) do |f|
+= form_for(@blog, :url => @preview_url) do |f|
   %fieldset.blog_info.menu
     .page_name
       = f.label :title, "名称"
