@@ -1,11 +1,11 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.4'
+gem 'rails', '3.0.6'
 
-gem 'mongo', '= 1.2.4'
-gem 'bson', '= 1.2.4'
-gem 'bson_ext', '= 1.2.4'
-gem 'mongoid', '= 2.0.0.rc.7'
+gem 'mongo', '1.2.4'
+gem 'bson', '1.2.4'
+gem 'bson_ext', '1.2.4'
+gem 'mongoid', '2.0.0.rc.7'
 gem 'haml'
 gem 'haml-rails'
 gem 'mini_magick'
