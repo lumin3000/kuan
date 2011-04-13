@@ -15,12 +15,20 @@ class PostsController < ApplicationController
     @post = Post.new params
     if @post.save
       respond_to do |format|
-        format.json { render :text => {:status => "success", :location => root_url}.to_json }
+        format.json { render :text => {:status => "success"}.to_json }
         format.all { redirect_to home_path(@post.blog) }
       end
     else
-      get_target_blogs
-      render 'new'
+      respond_to do |format|
+        format.json { render :text => {
+            :status => "error", 
+            :message => @post.errors.values.first.first
+          }.to_json }
+        format.all { 
+          get_target_blogs
+          render 'new'
+        }
+      end
     end
   end
 

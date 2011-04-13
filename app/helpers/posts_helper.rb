@@ -36,7 +36,7 @@ module PostsHelper
       url = post_path par[:id]
       m = :put
     end
-    form_tag url, :method => m do
+    form_tag url, :method => m, :class => "post_form" do
       yield
     end
   end

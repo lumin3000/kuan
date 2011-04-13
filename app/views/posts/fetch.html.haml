@@ -15,11 +15,47 @@
 = render_form(@post)
 :javascript
   document.addEvent('domready', function(){
+    var post_form = $$('.post_form')[0]
+    post_form.action += '.json'
+    $('submit_btn').addEvent('click', function(e){
+      e.stop()
+      new Form.Request(post_form, null, {
+        requestOptions: {
+          evalScripts: true,
+          useSpinner: true,
+          emulation: false,
+          link: 'ignore',
+          spinnerTarget: $('submit_btn')
+        },
+        onSuccess: function(e, v){
+          var json
+          try{
+            json = JSON.decode(v[0].data)
+            if(json.status=='success'){
+              new K.box(new Element('div', {
+                'html':'发布成功:)'
+              }).setStyles({
+                'text-align': 'center',
+                'font-size': '18px'
+              }), {height:140, width: 420}).show()
+              setTimeout(function(){
+                window.close()
+              }, 1500)
+            }else{
+              post_form.getElement('.post_error').innerHTML = json.message
+            }
+          }catch(error){
+            post_form.getElement('.post_error').innerHTML = '发布失败'
+          }
+        }
+      }).send()
+    })
+
     $('fetch_form').setStyles({
       position: 'relative',
       height: 0,
-      left: 160,
-      top: 30
+      left: 170,
+      top: 28
     })
     var arr = eval($$('[name=imgs]')[0].value)
     if(arr.length == 0)return
