@@ -1,6 +1,5 @@
 embed_assets: on
 package_assets: always
-allow_debugging: on
 
 javascripts:
   common:
@@ -22,3 +21,8 @@ javascripts:
     - public/javascripts/mooeditable.js
     - public/javascripts/moorainbow.js
     - public/javascripts/k.customize.js
+  upload_pics:
+    - public/javascripts/Swiff.Uploader.js
+    - public/javascripts/FancyUpload3.Attach.js
+    - public/javascripts/Fx.ProgressBar.js
+
