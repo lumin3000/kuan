@@ -355,6 +355,21 @@ EOF
       end
     end
   end
+
+  describe "given a href attr with fucking Chinese" do
+    before :each do
+      @orig_content = '<a href="http://k.org/中文">awwyeaah</a>'
+      @expected_content = '<a href="http://k.org/%E4%B8%AD%E6%96%87">awwyeaah</a>'
+      @post.content = @orig_content
+      @post.save!
+      @post.reload
+    end
+
+    it "shouldn't mess it up" do
+      @post.content.should == @expected_content
+    end
+  end
+
   describe "private of post" do
     before :each do
       @user = Factory.build(:user_unique)
