@@ -328,10 +328,7 @@
       margin: 0 0 5px 0
 
 .c_input
-  @include border-radius(11px)
-  border: 1px #d5e2ee solid
   height: 30px
-  background-color: #009fff
   margin-top: 10px
   overflow: hidden
   
@@ -350,14 +347,21 @@
     font-size: 18px
   
   .txt
+    border-top-left-radius: 8px 8px
+    border-bottom-left-radius: 8px 8px
+    border: 1px #d5e2ee solid
     width: 467px
     background-color: white
-    padding-top: 1px
     padding-left: 8px
     border-right: 1px solid black
     float: left
+    input
+      height: 28px
 
   .c_submitter
+    border-top-right-radius: 8px 8px
+    border-bottom-right-radius: 8px 8px
+    background-color: #009fff
     width: 65px
     float: left
 
