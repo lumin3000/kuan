@@ -47,4 +47,4 @@ end
 # end
 
 before("deploy:symlink", "deploy:sass")
-before("deploy:symlink", "deploy:jammit") 
+after("deploy:sass", "deploy:jammit") 
