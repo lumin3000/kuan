@@ -6,15 +6,7 @@ class RichFilter
   ATTR_WHITE_LIST = %w{href title src style width height alt wmode type}
   MALICIOUS_CSS = Regexp.union(/e\s*x\s*p\s*r\s*e\s*s\s*s\s*i\s*o\s*n/i, /u\s*r\s*l/i)
   LEGAL_URL = lambda { |url|
-    begin
-      if URI.parse(url).kind_of? URI::HTTP
-        url
-      else
-        ""
-      end
-    rescue
-      ""
-    end
+    url =~ %r{^https?://}i ?  url : ""
   }
   SPECIAL_ATTR = {
     'style' => lambda { |css|

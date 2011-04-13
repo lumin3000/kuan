@@ -637,7 +637,7 @@ K.tgt.reply = function(){
         chat.getElement('.c_content').scrollTo(0, 9999)
         lock = false
         if(chat.getElement('[name=count]').value > 0){
-          var replyCount = post.getElement('.reply')
+          var replyCount = post && post.getElement('.reply')
           if (replyCount) replyCount.innerHTML = chat.getElement('[name=count]').value
         }
       }
