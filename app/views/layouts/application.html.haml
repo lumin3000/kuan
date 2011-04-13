@@ -5,9 +5,9 @@
     = content_for?(:meta) ? content_for(:meta) : ""
     %title<
       = content_for?(:title) ? content_for(:title) : "宽岛"
-    = stylesheet_link_tag "base"
-    - if not @css.nil?
-      = stylesheet_link_tag *(@css.uniq)
+    
+    - css :base
+    = include_stylesheets *@css
     - js :common
     = include_javascripts *@js
     = csrf_meta_tag

@@ -1,8 +1,7 @@
-- css 'tags'
+- css :tags
 - content_for :title, "#{@tag}_宽岛"
 
-- content_for :head do
-  = stylesheet_link_tag 'post_display', 'dashboard'
+- css :posts_display
 
 - @site_layout = "site" unless @blogs.empty?
 

@@ -4,8 +4,7 @@
   = yield
   = render :partial => 'shared/footer'
 
-- content_for :head, do
-  = stylesheet_link_tag "user"
+- css :user
 
 - content_for :site_layout, "start_page"
 

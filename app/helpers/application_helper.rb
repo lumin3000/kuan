@@ -8,13 +8,10 @@ module ApplicationHelper
     @js.unshift space 
   end
 
-  def css(*files)
-    @css = [] if @css.nil?
-    files.each do |f|
-      @css << capture do
-        f
-      end
-    end
+  def css(space)
+    @css ||= []
+    @css.delete space
+    @css.unshift space 
   end
 
   def use_header(t)
