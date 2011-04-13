@@ -285,7 +285,8 @@ K.widgets.appearance = function(el){
           this.manualSet(this.options.startColor);
         }
       })
-      el.fireEvent('click')
+      el.fireEvent('click', [e])
+      el.removeEvents('click')
     },
     'click:relay(.cleaner)': function(e){
       e.stop()
