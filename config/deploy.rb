@@ -46,4 +46,5 @@ end
 #   end
 # end
 
-before("deploy:symlink", "deploy:sass") 
+before("deploy:symlink", "deploy:sass")
+before("deploy:symlink", "deploy:jammit") 
