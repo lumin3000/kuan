@@ -10,7 +10,7 @@
   - content_for :title, (@action + @post_type.strip + "_宽岛")
 
 - content_for :head, do
-  - css "post_edit", "mooeditable", 'textboxlist'
-  - js "mooeditable", "mooeditable.local", 'post_form', 'textboxlist'
+  - css :posts
+  - js :posts
 
 = render :file => 'layouts/application'

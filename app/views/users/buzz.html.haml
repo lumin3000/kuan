@@ -1,6 +1,6 @@
 - @sub_title = @nav_user_title = '我的回复'
 - @now_path = "buzz"
-- css 'buzz'
+- css :buzz
 - if current_user.comments_notices.unreads.count > 0
   - content_for :nav_user_append, do
     - if @unread

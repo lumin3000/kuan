@@ -32,14 +32,19 @@ namespace :deploy do
   end
 
   task :sass do
-    run "cd #{current_path} && rake RAILS_ENV=production sass:build"
+    run "cd #{current_release} && rake RAILS_ENV=production sass:build"
+  end
+
+  task :jammit do
+    run "cd #{current_release} && bundle exec jammit"
   end
 end
 
-namespace :logs do
-  task :watch do
-    stream("tail -f #{current_path}/log/production.log")
-  end
-end
+# namespace :logs do
+#   task :watch do
+#     stream("tail -f #{current_path}/log/production.log")
+#   end
+# end
 
-before("deploy:restart", "deploy:sass") 
+before("deploy:symlink", "deploy:sass")
+before("deploy:symlink", "deploy:jammit") 

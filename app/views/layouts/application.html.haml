@@ -5,12 +5,11 @@
     = content_for?(:meta) ? content_for(:meta) : ""
     %title<
       = content_for?(:title) ? content_for(:title) : "宽岛"
-    = stylesheet_link_tag "base"
-    - if not @css.nil?
-      = stylesheet_link_tag *(@css.uniq)
-    - js 'application', 'mootools-more', 'rails', 'mootools-core'
-    - @js.uniq.reverse!.each do |f|
-      = javascript_include_tag f
+    
+    - css :base
+    = include_stylesheets *@css
+    - js :common
+    = include_javascripts *@js
     = csrf_meta_tag
     %link{ :rel => "shortcut icon", :href => "/images/favicon.ico" }
     :javascript
