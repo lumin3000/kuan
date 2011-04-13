@@ -2,7 +2,18 @@
 require 'cgi'
 
 class TemplatesController < ApplicationController
-  before_filter :chief_admin_auth, :except => [:show]
+  before_filter :chief_admin_auth, :except => [:show, :submit]
+
+  def submit
+    @template = Template.new params
+    @template.author = current_user
+    @template.public = false
+    if @template.save
+      render :status => 204
+    else
+      render :status => 400
+    end
+  end
 
   def index
     @templates = Template.all
