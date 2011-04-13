@@ -16,6 +16,7 @@ doc/api
 doc/app
 .autotest
 .watchr
+public/assets/*
 
 /public/stylesheets/*.css
 .sass-cache

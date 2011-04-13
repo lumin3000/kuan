@@ -2,13 +2,10 @@
 require 'uri'
 
 module ApplicationHelper
-  def js(*files)
-    @js = [] if @js.nil?
-    files.each do |f|
-      @js << capture do
-        f
-      end
-    end
+  def js(space)
+    @js ||= []
+    @js.delete space
+    @js.unshift space 
   end
 
   def css(*files)

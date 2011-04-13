@@ -1,0 +1,24 @@
+embed_assets: on
+package_assets: always
+allow_debugging: on
+
+javascripts:
+  common:
+    - public/javascripts/mootools-core.js
+    - public/javascripts/mootools-more.js
+    - public/javascripts/rails.js
+    - public/javascripts/application.js
+  wall:
+    - public/javascripts/wall.js  
+  posts:
+    - public/javascripts/textboxlist.js
+    - public/javascripts/post_form.js
+    - public/javascripts/mooeditable.local.js
+    - public/javascripts/mooeditable.js
+  tags:
+    - public/javascripts/tags.js
+  blog_edit:
+    - public/javascripts/mooeditable.local.js
+    - public/javascripts/mooeditable.js
+    - public/javascripts/moorainbow.js
+    - public/javascripts/k.customize.js
