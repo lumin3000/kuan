@@ -3,9 +3,8 @@
 
 - content_for :site_layout, "site_max_size"
 
-- content_for :head do
-  = stylesheet_link_tag 'wall'
-- js 'wall'
+- css :wall
+- js :wall
 
 - content_for :content, do
   #wrapper

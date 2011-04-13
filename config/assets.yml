@@ -1,0 +1,64 @@
+embed_assets: on
+package_assets: always
+
+javascripts:
+  common:
+    - public/javascripts/mootools-core.js
+    - public/javascripts/mootools-more.js
+    - public/javascripts/rails.js
+    - public/javascripts/application.js
+  posts:
+    - public/javascripts/textboxlist.js
+    - public/javascripts/post_form.js
+    - public/javascripts/mooeditable.local.js
+    - public/javascripts/mooeditable.js
+  blog_edit:
+    - public/javascripts/mooeditable.local.js
+    - public/javascripts/mooeditable.js
+    - public/javascripts/moorainbow.js
+    - public/javascripts/k.customize.js
+  upload_pics:
+    - public/javascripts/Swiff.Uploader.js
+    - public/javascripts/FancyUpload3.Attach.js
+    - public/javascripts/Fx.ProgressBar.js
+  wall:
+    - public/javascripts/wall.js  
+  tags:
+    - public/javascripts/tags.js
+  lightbox:
+    - public/javascripts/cerabox.js
+
+stylesheets:
+  base:
+    - public/stylesheets/base.css
+  posts:
+    - public/stylesheets/textboxlist.css
+    - public/stylesheets/mooeditable.css
+    - public/stylesheets/post_edit.css
+  blog_edit:
+    - public/stylesheets/mooeditable.css
+    - public/stylesheets/moorainbow.css
+    - public/stylesheets/blog.css
+  blog:
+    - public/stylesheets/blog.css
+  user:
+    - public/stylesheets/user.css
+  wall:
+    - public/stylesheets/wall.css
+  tags:
+    - public/stylesheets/tags.css
+  comments:
+    - public/stylesheets/post_display.css
+  posts_display:
+    - public/stylesheets/dashboard.css
+    - public/stylesheets/post_display.css
+  main:
+    - public/stylesheets/main.css
+  buzz:
+    - public/stylesheets/buzz.css
+  apply:
+    - public/stylesheets/apply.css
+  admin:
+    - public/stylesheets/admin_templates.css
+  lightbox:
+    - public/stylesheets/cerabox.css

@@ -5,7 +5,8 @@
 - @now_path # a string, for highlight icon in nav_user
 - @page_name # for breadcrumbs
 - @exclude_primary # some options can't be shown in primary blog
-- css "post_display", "dashboard", "main"
+- css :main
+- css :posts_display
 - content_for :content, do
   .dashboard
     = render partial: 'layouts/nav_user'
