@@ -22,4 +22,10 @@ class Template
   def self.find_public
     where :public.ne => false
   end
+
+  def self.create_by_submit(attr)
+    attr[:name] = 'Untitled' if attr[:name].blank?
+    attr[:public] = false
+    self.create attr
+  end
 end

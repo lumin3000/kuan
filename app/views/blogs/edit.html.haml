@@ -92,6 +92,9 @@
           %a.button.strong{href: "#", data: {widget: 'diverseSubmit',
             action: '/preview', target: 'preview', methord: 'POST'}}
             预览效果
+          %input{type: 'checkbox', id: 'submit_tpl_as_well',
+            name: 'submit_tpl_as_well', value: '1', checked: false}
+          = f.label :submit_tpl_as_well, '同时提交到模板库'
           %a.button{href: "#", data: {widget: 'toggler', target: 'fieldset.template',
             classes: 'editing_custom_html picking_template', field: 'blog[using_custom_html]'}}
             返回选择模板
@@ -101,6 +104,10 @@
         .upload_asset
           %input{type: 'file', name: 'file'}
         %ul.assets
+        %label{for: 'tpl_name'} 模板名称
+        %input{name: 'tpl_name', id: 'tpl_name'}
+        %p 上传缩略图
+        %input{type: 'file'}
   %fieldset.appearance.menu{ data: {widget: "appearance"}}
     = render :partial => 'blogs/template_variables'
   %fieldset.service.menu
