@@ -2,7 +2,9 @@
 class MovingsController < ApplicationController
   layout 'minimal'
 
-  before_filter :signin_auth
+  #before_filter :signin_auth
+  #2011-4-14 stop moving
+  before_filter :forbid_moving
 
   def new
     @moving = Moving.new
@@ -17,4 +19,9 @@ class MovingsController < ApplicationController
     render 'new'
   end
 
+  private
+
+  def forbid_moving
+    render :text => "搬家功能已废弃", :status => 404, :content_type => 'text/plain'
+  end
 end
