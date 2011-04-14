@@ -373,16 +373,13 @@ document.addEvent('domready', function(){
     })
 
   // lightbox
-  if($$('[rel=lightbox]').length > 0){
-    new Asset.javascript('/javascripts/cerabox.js', {
-      onload: function() {
-        var box = new CeraBox({group: false});
-        box.addItems('[rel=lightbox]', {
-          fullSize: true,
-          animation: 'ease'
-        });
-        new Asset.css('/stylesheets/cerabox.css')
-      }
+  K.lightbox = null
+  if(typeof CeraBox != "undefined"){
+    K.lightbox = new CeraBox()
+    K.lightbox.addItems('[rel=lightbox]', {
+      group: false,
+      fullSize: true,
+      animation: 'ease'
     })
   }
 })
@@ -760,11 +757,17 @@ K.widgets.expandAlbum = function(context) {
       if (!src) return
       var desc = img.get("data-title")
       new Element('a', {
-        href: img.get("data-o")
+        'class': 'lightbox'
+      , href: img.get("data-o")
       , target: '_blank'
       }).wraps(
         img.set("src", src).grab(new Element('p', {text: desc}), 'after')
       )
+    })
+
+    K.lightbox && K.lightbox.addItems(context.getElements('.lightbox'), {
+      fullSize: true,
+      animation: 'ease'
     })
   }
 
