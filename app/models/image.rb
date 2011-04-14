@@ -113,7 +113,7 @@ class Image
   def url_for(version = :original, prefix = 'files')
     if AVAIL_VERSIONS.include? version
       id = self.send version
-      host = (Rails.env == "production") ? "http//i.kuandom.com" : ""
+      host = (Rails.env == "production") ? "http://i.kuandom.com" : ""
       "#{host}/#{prefix}/#{id}" if not id.nil?
     end
   end
