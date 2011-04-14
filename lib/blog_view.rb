@@ -64,17 +64,23 @@ module ObjectView
 
   def self.js_tag(name)
     name = name.to_s
-    file = "public/javascripts/#{name}.js"
-    timestamp = File.stat(Rails.root + file).mtime.to_i
-    "<script type='text/javascript' src='/javascripts/#{name}.js?#{timestamp}'></script>"
+    path = "javascripts/#{name}.js"
+    "<script type='text/javascript' src='/#{path}?#{timestamp(path)}'></script>"
   end
 
-  JS_CODE = <<EOF.html_safe
+  def self.timestamp(path)
+    file = "public/#{path}"
+    File.stat(Rails.root + file).mtime.to_i
+  end
+
+  JS_CODE = (Rails.env.production? ? <<PROD : <<DEV).html_safe
+    <script type='text/javascript' src='http://www.kuandao.com/assets/common.js?#{timestamp("assets/common.js")}'></script>
+PROD
     #{ObjectView.js_tag('mootools-core')}
     #{ObjectView.js_tag('rails')}
     #{ObjectView.js_tag('mootools-more')}
     #{ObjectView.js_tag('application')}
-EOF
+DEV
 
   def load_js()
     return '' if @extra[:js]
