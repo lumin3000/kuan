@@ -36,7 +36,7 @@ namespace :deploy do
   end
 
   task :jammit do
-    run "cd #{current_release} && bundle exec jammit"
+    run "cd #{current_release} && bundle exec jammit -u 'http://i.kuandao.com'"
   end
 end
 
