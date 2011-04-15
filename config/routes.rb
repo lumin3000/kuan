@@ -71,7 +71,7 @@ Kuan::Application.routes.draw do
     put ':id/ignore' => :ignore, :as => "ignore"
   end
 
-  get "/tagged/:tag(/page/:page)" => "tags#show", :page => /\d+/, :as => 'tagged'
+  get "/tag/:tag(/page/:page)" => "tags#show", :page => /\d+/, :as => 'tagged'
   get "/tags", :to => "tags#index"
 
   resources :movings, :only => [:new, :create]
