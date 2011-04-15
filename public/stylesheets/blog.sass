@@ -1,5 +1,11 @@
 @import 'lib'
 
+@mixin fancy_text_input
+  @include border-radius(8px)
+  border: 1px solid #DDDDDD
+  padding: 8px 5px
+  font-size: 18px
+
 *
   margin: 0
   padding: 0
@@ -213,10 +219,7 @@ form.edit_blog
       display: block
 
     input
-      @include border-radius(8px)
-      border: 1px solid #DDDDDD
-      padding: 8px 5px
-      font-size: 18px
+      @include fancy_text_input
 
     .textarea
       @include border-radius(8px)
@@ -345,6 +348,10 @@ form.edit_blog
 
     .buttons
       margin-top: 15px
+      font-size: 14px
+
+      input
+        margin-left: 5px
 
       .button
         margin: 5px
@@ -465,6 +472,13 @@ fieldset.appearance
 
     input
       background: none
+
+    p
+      margin-bottom: 12px
+
+    .text_input
+      @include fancy_text_input
+      width: 220px
 
   .assets
     border: 1px solid #ddd
