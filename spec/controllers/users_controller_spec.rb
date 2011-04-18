@@ -185,6 +185,12 @@ describe UsersController do
         user.primary_blog.uri.should == "likk"
       end
 
+      it "should truncate name to uri length" do
+        post :create, :user => @attr.merge(:name => "中国科技资源共享网"), :code => @code
+        user = User.where(:email => @attr[:email]).first 
+        user.primary_blog.uri.should == "zhongguokejiziyuangongxiangwan"
+      end
+
       it "should change uri when uri exist" do
         Factory(:blog, :uri => "dupuri")
         #very important! for creating this blog
