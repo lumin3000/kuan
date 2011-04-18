@@ -179,9 +179,11 @@ K.file_uploader = new Class({
       }.bind(this), 50)
     }else{
       for(var i=0, l = Math.min(this.file.files.length, this.options.limit); i<l; i++){
-        K.upload_log(this.path+' : start : multi')
-        var el = this.options.onStart && this.options.onStart()
-        this.html5upload.call(this, this.file.files[i], el)
+        setTimeout(function(file){
+            K.upload_log(this.path+' : start : multi')
+            var el = this.options.onStart && this.options.onStart()
+            this.html5upload.call(this, file, el)
+        }.bind(this, this.file.files[i]), 500*i)
       }
       this.file.destroy()
       this.build_file()
