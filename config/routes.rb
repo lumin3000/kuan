@@ -34,6 +34,8 @@ Kuan::Application.routes.draw do
     delete '/editor/:user' => 'blogs#kick'
     delete '/exit' => 'blogs#exit'
     get '/customize' => redirect('/edit')
+    get '/sync_apply/:target' => 'blogs#sync_apply'
+    get '/sync_callback/:target' => 'blogs#sync_callback'
   end
 
   post "/upload/:type", :to => 'images#create'

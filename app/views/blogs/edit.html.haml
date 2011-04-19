@@ -9,6 +9,7 @@
     %li.template 模板
     %li.appearance{data: {widget: 'reloadAppearance', source: 'fieldset.template',
       target: 'fieldset.appearance'}} 调整界面
+    %li.service 服务
     %li.advanced 高级选项
   .customize_commands
     %a.button.save{href: "###", data: {widget: 'submit', form: '.edit_blog'}} 保 存
@@ -101,6 +102,11 @@
         %ul.assets
   %fieldset.appearance.menu{ data: {widget: "appearance"}}
     = render :partial => 'blogs/template_variables'
+  %fieldset.service.menu
+    %ul.services
+      %li.sina_weibo
+        %a{target: '_blank', href: blog_path(@blog) + 'sync_apply/sina_weibo'}
+          同步到新浪微博
   %fieldset.advanced.menu
     .item.toggle_private
       = f.check_box :private

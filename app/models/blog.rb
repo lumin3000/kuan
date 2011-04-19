@@ -29,6 +29,7 @@ class Blog
   field :template_conf, :type => Hash
 
   references_many :posts, :index => true
+  references_many :sync_target
 
   attr_accessible :uri, :title, :desc, :icon, :private, :canjoin, :posted_at, :custom_html,
   :using_custom_html, :custom_css, :template, :template_id, :template_conf, :tag

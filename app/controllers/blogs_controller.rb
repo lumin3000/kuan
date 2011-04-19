@@ -4,7 +4,7 @@ class BlogsController < ApplicationController
   before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick]
   before_filter :editor_auth, :only => [:followers, :editors, :exit]
   before_filter :find_by_uri, :only => [:show, :follow_toggle, :apply, :apply_entry,
-    :extract_template_vars, :edit]
+    :extract_template_vars, :edit, :sync_apply, :sync_callback]
   before_filter :blog_display, :only => [:show, :preview]
 
   def new
@@ -128,6 +128,15 @@ class BlogsController < ApplicationController
     respond_to do |format|
       format.json { render :json => {status: "success", location: fucking_root } }
     end
+  end
+
+  def sync_apply
+    render :status => 404 and return unless params[:target] == 'sina_weibo'
+    SyncTarget::SinaWeibo.apply(@blog, self)
+  end
+
+  def sync_callback
+    raise "not implemented #{params[:target]}"
   end
 
   private
