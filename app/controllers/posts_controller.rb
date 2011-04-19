@@ -7,6 +7,7 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new params
+    @referer = request.referer
     get_target_blogs
   end
 
@@ -16,7 +17,9 @@ class PostsController < ApplicationController
     if @post.save
       respond_to do |format|
         format.json { render :text => {:status => "success"}.to_json }
-        format.all { redirect_to home_path(@post.blog) }
+        format.all { 
+          session[:post_id] = @post.id
+          redirect_to params[:referer] || home_path}
       end
     else
       respond_to do |format|
@@ -25,6 +28,7 @@ class PostsController < ApplicationController
             :message => @post.errors.values.first.first
           }.to_json }
         format.all { 
+          @referer = params[:referer]
           get_target_blogs
           render 'new'
         }
@@ -34,6 +38,7 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+    @referer = request.referer
     if not @post.editable_by? @user
       render :status => :forbidden, :text => "放开那帖子"
     end
@@ -42,8 +47,10 @@ class PostsController < ApplicationController
   def update
     @post = Post.find(params.delete :id)
     if @post.update_attributes(params)
-      redirect_to root_path
+      session[:post_id] = @post.id
+      redirect_to params[:referer] || home_path
     else
+      @referer = params[:referer]
       return render 'edit'
     end
   end
@@ -51,6 +58,7 @@ class PostsController < ApplicationController
   def renew
     @parent = Post.find params[:id]
     @post = @parent.dup
+    @referer = request.referer
     get_target_blogs
   end
 
@@ -59,8 +67,10 @@ class PostsController < ApplicationController
     params[:author] = current_user
     @post = Post.new params
     if @post.save
-      redirect_to home_path(@post.blog)
+      session[:post_id] = @post.id
+      redirect_to params[:referer] || home_path
     else
+      @referer = params[:referer]
       get_target_blogs
       render 'renew'
     end

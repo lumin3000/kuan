@@ -4,6 +4,7 @@
 = form_t params do
   .right
     = hidden_field_tag :type, @post.type
+    %input{name: 'referer', type: 'hidden', value: @referer}
     - if params[:action] == 'renew'
       = hidden_field_tag :parent_id, @parent.id
     .page_selector

@@ -66,4 +66,11 @@ module PostsHelper
         :default_rich => default_rich
       }
   end
+  def target_post_id
+    if session[:post_id]
+      @target_post_id = session[:post_id]
+      session[:post_id] = nil
+    end
+    @target_post_id
+  end
 end
