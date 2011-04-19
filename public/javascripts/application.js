@@ -379,12 +379,14 @@ document.addEvent('domready', function(){
   K.lightbox = null
   if(typeof CeraBox != "undefined"){
     K.lightbox = new CeraBox()
-    K.lightbox.addItems('[rel=lightbox]', {
+    $$('[rel=lightbox]')[0] && K.lightbox.addItems('[rel=lightbox]', {
       group: false,
       fullSize: true,
       animation: 'ease'
     })
   }
+
+  $$('.hover')[0] && new Fx.Scroll(window).toElementCenter($$('.hover')[0])
 })
 
 K.widgets.rest = function() {

@@ -67,7 +67,7 @@ class PostsController < ApplicationController
     params[:author] = current_user
     @post = Post.new params
     if @post.save
-      session[:post_id] = @post.id
+      session[:post_id] = params[:parent].id
       redirect_to params[:referer] || home_path
     else
       @referer = params[:referer]
