@@ -7,11 +7,9 @@
 - js :wall
 
 - content_for :content, do
-  #wrapper
-    .commands
-      %a.back_to_home{href: fucking_root}
-        回我的主页
   .wall
+    .header
+      %a.logo{href: home_path} 宽岛
     .list.store
       %ul
         = render partial: "posts/brief", collection: @posts, as: :post

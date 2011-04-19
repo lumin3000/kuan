@@ -57,7 +57,7 @@ K.wall = (function(){
         }
     }
     function get_columns_count(){
-        return ((document.getSize().x-0)/180).floor().limit(1, 10);
+        return ((document.getSize().x-120)/180).floor().limit(1, 7);
     }
 
     return {
