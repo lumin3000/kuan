@@ -240,7 +240,7 @@ class User
   #3,如同名uri已有多个，则取后面数字最大的并+1拼出新的uri
   def uri_by_name
     require 'chinese/pinyin'
-    uri = PinYin.instance.to_pinyin(name).downcase.ljust(4,'k')
+    uri = PinYin.instance.to_pinyin(name).downcase.to(29).ljust(4,'k')
     return uri if Blog.where(:uri => uri).empty?
     uri + (Blog.where(:uri => /^#{uri}([0-9]*)$/).reduce(0) do |max, b|
              n = b.uri.match(/^#{uri}([0-9]*)$/)[1].to_i

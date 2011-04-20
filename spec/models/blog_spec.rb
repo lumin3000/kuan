@@ -16,7 +16,7 @@ describe Blog do
       uris = ["中文是不可以",
               'sho',
               'Silen',
-              'a'*31,
+              'a'*256,
               "_forbid",
               ""]
       uris.each do |u|

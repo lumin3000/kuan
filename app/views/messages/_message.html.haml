@@ -1,9 +1,10 @@
-%li{class: (message.unread? ? "new" : "")}
-  .avatar_60
-    .z_image{style: "background-image:url(#{message.sender.icon.url_for(:medium)})"}<
-      %a{ :href => blog_path(message.sender.primary_blog) }<
-        &nbsp;
-  .z_operation
-    = render partial: message.type+"_oper", locals: {message: message}
-  .z_content
-    = render partial: message.type+"_content", locals: {message: message}
+- if message.sender
+  %li{class: (message.unread? ? "new" : "")}
+    .avatar_60
+      .z_image{style: "background-image:url(#{message.sender.icon.url_for(:medium)})"}<
+        %a{ :href => blog_path(message.sender.primary_blog) }<
+          &nbsp;
+    .z_operation
+      = render partial: message.type+"_oper", locals: {message: message}
+    .z_content
+      = render partial: message.type+"_content", locals: {message: message}
