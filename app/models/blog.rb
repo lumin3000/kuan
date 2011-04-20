@@ -197,7 +197,7 @@ class Blog
 
   def handle_sync(post)
     self.sync_targets.each do |t|
-      t.handle_post(post)
+      t.handle_post(post) rescue nil
     end
   end
 
