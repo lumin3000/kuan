@@ -1,0 +1,7 @@
+- if target
+  %a.sync_cancel{href: blog_path(@blog) + 'sync/sina_weibo',
+    data: {widget: 'rest', md: 'delete', callback: 'replace'}}
+    中止同步
+- else
+  %a.sync_apply{target: '_blank', href: blog_path(@blog) + 'sync_apply/sina_weibo'}
+    &nbsp;&#8594; 绑定帐号

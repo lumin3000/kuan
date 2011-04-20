@@ -4,7 +4,7 @@ class BlogsController < ApplicationController
   before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick]
   before_filter :editor_auth, :only => [:followers, :editors, :exit]
   before_filter :find_by_uri, :only => [:show, :follow_toggle, :apply, :apply_entry,
-    :extract_template_vars, :edit, :sync_apply, :sync_callback]
+    :extract_template_vars, :edit, :sync_apply, :sync_callback, :sync_cancel]
   before_filter :blog_display, :only => [:show, :preview]
 
   def new
@@ -138,6 +138,20 @@ class BlogsController < ApplicationController
   def sync_callback
     render :status => 404 and return unless params[:target] == 'sina_weibo'
     SinaWeibo.auth(@blog, self)
+  end
+
+  def sync_cancel
+    @blog.sync_targets.each do |t|
+      t.destroy if t.class.name.underscore == params[:target]
+    end
+    partial_tpl = render_to_string 'sync/_target.html.haml',
+      :locals => {:target => nil}, :layout => false
+
+    respond_to do |format|
+      format.json do 
+        render :json => {status: 'success', message: partial_tpl}
+      end
+    end
   end
 
   private
