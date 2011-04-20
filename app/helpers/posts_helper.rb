@@ -67,9 +67,9 @@ module PostsHelper
       }
   end
   def target_post_id
-    if session[:post_id]
+    unless session[:post_id].blank?
       @target_post_id = session[:post_id]
-      session[:post_id] = nil
+      session.delete :post_id
     end
     @target_post_id
   end
