@@ -42,7 +42,7 @@ class SinaWeibo < SyncTarget
     target.token = access_token
     target.status = :verified
     if target.save
-      controller.render :text => 'sync setup success!'
+      controller.render 'sync/setup_success', :layout => false
     else
       controller.render :status => 500
     end

@@ -107,7 +107,8 @@
       %li.sina_weibo
         .caption 同步到新浪微博
         - sina = @blog.sync_targets.detect {|t| SinaWeibo === t && t.status == :verified}
-        = render :partial => 'sync/target', :object => sina
+        %span.partial_anchor
+          = render :partial => 'sync/target', :object => sina
   %fieldset.advanced.menu
     .item.toggle_private
       = f.check_box :private
@@ -140,4 +141,20 @@
             list.grab(elem, 'top')
           }
         })
+  })
+
+  window.addEvent('oauthSetupSuccess', function(type){
+    var partial = document.getElement('.' + type).getElement('.partial_anchor')
+    if (!partial) return
+    new Request.HTML({
+      url: '/sync_widget/' + type
+    , method: 'GET'
+    , noCache: true
+    , update: partial
+    , useSpinner: true
+    , spinnerTarget: partial
+    , onSuccess: function() {
+        K.applyWidgets(partial)
+      }
+    }).send()
   })

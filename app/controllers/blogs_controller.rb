@@ -4,7 +4,8 @@ class BlogsController < ApplicationController
   before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick]
   before_filter :editor_auth, :only => [:followers, :editors, :exit]
   before_filter :find_by_uri, :only => [:show, :follow_toggle, :apply, :apply_entry,
-    :extract_template_vars, :edit, :sync_apply, :sync_callback, :sync_cancel]
+    :extract_template_vars, :edit, :sync_apply, :sync_callback, :sync_cancel,
+    :sync_widget]
   before_filter :blog_display, :only => [:show, :preview]
 
   def new
@@ -152,6 +153,15 @@ class BlogsController < ApplicationController
         render :json => {status: 'success', message: partial_tpl}
       end
     end
+  end
+
+  def sync_widget
+    sync_target = @blog.sync_targets.detect do |t|
+      t.status == :verified && t.class.name.underscore == params[:target]
+    end
+    render 'shared/404', status: 404, layout: false and return unless sync_target
+    render('sync/_target.html.haml', layout: false,
+           locals: {target: sync_target})
   end
 
   private
