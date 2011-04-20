@@ -1131,7 +1131,6 @@ form.edit_page .submit_box input{
 }
 
 .dashboard .head{
-	background: url('images/dash_.gif') no-repeat;
 	width:900px;
 	height:130px;
 	overflow:hidden;
@@ -1140,6 +1139,28 @@ form.edit_page .submit_box input{
 
 }
 
+.dashboard .head .head_bg{
+	width:900px;
+	height:100px;
+	background-color:#548ff4;
+	-moz-border-radius:15px; 
+	-webkit-border-radius:15px; 
+	border-radius:15px;
+	position:absolute;
+	top:0;
+	left:0;
+	
+}
+
+.dashboard .head .dialog_arrow{
+	width:30px;
+	height:30px;
+	background:url('images/dialog_arrow.gif');
+	position:absolute;
+	top:99px;
+	left:805px;
+	
+}
 
 
 
@@ -3005,3 +3026,361 @@ margin-bottom:30px;
 .header .navigator_post{
 	float:right;
 }
+
+
+/*****************************dashboard_map***************************************************/
+.site .map_main a{
+	display:block;
+	text-decoration:none;
+}
+.site .map_main{
+	width:900px;
+	height:600px;
+	margin-top:40px;
+	margin-bottom:20px; 
+	position:relative;
+	background:url('images/bg_map.jpg') no-repeat;
+	left:40px;
+	top:30px;    
+}
+.site .map_main .nav{
+	width:900px;
+	height:600px;
+	position:relative;
+	top:0;
+	left:0;
+    
+}
+
+.site .map_main .nav .construct{
+	width:57px;
+	height:24px;
+	position:absolute;
+	top:55px;
+	left:183px;
+
+
+}
+
+.site .map_main .nav .tag{
+	width:44px;
+	height:44px;
+	position:absolute;
+	top:25px;
+	left:405px;
+ 
+}
+
+.site .map_main .nav .wall{
+	width:70px;
+	height:50px;
+	position:absolute;
+	top:126px;
+	left:525px;
+
+}
+
+.site .map_main .nav .group{
+	width:130px;
+	height:60px;
+	position:absolute;
+	top:420px;
+	left:320px;
+
+}
+
+.site .map_main .nav .ship{
+	width:60px;
+	height:50px;
+	position:absolute;
+	top:330px;
+	left:670px;
+
+}
+
+
+
+ 
+.site .map_main .nav .sub_construct{
+	width:100px;
+	height:27px;
+	border:1px solid #8e8e8e;
+	position:absolute;
+	top:10px;
+	left:200px;
+	color:#8e8e8e;
+	font-family:'microsoft yahei';
+	font-size:18px;
+	line-height:20px;
+	text-align:center;
+	padding-top:3px;
+	background-color:#ffffff;
+}
+
+.site .map_main .nav .sub_tag{
+	width:100px;
+	height:27px;
+	border:1px solid #8e8e8e;
+	position:absolute;
+	top:-10px;
+	left:420px;
+	color:#8e8e8e;
+	font-family:'microsoft yahei';
+	font-size:18px;
+	line-height:20px;
+	text-align:center;
+	padding-top:3px;
+	background-color:#ffffff;
+}
+
+.site .map_main .nav .sub_wall{
+	width:100px;
+	height:27px;
+	border:1px solid #8e8e8e;
+	position:absolute;
+	top:90px;
+	left:510px;
+	color:#8e8e8e;
+	font-family:'microsoft yahei';
+	font-size:18px;
+	line-height:20px;
+	text-align:center;
+	padding-top:3px;
+	background-color:#ffffff;
+}
+
+
+.site .map_main .nav .sub_group{
+	width:100px;
+	height:27px;
+	border:1px solid #8e8e8e;
+	position:absolute;
+	top:400px;
+	left:210px;
+	color:#8e8e8e;
+	font-family:'microsoft yahei';
+	font-size:18px;
+	line-height:20px;
+	text-align:center;
+	padding-top:3px;
+	background-color:#ffffff;
+}
+
+
+.site .map_main .construct_content{
+	width:232px;
+	height:110px;
+	position:relative;
+	top:-30px;
+	left:-40px;	
+
+}
+
+
+.site .map_main .construct_content .text{
+	width:200px;
+	height:90px;
+	background-color:#ffffff;
+	border:1px solid #8e8e8e;
+	border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	position:absolute;
+	left:0;
+	top:0;
+	padding:10px;
+	color:#8e8e8e;
+	font-size:18px;
+	line-height:18px;
+	overflow:hidden;
+
+}
+
+.site .map_main .tag_content{
+	width:232px;
+	height:110px;
+	position:relative;
+	top:-160px;
+	left:530px;	
+
+}
+
+
+
+.site .map_main .tag_content .text{
+	width:200px;
+	height:90px;
+	background-color:#ffffff;
+	border:1px solid #8e8e8e;
+	border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	position:absolute;
+	left:12px;
+	top:0;
+	padding:10px;
+	color:#8e8e8e;
+	font-size:18px;
+	line-height:18px;
+	overflow:hidden;
+
+}
+
+
+.site .map_main .wall_content{
+	width:232px;
+	height:110px;
+	position:relative;
+	top:-174px;
+	left:615px;	
+
+}
+
+
+.site .map_main .wall_content .text{
+	width:200px;
+	height:90px;
+	background-color:#ffffff;
+	border:1px solid #8e8e8e;
+	border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	position:absolute;
+	left:12px;
+	top:0;
+	padding:10px;
+	color:#8e8e8e;
+	font-size:18px;
+	line-height:18px;
+	overflow:hidden;
+
+}
+
+
+.site .map_main .group_content{
+	width:232px;
+	height:110px;
+	position:relative;
+	top:24px;
+	left:-35px;	
+
+}
+
+
+.site .map_main .group_content .text{
+	width:200px;
+	height:90px;
+	background-color:#ffffff;
+	border:1px solid #8e8e8e;
+	border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	position:absolute;
+	left:0;;
+	top:0;
+	padding:10px;
+	color:#8e8e8e;
+	font-size:18px;
+	line-height:18px;
+	overflow:hidden;
+}
+
+
+.site .map_main .arrow_l{
+	width:12px;
+	height:10px;
+	background:url('images/map_arrow_l.gif') no-repeat;
+	border:none;
+	position:absolute;
+	top:50px;
+	left:2px;
+}
+.site .map_main .arrow_r{
+	width:12px;
+	height:10px;
+	background:url('images/map_arrow_r.gif') no-repeat;
+	border:none;
+	position:absolute;
+	top:50px;
+	right:0;
+	z-index:1;
+	
+}
+
+.site .map_main .tag_content .tag_arrow{
+	width:93px;
+	height:109px;
+	background:url('images/tag_arrow.gif') no-repeat;
+	position:absolute;
+	top:-10px;
+	left:185px;
+}
+
+.site .map_main .tag_content .submit{
+	width:100px;
+	height:23px;
+	color:#ffffff;
+	background:#3366cc;
+	border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	position:absolute;
+	top:70px;
+	left:70px;
+	text-align:center;
+	padding-top:7px;
+	font-size:14px;
+	line-height:14px;
+}
+
+.site .map_main .area1{
+	background-color:#3366cc;
+	width:156px;
+	height:37px;
+	position:absolute;
+	top:45px;
+	left:244px;
+}
+
+.site .map_main .area2{
+	background-color:#d334e1;
+	width:367px;
+	height:102px;
+	position:absolute;
+	top:84px;
+	left:142px;
+}
+
+.site .map_main .area3{
+	background-color:#2bb63e;
+	width:286px;
+	height:81px;
+	position:absolute;
+	top:188px;
+	left:311px;
+}
+
+.site .map_main .area4{
+	background-color:#c36836;
+	width:66px;
+	height:90px;
+	position:absolute;
+	top:140px;
+	left:600px;
+}
+
+.site .map_main .area5{
+	background-color:#fce94d;
+	width:92px;
+	height:58px;
+	position:absolute;
+	top:270px;
+	left:480px;
+}
+
+
+
+
+
+
+
