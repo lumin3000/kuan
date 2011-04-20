@@ -53,6 +53,10 @@ class SinaWeibo < SyncTarget
       :site => SITE
   end
 
+  def self.grid
+    @grid ||= Mongo::Grid.new self.db
+  end
+
   def token=(token)
     self.token_key = token.token
     self.token_secret = token.secret
@@ -63,7 +67,7 @@ class SinaWeibo < SyncTarget
   end
 
   def access_token
-    OAuth::AccessToken.new self.consumer, token_key, token_secret
+    @access_token ||= OAuth::AccessToken.new self.consumer, token_key, token_secret
   end
 
   def consumer
@@ -78,12 +82,20 @@ class SinaWeibo < SyncTarget
   end
 
   def handle_text(post)
-    status = post.title.empty? ? post.content : post.title
-    raise NotImplementedError
+    status = post.title.blank? ? post.stripped_content : post.title
+    status = status[0...140]
+    access_token.post "#{SITE}statuses/update.json", :status => status
   end
 
   def handle_pics(post)
     raise NotImplementedError
+    photo = post.photos.first
+    text = photo.desc[0...140]
+    image_id = photo.image.original
+    image = grid.get image_id
+    request = Net::HTTP::Post::Multipart.new "#{SITE}statuses/upload.json",
+      :pic => UploadIO.new(image, image.content_type, image_id.to_s),
+      :status => text
   end
 
   def handle_link(post)
@@ -92,5 +104,9 @@ class SinaWeibo < SyncTarget
 
   def handle_video(post)
     raise NotImplementedError
+  end
+
+  def grid
+    self.class.grid
   end
 end

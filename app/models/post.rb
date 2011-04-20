@@ -133,6 +133,11 @@ class Post
     watchers.uniq
   end
 
+  def stripped_content
+    require 'filters/tag_stripper'
+    TagStripper.filter self.content
+  end
+
   private
 
   def update_blog
