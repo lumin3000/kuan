@@ -137,6 +137,7 @@ class Post
 
   def update_blog
     blog.update_attributes(:posted_at => created_at)
+    blog.handle_sync(self)
   end
 
   def type_setter

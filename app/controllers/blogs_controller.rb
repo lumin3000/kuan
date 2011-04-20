@@ -132,11 +132,12 @@ class BlogsController < ApplicationController
 
   def sync_apply
     render :status => 404 and return unless params[:target] == 'sina_weibo'
-    SyncTarget::SinaWeibo.apply(@blog, self)
+    SinaWeibo.apply(@blog, self)
   end
 
   def sync_callback
-    raise "not implemented #{params[:target]}"
+    render :status => 404 and return unless params[:target] == 'sina_weibo'
+    SinaWeibo.auth(@blog, self)
   end
 
   private

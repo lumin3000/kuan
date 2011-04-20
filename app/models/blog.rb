@@ -29,7 +29,7 @@ class Blog
   field :template_conf, :type => Hash
 
   references_many :posts, :index => true
-  references_many :sync_target
+  references_many :sync_targets
 
   attr_accessible :uri, :title, :desc, :icon, :private, :canjoin, :posted_at, :custom_html,
   :using_custom_html, :custom_css, :template, :template_id, :template_conf, :tag
@@ -192,6 +192,12 @@ class Blog
         v = conf.delete k
         conf[k.to_s] = v.is_a?(Hash) ? normalize_template_conf(v) : v
       end
+    end
+  end
+
+  def handle_sync(post)
+    self.sync_targets.each do |t|
+      t.handle_post(post)
     end
   end
 
