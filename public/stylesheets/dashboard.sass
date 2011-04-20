@@ -273,6 +273,18 @@ a.page_name
 .my_pages
   position: relative
 
+  .private,
+  .public
+    width: 20px
+    height: 20px
+    display: inline-block
+    *display: inline
+    *zoom: 1
+  .private
+    background: url(/images/embed/private.png) no-repeat
+  .public
+    background: url(/images/embed/public.png) no-repeat
+
   a
     color: $light-gray
     text-decoration: none
