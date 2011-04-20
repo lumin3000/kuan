@@ -105,8 +105,14 @@
   %fieldset.service.menu
     %ul.services
       %li.sina_weibo
-        %a{target: '_blank', href: blog_path(@blog) + 'sync_apply/sina_weibo'}
-          同步到新浪微博
+        .caption 同步到新浪微博
+        - sina = @blog.sync_targets.detect {|t| SinaWeibo === t && t.status == :verified}
+        - if sina
+          %a.sync_cancel{href: blog_path(@blog) + 'sync_cancel/sina_weibo'}
+            中止同步
+        - else
+          %a.sync_apply{target: '_blank', href: blog_path(@blog) + 'sync_apply/sina_weibo'}
+            &nbsp;&#8594; 绑定帐号
   %fieldset.advanced.menu
     .item.toggle_private
       = f.check_box :private
