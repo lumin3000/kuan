@@ -11,6 +11,7 @@ gem 'haml-rails'
 gem 'mini_magick'
 gem 'mustache'
 gem 'nokogiri'
+gem 'simple-rss'
 gem 'jammit'
 gem 'whenever', :require => false
 gem 'capistrano'

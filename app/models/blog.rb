@@ -2,6 +2,7 @@
 class Blog
   include Mongoid::Document
   include Mongoid::Timestamps
+
   field :uri
   index :uri, :unique => true
   field :title
@@ -29,8 +30,10 @@ class Blog
 
   field :template_conf, :type => Hash
 
+  embeds_many :import_feeds
+  
   references_many :posts, :index => true, :validate => false
-  references_many :sync_targets, :validate => false
+  references_many :sync_targets
 
   attr_accessible :uri, :title, :desc, :icon, :primary, :private, :canjoin,
     :posted_at, :custom_html, :open_register, :using_custom_html,
@@ -42,8 +45,7 @@ class Blog
   validates_presence_of :title,
   :message => "请输入页面名字"
   validates_length_of :title,
-  :minimum => 1,
-  :maximum => 40,
+  :within => 1..40,
   :too_short => "最少%{count}个字",
   :too_long => "最多%{count}个字"
 
@@ -188,6 +190,11 @@ class Blog
                                            :type => "join")
     end
     true
+  end
+
+  def import!(uri, type)
+    feed = Feed.find_or_create_by :uri => uri
+    self.import_feeds << ImportFeed.new(:feed => feed, :as_type => type)
   end
 
   def to_param

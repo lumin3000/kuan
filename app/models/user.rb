@@ -19,11 +19,9 @@ class User
 
   validates_presence_of :name, :message => "请输入用户名"
   validates_length_of :name,
-    :minimum => 1,
-    :maximum => 40,
+    :within => 1..40,
     :too_short => "最少%{count}个字",
     :too_long => "最多%{count}个字"
-
   validates_presence_of :email, 
     :message => "请输入邮箱"
   validates_format_of :email, 
@@ -38,8 +36,7 @@ class User
   validates_confirmation_of :password, :message => "两次密码不统一", :on => :update
 
   validates_length_of :password,
-    :minimum => 5,
-    :maximum => 32,
+    :within => 5..32,
     :too_short => "最少%{count}个字",
   :too_long => "最多%{count}个字", :unless => Proc.new { |a| a.password.blank? }
 
