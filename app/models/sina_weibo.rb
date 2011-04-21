@@ -91,7 +91,7 @@ class SinaWeibo < SyncTarget
     text = post.title.blank? ? post.stripped_content : post.title
     url = compose_url(post)
     status = compose_status(text, url)
-    access_token.post "#{SITE}statuses/update.json", :status => status
+    update_status status
   end
 
   def handle_pics(post)
@@ -106,7 +106,11 @@ class SinaWeibo < SyncTarget
   end
 
   def handle_link(post)
-    raise NotImplementedError
+    shared_url = post.url
+    url = compose_url(post)
+    text = post.title || ''
+    status = shared_url + ' ' + compose_status(text, url, 110)
+    update_status status
   end
 
   def handle_video(post)
@@ -117,15 +121,19 @@ class SinaWeibo < SyncTarget
     self.class.grid
   end
 
+  def update_status(status)
+    access_token.post "#{SITE}statuses/update.json", :status => status
+  end
+
   private
-  def compose_status(text, url)
+  def compose_status(text, url, limit = 120)
     case text.size
     when 0
       url
-    when 1...120
+    when 1...limit
       text + ' ' + url
     else
-      text[1...120] + '... ' + url
+      text[1...limit] + '... ' + url
     end
   end
 
