@@ -272,19 +272,32 @@ a.page_name
 
 .my_pages
   position: relative
-
-  .primary,
-  .private,
-  .public
-    width: 16px
-    height: 20px
-    display: inline-block
-    *display: inline
-    *zoom: 1
-  .private
-    background: url(/images/embed/private.gif) no-repeat
-  .primary
-    background: url(/images/embed/primary.gif) no-repeat
+  .z_blog,
+  .selector
+    @include clear_fix
+    .z_type
+      float: left
+    .z_title
+      float: left
+      width: 130px
+    .primary,
+    .private,
+    .public
+      margin-top: 3px
+      width: 16px
+      height: 20px
+      display: inline-block
+      *display: inline
+      *zoom: 1
+    .private
+      background: url(/images/embed/private.gif) no-repeat
+    .primary
+      background: url(/images/embed/primary.gif) no-repeat
+  .selector
+    .primary,
+    .private,
+    .public
+      margin-top: 10px
 
   a
     color: $light-gray
