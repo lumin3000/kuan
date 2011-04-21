@@ -133,10 +133,16 @@ class Post
     watchers.uniq
   end
 
+  def stripped_content
+    require 'filters/tag_stripper'
+    TagStripper.filter self.content
+  end
+
   private
 
   def update_blog
     blog.update_attributes(:posted_at => created_at)
+    blog.handle_sync(self)
   end
 
   def type_setter

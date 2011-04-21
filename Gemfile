@@ -14,6 +14,8 @@ gem 'nokogiri'
 gem 'jammit'
 gem 'whenever', :require => false
 gem 'capistrano'
+gem 'oauth'
+gem 'multipart-post'
 
 group :development, :test do
   gem 'rspec'

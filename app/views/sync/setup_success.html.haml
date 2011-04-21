@@ -1,0 +1,12 @@
+!!! 5
+#type_anchor{data: {target: params[:target]}}
+  好像成功了
+  :javascript
+    setTimeout(function(){
+      var opener = window.opener
+      if (!opener || !opener.fireEvent) return
+      var type = document.getElementById('type_anchor')
+        .getAttribute('data-target')
+      opener.fireEvent('oauthSetupSuccess', [type])
+      window.close()
+    }, 100)

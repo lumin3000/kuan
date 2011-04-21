@@ -349,12 +349,11 @@ K.widgets.fixHover = (function() {
   return function(elem) { elem.addEvents(events) }
 })()
 
-document.addEvent('domready', function(){
-  if($(document.body).hasClass('post_single')){
-    K.widgets.env.post_single = true
-  }
+K.applyWidgets = function(context) {
   var KEY = 'data-widget'
-  $$('[' + KEY + ']').each(function(e){
+  context = context || document
+  if (!context) return
+  context.getElements('[' + KEY + ']').each(function(e) {
     var types = e.get(KEY)
     if (types) types = types.split(' ')
     else return
@@ -363,19 +362,26 @@ document.addEvent('domready', function(){
       if (typeof func == 'function') func(e)
     })
   })
+}
 
-    $(document.body).addEvents({
-      'click:relay([data-tgt])': function(e){
-        var tgt = e.target.get('data-tgt')
-        var ev = e.target.get('data-event')
-        var func
-        if(tgt && (!ev || ev == 'click')){
-          e.stop()
-          func = K.tgt[tgt]
-          if (typeof func == 'function') func.call(this, e.target)
-        }
+document.addEvent('domready', function(){
+  if($(document.body).hasClass('post_single')){
+    K.widgets.env.post_single = true
+  }
+  K.applyWidgets()
+
+  $(document.body).addEvents({
+    'click:relay([data-tgt])': function(e){
+      var tgt = e.target.get('data-tgt')
+      var ev = e.target.get('data-event')
+      var func
+      if(tgt && (!ev || ev == 'click')){
+        e.stop()
+        func = K.tgt[tgt]
+        if (typeof func == 'function') func.call(this, e.target)
       }
-    })
+    }
+  })
 
   // lightbox
   K.lightbox = null
