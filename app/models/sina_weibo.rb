@@ -16,6 +16,10 @@ class SinaWeibo < SyncTarget
   SITE = 'http://api.t.sina.com.cn/'
 
   def self.apply(blog, controller)
+    blog.sync_targets.each do |t|
+      t.destroy if t.class == self
+    end
+
     request_token = consumer.get_request_token
     if create( :token_key => request_token.token,
               :token_secret => request_token.secret,
