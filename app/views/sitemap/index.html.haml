@@ -6,29 +6,40 @@
 - js :sitemap
 .map_main
   .nav
-    %a.location.construct{name: "construct", href: with_subdomain("kccc")}
-    %a.location.bookmark{name: "bookmark", href: with_subdomain("bookmark")}
-    %a.location.wall{name: "wall", href: wall_posts_path}
-    %a.location.group{name: "group", href: with_subdomain("kuandaogroup")}
-    %a.sub.sub_construct{name: "construct", href: with_subdomain("kccc")}宽岛建设
-    %a.sub.sub_bookmark{name: "bookmark", href: with_subdomain("bookmark")}书签工具
-    %a.sub.sub_wall{name: "wall", href: wall_posts_path}宽墙
-    %a.sub.sub_group{name: "group", href: with_subdomain("kuandaogroup")}宽岛组
+    %a.location.construct{name: "construct", href: with_subdomain("kccc"), :target => "_blank"}
+    %a.location.bookmark{name: "bookmark", href: with_subdomain("bookmark"), :target => "_blank"}
+    %a.location.wall{name: "wall", href: wall_posts_path, :target => "_blank"}
+    %a.location.group{name: "group", href: with_subdomain("kuandaogroup"), :target => "_blank"}
+    %a.sub.sub_construct{name: "construct", href: with_subdomain("kccc"), :target => "_blank"}宽岛建设
+    %a.sub.sub_bookmark{name: "bookmark", href: with_subdomain("bookmark"), :target => "_blank"}书签工具
+    %a.sub.sub_wall{name: "wall", href: wall_posts_path, :target => "_blank"}宽墙
+    %a.sub.sub_group{name: "group", href: with_subdomain("kuandaogroup"), :target => "_blank"}宽岛组
     .note.left.note_construct
       .text<
-        宽岛建设宽岛建设宽岛建设宽岛建设
+        %br
+        新功能，新特性，新改进
       .arrow
     .note.right.note_bookmark
       .text<
-        书签工具书签工具书签工具书签工具
+        一个小工具
+        %br
+        方便用户从其它网站转贴到宽岛
       .arrow
     .note.right.note_wall
       .text<
-        宽墙宽墙宽墙宽墙宽墙宽墙宽墙宽墙
+        无聊的时候就打开吧
+        %br
+        看着发呆
       .arrow
     .note.left.note_group
       .text<
-        宽岛组宽岛组宽岛组宽岛组宽岛组宽岛组
+        民間寬島後備組織
+        %br
+        宽岛组是用来加入的
+        %br
+        功略，意见，吐槽...
       .arrow
 #blog_list{style: "display:none"}
-  = render :partial => "blogs/avatar", :collection => @blogs, :as => :blog
+  - @blogs.each do |blog|
+    %a{:href => blog_path(blog), :title => blog.title, :target => "_blank"}<
+      %img{:src => blog.icon.url_for(:'30')}

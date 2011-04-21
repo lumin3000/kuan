@@ -7,10 +7,27 @@ document.addEvent('domready', function(){
     {'top':270, 'bottom':310, 'left':480, 'right':560}
   ]
   area.each(function(i){
-    $('blog_list').getElement('div').inject($$('.nav')[0]).setStyles({
+    var item = $('blog_list').getElement('a').inject($$('.nav')[0])
+    item.setStyles({
       'position': 'absolute',
       'top': Number.random(i.top, i.bottom), 
       'left': Number.random(i.left, i.right)
+    })
+    var img = item.getElement('img')
+    var fx = new Fx.Morph(img, {
+      duration: 'short',
+      link: 'cancel'
+    })
+    img.setStyles({
+      'height': 16,
+      'width': 16
+    }).addEvents({
+      'mouseenter': function(){
+        fx.start({'height':30, 'width':30})
+      },
+      'mouseleave': function(){
+        fx.start({'height':16, 'width':16})
+      }
     })
   })
   $$('.sub').addEvents({
