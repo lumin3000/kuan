@@ -1,3 +1,4 @@
+@import 'lib'
 .site .map_main
   a
     display: block
@@ -40,70 +41,38 @@
       position: absolute
       top: 420px
       left: 320px
+    .sub
+      width: 80px
+      height: 24px
+      @include border-radius(3px)
+      border: 1px solid lightgray
+      position: absolute
+      color: #8e8e8e
+      font-size: 14px
+      line-height: 20px
+      text-align: center
+      padding-top: 3px
+      background-color: #ffffff
     .sub_construct
-      width: 100px
-      height: 27px
-      border: 1px solid #8e8e8e
-      position: absolute
-      top: 10px
+      top: 15px
       left: 200px
-      color: #8e8e8e
-      font-family: 'microsoft yahei'
-      font-size: 18px
-      line-height: 20px
-      text-align: center
-      padding-top: 3px
-      background-color: #ffffff
     .sub_bookmark
-      width: 100px
-      height: 27px
-      border: 1px solid #8e8e8e
-      position: absolute
-      top: -10px
+      top: -5px
       left: 420px
-      color: #8e8e8e
-      font-family: 'microsoft yahei'
-      font-size: 18px
-      line-height: 20px
-      text-align: center
-      padding-top: 3px
-      background-color: #ffffff
     .sub_wall
-      width: 100px
-      height: 27px
-      border: 1px solid #8e8e8e
-      position: absolute
-      top: 90px
+      top: 95px
       left: 510px
-      color: #8e8e8e
-      font-family: 'microsoft yahei'
-      font-size: 18px
-      line-height: 20px
-      text-align: center
-      padding-top: 3px
-      background-color: #ffffff
     .sub_group
-      width: 100px
-      height: 27px
-      border: 1px solid #8e8e8e
-      position: absolute
       top: 400px
-      left: 210px
-      color: #8e8e8e
-      font-family: 'microsoft yahei'
-      font-size: 18px
-      line-height: 20px
-      text-align: center
-      padding-top: 3px
-      background-color: #ffffff
+      left: 230px
   .note
-    width: 232px
-    height: 110px
+    width: 212px
+    height: 60px
     position: absolute
     z-index: 99
     .text
-      width: 200px
-      height: 90px
+      width: 180px
+      height: 40px
       background-color: #ffffff
       border: 1px solid #8e8e8e
       border-radius: 10px
@@ -118,17 +87,17 @@
       line-height: 18px
       overflow: hidden
     &.note_construct
-      top: -30px
-      left: -40px
+      top: -7px
+      left: -20px
     &.note_bookmark
-      top: -50px
-      left: 530px
+      top: -27px
+      left: 507px
     &.note_wall
-      top: 50px
-      left: 615px
+      top: 73px
+      left: 595px
     &.note_group
-      top: 360px
-      left: -30px
+      top: 380px
+      left: 10px
     &.right
       .text
         left: 12px
@@ -138,7 +107,7 @@
         background: url('/images/embed/map_arrow_l.gif') no-repeat
         border: none
         position: absolute
-        top: 50px
+        top: 25px
         left: 2px
     &.left
       .arrow
@@ -147,7 +116,7 @@
         background: url('/images/embed/map_arrow_r.gif') no-repeat
         border: none
         position: absolute
-        top: 50px
+        top: 25px
         right: 0
         z-index: 1
 .js_enabled

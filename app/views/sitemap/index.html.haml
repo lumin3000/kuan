@@ -6,38 +6,29 @@
 - js :sitemap
 .map_main
   .nav
-    %a.location.construct{name: "construct", href: with_subdomain("kccc"), :target => "_blank"}
-    %a.location.bookmark{name: "bookmark", href: with_subdomain("bookmark"), :target => "_blank"}
-    %a.location.wall{name: "wall", href: wall_posts_path, :target => "_blank"}
-    %a.location.group{name: "group", href: with_subdomain("kuandaogroup"), :target => "_blank"}
+    %a.location.construct{name: "construct", href: with_subdomain("kccc"), :target => "_blank", :title => "宽岛建设"}
+    %a.location.bookmark{name: "bookmark", href: with_subdomain("bookmark"), :target => "_blank", :title => "书签工具"}
+    %a.location.wall{name: "wall", href: wall_posts_path, :target => "_blank", :title => "宽墙"}
+    %a.location.group{name: "group", href: with_subdomain("kuandaogroup"), :target => "_blank", :title => "宽岛组"}
     %a.sub.sub_construct{name: "construct", href: with_subdomain("kccc"), :target => "_blank"}宽岛建设
     %a.sub.sub_bookmark{name: "bookmark", href: with_subdomain("bookmark"), :target => "_blank"}书签工具
     %a.sub.sub_wall{name: "wall", href: wall_posts_path, :target => "_blank"}宽墙
     %a.sub.sub_group{name: "group", href: with_subdomain("kuandaogroup"), :target => "_blank"}宽岛组
     .note.left.note_construct
       .text<
-        %br
-        新功能，新特性，新改进
+        宽岛有什么新变化？
       .arrow
     .note.right.note_bookmark
       .text<
-        一个小工具
-        %br
-        方便用户从其它网站转贴到宽岛
+        从任何地方把喜欢的内容转来宽岛的小工具
       .arrow
     .note.right.note_wall
       .text<
-        无聊的时候就打开吧
-        %br
-        看着发呆
+        无聊的时候就打开看着发呆吧
       .arrow
     .note.left.note_group
       .text<
-        民間寬島後備組織
-        %br
-        宽岛组是用来加入的
-        %br
-        功略，意见，吐槽...
+        民间宽岛后备组织，提意见的地方
       .arrow
 #blog_list{style: "display:none"}
   - @blogs.each do |blog|
