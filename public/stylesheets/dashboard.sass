@@ -273,6 +273,7 @@ a.page_name
 .my_pages
   position: relative
 
+  .primary,
   .private,
   .public
     width: 20px
@@ -281,9 +282,11 @@ a.page_name
     *display: inline
     *zoom: 1
   .private
-    background: url(/images/embed/private.png) no-repeat
+    background: url(/images/embed/private.gif) no-repeat
   .public
-    background: url(/images/embed/public.png) no-repeat
+    background: url(/images/embed/public.gif) no-repeat
+  .primary
+    background: url(/images/embed/primary.gif) no-repeat
 
   a
     color: $light-gray

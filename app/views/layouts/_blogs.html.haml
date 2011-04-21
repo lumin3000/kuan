@@ -1,18 +1,18 @@
 .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
   %a.selector{href: path.call(@blog)}
-    %span{class: (@blog.private? ? "private" : "public")}><
+    %span{class: blog_type(@blog)}><
     = @blog.title
   - @other_blogs = @blogs.reject {|b| b == @blog}
   .selector_open
     .selector_open_head.selector
-      %span{class: (@blog.private? ? "private" : "public")}><
+      %span{class: blog_type(@blog)}><
       = @blog.title
     .selector_open_menu
       - @other_blogs.each do |b|
         - if !@exclude_primary || (!b.primary && b.edited?(current_user))
           %div
             %a.other_blog{href: path.call(b)}<
-              %span{class: (b.private? ? "private" : "public")}><
+              %span{class: blog_type(b)}><
               = b.title
     .selector_open_footer
       %a{href: new_blog_path} +新建页面
