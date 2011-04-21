@@ -4,6 +4,7 @@ class SinaWeibo < SyncTarget
   require 'net/http'
   require 'net/http/post/multipart'
   require 'json'
+  require 'uri'
 
   field :status, :type => Symbol, :default => :waiting_for_auth
   field :token_key
@@ -94,14 +95,14 @@ class SinaWeibo < SyncTarget
   end
 
   def handle_pics(post)
-    raise NotImplementedError
     photo = post.photos.first
-    text = photo.desc[0...140]
+    url = compose_url(post)
+    status = compose_status(photo.desc || '', url)
     image_id = photo.image.original
     image = grid.get image_id
-    request = Net::HTTP::Post::Multipart.new "#{SITE}statuses/upload.json",
+    damned_upload "#{SITE}statuses/upload.json",
       :pic => UploadIO.new(image, image.content_type, image_id.to_s),
-      :status => text
+      :status => status
   end
 
   def handle_link(post)
@@ -131,5 +132,31 @@ class SinaWeibo < SyncTarget
   def compose_url(post)
     # Yeah I confess this is a dirty hack
     "http://#{post.blog.uri}.kuandao.com/posts/#{post.id.to_s}"
+  end
+
+  def damned_upload(url, params)
+    parsed_url = URI.parse url
+    fake_request = Net::HTTP::Post.new url
+    fake_params = params.reject{|k, v| k == :pic}
+    fake_request.set_form_data fake_params
+    fake_request['Content-Type'] = 'application/x-www-form-urlencoded'
+    at = self.access_token
+    at.sign! fake_request, :request_uri => url, :parameters => fake_params
+
+    actual_request = Net::HTTP::Post::Multipart.new url, params
+    actual_request['Authorization'] = fake_request['Authorization']
+    Net::HTTP.start parsed_url.host, parsed_url.port do |con|
+      con.request(actual_request)
+    end
+  end
+end
+
+# Monkey patched for multipart-post
+module Mongo
+  class GridIO
+    alias_method :length, :file_length
+
+    def path
+    end
   end
 end
