@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class SinaWeibo < SyncTarget
   # FIXME: extract oauth logic to a new super class
   require 'oauth'
@@ -135,14 +137,7 @@ class SinaWeibo < SyncTarget
 
   private
   def compose_status(text, url, limit = 120)
-    case text.size
-    when 0
-      url
-    when 1...limit
-      text + ' ' + url
-    else
-      text[1...limit] + '... ' + url
-    end
+    text.truncate(limit - 1) + ' 来自:' + url
   end
 
   def compose_url(post)
