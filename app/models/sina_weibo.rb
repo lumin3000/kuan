@@ -87,8 +87,10 @@ class SinaWeibo < SyncTarget
   end
 
   def handle_text(post)
-    status = post.title.blank? ? post.stripped_content : post.title
-    status = status[0...140]
+    text = post.title.blank? ? post.stripped_content : post.title
+    # Yeah I confess this is a dirty hack
+    url = "http://#{post.blog.uri}.kuandao.com/posts/#{post.id.to_s}"
+    status = compose_status(text, url)
     access_token.post "#{SITE}statuses/update.json", :status => status
   end
 
@@ -113,5 +115,17 @@ class SinaWeibo < SyncTarget
 
   def grid
     self.class.grid
+  end
+
+  private
+  def compose_status(text, url)
+    case text.size
+    when 0
+      url
+    when 1...120
+      text + ' ' + url
+    else
+      text[1...120] + '... ' + url
+    end
   end
 end
