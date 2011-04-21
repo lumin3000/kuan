@@ -3,10 +3,12 @@ class SinaWeibo < SyncTarget
   require 'oauth'
   require 'net/http'
   require 'net/http/post/multipart'
+  require 'json'
 
   field :status, :type => Symbol, :default => :waiting_for_auth
   field :token_key
   field :token_secret
+  field :account
 
   CONSUMER_KEY = '609051831'
   CONSUMER_SECRET = 'debf621a6f856f9cd08b855522bdb2a1'
@@ -39,6 +41,9 @@ class SinaWeibo < SyncTarget
       controller.render :status => 400
       return
     end
+    response = access_token.get '/account/verify_credentials.json'
+    response = JSON.load response.body
+    target.account = response['name']
     target.token = access_token
     target.status = :verified
     if target.save
