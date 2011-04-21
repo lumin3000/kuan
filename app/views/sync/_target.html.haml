@@ -1,11 +1,11 @@
 - if target
   %span.account_name
-    正在同步到
+    同步到
     = target.account
   %a.sync_cancel{href: blog_path(@blog) + 'sync/sina_weibo',
     data: {widget: 'rest', md: 'delete', callback: 'replace',
     parent: 'partial_anchor'}}
-    中止同步
+    取消同步
 - else
   %a.sync_apply{target: '_blank', href: blog_path(@blog) + 'sync_apply/sina_weibo'}
     &nbsp;&#8594; 绑定帐号
