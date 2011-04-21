@@ -114,7 +114,11 @@ class SinaWeibo < SyncTarget
   end
 
   def handle_video(post)
-    raise NotImplementedError
+    video_url = post.url
+    text = post.content || ''
+    url = compose_url(post)
+    status = video_url + ' ' + compose_status(text, url, 110)
+    update_status status
   end
 
   def grid
