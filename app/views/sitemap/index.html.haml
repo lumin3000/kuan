@@ -1,0 +1,32 @@
+- @sub_title = "宽岛地图"
+- content_for :title, @sub_title
+- @site_layout = "site"
+
+- css :sitemap
+- js :sitemap
+.map_main
+  .nav
+    %a.location.construct{name: "construct", href: with_subdomain("kccc")}
+    %a.location.bookmark{name: "bookmark", href: with_subdomain("bookmark")}
+    %a.location.wall{name: "wall", href: wall_posts_path}
+    %a.location.group{name: "group", href: with_subdomain("kuandaogroup")}
+    %a.sub.sub_construct{name: "construct", href: with_subdomain("kccc")}宽岛建设
+    %a.sub.sub_bookmark{name: "bookmark", href: with_subdomain("bookmark")}书签工具
+    %a.sub.sub_wall{name: "wall", href: wall_posts_path}宽墙
+    %a.sub.sub_group{name: "group", href: with_subdomain("kuandaogroup")}宽岛组
+    .note.left.note_construct
+      .text<
+        宽岛建设宽岛建设宽岛建设宽岛建设
+      .arrow
+    .note.right.note_bookmark
+      .text<
+        书签工具书签工具书签工具书签工具
+      .arrow
+    .note.right.note_wall
+      .text<
+        宽墙宽墙宽墙宽墙宽墙宽墙宽墙宽墙
+      .arrow
+    .note.left.note_group
+      .text<
+        宽岛组宽岛组宽岛组宽岛组宽岛组宽岛组
+      .arrow

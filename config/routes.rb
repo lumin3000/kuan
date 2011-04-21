@@ -78,5 +78,7 @@ Kuan::Application.routes.draw do
 
   resources :templates
 
+  get "/sitemap", :to => "sitemap#index", :as => "sitemap"
+
   root :to => redirect("/home")
 end

@@ -27,6 +27,8 @@ javascripts:
     - public/javascripts/tags.js
   lightbox:
     - public/javascripts/cerabox.js
+  sitemap:
+    - public/javascripts/sitemap.js
 
 stylesheets:
   base:
@@ -62,3 +64,5 @@ stylesheets:
     - public/stylesheets/admin_templates.css
   lightbox:
     - public/stylesheets/cerabox.css
+  sitemap:
+    - public/stylesheets/sitemap.css
