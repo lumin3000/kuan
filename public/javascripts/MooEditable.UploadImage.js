@@ -13,6 +13,11 @@ MooEditable.UI.UploadImage = function(editor){
       if (node.get('tag') == 'img'){
 	this.el.getElement('.dialog-url').set('value', node.get('src'));
       };
+      var box = this.el.getElement('.file_box_outer');
+      if(box){
+        box.getElement('.dialog-file').inject(box, 'before')
+        box.destroy()
+      }
       new K.file_uploader(this.el.getElement('.dialog-file'), '/upload/photo', {
         'multiple': false,
         'tar': new Element('a', {

@@ -96,6 +96,7 @@ K.file_uploader = new Class({
             var tar_size = tar.getComputedSize()
 
             this.file_box_outer = new Element('div', {
+              'class':'file_box_outer'
             }).inject(this.file, 'before').setStyles({
                 'height':30,
                 'width':60,
