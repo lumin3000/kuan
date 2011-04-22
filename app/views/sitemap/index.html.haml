@@ -6,14 +6,14 @@
 - js :sitemap
 .map_main
   .nav
-    %a.location.construct{name: "construct", href: with_subdomain("kccc"), :target => "_blank", :title => "宽岛建设"}
-    %a.location.bookmark{name: "bookmark", href: with_subdomain("bookmark"), :target => "_blank", :title => "书签工具"}
+    %a.location.construct{name: "construct", href: url_with_subdomain("kccc"), :target => "_blank", :title => "宽岛建设"}
+    %a.location.bookmark{name: "bookmark", href: url_with_subdomain("bookmark"), :target => "_blank", :title => "书签工具"}
     %a.location.wall{name: "wall", href: wall_posts_path, :target => "_blank", :title => "宽墙"}
-    %a.location.group{name: "group", href: with_subdomain("kuandaogroup"), :target => "_blank", :title => "宽岛组"}
-    %a.sub.sub_construct{name: "construct", href: with_subdomain("kccc"), :target => "_blank"}宽岛建设
-    %a.sub.sub_bookmark{name: "bookmark", href: with_subdomain("bookmark"), :target => "_blank"}书签工具
+    %a.location.group{name: "group", href: url_with_subdomain("kuandaogroup"), :target => "_blank", :title => "宽岛组"}
+    %a.sub.sub_construct{name: "construct", href: url_with_subdomain("kccc"), :target => "_blank"}宽岛建设
+    %a.sub.sub_bookmark{name: "bookmark", href: url_with_subdomain("bookmark"), :target => "_blank"}书签工具
     %a.sub.sub_wall{name: "wall", href: wall_posts_path, :target => "_blank"}宽墙
-    %a.sub.sub_group{name: "group", href: with_subdomain("kuandaogroup"), :target => "_blank"}宽岛组
+    %a.sub.sub_group{name: "group", href: url_with_subdomain("kuandaogroup"), :target => "_blank"}宽岛组
     .note.left.note_construct
       .text<
         宽岛有什么新变化？

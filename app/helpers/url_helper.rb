@@ -12,6 +12,10 @@ module UrlHelper
     super
   end
 
+  def url_with_subdomain(subdomain)
+    'http://'+with_subdomain(subdomain)
+  end
+
   def url_for_blog_(blog)
     raise "fffffffuuuuuuuuuuuuu" if blog.nil?
     root_url(:subdomain => blog.uri)
