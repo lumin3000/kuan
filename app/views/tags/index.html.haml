@@ -1,11 +1,11 @@
 - css :tags
 - js :tags
-- content_for :title, "标签墙_宽岛"
+- content_for :title, "兴趣_宽岛"
 - @site_layout = "site"
 - @nav_now = "discovery"
 
 .explore
-  %h1 标签墙
+  %h1 兴趣
   .tag_wall
     - @tag_posts.each do |tag, post|
       = render partial: "posts/post4tag", object: post, as: :post, locals: {tag: tag}
