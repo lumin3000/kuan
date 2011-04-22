@@ -69,6 +69,10 @@ class SinaWeibo < SyncTarget
     @grid ||= Mongo::Grid.new self.db
   end
 
+  def self.logger
+    @logger ||= Logger.new 'log/sync.log'
+  end
+
   def token=(token)
     self.token_key = token.token
     self.token_secret = token.secret
@@ -90,7 +94,13 @@ class SinaWeibo < SyncTarget
     return unless self.status == :verified
     return if post.class == Post
     method = "handle_#{post.class.name.downcase}"
-    self.send method, post if self.respond_to? method
+    return unless self.respond_to? method
+    begin
+      response = self.send method, post
+      raise response.body if response.code == '400' || response.code == '401'
+    rescue Exception => e
+      self.class.logger.info e.to_s.force_encoding('utf-8')
+    end
   end
 
   def handle_text(post)
@@ -103,12 +113,11 @@ class SinaWeibo < SyncTarget
   def handle_pics(post)
     photo = post.photos.first
     url = compose_url(post)
-    status = compose_status(photo.desc || '', url)
     image_id = photo.image.original
     image = grid.get image_id
     damned_upload "#{SITE}statuses/upload.json",
       :pic => UploadIO.new(image, image.content_type, image_id.to_s),
-      :status => status
+      :status => url
   end
 
   def handle_link(post)
