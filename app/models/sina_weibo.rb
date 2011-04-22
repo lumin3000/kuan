@@ -97,7 +97,7 @@ class SinaWeibo < SyncTarget
     return unless self.respond_to? method
     begin
       response = self.send method, post
-      raise response.body unless response.code == '200' || response.code == '304'
+      raise response.body if response.code == '400' || response.code == '401'
     rescue Exception => e
       self.class.logger.info e.to_s.force_encoding('utf-8')
     end
