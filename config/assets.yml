@@ -12,6 +12,7 @@ javascripts:
     - public/javascripts/post_form.js
     - public/javascripts/mooeditable.local.js
     - public/javascripts/mooeditable.js
+    - public/javascripts/MooEditable.UploadImage.js
   blog_edit:
     - public/javascripts/mooeditable.local.js
     - public/javascripts/mooeditable.js

@@ -310,3 +310,6 @@
 
 .mooeditable-ui-toolbar .removeformat-item .button-icon { background: transparent url(/images/mooeditable/removeformat.png) no-repeat center center; }
 .mooeditable-ui-toolbar .insertHorizontalRule-item .button-icon { background: transparent url(/images/mooeditable/hr.png) no-repeat center center; }
+
+/* uploadimage */
+.mooeditable-ui-toolbar .uploadimage-item .button-icon{ background-position: 0 -304px; } 

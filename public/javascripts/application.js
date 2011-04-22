@@ -82,6 +82,7 @@ K.file_uploader = new Class({
         var fire_now = this.options.fire_now
         if(tar == null){
             this.file_box = new Element('div', {
+              'class': 'file_box'
             }).setStyles({
                 'display':'inline'
               }).inject(this.file, 'before')
@@ -97,9 +98,15 @@ K.file_uploader = new Class({
             this.file_box_outer = new Element('div', {
             }).inject(this.file, 'before').setStyles({
                 'height':30,
-                'width':120,
-                'display':'inline'
+                'width':60,
+                'display':'inline-block'
             })
+            if(Browser.ie6){
+              this.file_box_outer.setStyles({
+                'display':'inline',
+                'zoom':1
+              })
+            }
 
             this.file_box = new Element('span', {
             }).inject(this.file_box_outer).setStyles({
@@ -115,8 +122,10 @@ K.file_uploader = new Class({
                 'margin-left':'-180px',
                 'font-size':30,
                 'margin-top':'-5px',
+                'right':0,
                 'opacity':0,
                 'filter':'alpha(opacity=0)',
+                'cursor':'pointer',
                 'visibility':'visible'
             }).inject(this.file_box)
             tar.inject(this.file_box)
@@ -261,7 +270,7 @@ K.render_editor = function(el, fix){
 
   K.editor = new MooEditable(textarea, {
     'paragraphise':false,
-    'actions':'toggleview | bold italic underline strikethrough | createlink unlink | urlimage ',
+    'actions':'toggleview | bold italic underline strikethrough | createlink unlink | uploadimage',
     'extraCSS':'pre{white-space:pre-wrap;word-wrap:break-word;font-family: "Hiragino Sans GB", hei, "microsoft yahei";line-height:1.5}',
     'dimensions':{x:w,y:h},
     'rootElement':''
