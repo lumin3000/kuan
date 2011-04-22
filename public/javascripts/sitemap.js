@@ -23,7 +23,7 @@ document.addEvent('domready', function(){
       'width': 16
     }).addEvents({
       'mouseenter': function(){
-        fx.start({'height':30, 'width':30})
+        fx.start({'height':48, 'width':48})
       },
       'mouseleave': function(){
         fx.start({'height':16, 'width':16})
