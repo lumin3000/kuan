@@ -113,12 +113,11 @@ class SinaWeibo < SyncTarget
   def handle_pics(post)
     photo = post.photos.first
     url = compose_url(post)
-    status = compose_status(photo.desc || '', url)
     image_id = photo.image.original
     image = grid.get image_id
     damned_upload "#{SITE}statuses/upload.json",
       :pic => UploadIO.new(image, image.content_type, image_id.to_s),
-      :status => status
+      :status => url
   end
 
   def handle_link(post)
