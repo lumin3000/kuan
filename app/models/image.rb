@@ -117,10 +117,10 @@ class Image
     end
   end
 
-  def to_a_fucking_hash(suffix = "")
+  def to_a_fucking_hash(suffix = "", host = "")
     AVAIL_VERSIONS.reduce({:id => self.id}) do |hash, k|
       url = self.url_for k, suffix.blank? ? 'files' : 'pics'
-      hash[k] = url + suffix unless url.nil?
+      hash[k] = host + url + suffix unless url.nil?
       hash
     end
   end

@@ -44,7 +44,7 @@ MooEditable.UI.UploadImage = function(editor){
             alert('本地上传失败')
             return
           }
-          input.value = 'http://img.kuandao.com' + v.image.large
+          input.value = v.image.large
           this.el.removeClass('loading')
           this.el.unspin()
           input.highlight()

@@ -138,7 +138,7 @@
       , TPL = '<img width=62 height=62 src="{src}"><p>{src}</p>'
       , uploader = new K.file_uploader(fileInput, UPLOAD_PATH, {
           onSuccess: function(res) {
-            var src = 'http://img.kuandao.com' + res.image.original
+            var src = res.image.original
               , elem = new Element('li', {html: TPL.substitute({src: src})})
             list.grab(elem, 'top')
           }
