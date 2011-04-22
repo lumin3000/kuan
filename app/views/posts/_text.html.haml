@@ -1,5 +1,6 @@
 - if not text.title.blank?
-  = text.title
+  %h3
+    = text.title
 %br
 = preserve do
   != content_summary(text)
