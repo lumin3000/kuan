@@ -20,12 +20,12 @@
   .error
     &nbsp;
     = @user.errors[:password].first
-  .password_box
-    = f.label :password_confirmation, '确认密码'
-    = f.password_field :password_confirmation
-  .error
-    &nbsp;
-    = @user.errors[:password_confirmation].first
+  -# .password_box
+  -#   = f.label :password_confirmation, '确认密码'
+  -#   = f.password_field :password_confirmation
+  -# .error
+  -#   &nbsp;
+  -#   = @user.errors[:password_confirmation].first
   = hidden_field_tag 'code', @inv_user.inv_code
   = hidden_field_tag 'refer', request.referer
   .submit_box

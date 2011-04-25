@@ -35,8 +35,8 @@ class User
     :message => "此邮箱已被使用"
 
   validates_presence_of :password, :message => "请输入密码", :on => :create
-  validates_presence_of :password_confirmation, :message => "请再次输入密码", :on => :create
-  validates_confirmation_of :password, :message => "两次密码不统一"
+  # validates_presence_of :password_confirmation, :message => "请再次输入密码", :on => :create
+  validates_confirmation_of :password, :message => "两次密码不统一", :on => :update
 
   validates_length_of :password,
     :minimum => 5,
