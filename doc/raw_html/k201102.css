@@ -566,10 +566,81 @@ form.edit_page .submit_box input{
 
 
 
+/*registation*/
+.registation_dom{
+	width:960px;
+	margin:auto;
+	overflow:hidden;
+}
 
 
+.registation_dom *{
+font-family:"Hiragino Sans GB",hei,"microsoft yahei";
+}
 
-	
+.registation_logo{
+	background: url(images/logo.gif) no-repeat;
+	width:270px;
+	height:46px;
+}
+.registation_intro{
+	background: url(images/registation.png) no-repeat;
+	width:960px;
+	height:364px;	
+}
+
+.registation_title{
+	text-align:center;
+	margin-top:10px;
+}
+
+.registation_title .avatar{
+	display:inline-block;
+	width:60px;
+	height:60px;
+	background:url('images/avatar.jpg');
+	border:1px solid black;
+	border-radius:5px;
+}
+.registation_title .txt {
+	display:inline-block;
+	font-size:30px;
+	color:#3366cc;
+}
+
+.registation{
+	width:960px;
+	margin:0;
+	padding:0;
+}
+
+.registation .item{
+	width:250px;
+	float:left;
+	overflow:hidden;
+	margin-left:5px;
+}
+
+.registation div.nick_box, .registation div.email_box, .registation div.password_box{
+	width:225px;
+	height:33px;
+	line-height:33px;
+	overflow:hidden;
+}
+
+.registation div.nick_box input, .registation div.email_box input, .registation div.password_box input{
+	width:160px;
+	height:28px;
+	line-height:28px;
+}
+
+
+.registation .submit_box input{
+	background:url('images/register_submit.gif');
+	cursor:pointer;
+	}
+
+
 /******post********/
 
 .post {
