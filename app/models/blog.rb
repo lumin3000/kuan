@@ -195,6 +195,7 @@ class Blog
   def import!(uri, type)
     feed = Feed.find_or_create_by :uri => uri
     self.import_feeds << ImportFeed.new(:feed => feed, :as_type => type)
+    feed.inc :imported_count, 1
   end
 
   def to_param
