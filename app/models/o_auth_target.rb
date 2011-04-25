@@ -33,6 +33,10 @@ class OAuthTarget < SyncTarget
     end
   end
 
+  def self.after_auth(target, access_token)
+    nil
+  end
+
   def self.consumer
     @consumer ||= OAuth::Consumer.new consumer_key, consumer_secret,
       :site => site
@@ -43,11 +47,15 @@ class OAuthTarget < SyncTarget
       t.destroy if t.class == self
     end
 
-    request_token = consumer.get_request_token
+    begin
+      request_token = consumer.get_request_token
+    rescue Exception => e
+      raise e
+    end
     if create( :token_key => request_token.token,
               :token_secret => request_token.secret,
               :blog_id => blog.id)
-      callback_url = controller.blog_path(blog) + 'sync_callback/sina_weibo'
+      callback_url = controller.blog_path(blog) + 'sync_callback/' + self.name.underscore
       controller.redirect_to request_token.authorize_url(
         :oauth_callback => callback_url)
     else
