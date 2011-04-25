@@ -117,3 +117,59 @@
     border: 0px
     cursor: pointer
     background: url('/images/post_save.gif')
+
+.registation_dom
+  width: 960px
+  margin: auto
+  overflow: hidden
+  *
+    font-family: "Hiragino Sans GB",hei,"microsoft yahei"
+
+  .registation_logo
+    background: url(/images/embed/logo.gif) no-repeat
+    width: 270px
+    height: 46px
+   
+  .registation_intro
+    background: url(/images/registation.png) no-repeat
+    width: 960px
+    height: 364px
+   
+  .registation_title
+    text-align: center
+    margin-top: 10px
+    .avatar
+      @include size(60px, 60px)
+      display: inline-block
+      @include border-radius(5px)
+      background-image: url('/images/default_blog_icon.jpg')
+      background-repeat: no-repeat
+      background-position: center
+    .txt
+      display: inline-block
+      font-size: 30px
+      color: #3366cc
+   
+  .registation
+    width: 960px
+    margin: 0
+    padding: 0
+    .item
+      width: 250px
+      float: left
+      overflow: hidden
+      margin-left: 5px
+    div
+      &.nick_box, &.email_box, &.password_box
+        width: 225px
+        height: 33px
+        line-height: 33px
+        overflow: hidden
+      &.nick_box input, &.email_box input, &.password_box input
+        width: 160px
+        height: 28px
+        line-height: 28px
+    .submit_box input
+      @include hide_text
+      background: url('/images/embed/register_submit.gif')
+      cursor: pointer

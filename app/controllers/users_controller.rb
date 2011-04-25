@@ -8,12 +8,12 @@ class UsersController < ApplicationController
       redirect_to home_path and return
     end
     @user = User.new
-    render :layout => "user"
+    render :layout => "application"
   end
 
   def create
     @user = User.new params[:user]
-    return (render 'new', :layout => "user") if !@user.save
+    return (render 'new', :layout => "application") if !@user.save
 
     #create primary blog 
     @user.create_primary_blog!
