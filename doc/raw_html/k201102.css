@@ -579,9 +579,8 @@ font-family:"Hiragino Sans GB",hei,"microsoft yahei";
 }
 
 .registation_logo{
-	background: url(images/logo.gif) no-repeat;
-	width:270px;
-	height:46px;
+	width:960px;
+	height:420px;
 }
 .registation_intro{
 	background: url(images/registation.png) no-repeat;
