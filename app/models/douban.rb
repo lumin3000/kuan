@@ -1,5 +1,6 @@
 class Douban < OAuthTarget
   require 'net/http'
+  require 'filters/tag_stripper'
 
   class << self
     def consumer_key
@@ -33,28 +34,20 @@ class Douban < OAuthTarget
 
   def handle_text(post)
     url = compose_url(post)
-    # Do we have to load all the GData library?
-    xml_entry = <<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<entry xmlns="http://www.w3.org/2005/Atom"
-  xmlns:gd="http://schemas.google.com/g/2005"
-  xmlns:opensearch="http://a9.com/-/spec/opensearchrss/1.0/"
-  xmlns:db="http://www.douban.com/xmlns/">
-  <title>#{h post.title}</title>
-  <db:attribute name="comment">#{h post.content}</db:attribute>
-  <link href="#{h url}" rel="related" />
-</entry>
-EOF
-    request = Net::HTTP::Post.new '/recommendations'
-    request.body = xml_entry
-    request['Content-Length'] = xml_entry.bytesize
-    request['Content-Type'] = 'application/atom+xml; charset=utf-8'
-    access_token.sign! request
-    Net::HTTP.start 'api.douban.com', 80 do |con|
-      con.request(request)
-    end
-    #access_token.post '/recommendations', xml_entry,
-    #  'Content-Type' => 'application/atom+xml'
+    post_request(url, post.title, post.content)
+  end
+
+  def handle_pics(post)
+    url = compose_url(post)
+    post_request(url)
+  end
+
+  def handle_video(post)
+    post_request(post.url, post.content)
+  end
+
+  def handle_link(post)
+    post_request(post.url, post.title, post.content)
   end
 
   def access_token
@@ -69,5 +62,30 @@ EOF
   def h(str)
     return '' if str.nil?
     CGI.escapeHTML(str)
+  end
+
+  def post_request(url, title = '', text =  '')
+    text = TagStripper.filter(text).truncate(120)
+    title = TagStripper.filter(title).truncate(40)
+    # Do we have to load all the GData library?
+    xml_entry = <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns="http://www.w3.org/2005/Atom"
+  xmlns:gd="http://schemas.google.com/g/2005"
+  xmlns:opensearch="http://a9.com/-/spec/opensearchrss/1.0/"
+  xmlns:db="http://www.douban.com/xmlns/">
+  <title>#{h title}</title>
+  <db:attribute name="comment">#{h text}</db:attribute>
+  <link href="#{h url}" rel="related" />
+</entry>
+EOF
+    request = Net::HTTP::Post.new '/recommendations'
+    request.body = xml_entry
+    request['Content-Length'] = xml_entry.bytesize
+    request['Content-Type'] = 'application/atom+xml; charset=utf-8'
+    access_token.sign! request
+    Net::HTTP.start 'api.douban.com', 80 do |con|
+      con.request(request)
+    end
   end
 end
