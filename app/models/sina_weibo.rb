@@ -38,7 +38,7 @@ class SinaWeibo < OAuthTarget
   def handle_pics(post)
     photo = post.photos.first
     url = compose_url(post)
-    image_id = photo.image.original
+    image_id = photo.image.large
     image = grid.get image_id
     damned_upload "#{SITE}statuses/upload.json",
       :pic => UploadIO.new(image, image.content_type, image_id.to_s),
