@@ -27,7 +27,7 @@
           &nbsp;
           = @blog.errors[:title].first
     .page_tag
-      = f.label :tag, "兴趣类型"
+      = f.label :tag, "兴趣"
       %div
         = f.text_field :tag, class: 'tag'
       .error
@@ -42,7 +42,7 @@
           rows: 80}
           = @blog.desc
     .page_url
-      = f.label :uri, "自定义网址"
+      = f.label :uri, "自定义域名"
       %div.who_did_this
         = f.text_field :uri, class: 'link'
         %span.root_domain
@@ -53,7 +53,7 @@
           = @blog.errors[:uri].first
     %label Logo
     %div
-      %img#blog_icon_img{ :src => @blog.icon.url_for(:medium) }
+      %img#blog_icon_img{ :src => @blog.icon.url_for(:'48') }
       %input.image#image_uploader{ :type => 'file', :name => 'file', :autocomplete => 'off' }
     = f.hidden_field :icon, :id => "blog_icon_id", :value => @blog.icon.id
     %span#blog_icon_feed
@@ -121,7 +121,7 @@
   %fieldset.advanced.menu
     .item.toggle_private
       = f.check_box :private
-      = f.label :private, '该页面设置为私密页面'
+      = f.label :private, '该页面设置为私密页面', title: '除了成员，其他人不能关注也不能看到此页面'
     - unless @blog.primary?
       .toggle_canjoin{data: {widget: 'shrinked', trigger: 'input[type=checkbox]',
         shouldPropagate: true}, class: @blog.canjoin? ? '' : 'shrinked'}
