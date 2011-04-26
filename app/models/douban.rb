@@ -1,6 +1,7 @@
 class Douban < OAuthTarget
   require 'net/http'
   require 'filters/tag_stripper'
+  require 'nokogiri'
 
   class << self
     def consumer_key
@@ -29,7 +30,18 @@ class Douban < OAuthTarget
   end
 
   def self.after_auth(target, access_token)
-    target.account = 'test'
+    # Here be dragons.
+    hacked_consumer = access_token.consumer.dup
+    hacked_consumer.options[:site] = 'http://api.douban.com/'
+    at = OAuth::AccessToken.new hacked_consumer, access_token.token, access_token.secret
+    request = Net::HTTP::Get.new '/people/@me'
+    at.sign! request, :request_uri => 'http://api.douban.com/people/%40me'
+    response = Net::HTTP.start 'api.douban.com', 80 do |con|
+      con.request(request)
+    end
+    raise response.body.force_encoding("utf-8") unless response.code == '200'
+    response_xml = Nokogiri::XML::Document.parse response.body.force_encoding('utf-8')
+    target.account = response_xml.css('title').first.content
   end
 
   def handle_text(post)

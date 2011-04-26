@@ -23,8 +23,8 @@ class OAuthTarget < SyncTarget
       controller.render :status => 400
       return
     end
-    after_auth(target, access_token)
     target.token = access_token
+    after_auth(target, access_token)
     target.status = :verified
     if target.save
       controller.render 'sync/setup_success', :layout => false
