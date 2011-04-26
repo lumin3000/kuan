@@ -91,7 +91,7 @@ class OAuthTarget < SyncTarget
     return unless self.respond_to? method
     begin
       response = self.send method, post
-      raise response.body if response.code == '400' || response.code == '401'
+      raise response.body if response.code[0] == '4'
     rescue Exception => e
       self.class.logger.info e.to_s.force_encoding('utf-8')
     end

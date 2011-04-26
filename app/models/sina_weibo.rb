@@ -74,11 +74,6 @@ class SinaWeibo < OAuthTarget
     text.truncate(limit - 1) + ' 来自:' + url
   end
 
-  def compose_url(post)
-    # Yeah I confess this is a dirty hack
-    "http://#{post.blog.uri}.kuandao.com/posts/#{post.id.to_s}"
-  end
-
   def damned_upload(url, params)
     parsed_url = URI.parse url
     fake_request = Net::HTTP::Post.new url
