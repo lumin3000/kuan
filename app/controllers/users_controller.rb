@@ -112,12 +112,12 @@ class UsersController < ApplicationController
 
   def logging_refer
     logger = Logger.new("#{Rails.root.to_s}/log/register_refer.log")
-    logger.info %(#{Time.now} : #{request.remote_ip} : #{@user.email} : #{params[:refer]})
+    logger.info %(#{Time.now} : #{request.remote_ip} : #{@user.email} : #{params[:refer]} : #{params[:rand]})
   end
 
   def invitation_refer
     logger = Logger.new("#{Rails.root.to_s}/log/invitation_refer.log")
-    logger.info %(#{Time.now} : #{request.remote_ip} : #{params[:code]} : #{params[:refer]} : #{@rand})
+    logger.info %(#{Time.now} : #{request.remote_ip} : #{params[:code]} : #{params[:refer]})
   end
 
 end
