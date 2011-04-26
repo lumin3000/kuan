@@ -4,8 +4,9 @@
 - css "user"
 
 - content_for :content, do
-  .registation_logo
-  .registation_intro
+  .registation_intro{:style => "background:url(/images/registation1.jpg) no-repeat"}
+    .registation_logo
+    
   .registation_title
     %span.txt
       = "#{@inv_user.name} 邀请你上岛测试，发现真实的自己"
