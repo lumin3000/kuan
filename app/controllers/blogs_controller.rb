@@ -152,8 +152,8 @@ class BlogsController < ApplicationController
     @blog.sync_targets.each do |t|
       t.destroy if t.class == @target_class
     end
-    partial_tpl = render_to_string 'sync/_target.html.haml',
-      :locals => {:target => nil}, :layout => false
+    partial_tpl = render_to_string 'sync/_target.html.haml', :layout => false,
+      :locals => {:target => nil, :target_name => params[:target]}
 
     respond_to do |format|
       format.json do 
@@ -168,7 +168,7 @@ class BlogsController < ApplicationController
     end
     render 'shared/404', status: 404, layout: false and return unless sync_target
     render('sync/_target.html.haml', layout: false,
-           locals: {target: sync_target})
+           locals: {target: sync_target, target_name: params[:target]})
   end
 
   private
