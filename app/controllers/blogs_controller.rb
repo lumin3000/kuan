@@ -7,6 +7,7 @@ class BlogsController < ApplicationController
     :extract_template_vars, :edit, :sync_apply, :sync_callback, :sync_cancel,
     :sync_widget]
   before_filter :blog_display, :only => [:show, :preview]
+  before_filter :find_sync_target, :only => [:sync_apply, :sync_callback, :sync_cancel]
 
   def new
     @blog = Blog.new
@@ -131,22 +132,28 @@ class BlogsController < ApplicationController
     end
   end
 
+  AVAIL_TARGET = %w{sina_weibo douban}
+  def find_sync_target
+    target = params[:target]
+    render :status => 404 and return unless AVAIL_TARGET.include? target
+    @target_class = target.camelize.constantize
+  end
+  private :find_sync_target
+
   def sync_apply
-    render :status => 404 and return unless params[:target] == 'sina_weibo'
-    SinaWeibo.apply(@blog, self)
+    @target_class.apply(@blog, self)
   end
 
   def sync_callback
-    render :status => 404 and return unless params[:target] == 'sina_weibo'
-    SinaWeibo.auth(@blog, self)
+    @target_class.auth(@blog, self)
   end
 
   def sync_cancel
     @blog.sync_targets.each do |t|
-      t.destroy if t.class.name.underscore == params[:target]
+      t.destroy if t.class == @target_class
     end
-    partial_tpl = render_to_string 'sync/_target.html.haml',
-      :locals => {:target => nil}, :layout => false
+    partial_tpl = render_to_string 'sync/_target.html.haml', :layout => false,
+      :locals => {:target => nil, :target_name => params[:target]}
 
     respond_to do |format|
       format.json do 
@@ -161,7 +168,7 @@ class BlogsController < ApplicationController
     end
     render 'shared/404', status: 404, layout: false and return unless sync_target
     render('sync/_target.html.haml', layout: false,
-           locals: {target: sync_target})
+           locals: {target: sync_target, target_name: params[:target]})
   end
 
   private
