@@ -8,6 +8,8 @@ class UsersController < ApplicationController
       redirect_to home_path and return
     end
     @user = User.new
+    @rand = rand(2)+1
+    invitation_refer
     render :layout => "application"
   end
 
@@ -112,4 +114,10 @@ class UsersController < ApplicationController
     logger = Logger.new("#{Rails.root.to_s}/log/register_refer.log")
     logger.info %(#{Time.now} : #{request.remote_ip} : #{@user.email} : #{params[:refer]})
   end
+
+  def invitation_refer
+    logger = Logger.new("#{Rails.root.to_s}/log/invitation_refer.log")
+    logger.info %(#{Time.now} : #{request.remote_ip} : #{params[:code]} : #{params[:refer]} : #{@rand})
+  end
+
 end
