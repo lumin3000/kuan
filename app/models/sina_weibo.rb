@@ -89,6 +89,10 @@ class SinaWeibo < OAuthTarget
       con.request(actual_request)
     end
   end
+
+  def on_request_error(res_body)
+    self.destroy if res_body.include? '40072'
+  end
 end
 
 # Monkey patched for multipart-post
