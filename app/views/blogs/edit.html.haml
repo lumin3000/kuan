@@ -106,7 +106,7 @@
   - if params[:alpha]
     %fieldset.service.menu
       %ul.services
-        %li.sina_weibo.sync_target
+        %li.sina_weibo.sync_target.first
           .caption 新浪微博
           - sina = @blog.sync_targets.detect {|t| SinaWeibo === t && t.status == :verified}
           %span.partial_anchor
