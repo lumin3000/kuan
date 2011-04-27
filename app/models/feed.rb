@@ -2,6 +2,7 @@
 require 'uri'
 require 'open-uri'
 require 'nokogiri'
+require 'simple-rss'
 
 class Feed
   include Mongoid::Document
@@ -24,10 +25,11 @@ class Feed
     http = URI.parse uri
     begin
       http.open do |io|
-        doc = Nokogiri::HTML io, nil, io.charset
-        self.title = doc.xpath('//title').first.content 
+        rss = SimpleRSS.parse io
+        self.title = rss.channel.title
       end
     rescue Exception => e
+      p e 
       return self.errors.add :uri, "无法识别此地址"
     end
   end

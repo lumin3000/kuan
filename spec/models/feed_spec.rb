@@ -30,5 +30,11 @@ describe Feed do
       feed.should be_valid
     end
 
+    it "should reject an invalid uri" do
+      uri = "9tonightblogbus.com"
+      feed = Feed.find_or_create_by :uri => uri
+      feed.should_not be_valid
+    end
+
   end
 end

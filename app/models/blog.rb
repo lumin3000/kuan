@@ -194,6 +194,10 @@ class Blog
 
   def import!(uri, type)
     feed = Feed.find_or_create_by :uri => uri
+    unless feed.valid?
+      self.errors.add :import_feed_uri, feed.errors[:uri]
+      return false
+    end
     self.import_feeds << ImportFeed.new(:feed => feed, :as_type => type)
     feed.inc :imported_count, 1
   end
