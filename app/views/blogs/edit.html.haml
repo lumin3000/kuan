@@ -9,8 +9,7 @@
     %li.template 模板
     %li.appearance{data: {widget: 'reloadAppearance', source: 'fieldset.template',
       target: 'fieldset.appearance'}} 调整界面
-    - if params[:alpha]
-      %li.service 服务
+    %li.service 服务
     %li.advanced 高级选项
   .customize_commands
     %a.button.save{href: "###", data: {widget: 'submit', form: '.edit_blog'}} 保 存
@@ -103,21 +102,20 @@
         %ul.assets
   %fieldset.appearance.menu{ data: {widget: "appearance"}}
     = render :partial => 'blogs/template_variables'
-  - if params[:alpha]
-    %fieldset.service.menu
-      %ul.services
-        %li.sina_weibo.sync_target.first
-          .caption 新浪微博
-          - sina = @blog.sync_targets.detect {|t| SinaWeibo === t && t.status == :verified}
-          %span.partial_anchor
-            = render :partial => 'sync/target', :object => sina,
-              :locals => {:target_name => 'sina_weibo'}
-        %li.douban.sync_target
-          .caption 豆瓣
-          - douban = @blog.sync_targets.detect {|t| Douban === t && t.status == :verified}
-          %span.partial_anchor
-            = render :partial => 'sync/target', :object => douban,
-              :locals => {:target_name => 'douban'}
+  %fieldset.service.menu
+    %ul.services
+      %li.sina_weibo.sync_target.first
+        .caption 新浪微博
+        - sina = @blog.sync_targets.detect {|t| SinaWeibo === t && t.status == :verified}
+        %span.partial_anchor
+          = render :partial => 'sync/target', :object => sina,
+            :locals => {:target_name => 'sina_weibo'}
+      %li.douban.sync_target
+        .caption 豆瓣
+        - douban = @blog.sync_targets.detect {|t| Douban === t && t.status == :verified}
+        %span.partial_anchor
+          = render :partial => 'sync/target', :object => douban,
+            :locals => {:target_name => 'douban'}
   %fieldset.advanced.menu
     .item.toggle_private
       = f.check_box :private
