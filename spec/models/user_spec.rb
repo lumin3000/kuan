@@ -120,5 +120,21 @@ describe User do
       User.find_by_code(@user.inv_code).should == @user
     end 
   end
+  
+  describe "change primary blog" do
+    before :each do
+      @user = Factory.build(:user_unique)
+      @user.save!
+      @blog_primary = @user.create_primary_blog!
+      @blog = Factory.build(:blog_unique)
+      @blog.save!
+      @user.follow! @blog, "founder"
+    end
 
+    it "should set new primary blog" do
+      @user.primary_blog!(@blog)
+      @user.primary_blog.should == @blog
+      @user.auth_for(@blog_primary).should == "founder"
+    end
+  end
 end

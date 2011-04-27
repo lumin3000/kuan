@@ -118,6 +118,17 @@ class User
     followings.where(:auth => "lord").first.blog
   end
 
+  def primary_blog!(blog)
+    if blog.primariable?(self)
+      f = followings.where(:auth => "lord").first
+      f_new = followings.where(:blog_id => blog.id).first
+      f.update_attributes :auth => "founder"
+      f.blog.update_attributes :primary => false
+      f_new.update_attributes :auth => "lord"
+      f_new.blog.update_attributes :primary => true
+    end
+  end
+
   def icon
     primary_blog.icon
   end

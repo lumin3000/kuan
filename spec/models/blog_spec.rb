@@ -231,4 +231,52 @@ describe Blog do
       @post2.private.should be_true
     end
   end
+
+  describe "user blog auth" do
+    before :each do
+      @user = Factory.build(:user_unique)
+      @user.save!
+      @blog_primary = @user.create_primary_blog!
+      @blog = Factory.build(:blog_unique)
+      @blog.save!
+      @user.follow! @blog, "founder"
+      @member = Factory.build(:user_unique)
+      @member.save!
+      @member.follow! @blog, "member"
+    end
+
+    describe "count joined users(lord&&member&&founder)" do
+      it "should include member&&founder" do
+        @blog.joined_count.should == 2
+      end
+      it "should exclude follower" do
+        @follower = Factory.build(:user_unique)
+        @follower.save!
+        @follower.follow! @blog
+        @blog.joined_count.should == 2
+      end
+    end
+
+    describe "check whether can be set as primary blog" do
+      it "should primariable" do
+        @blog_new = Factory.build(:blog_unique)
+        @blog_new.save!
+        @user.follow! @blog_new, "founder"
+        @blog_new.primariable?(@user).should be_true
+      end
+      it "blog with other member or founder should not primariable" do
+        @blog.primariable?(@user).should be_false
+      end
+      it "private blog should not primariable" do
+        @blog_private = Factory.build(:blog_unique)
+        @blog_private.private = true
+        @blog_private.save!
+        @user.follow! @blog_private, "founder"
+        @blog_private.primariable?(@user).should be_false
+      end
+      it "primary blog should not primariable" do
+        @blog_primary.primariable?(@user).should be_false
+      end
+    end
+  end
 end

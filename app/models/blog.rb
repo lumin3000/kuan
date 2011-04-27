@@ -99,6 +99,18 @@ class Blog
     super((tag.blank?) ? nil : tag.strip)
   end
 
+  def joined_count
+    User.collection.find({"followings" => {
+                             "$elemMatch"=> {
+                               "blog_id"=>id,"auth"=> {:$in => ["lord", "member", "founder"]}
+                             }
+                           }}).count
+  end
+
+  def primariable?(user)
+    !primary && !private && customed?(user) && joined_count == 1
+  end
+
   def followers_count
     User.collection.find({"followings" => {"$elemMatch"=> {"blog_id"=>id,"auth"=>"follower"}}}).count
   end
