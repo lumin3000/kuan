@@ -3,6 +3,7 @@
 class SinaWeibo < OAuthTarget
   require 'json'
   require 'curb'
+  require 'uri'
   SITE = 'http://api.t.sina.com.cn/'
 
   class << self

@@ -1,8 +1,5 @@
 class OAuthTarget < SyncTarget
   require 'oauth'
-  require 'net/http'
-  require 'net/http/post/multipart'
-  require 'uri'
 
   field :status, :type => Symbol, :default => :waiting_for_auth
   field :token_key
