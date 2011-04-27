@@ -135,7 +135,7 @@ class BlogsController < ApplicationController
   def set_primary_blog
     current_user.primary_blog!(@blog)
     flash[:success] = "主页面更换成功"
-    redirect_to home_path
+    redirect_to fucking_root
   end
 
   AVAIL_TARGET = %w{sina_weibo douban}
