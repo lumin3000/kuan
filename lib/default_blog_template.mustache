@@ -94,7 +94,12 @@
               {{/create_date}}
             </div>
               <div class='right'>
+                {{#post_index}}
                 <a class='reply' target='_blank' href='{{url}}'>{{comments_count}}</a>
+                {{/post_index}}
+                {{#post_single}}
+                <span class='reply'>{{comments_count}}</span>
+                {{/post_single}}
               </div>
               <div class="middle">
                 {{#has_repost}}
