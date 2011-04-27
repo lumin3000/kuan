@@ -3,6 +3,7 @@ require 'cgi'
 
 class TemplatesController < ApplicationController
   before_filter :chief_admin_auth, :except => [:show, :submit]
+  before_filter :strip_emtpy_thumb_id, :only => [:create, :update]
 
   def submit
     @template = Template.new params
@@ -68,5 +69,11 @@ class TemplatesController < ApplicationController
     end
     @template.destroy
     render :text => '{}', :status => 200
+  end
+
+  def strip_emtpy_thumb_id
+    p = params[:template]
+    return unless p.is_a? Hash
+    p.delete :thumbnail if p[:thumbnail].blank?
   end
 end
