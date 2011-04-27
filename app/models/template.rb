@@ -20,7 +20,9 @@ class Template
   end
 
   def self.find_public
-    where :public.ne => false
+    where(:public.ne => false).reject do |t|
+      t.thumbnail_id.nil?
+    end
   end
 
   def self.create_by_submit(attr)
