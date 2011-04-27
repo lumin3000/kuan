@@ -31,9 +31,7 @@ class Douban < OAuthTarget
 
   def self.after_auth(target, access_token)
     # Here be dragons.
-    hacked_consumer = access_token.consumer.dup
-    hacked_consumer.options[:site] = 'http://api.douban.com/'
-    at = OAuth::AccessToken.new hacked_consumer, access_token.token, access_token.secret
+    at = target.access_token
     request = Net::HTTP::Get.new '/people/@me'
     at.sign! request, :request_uri => 'http://api.douban.com/people/%40me'
     response = Net::HTTP.start 'api.douban.com', 80 do |con|
@@ -69,6 +67,7 @@ class Douban < OAuthTarget
   def access_token
     return @access_token if @access_token
     hacked_consumer = consumer.dup
+    hacked_consumer.options = consumer.options.dup
     hacked_consumer.options[:site] = 'http://api.douban.com/'
     @access_token = OAuth::AccessToken.new hacked_consumer, token_key, token_secret
   end

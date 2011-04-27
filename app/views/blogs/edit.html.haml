@@ -9,8 +9,7 @@
     %li.template 模板
     %li.appearance{data: {widget: 'reloadAppearance', source: 'fieldset.template',
       target: 'fieldset.appearance'}} 调整界面
-    - if params[:alpha]
-      %li.service 服务
+    %li.service 服务
     %li.advanced 高级选项
   .customize_commands
     %a.button.save{href: "###", data: {widget: 'submit', form: '.edit_blog'}} 保 存
@@ -27,7 +26,7 @@
           &nbsp;
           = @blog.errors[:title].first
     .page_tag
-      = f.label :tag, "兴趣类型"
+      = f.label :tag, "兴趣"
       %div
         = f.text_field :tag, class: 'tag'
       .error
@@ -42,7 +41,7 @@
           rows: 80}
           = @blog.desc
     .page_url
-      = f.label :uri, "自定义网址"
+      = f.label :uri, "自定义域名"
       %div.who_did_this
         = f.text_field :uri, class: 'link'
         %span.root_domain
@@ -53,7 +52,7 @@
           = @blog.errors[:uri].first
     %label Logo
     %div
-      %img#blog_icon_img{ :src => @blog.icon.url_for(:medium) }
+      %img#blog_icon_img{ :src => @blog.icon.url_for(:'48') }
       %input.image#image_uploader{ :type => 'file', :name => 'file', :autocomplete => 'off' }
     = f.hidden_field :icon, :id => "blog_icon_id", :value => @blog.icon.id
     %span#blog_icon_feed
@@ -103,25 +102,24 @@
         %ul.assets
   %fieldset.appearance.menu{ data: {widget: "appearance"}}
     = render :partial => 'blogs/template_variables'
-  - if params[:alpha]
-    %fieldset.service.menu
-      %ul.services
-        %li.sina_weibo.sync_target.first
-          .caption 新浪微博
-          - sina = @blog.sync_targets.detect {|t| SinaWeibo === t && t.status == :verified}
-          %span.partial_anchor
-            = render :partial => 'sync/target', :object => sina,
-              :locals => {:target_name => 'sina_weibo'}
-        %li.douban.sync_target
-          .caption 豆瓣
-          - douban = @blog.sync_targets.detect {|t| Douban === t && t.status == :verified}
-          %span.partial_anchor
-            = render :partial => 'sync/target', :object => douban,
-              :locals => {:target_name => 'douban'}
+  %fieldset.service.menu
+    %ul.services
+      %li.sina_weibo.sync_target.first
+        .caption 新浪微博
+        - sina = @blog.sync_targets.detect {|t| SinaWeibo === t && t.status == :verified}
+        %span.partial_anchor
+          = render :partial => 'sync/target', :object => sina,
+            :locals => {:target_name => 'sina_weibo'}
+      %li.douban.sync_target
+        .caption 豆瓣
+        - douban = @blog.sync_targets.detect {|t| Douban === t && t.status == :verified}
+        %span.partial_anchor
+          = render :partial => 'sync/target', :object => douban,
+            :locals => {:target_name => 'douban'}
   %fieldset.advanced.menu
     .item.toggle_private
       = f.check_box :private
-      = f.label :private, '该页面设置为私密页面'
+      = f.label :private, '该页面设置为私密页面', title: '除了成员，其他人不能关注也不能看到此页面'
     - unless @blog.primary?
       .toggle_canjoin{data: {widget: 'shrinked', trigger: 'input[type=checkbox]',
         shouldPropagate: true}, class: @blog.canjoin? ? '' : 'shrinked'}

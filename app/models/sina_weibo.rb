@@ -2,6 +2,8 @@
 
 class SinaWeibo < OAuthTarget
   require 'json'
+  require 'curb'
+  require 'uri'
   SITE = 'http://api.t.sina.com.cn/'
 
   class << self
@@ -38,11 +40,10 @@ class SinaWeibo < OAuthTarget
   def handle_pics(post)
     photo = post.photos.first
     url = compose_url(post)
-    image_id = photo.image.large
-    image = grid.get image_id
+    image = grid.get photo.image.large
     damned_upload "#{SITE}statuses/upload.json",
-      :pic => UploadIO.new(image, image.content_type, image_id.to_s),
-      :status => url
+      :pic => image,
+      :status => compose_status(photo.desc, url)
   end
 
   def handle_link(post)
@@ -83,11 +84,21 @@ class SinaWeibo < OAuthTarget
     at = self.access_token
     at.sign! fake_request, :request_uri => url, :parameters => fake_params
 
-    actual_request = Net::HTTP::Post::Multipart.new url, params
-    actual_request['Authorization'] = fake_request['Authorization']
-    Net::HTTP.start parsed_url.host, parsed_url.port do |con|
-      con.request(actual_request)
+    actual_request = Curl::Easy.new url
+    actual_request.multipart_form_post = true
+    actual_request.headers['Authorization'] = fake_request['Authorization']
+    fields = params.map do |k, v|
+      if k == :pic
+        Curl::PostField.file k.to_s, v.server_md5.to_s do |f|
+          f.content_type = v.content_type
+          v.read
+        end
+      else
+        Curl::PostField.content k.to_s, v
+      end
     end
+    actual_request.http_post(*fields)
+    actual_request
   end
 
   def on_request_error(res_body)
@@ -95,12 +106,12 @@ class SinaWeibo < OAuthTarget
   end
 end
 
-# Monkey patched for multipart-post
-module Mongo
-  class GridIO
-    alias_method :length, :file_length
-
-    def path
+# Make it compatible with Net::HTTP
+module Curl
+  class Easy
+    alias_method :body, :body_str
+    def code
+      response_code.to_s
     end
   end
 end

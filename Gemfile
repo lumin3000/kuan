@@ -15,7 +15,7 @@ gem 'jammit'
 gem 'whenever', :require => false
 gem 'capistrano'
 gem 'oauth'
-gem 'multipart-post'
+gem 'curb'
 
 group :development, :test do
   gem 'rspec'
