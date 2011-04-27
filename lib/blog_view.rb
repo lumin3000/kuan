@@ -158,7 +158,7 @@ class BlogView < Mustache
   end
 
   expose :@blog, :title
-  expose_without_escape :@blog, :desc
+  expose_without_escape :@blog, :desc, :followers_count
 
   def meta_desc
     h(Nokogiri::HTML.fragment(desc).inner_text)
@@ -246,6 +246,10 @@ class BlogView < Mustache
     end
   end
   private :fetch_other_pages
+
+  def posts_count
+    @blog.total_post_num
+  end
 
   def define
     Proc.new do |str|
