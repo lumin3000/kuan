@@ -27,6 +27,10 @@ module UrlHelper
     url_for_blog_(blog) + 'edit'
   end
 
+  def set_primary_blog_path(blog)
+    url_for_blog_(blog) + 'set_primary_blog'
+  end
+
   def followers_blog_path(blog)
     url_for_blog_(blog) + 'followers'
   end

@@ -5,7 +5,7 @@ class BlogsController < ApplicationController
   before_filter :editor_auth, :only => [:followers, :editors, :exit]
   before_filter :find_by_uri, :only => [:show, :follow_toggle, :apply, :apply_entry,
     :extract_template_vars, :edit, :sync_apply, :sync_callback, :sync_cancel,
-    :sync_widget]
+    :sync_widget, :set_primary_blog]
   before_filter :blog_display, :only => [:show, :preview]
   before_filter :find_sync_target, :only => [:sync_apply, :sync_callback, :sync_cancel]
 
@@ -130,6 +130,12 @@ class BlogsController < ApplicationController
     respond_to do |format|
       format.json { render :json => {status: "success", location: fucking_root } }
     end
+  end
+
+  def set_primary_blog
+    current_user.primary_blog!(@blog)
+    flash[:success] = "主页面更换成功"
+    redirect_to home_path
   end
 
   AVAIL_TARGET = %w{sina_weibo douban}

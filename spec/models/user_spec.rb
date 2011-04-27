@@ -133,8 +133,12 @@ describe User do
 
     it "should set new primary blog" do
       @user.primary_blog!(@blog)
+      @blog.reload
+      @blog_primary.reload
       @user.primary_blog.should == @blog
+      @blog.primary.should be_true
       @user.auth_for(@blog_primary).should == "founder"
+      @blog_primary.primary.should be_false
     end
   end
 end

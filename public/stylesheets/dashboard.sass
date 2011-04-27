@@ -67,6 +67,9 @@ a.page_name
       vertical-align: middle
       cursor: pointer
 
+    .disabled
+      color: #cacaca
+      cursor: default
 
   .menu_arrow
     @include dashboard_sidebar_button
@@ -79,6 +82,24 @@ a.page_name
     display: inline-block
     width: 134px
     line-height: 14px
+
+  .icon_primary
+    @include dashboard_sidebar_button
+    background: url('/images/embed/icon_primary.gif')
+    &.disabled
+      background: url('/images/embed/icon_primary_disabled.gif')
+
+  .icon_config
+    @include dashboard_sidebar_button
+    background: url('/images/embed/icon_config.gif')
+    &.disabled
+      background: url('/images/embed/icon_config_disabled.gif')
+
+  .icon_members
+    @include dashboard_sidebar_button
+    background: url('/images/embed/icon_members.gif')
+    &.disabled
+      background: url('/images/embed/icon_members_disabled.gif')
 
   .icon_follow
     @include dashboard_sidebar_button
@@ -113,14 +134,6 @@ a.page_name
   .icon_posts
     @include dashboard_sidebar_button
     background: url('/images/icons.gif') -140px 0px
-
-  .icon_config
-    @include dashboard_sidebar_button
-    background: url('/images/icons.gif') -80px 0px
-
-  .icon_members
-    @include dashboard_sidebar_button
-    background: url('/images/icons.gif') -180px 0px
 
   .icon_remove
     @include dashboard_sidebar_button

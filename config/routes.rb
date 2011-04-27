@@ -7,7 +7,6 @@ Kuan::Application.routes.draw do
   resources :users, :except => [:index, :destroy]
   get '/home(/:uri)(/page/:page)', :to => 'users#show', :page => /\d+/, :as => 'home'
   get '/signup/:code', :to => 'users#new', :as => :signup
-
   require 'constraints/subdomain'
 
   resources :blogs, :only => [:new, :create] do
@@ -20,6 +19,7 @@ Kuan::Application.routes.draw do
     get '/' => 'blogs#show'
     get '/(page/:page)' => 'blogs#show', :page => /\d+/
     get '/edit' => 'blogs#edit'
+    post "/set_primary_blog" => "blogs#set_primary_blog"
     put '/' => 'blogs#update'
     get '/posts/:post_id' => 'blogs#show'
     #Generating editor and follower resource would make more sense

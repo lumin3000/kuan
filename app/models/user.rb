@@ -123,9 +123,9 @@ class User
       f = followings.where(:auth => "lord").first
       f_new = followings.where(:blog_id => blog.id).first
       f.update_attributes :auth => "founder"
-      f.blog.update_attributes :primary => false
+      Blog.find(f.blog_id).update_attributes :primary => false
       f_new.update_attributes :auth => "lord"
-      f_new.blog.update_attributes :primary => true
+      blog.update_attributes :primary => true
     end
   end
 

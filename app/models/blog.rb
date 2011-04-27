@@ -31,7 +31,7 @@ class Blog
   references_many :posts, :index => true
   references_many :sync_targets
 
-  attr_accessible :uri, :title, :desc, :icon, :private, :canjoin, :posted_at, :custom_html,
+  attr_accessible :uri, :title, :desc, :icon, :primary, :private, :canjoin, :posted_at, :custom_html,
   :using_custom_html, :custom_css, :template, :template_id, :template_conf, :tag
   
   before_update :post_privte_setter
