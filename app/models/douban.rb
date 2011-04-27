@@ -69,6 +69,7 @@ class Douban < OAuthTarget
   def access_token
     return @access_token if @access_token
     hacked_consumer = consumer.dup
+    hacked_consumer.options = consumer.options.dup
     hacked_consumer.options[:site] = 'http://api.douban.com/'
     @access_token = OAuth::AccessToken.new hacked_consumer, token_key, token_secret
   end
