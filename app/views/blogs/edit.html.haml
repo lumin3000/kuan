@@ -10,7 +10,8 @@
     %li.appearance{data: {widget: 'reloadAppearance', source: 'fieldset.template',
       target: 'fieldset.appearance'}} 调整界面
     %li.service 服务
-    %li.advanced 高级选项
+    - unless @blog.primary?
+      %li.advanced 高级选项
   .customize_commands
     %a.button.save{href: "###", data: {widget: 'submit', form: '.edit_blog'}} 保 存
     %a.button.back{href: fucking_root} 取 消
@@ -117,10 +118,10 @@
           = render :partial => 'sync/target', :object => douban,
             :locals => {:target_name => 'douban'}
   %fieldset.advanced.menu
-    .item.toggle_private
-      = f.check_box :private
-      = f.label :private, '该页面设置为私密页面', title: '除了成员，其他人不能关注也不能看到此页面'
     - unless @blog.primary?
+      .item.toggle_private
+        = f.check_box :private
+        = f.label :private, '该页面设置为私密页面', title: '除了成员，其他人不能关注也不能看到此页面'
       .toggle_canjoin{data: {widget: 'shrinked', trigger: 'input[type=checkbox]',
         shouldPropagate: true}, class: @blog.canjoin? ? '' : 'shrinked'}
         = f.check_box :canjoin
