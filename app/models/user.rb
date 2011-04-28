@@ -121,13 +121,22 @@ class User
   def primary_blog!(blog)
     return false unless blog.primariable?(self)
     p_blog = self.primary_blog
-    p_blog.primary = false
-    p_blog.save
-    blog.primary = true
-    blog.save
-    follow!(blog, "lord")
-    follow!(p_blog, "founder")
-    true
+    return false unless lord!(blog)
+    unlord!(p_blog)
+  end
+
+  def lord!(blog)
+    f = followings.where(:blog_id => blog.id).first
+    return false if f.nil?
+    blog.update_attributes primary: true
+    f.update_attributes :auth => "lord"
+  end
+
+  def unlord!(blog)
+    f = followings.where(:blog_id => blog.id).first
+    return false if f.nil?
+    blog.update_attributes primary: false
+    f.update_attributes :auth => "founder"
   end
 
   def icon
