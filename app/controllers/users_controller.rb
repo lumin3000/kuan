@@ -15,6 +15,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new params[:user]
+    @rand = params[:rand]
     return (render 'new', :layout => "application") if !@user.save
 
     #create primary blog 
