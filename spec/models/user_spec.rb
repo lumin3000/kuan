@@ -140,5 +140,11 @@ describe User do
       @user.auth_for(@blog_primary).should == "founder"
       @blog_primary.primary.should be_false
     end
+
+    it "canjoin should set to false for primary blog" do
+      @blog.update_attributes canjoin: true
+      @user.primary_blog!(@blog)
+      @blog.canjoin.should == false
+    end
   end
 end

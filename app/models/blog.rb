@@ -110,6 +110,14 @@ class Blog
   def primariable?(user)
     !primary && !private && customed?(user) && joined_count == 1
   end
+  
+  def primary!
+    update_attributes(primary: true, canjoin: false)
+  end
+
+  def unprimary!
+    update_attributes(primary: false)
+  end
 
   def followers_count
     User.collection.find({"followings" => {"$elemMatch"=> {"blog_id"=>id,"auth"=>"follower"}}}).count
