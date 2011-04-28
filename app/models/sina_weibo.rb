@@ -72,7 +72,7 @@ class SinaWeibo < OAuthTarget
 
   private
   def compose_status(text, url, limit = 120)
-    text.truncate(limit - 1) + ' 来自:' + url
+    text.truncate(limit - 1) + ' 出处:' + url
   end
 
   def damned_upload(url, params)
