@@ -19,7 +19,7 @@ class Blog
   scope :latest, :excludes => { :private => true, :posted_at => nil },
   :order_by => { :posted_at => :desc },
   :limit => 500
-  scope :tagged, lambda { |tag| where(:tag => tag).desc(:posted_at) }
+  scope :tagged, lambda { |tag| where(:tag => tag, :private.ne => true).desc(:posted_at) }
 
   field :using_custom_html, :type => Boolean, :default => false
   field :custom_css

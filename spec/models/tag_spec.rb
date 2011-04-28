@@ -97,6 +97,14 @@ describe Tag, " for blogs" do
                              :tag => @tag)
     Blog.tagged(@tag).count.should == 2
   end
+
+  it "should exclude private blog in tagged blogs" do
+    blog_next = Blog.create!(:uri => "testtagsnext",
+                             :title => "test for tags next",
+                             :private => true,
+                             :tag => @tag)
+    Blog.tagged(@tag).count.should == 1
+  end
 end
 
 describe Tag, " for activities" do
