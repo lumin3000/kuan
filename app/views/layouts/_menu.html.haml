@@ -11,25 +11,26 @@
       %span
         %a{href: followers_blog_path(@blog)}
           ! #{@blog.followers_count}人关注
-    %div
-      - if !@blog.primary && @blog.edited?(current_user)
-        %span.icon_members &nbsp;
-        %span
-          %a{href: editors_blog_path(@blog)}
+    - unless @blog.primary?
+      %div
+        - if !@blog.primary? && @blog.edited?(current_user)
+          %span.icon_members &nbsp;
+          %span
+            %a{href: editors_blog_path(@blog)}
+              成员管理
+        - else
+          %span.icon_members.disabled &nbsp;
+          %span.disabled{title: "默认主页没有其它成员"}
             成员管理
-      - else
-        %span.icon_members.disabled &nbsp;
-        %span.disabled{title: "默认主页没有其它成员"}
-          成员管理
-    %div
-      - if @blog.primariable? current_user
-        %span.icon_primary &nbsp;
-        %span
-          %a{href: set_primary_blog_path(@blog), :data => {:method => "post", :confirm => "确定将此页设为默认主页?"} } 设置为默认主页
-      - else
-        %span.icon_primary.disabled &nbsp;
-        %span.disabled{title: "只有非私密且没有其它组员的页面才可设置为默认主页"}
-          设置为默认主页
+      %div
+        - if @blog.primariable? current_user
+          %span.icon_primary &nbsp;
+          %span
+            %a{href: set_primary_blog_path(@blog), :data => {:method => "post", :confirm => "确定将此页设为默认主页?"} } 设置为默认主页
+        - else
+          %span.icon_primary.disabled &nbsp;
+          %span.disabled{title: "只有非私密且没有其它组员的页面才可设置为默认主页"}
+            设置为默认主页
     %div
       - if @blog.customed? current_user
         %span.icon_config &nbsp;
