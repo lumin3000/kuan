@@ -30,15 +30,6 @@
         %span.icon_config.disabled &nbsp;
         %span.disabled{title: "只有管理员才能自定义"}
           自定义
-    %div
-      - if @blog.primariable? current_user
-        %span.icon_primary &nbsp;
-        %span
-          %a{href: set_primary_blog_path(@blog), :data => {:method => "post", :confirm => "确定将此页设为默认主页?"} } 设置为默认主页
-      - else
-        %span.icon_primary.disabled &nbsp;
-        %span.disabled{title: "只有非私密且没有其它组员的页面才可设置为默认主页"}
-          设置为默认主页
     -#
       %div
         %span.icon_remove &nbsp;

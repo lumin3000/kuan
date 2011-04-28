@@ -119,14 +119,15 @@ class User
   end
 
   def primary_blog!(blog)
-    if blog.primariable?(self)
-      f = followings.where(:auth => "lord").first
-      f_new = followings.where(:blog_id => blog.id).first
-      f.update_attributes :auth => "founder"
-      Blog.find(f.blog_id).update_attributes :primary => false
-      f_new.update_attributes :auth => "lord"
-      blog.update_attributes :primary => true
-    end
+    return false unless blog.primariable?(self)
+    p_blog = self.primary_blog
+    p_blog.primary = false
+    p_blog.save
+    blog.primary = true
+    blog.save
+    follow!(blog, "lord")
+    follow!(p_blog, "founder")
+    true
   end
 
   def icon
