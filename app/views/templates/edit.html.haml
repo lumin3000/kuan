@@ -6,6 +6,9 @@
       %div{:class => "#{k}"}= v
 
   = form_for @template do |f|
+    = f.label :public, '公开可见!'
+    = f.check_box :public
+    %br
     = f.label :name, '模板名称'
     = f.text_field :name
     %br

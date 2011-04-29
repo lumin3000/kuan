@@ -92,15 +92,25 @@
           %a.button.strong{href: "#", data: {widget: 'diverseSubmit',
             action: '/preview', target: 'preview', methord: 'POST'}}
             预览效果
+          %input#submit_tpl_as_well{type: 'checkbox',
+            name: 'submit_tpl_as_well', value: '1', checked: false}
+          = f.label :submit_tpl_as_well, '同时提交到模板库'
           %a.button{href: "#", data: {widget: 'toggler', target: 'fieldset.template',
             classes: 'editing_custom_html picking_template', field: 'blog[using_custom_html]'}}
             返回选择模板
           %a.button{href: fucking_root + 'doc/template.html', target: '_blank'} 帮助
       .aside
-        %p 上传图片素材
+        %label{for: 'upload_asset'} 上传图片素材
         .upload_asset
-          %input{type: 'file', name: 'file'}
+          %input#upload_asset{type: 'file', name: 'file'}
         %ul.assets
+        %label{for: 'tpl_name'} 模板名称
+        %input.text_input{name: 'tpl_name', id: 'tpl_name'}
+        %p 上传缩略图
+        %img#submit_tpl_thumb_preview{src: "#{fucking_root}images/default_icon_60.jpg", width: 60,
+          height: 60}
+        %input{type: 'hidden', name: 'tpl_thumbnail_id'}
+        %input#submit_tpl_thumb{type: 'file', name: 'file'}
   %fieldset.appearance.menu{ data: {widget: "appearance"}}
     = render :partial => 'blogs/template_variables'
   %fieldset.service.menu
@@ -139,7 +149,7 @@
   document.addEvent('domready', function(){
     var context = document.getElement('.aside')
       , list = context.getElement('.assets')
-      , fileInput = context.getElement('input[type=file]')
+      , fileInput = context.getElement('.upload_asset').getElement('input[type=file]')
       , UPLOAD_PATH = '/upload/asset'
       , TPL = '<img width=62 height=62 src="{src}"><p>{src}</p>'
       , uploader = new K.file_uploader(fileInput, UPLOAD_PATH, {
@@ -165,4 +175,18 @@
         K.applyWidgets(partial)
       }
     }).send()
+  })
+
+  document.addEvent('domready', function() {
+    var fileInput = document.id('submit_tpl_thumb')
+      , UPLOAD_PATH = '/upload/template_thumbnail'
+      , img = document.id('submit_tpl_thumb_preview')
+      , thumbId = document.getElement('input[name=tpl_thumbnail_id]')
+      , uploader = new K.file_uploader(fileInput, UPLOAD_PATH, {
+          onSuccess: function(res) {
+            var image = res.image
+            img.src = image.small
+            thumbId.value = image.id
+          }
+        })
   })

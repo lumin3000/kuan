@@ -80,7 +80,11 @@ Kuan::Application.routes.draw do
 
   resources :movings, :only => [:new, :create]
 
-  resources :templates
+  resources :templates do
+    collection do
+      post :submit
+    end
+  end
 
   get "/sitemap", :to => "sitemap#index", :as => "sitemap"
 

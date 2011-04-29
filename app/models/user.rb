@@ -232,6 +232,11 @@ class User
     end
   end
 
+  def submit_template(params)
+    params.update :author => self
+    Template.create_by_submit params
+  end
+
   private
 
   def email_downcase

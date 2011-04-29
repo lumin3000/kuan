@@ -24,7 +24,7 @@ class BlogsController < ApplicationController
   end
 
   def edit
-    @templates = Template.all.to_a
+    @templates = Template.find_public.to_a
     @templates.unshift(Template::DEFAULT)
     @variables = BlogView.extract_variables(@blog)
     @preview_url ||= blog_path(@blog)
@@ -38,6 +38,7 @@ class BlogsController < ApplicationController
     p[:template_conf] = nil if params[:var_valid] == '0'
     @preview_url = blog_path(@blog)
     if @blog.update_attributes p
+      submit_template if params[:submit_tpl_as_well]
       flash[:success] = "页面信息更新成功"
       redirect_to blog_path(@blog)
     else
@@ -250,5 +251,16 @@ class BlogsController < ApplicationController
       render :status => 400, :text => "模板语法错误：\n#{e.to_s.force_encoding("utf-8")}",
         :content_type => 'text/plain'
     end
+  end
+
+  def submit_template
+    # Clearly this is not the Rails way.
+    tpl = {
+      name: params[:tpl_name],
+      html: params[:blog][:custom_html],
+    }
+    thumbnail_id = params[:tpl_thumbnail_id]
+    tpl[:thumbnail_id] = thumbnail_id unless thumbnail_id.blank?
+    current_user.submit_template tpl
   end
 end
