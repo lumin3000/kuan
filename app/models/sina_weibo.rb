@@ -56,7 +56,7 @@ class SinaWeibo < OAuthTarget
 
   def handle_video(post)
     video_url = post.url
-    text = post.content || ''
+    text = post.stripped_content || ''
     url = compose_url(post)
     status = video_url + ' ' + compose_status(text, url, 110)
     update_status status

@@ -45,7 +45,7 @@ class Douban < OAuthTarget
   def handle_text(post)
     url = compose_url(post)
     title = post.title.blank? ? post.blog.title : post.title
-    post_request(url, title, post.content)
+    post_request(url, title, post.stripped_content)
   end
 
   def handle_pics(post)
@@ -54,14 +54,14 @@ class Douban < OAuthTarget
   end
 
   def handle_video(post)
-    content = TagStripper.filter post.content
+    content = post.stripped_content
     title = content.blank? ? post.blog.title : content
     post_request(post.url, title)
   end
 
   def handle_link(post)
     title = post.title.blank? ? post.blog.title : post.title
-    post_request(post.url, title, post.content)
+    post_request(post.url, title, post.stripped_content)
   end
 
   def access_token
