@@ -31,6 +31,6 @@
     .operation
       - if @post.type != 'text'
         = content_for :content_toggle
-      %div{class: (%w[new renew].include? params[:action])? 'send' : 'save'}
+      %div{class: (%w[new renew fetch].include? params[:action])? 'send' : 'save'}
         %input#submit_btn{ :type => "submit", :value => (%w[new renew].include? params[:action])? '发布' : '保存' }
       %a.cancel{href: url_for(:back)} 返回上一页
