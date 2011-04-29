@@ -234,7 +234,8 @@ K.widgets.preview = function(context) {
 
   context.delegate('click', '.theme', function(e) {
     e.stop()
-    tplId.value = e.target.get('data-value')
+    // Don't send 'null'
+    tplId.value = e.target.get('data-value') || ''
     form.submit()
   })
 }
