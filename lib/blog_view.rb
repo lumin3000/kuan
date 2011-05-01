@@ -28,7 +28,7 @@ module ObjectView
         define_method(f) do
           prop = instance_variable_get prop_name
           value = prop.send(f)
-          value.nil? ? nil : value.html_safe
+          value ? nil : value.html_safe
         end
       end
     end
