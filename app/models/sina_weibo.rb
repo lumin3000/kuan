@@ -47,14 +47,14 @@ class SinaWeibo < OAuthTarget
   def handle_link(post)
     shared_url = post.url
     text = post.title || ''
-    status = shared_url + ' ' + compose_status(text, post, 110)
+    status = shared_url + ' ' + compose_status(text, post, 90)
     update_status status
   end
 
   def handle_video(post)
     video_url = post.url
     text = post.stripped_content || ''
-    status = video_url + ' ' + compose_status(text, post, 110)
+    status = video_url + ' ' + compose_status(text, post, 90)
     update_status status
   end
 
@@ -67,9 +67,9 @@ class SinaWeibo < OAuthTarget
   end
 
   private
-  def compose_status(text, post, limit = 120)
+  def compose_status(text, post, limit = 100)
     url = compose_url(post)
-    text.truncate(limit - 1) + ' 出处:' + url
+    [text.truncate(limit - 1), '宽岛-' + post.blog.title.to(15), url].join ' '
   end
 
   def damned_upload(url, params)
