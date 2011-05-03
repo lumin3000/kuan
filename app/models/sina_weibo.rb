@@ -32,33 +32,29 @@ class SinaWeibo < OAuthTarget
 
   def handle_text(post)
     text = post.title.blank? ? post.stripped_content : post.title
-    url = compose_url(post)
-    status = compose_status(text, url)
+    status = compose_status(text, post)
     update_status status
   end
 
   def handle_pics(post)
     photo = post.photos.first
-    url = compose_url(post)
     image = grid.get photo.image.large
     damned_upload "#{SITE}statuses/upload.json",
       :pic => image,
-      :status => compose_status(photo.desc, url)
+      :status => compose_status(photo.desc, post)
   end
 
   def handle_link(post)
     shared_url = post.url
-    url = compose_url(post)
     text = post.title || ''
-    status = shared_url + ' ' + compose_status(text, url, 110)
+    status = shared_url + ' ' + compose_status(text, post, 110)
     update_status status
   end
 
   def handle_video(post)
     video_url = post.url
     text = post.stripped_content || ''
-    url = compose_url(post)
-    status = video_url + ' ' + compose_status(text, url, 110)
+    status = video_url + ' ' + compose_status(text, post, 110)
     update_status status
   end
 
@@ -71,7 +67,8 @@ class SinaWeibo < OAuthTarget
   end
 
   private
-  def compose_status(text, url, limit = 120)
+  def compose_status(text, post, limit = 120)
+    url = compose_url(post)
     text.truncate(limit - 1) + ' 出处:' + url
   end
 
