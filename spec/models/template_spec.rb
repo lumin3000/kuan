@@ -17,13 +17,26 @@ describe Template do
     describe "when we mark it as public" do
       before :each do
         @tpl.public = true
-        @tpl.save!
       end
 
-      it "should be present in template selection page" do
-        templates = Template.find_public
-        templates.should_not be_empty
-        templates.should be_include(@tpl)
+      describe "and give it a thumbnail" do
+        before :each do
+          File.open 'test/fixtures/mxgs239.jpg', 'rb' do |f|
+            Image.create_from_original f
+          end
+          @tpl.thumbnail = Image.first
+        end
+
+        after :each do
+          Image.destroy_all
+        end
+
+        it "should be present in template selection page" do
+          @tpl.save!
+          templates = Template.find_public
+          templates.should_not be_empty
+          templates.should be_include(@tpl)
+        end
       end
     end
   end
