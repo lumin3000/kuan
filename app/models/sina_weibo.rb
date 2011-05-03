@@ -69,9 +69,12 @@ class SinaWeibo < OAuthTarget
   LIMIT = 100
   private
   def compose_status(text, post, limit_delta=0)
-    limit = LIMIT + limit_delta
     url = compose_url(post)
-    [text.truncate(limit - 1), '宽岛-' + post.blog.title.to(15), url].join ' '
+    tags = post.tags.select{|t| t.length < 10}.slice(0..1)
+      .map{|t| "##{t}#"}.join("")
+    limit = LIMIT + limit_delta - tags.length
+    [text.truncate(limit - 1), tags,
+      '宽岛-' + post.blog.title.to(15), url].join ' '
   end
 
   def damned_upload(url, params)
