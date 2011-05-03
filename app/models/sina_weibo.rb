@@ -47,14 +47,14 @@ class SinaWeibo < OAuthTarget
   def handle_link(post)
     shared_url = post.url
     text = post.title || ''
-    status = shared_url + ' ' + compose_status(text, post, 90)
+    status = shared_url + ' ' + compose_status(text, post, -10)
     update_status status
   end
 
   def handle_video(post)
     video_url = post.url
     text = post.stripped_content || ''
-    status = video_url + ' ' + compose_status(text, post, 90)
+    status = video_url + ' ' + compose_status(text, post, -10)
     update_status status
   end
 
@@ -66,8 +66,10 @@ class SinaWeibo < OAuthTarget
     access_token.post "#{SITE}statuses/update.json", :status => status
   end
 
+  LIMIT = 100
   private
-  def compose_status(text, post, limit = 100)
+  def compose_status(text, post, limit_delta=0)
+    limit = LIMIT + limit_delta
     url = compose_url(post)
     [text.truncate(limit - 1), '宽岛-' + post.blog.title.to(15), url].join ' '
   end
