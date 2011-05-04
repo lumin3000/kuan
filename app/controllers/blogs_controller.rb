@@ -53,7 +53,7 @@ class BlogsController < ApplicationController
     p[:template_id] = nil if p[:template_id].blank?
     p[:template_conf] = nil unless p.has_key? :template_conf
     @blog.use_template p
-    render_blog
+    render :text => render_blog
   end
 
   def extract_template_vars
@@ -68,7 +68,8 @@ class BlogsController < ApplicationController
   def show
     build_view_context
     fetch_posts
-    render_blog
+    rendered = render_blog
+    render :text => rendered
   end
 
   def followers
@@ -246,7 +247,7 @@ class BlogsController < ApplicationController
         rendered['</body>'] = "#{control_buttons}</body>"
       rescue
       end
-      render :text => rendered
+      return rendered
     rescue Mustache::Parser::SyntaxError => e
       render :status => 400, :text => "模板语法错误：\n#{e.to_s.force_encoding("utf-8")}",
         :content_type => 'text/plain'
