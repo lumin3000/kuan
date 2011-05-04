@@ -87,6 +87,7 @@ DEV
     @extra[:js] = true
     JS_CODE + @extra[:controller].render_to_string(partial: 'shared/analytics')
   end
+  public :load_js
 end
 
 class BlogView < Mustache

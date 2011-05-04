@@ -69,6 +69,28 @@ class BlogsController < ApplicationController
     build_view_context
     fetch_posts
     rendered = render_blog
+    if params[:kmon]
+      rendered.sub! /<body([^>]*)>/, <<EOF
+<body data-kmon="1" \\1>
+#{@blog_view.load_js}
+#{advertising_bar}
+<script type="text/javascript">
+setTimeout(function _KMON() {
+  if (!document.getElement) {
+    setTimeout(_KMON, 100)
+    return
+  }
+  document.getElement("head").grab(new Element("link", {
+    rel: "stylesheet"
+  , href: "/stylesheets/control_buttons.css"
+  })).grab(new Element("link", {
+    rel: "stylesheet"
+  , href: "/stylesheets/k_box.css"
+  }))
+}, 100)
+</script>
+EOF
+    end
     render :text => rendered
   end
 
@@ -240,13 +262,10 @@ class BlogsController < ApplicationController
 
   def render_blog
     begin
-      view = BlogView.new @blog, @view_context
-      rendered = view.render
-      control_buttons = view.control_buttons
-      begin
-        rendered['</body>'] = "#{control_buttons}</body>"
-      rescue
-      end
+      @blog_view = BlogView.new @blog, @view_context
+      rendered = @blog_view.render
+      control_buttons = @blog_view.control_buttons
+      rendered.sub! '</body>', "#{control_buttons}</body>"
       return rendered
     rescue Mustache::Parser::SyntaxError => e
       render :status => 400, :text => "模板语法错误：\n#{e.to_s.force_encoding("utf-8")}",
@@ -263,5 +282,9 @@ class BlogsController < ApplicationController
     thumbnail_id = params[:tpl_thumbnail_id]
     tpl[:thumbnail_id] = thumbnail_id unless thumbnail_id.blank?
     current_user.submit_template tpl
+  end
+
+  def advertising_bar
+    render_to_string 'blogs/_advertising_bar', :layout => false
   end
 end

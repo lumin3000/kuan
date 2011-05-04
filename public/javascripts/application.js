@@ -796,4 +796,10 @@ K.widgets.expandAlbum = function(context) {
 
 }
 
+document.addEvent("domready", function() {
+  body = $(document.body)
+  if (!body.get('data-kmon')) return
+  body.addClass("kmon")
+})
+
 })(document.id)

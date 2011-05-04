@@ -17,6 +17,7 @@ Kuan::Application.routes.draw do
 
   constraints(Subdomain) do
     get '/' => 'blogs#show'
+    get '/kmon' => 'blogs#show', :kmon => true
     get '/(page/:page)' => 'blogs#show', :page => /\d+/
     get '/edit' => 'blogs#edit'
     put '/' => 'blogs#update'
