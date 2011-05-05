@@ -800,6 +800,16 @@ document.addEvent("domready", function() {
   body = $(document.body)
   if (!body.get('data-kmon')) return
   body.addClass("kmon")
+  var registerBox = document.id("kmon_register")
+  document.getElements('a[href$=page/2], #kmon a.register')
+    .addEvent("click", function(e) {
+      if (!registerBox) return
+      new K.box(registerBox, {
+        width: 400
+      , height: 200
+      }).show()
+      e.stop()
+    })
 })
 
 })(document.id)

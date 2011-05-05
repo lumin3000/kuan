@@ -1,3 +1,18 @@
+:javascript
+  setTimeout(function _KMON() {
+    if (!document.getElement) {
+      setTimeout(_KMON, 100)
+      return
+    }
+    document.getElement("head").grab(new Element("link", {
+      rel: "stylesheet"
+    , href: "/stylesheets/control_buttons.css"
+    })).grab(new Element("link", {
+      rel: "stylesheet"
+    , href: "/stylesheets/k_box.css"
+    }))
+  }, 100)
+
 #kmon
   .kmon_inner
     .logo
@@ -5,3 +20,17 @@
       精彩内容，尽在宽岛......
       %a.register{href: '#'}
         立即注册
+%div{style: "display: none !important;"}
+  #kmon_register
+    .title 注册宽岛，查看更多精彩内容......
+    .body
+      = form_for :user do |f|
+        %input{type: 'hidden', name: 'code', value: @code}
+        .field
+          = f.label :email, '邮箱'
+          = f.text_field :email
+        .field
+          = f.label :password, '密码'
+          = f.password_field :password
+        = f.submit class: 'submit'
+      %a.log_in{href: fucking_root} 有账户，登陆宽岛

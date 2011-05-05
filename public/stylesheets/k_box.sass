@@ -51,3 +51,44 @@
   .box_cancel
     background: #9f9f9f
 
+#kmon_register
+  font-size: 18px
+  padding-left: 0.5em
+  font-weight: bold
+
+  .title
+    position: absolute
+    color: #63c433
+    top: 0.5em
+
+  .body
+    padding-left: 1em
+    margin-top: 1em
+
+  .field
+    height: 42px
+
+    input
+      @include fancy_text_input
+      width: 200px
+      margin-left: 0.4em
+      padding:
+        top: 6px
+        bottom: 6px
+
+  .submit
+    @include hide_text
+    @include size(180px, 44px)
+    margin:
+      top: 1em
+      left: 4em
+    background: url('/images/register_submit.gif')
+    border: 0
+
+  .log_in
+    font-size: 12px
+    position: absolute
+    bottom: 28px
+    right: 20px
+    display: block
+    visibility: visible

@@ -68,30 +68,21 @@ class BlogsController < ApplicationController
   def show
     build_view_context
     fetch_posts
-    rendered = render_blog
+    @rendered = render_blog
     if params[:kmon]
-      rendered.sub! /<body([^>]*)>/, <<EOF
+      prepare_for_kmon
+    end
+    render :text => @rendered
+  end
+
+  def prepare_for_kmon
+    default_inviter = @blog.primary? ? @blog.lord : @blog.founders.first
+    @code = default_inviter.inv_code
+    @rendered.sub! /<body([^>]*)>/, <<EOF
 <body data-kmon="1" \\1>
 #{@blog_view.load_js}
 #{advertising_bar}
-<script type="text/javascript">
-setTimeout(function _KMON() {
-  if (!document.getElement) {
-    setTimeout(_KMON, 100)
-    return
-  }
-  document.getElement("head").grab(new Element("link", {
-    rel: "stylesheet"
-  , href: "/stylesheets/control_buttons.css"
-  })).grab(new Element("link", {
-    rel: "stylesheet"
-  , href: "/stylesheets/k_box.css"
-  }))
-}, 100)
-</script>
 EOF
-    end
-    render :text => rendered
   end
 
   def followers
