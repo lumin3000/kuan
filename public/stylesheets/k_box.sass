@@ -65,7 +65,12 @@
     padding-left: 1em
     margin-top: 1em
 
+  .label, .error
+    float: left
+    display: inline
+
   .field
+    @include clear_fix
     height: 42px
 
     input
@@ -79,6 +84,7 @@
   .submit
     @include hide_text
     @include size(180px, 44px)
+    display: block
     margin:
       top: 1em
       left: 4em
@@ -92,3 +98,10 @@
     right: 20px
     display: block
     visibility: visible
+
+  .error
+    font-size: 12px
+    color: red
+    line-height: 36px
+    vertical-align: middle
+    text-indent: 0.5em

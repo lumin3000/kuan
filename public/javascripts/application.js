@@ -709,7 +709,8 @@ K.box = new Class({
     this.box = new Element('div', {'class':'k_box'})
       .setStyles({
         'height': this.options.height,
-        'width': this.options.width
+        'width': this.options.width,
+        zIndex: 2
       })
     this.box_top = new Element('div', {'class':'k_box_top'})
       .inject(this.box)
@@ -796,20 +797,104 @@ K.widgets.expandAlbum = function(context) {
 
 }
 
+var GentleBox = new Class({
+  Extends: K.box
+, hide: function() {
+    document.body.unmask()
+    this.box.hide()
+    return this
+  }
+, show: function() {
+    K.box.prototype.show.call(this)
+    this.box.show()
+  }
+})
+
 document.addEvent("domready", function() {
   body = $(document.body)
   if (!body.get('data-kmon')) return
   body.addClass("kmon")
   var registerBox = document.id("kmon_register")
+  if (!registerBox) return
+  registerBox = new GentleBox(registerBox, {
+    width: 400
+  , height: 200
+  })
   document.getElements('a[href$=page/2], #kmon a.register')
     .addEvent("click", function(e) {
-      if (!registerBox) return
-      new K.box(registerBox, {
-        width: 400
-      , height: 200
-      }).show()
       e.stop()
+      registerBox.show()
     })
 })
+
+K.widgets.validatedForm = (function() {
+  var rulesDict = {
+        email: function(value) {
+          return /^[-a-z0-9._]+@[-a-z0-9._]+\.[a-z]+$/i.test(value)
+        }
+      , password: function(value) {
+          var len = value.length
+          return len >= 5 && len <= 32
+        }
+      }
+    , errorDisplayKey = 'data-displayErrorFor'
+    , msgDict = {
+        email: '格式不对'
+      , password: '限5-32字'
+      }
+
+  return function(form) {
+    if (form.nodeName.toLowerCase() != 'form') {
+      form = form.getElement('form')
+    }
+    window.shit = form
+    errorDisplay = form.getElements('[' + errorDisplayKey + ']')
+    errorDisplay.each(function(ed) {
+      var fieldName = ed.get(errorDisplayKey)
+        , input = $(form[fieldName])
+      if (!input) return
+      var type = (input.get('data-type') || input.type).toLowerCase()
+        , rule = rulesDict[type]
+        , errorMsg = msgDict[type]
+      if (!rule) return
+      input.addEvent('keydown', function() {
+        setTimeout(function() {
+          input.fireEvent('shouldValidate')
+        }, 10)
+      })
+      input.addEvent('change', function() {
+        setTimeout(function() {
+          input.fireEvent('shouldValidate')
+        }, 10)
+      })
+
+      input.addEvent('shouldValidate', function() {
+        if (rule(input.value)) {
+          input.fireEvent('validate')
+          return
+        }
+        input.fireEvent('invalidate')
+        form.fireEvent('invalidate')
+      })
+
+      input.addEvent('validate', function() {
+        ed.hide()
+      })
+
+      input.addEvent('invalidate', function() {
+        ed.show()
+        ed.set('html', errorMsg)
+      })
+    })
+
+    var inputs = form.getElements('input')
+    form.addEvent('submit', function(e) {
+      form.addEvent('invalidate:once', function() {
+        e.stop()
+      })
+      inputs.fireEvent('shouldValidate')
+    })
+  }
+})()
 
 })(document.id)
