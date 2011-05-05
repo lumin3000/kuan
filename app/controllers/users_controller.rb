@@ -2,6 +2,7 @@
 class UsersController < ApplicationController
   before_filter :signin_auth, :only => [:show, :edit, :update, :followings, :buzz, :read_all_comments_notices]
   before_filter :signup_auth, :only => [:new, :create]
+  before_filter :quick_register, :only => [:create]
 
   def new
     if signed_in?
@@ -121,4 +122,10 @@ class UsersController < ApplicationController
     logger.info %(#{Time.now} : #{request.remote_ip} : #{params[:code]} : #{request.referer})
   end
 
+  def quick_register
+    return if params[:quick].blank?
+    u = params[:user]
+    return if params[:email].blank?
+    u[:name] = u[:email].split('@').first
+  end
 end
