@@ -312,8 +312,7 @@ class BlogView < Mustache
   end
 
   def control_buttons
-    return '' unless current_user
-    <<CODE.html_safe
+    current_user ? <<CODE : <<ANONY_CODE
 #{load_js}
 <script>document.getElement("head").grab(new Element("link", {
   rel: "stylesheet"
@@ -334,6 +333,8 @@ class BlogView < Mustache
   #{fave_tag}
 </div>
 CODE
+#{load_js}
+ANONY_CODE
   end
 
   def fave_tag
