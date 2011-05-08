@@ -25,8 +25,12 @@
     .title 注册宽岛，查看更多精彩内容......
     .body{data: {widget: 'validatedForm'}}
       = form_for :user, url: "#{fucking_root}users" do |f|
-        %input{type: 'hidden', name: 'quick', value: 1}
         %input{type: 'hidden', name: 'code', value: @code}
+        .field
+          .label
+            = f.label :name, '昵称'
+            = f.text_field :name, 'data-type' => 'username'
+          .error{data: {displayErrorFor: 'user[name]'}}
         .field
           .label
             = f.label :email, '邮箱'

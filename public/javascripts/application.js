@@ -818,7 +818,7 @@ document.addEvent("domready", function() {
   if (!registerBox) return
   registerBox = new GentleBox(registerBox, {
     width: 400
-  , height: 200
+  , height: 240
   })
   document.getElements('a[href$=page/2], #kmon a.register')
     .addEvent("click", function(e) {
@@ -836,11 +836,16 @@ K.widgets.validatedForm = (function() {
           var len = value.length
           return len >= 5 && len <= 32
         }
+      , username: function(value) {
+          var len = value.length
+          return len >= 1 && len <= 40
+        }
       }
     , errorDisplayKey = 'data-displayErrorFor'
     , msgDict = {
         email: '格式不对'
       , password: '限5-32字'
+      , username: '限1-40字'
       }
 
   return function(form) {
