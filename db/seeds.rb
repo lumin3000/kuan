@@ -13,6 +13,8 @@ me = User.create!({
   :password_confirmation => "meheh",
 })
 my_blog = me.create_primary_blog!
+my_blog.open_register = true
+my_blog.save!
 
 Link.create!({
   author: me.id,

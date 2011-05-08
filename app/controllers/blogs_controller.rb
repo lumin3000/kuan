@@ -69,13 +69,14 @@ class BlogsController < ApplicationController
     build_view_context
     fetch_posts
     @rendered = render_blog
-    if params[:kmon]
+    if params[:kmon] || @blog.open_register?
       prepare_for_kmon
     end
     render :text => @rendered
   end
 
   def prepare_for_kmon
+    return if current_user
     default_inviter = @blog.primary? ? @blog.lord : @blog.founders.first
     @code = default_inviter.inv_code
     @rendered.sub! /<body([^>]*)>/, <<EOF
@@ -84,6 +85,7 @@ class BlogsController < ApplicationController
 #{advertising_bar}
 EOF
   end
+  private :prepare_for_kmon
 
   def followers
     @blogs = @user.blogs
