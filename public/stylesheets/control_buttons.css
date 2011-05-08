@@ -57,6 +57,7 @@
   width: 100%;
   height: 70px;
   border-bottom: 4px #3366cc solid;
+  background: #fff;
   *zoom: 1;
 }
 #kmon:after {
