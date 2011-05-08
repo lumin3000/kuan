@@ -76,6 +76,7 @@ module SessionsHelper
 
   CONTENT_ADMINS = [
     'sjerrys@gmail.com',
+    'lilu.life@gmail.com',
     'pinkskyanger@yahoo.com.cn',
   ]
   def content_admin_auth
