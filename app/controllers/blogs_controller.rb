@@ -53,7 +53,9 @@ class BlogsController < ApplicationController
     p[:template_id] = nil if p[:template_id].blank?
     p[:template_conf] = nil unless p.has_key? :template_conf
     @blog.use_template p
-    render :text => render_blog
+    @rendered = render_blog
+    return if @render_error
+    render :text => @rendered
   end
 
   def extract_template_vars
@@ -69,6 +71,7 @@ class BlogsController < ApplicationController
     build_view_context
     fetch_posts
     @rendered = render_blog
+    return if @render_error
     if params[:kmon] || @blog.open_register?
       prepare_for_kmon
     end
@@ -261,6 +264,7 @@ EOF
       rendered.sub! '</body>', "#{control_buttons}</body>"
       return rendered
     rescue Mustache::Parser::SyntaxError => e
+      @render_error = true
       render :status => 400, :text => "模板语法错误：\n#{e.to_s.force_encoding("utf-8")}",
         :content_type => 'text/plain'
     end
