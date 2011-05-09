@@ -105,7 +105,7 @@ class BlogView < Mustache
       when /0|false|off|no/i
         false
       else
-        raise "dunno: #{v}"
+        false
       end
     },
     'color' => lambda {|v| v},
