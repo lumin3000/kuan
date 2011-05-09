@@ -57,6 +57,14 @@ class BlogsController < ApplicationController
     end
     @rendered = render_blog
     return if @render_error
+    @rendered.sub! '</body>', <<PREVENT_CLICK
+<script type="text/javascript">
+setTimeout(function() {
+  document.addEvent('click:relay(a)', function(e) { e.stop() })
+}, 100)
+</script>
+</body>
+PREVENT_CLICK
     render :text => @rendered
   end
 
