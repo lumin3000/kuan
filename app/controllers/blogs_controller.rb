@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 class BlogsController < ApplicationController
+  include LoggingHelper
+
   before_filter :signin_auth, :except => [:show]
   before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick]
   before_filter :editor_auth, :only => [:followers, :editors, :exit]
@@ -92,6 +94,7 @@ PREVENT_CLICK
     return if current_user
     default_inviter = @blog.primary? ? @blog.lord : @blog.founders.first
     @code = default_inviter.inv_code
+    general_log 'invitation_refer', request.remote_ip, @code, request.referer
     @rendered.sub! /<body([^>]*)>/, <<EOF
 <body data-kmon="1" \\1>
 #{@blog_view.load_js}
