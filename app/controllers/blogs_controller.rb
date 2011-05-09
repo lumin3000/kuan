@@ -50,9 +50,11 @@ class BlogsController < ApplicationController
     build_view_context
     fetch_posts
     p = params[:blog]
-    p[:template_id] = nil if p[:template_id].blank?
-    p[:template_conf] = nil unless p.has_key? :template_conf
-    @blog.use_template p
+    if p
+      p[:template_id] = nil if p[:template_id].blank?
+      p[:template_conf] = nil unless p.has_key? :template_conf
+      @blog.use_template p
+    end
     @rendered = render_blog
     return if @render_error
     render :text => @rendered

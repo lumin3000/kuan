@@ -139,7 +139,7 @@
         %p.invite_desc 复制邀请链接邀请其他人
         %input.invite_link{value: editors_new_url}
 
-%iframe#preview{name: 'preview', src: @preview_url || blog_path(@blog)}
+%iframe#preview{name: 'preview', src: blog_path(@blog) + 'preview'}
 
 :javascript
   document.addEvent('domready', function(){
