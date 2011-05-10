@@ -265,8 +265,15 @@ EOF
     else
       @posts = [Post.find(@post_id)]
       @post = @posts.first
+      @next_post = Post.limit(1).where(:created_at.gt => @post.created_at)
+        .and(:blog_id => @post.blog_id)
+        .desc(:created_at).last
+      @prev_post = Post.limit(1).where(:created_at.lt => @post.created_at)
+        .and(:blog_id => @post.blog_id)
+        .desc(:created_at).first
     end
-    @view_context.update :posts => @posts
+    @view_context.update :posts => @posts, :next_post => @next_post,
+      :prev_post => @prev_post
   end
 
   def render_blog

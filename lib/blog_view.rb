@@ -5,6 +5,7 @@ module ObjectView
   require 'cgi'
 
   def self.wrap(obj, extra = {})
+    return nil if obj.nil?
     (obj.class.name + "View").constantize.new(obj, extra)
   end
 
@@ -155,6 +156,10 @@ class BlogView < Mustache
     @posts = extra[:posts] && extra[:posts].map {|p| ObjectView.wrap(p, extra)}
     @url_template = extra[:url_template]
     @extra = extra
+    if @extra[:post_single]
+      @next_post = ObjectView.wrap @extra[:next_post], @extra
+      @prev_post = ObjectView.wrap @extra[:prev_post], @extra
+    end
     self.template = blog.template_in_use
   end
 
@@ -169,9 +174,7 @@ class BlogView < Mustache
     "<style type='text/css'>#{h @blog.custom_css}</style>".html_safe
   end
 
-  def posts
-    @posts
-  end
+  attr_reader :posts, :next_post, :prev_post
 
   def post_single
     @extra[:post_single]
@@ -278,10 +281,6 @@ class BlogView < Mustache
 
   def variables
     @variables
-  end
-
-  def post_single
-    @extra[:post_single]
   end
 
   # Ad hoc inline template since we'd make this open to template authors
