@@ -174,7 +174,15 @@ class BlogView < Mustache
     "<style type='text/css'>#{h @blog.custom_css}</style>".html_safe
   end
 
-  attr_reader :posts, :next_post, :prev_post
+  attr_reader :posts
+
+  def prev_post_url
+    @prev_post.url if @prev_post
+  end
+
+  def next_post_url
+    @next_post.url if @next_post
+  end
 
   def post_single
     @extra[:post_single]
