@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class CategorySubsController < ApplicationController
-  #before_filter :content_admin_auth, :except => []
+  before_filter :content_admin_auth, :except => []
 
   def new
     @category = Category.find(params[:category_id])

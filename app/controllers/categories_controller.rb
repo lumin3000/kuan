@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 class CategoriesController < ApplicationController
-  #before_filter :content_admin_auth, :except => [:index, :show]
+  before_filter :content_admin_auth, :except => [:index, :show]
+  layout "common"
 
   def index
     @categories = Category.all
