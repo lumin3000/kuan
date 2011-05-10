@@ -1,0 +1,80 @@
+# -*- coding: utf-8 -*-
+class CategoriesController < ApplicationController
+  #before_filter :content_admin_auth, :except => [:index, :show]
+
+  def index
+    @categories = Category.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @categories }
+    end
+  end
+
+  def show
+    @category = Category.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @category }
+    end
+  end
+
+  def manage
+    @categories = Category.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @categories }
+    end
+  end
+
+  def new
+    @category = Category.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @category }
+    end
+  end
+
+  def edit
+    @category = Category.find(params[:id])
+  end
+
+  def create
+    @category = Category.new(params[:category])
+
+    respond_to do |format|
+      if @category.save
+        format.html { redirect_to(categories_manage_path, :notice => '创建成功') }
+        format.xml  { render :xml => @category, :status => :created, :location => @category }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @category.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  def update
+    @category = Category.find(params[:id])
+
+    respond_to do |format|
+      if @category.update_attributes(params[:category])
+        format.html { redirect_to(categories_manage_path, :notice => '修改成功') }
+      else
+        format.html { render :action => "edit" }
+      end
+    end
+  end
+
+  def destroy
+    @category = Category.find(params[:id])
+    @category.destroy
+
+    respond_to do |format|
+      format.html { redirect_to(categories_manage_path) }
+      format.xml  { head :ok }
+    end
+  end
+end

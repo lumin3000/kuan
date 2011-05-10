@@ -1,0 +1,36 @@
+= form_for([@category, @category_sub]) do |f|
+  .field
+    = f.label "排序"
+    = f.text_field :order
+  .field
+    %label 博客
+    - if @category_sub.new_record?
+      %input{name: "uri"}
+    - else
+      %lable
+        = @category_sub.blog.title + "(" + @category_sub.blog.uri + ")"
+  .field
+    = f.label :image
+    = f.text_field :image, id: 'image_id'
+    %input#image_uploader{type: 'file', name: 'file', autocomplete: 'off'}
+  .field
+    = f.label :new
+    = f.check_box :new
+  .field
+    = f.label :top
+    = f.check_box :top
+  .actions
+    = f.submit 'Save'
+:javascript
+  document.addEvent('domready', function(){
+    new K.file_uploader($('image_uploader'), '/upload/asset', {
+      'fire_now': true,
+      'onStart': function(){
+      },
+      'onSuccess': function(v){
+        $('image_id').value = v.image.original
+        alert("上传成功")
+        $('image').set('src', v.image.original)
+      }
+    })
+  })

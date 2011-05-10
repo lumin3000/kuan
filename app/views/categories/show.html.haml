@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @category.name
+%p
+  %b Category sub:
+  = @category.category_sub
+%p
+  %b Image:
+  = @category.image
+%p
+  %b New:
+  = @category.new
+%p
+  %b Top:
+  = @category.top
+
+= link_to 'Edit', edit_category_path(@category)
+\|
+= link_to 'Back', categories_path

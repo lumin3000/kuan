@@ -1,0 +1,36 @@
+%h1 管理页
+
+%table
+  %tr
+    %th 
+    %th 标签名
+    %th 博客
+    %th 新
+    %th 置顶
+    %th
+    %th
+    %th
+    %th
+
+  - @categories.each do |category|
+    %tr
+      %td= category.order
+      %td= category.name
+      %td
+        - category.category_subs.each do |sub|
+          %a{href: blog_path(sub.blog), target: "_blank"}
+            = sub.blog.title
+          %a{href: "/categories/#{category.id}/category_subs/#{sub.id}/edit"}
+            编辑
+          %a{href: "/categories/#{category.id}/category_subs/#{sub.id}", data: {confirm: "确定删除?", method: :delete}}
+            X
+          %br
+      %td= category.new
+      %td= category.top
+      %td= link_to '添加博客', new_category_category_sub_path(category)
+      %td= link_to '编辑', edit_category_path(category)
+      %td= link_to '删除', category, :confirm => '确定删除?', :method => :delete
+
+%br
+
+= link_to '新建分类', new_category_path

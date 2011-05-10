@@ -91,5 +91,10 @@ Kuan::Application.routes.draw do
 
   get "/sitemap", :to => "sitemap#index", :as => "sitemap"
 
+  get "/categories/manage", :to => "categories#manage", :as => "categories_manage"
+  resources :categories do
+    resources :category_subs
+  end
+
   root :to => redirect("/home")
 end
