@@ -78,4 +78,27 @@ class CategoriesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def batch
+    content = params[:content]
+    arr = content.split("\r\n")
+    @current_c = nil
+    arr.each do |str|
+      str.strip!
+      unless str.blank?
+        if str.start_with?('http')
+          uri = str.split(/\/|\./)[2]
+          @blog = Blog.find_by_uri!(uri)
+          unless @blog.blank?
+            @category_sub = @current_c.category_subs.create(blog_id: @blog.id)
+            @category_sub.save
+          end
+        else
+          @current_c = Category.new(name: str)
+          @current_c.save
+        end
+      end
+    end
+    redirect_to(categories_manage_path, :notice => '批量创建成功')
+  end
 end

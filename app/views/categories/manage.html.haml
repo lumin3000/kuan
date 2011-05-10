@@ -34,3 +34,8 @@
 %br
 
 = link_to '新建分类', new_category_path
+
+%div{style: "display:none"}
+  %form{action: categories_batch_path, method: "post"}
+    %textarea{name: "content"}
+    %input{type: "submit"}  
