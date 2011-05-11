@@ -39,6 +39,8 @@ describe Feed do
       @user.follow! blog2, "founder"
       blog2.import!(feed_uri, type).should be_true
       blog2.import_feeds.first.feed.should == @blog.import_feeds.first.feed
+      blog2.import_feeds.first.should be_is_new
+      Feed.count.should == 1
     end
 
     it "should accept an uri which omit http protocol" do
@@ -63,6 +65,19 @@ describe Feed do
       @blog.errors.should be_has_key(:import_feed_uri)
     end 
 
+    it "should not accept same import feed" do
+      feed_uri = "http://9tonight.blogbus.com/index.rdf"
+      @blog.import!(feed_uri, :pic).should be_true
+      @blog.import!(feed_uri, :text).should be_false
+      @blog.errors.should be_has_key(:import_feed_uri)
+    end
 
+    it "should not accept >3 import feeds" do
+      @blog.import!("http://9tonight.blogbus.com", :pic).should be_true
+      @blog.import!("moehuaji.diandian.com", :pic).should be_true
+      @blog.import!("http://hi.baidu.com/%C2%BD%BE%B0%EC%AA", :pic).should be_true
+      @blog.import!("http://blog.sina.com.cn/twocold", :pic).should be_false
+      @blog.errors.should be_has_key(:import_feed_uri)
+    end
   end
 end
