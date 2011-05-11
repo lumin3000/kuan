@@ -11,6 +11,4 @@ class CategorySub
   embedded_in :category, :inverse_of => :category_subs
 
   attr_accessible :new, :top, :order, :image, :blog, :blog_id
-
-  scope :top_blog, desc(:top, :order)
 end

@@ -22,9 +22,9 @@ class CategorySubsController < ApplicationController
       redirect_to new_category_category_sub_path(@category)
       return
     end
-    params[:blog_id] = @blog.id
+    params[:category_sub][:blog_id] = @blog.id
 
-    @category_sub = @category.category_subs.create(params)
+    @category_sub = @category.category_subs.create(params[:category_sub])
 
     respond_to do |format|
       if @category_sub.save

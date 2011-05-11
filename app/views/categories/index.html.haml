@@ -1,3 +1,13 @@
+- css "category"
+- js "category"
+- @site_layout = "site"
+
+.top_box
+  .z_inner
+    - @top_categories.each do |category|
+      %a{href: blog_path(category.top_blog.blog)}
+        %img{src: category.top_blog.image}
+
 - @categories.each do |category|
   %a{href: category_path(category.name)}
     = category.name

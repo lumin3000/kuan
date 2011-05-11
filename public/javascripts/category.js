@@ -1,0 +1,2 @@
+document.addEvent('domready', function(){
+})

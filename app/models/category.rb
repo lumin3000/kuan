@@ -15,4 +15,8 @@ class Category
       where(:name => name).first
     end
   end
+
+  def top_blog
+    category_subs.where(top: true).first
+  end
 end

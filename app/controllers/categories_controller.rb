@@ -5,6 +5,7 @@ class CategoriesController < ApplicationController
 
   def index
     @categories = Category.all
+    @top_categories = Category.top_categories
 
     respond_to do |format|
       format.html # index.html.erb
