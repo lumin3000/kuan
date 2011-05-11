@@ -116,11 +116,12 @@ class Blog
   end
   
   def primary!
-    update_attributes(primary: true, canjoin: false)
+    update_attributes(:primary => true,
+                      :canjoin => false)
   end
 
   def unprimary!
-    update_attributes(primary: false)
+    update_attributes(:primary => false)
   end
 
   def followers_count
@@ -207,8 +208,7 @@ class Blog
   end
 
   def use_template(params)
-    [:custom_html, :using_custom_html, :template_id, :template_conf]
-      .each do |key|
+    [:custom_html, :using_custom_html, :template_id, :template_conf].each do |key|
       self.send "#{key}=", params[key] if params.has_key? key
     end
     normalize_template_conf

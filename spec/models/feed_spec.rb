@@ -15,7 +15,7 @@ describe Feed do
     it "should record an importing relationship" do
       feed_uri = "http://9tonight.blogbus.com/index.rdf"
       type = :pic
-      @blog.import! feed_uri, type
+      @blog.import!(feed_uri, type).should be_true
       @blog.reload
       @blog.import_feeds.first.as_type.should == type
       @blog.import_feeds.first.should be_is_new
@@ -25,7 +25,7 @@ describe Feed do
     end
 
     it "should accept an uri which omit http protocol" do
-      uri = "9tonight.blogbus.com/index.rdf"
+      uri = "moehuaji.diandian.com/rss"
       feed = Feed.find_or_create_by :uri => uri
       feed.should be_valid
     end
