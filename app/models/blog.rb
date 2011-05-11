@@ -31,13 +31,13 @@ class Blog
   field :template_conf, :type => Hash
 
   embeds_many :import_feeds
-  
+
   references_many :posts, :index => true, :validate => false
   references_many :sync_targets
 
   attr_accessible :uri, :title, :desc, :icon, :primary, :private, :canjoin,
-    :posted_at, :custom_html, :open_register, :using_custom_html,
-    :custom_css, :template, :template_id, :template_conf, :tag
+  :posted_at, :custom_html, :open_register, :using_custom_html,
+  :custom_css, :template, :template_id, :template_conf, :tag
 
   before_update :post_privte_setter
   before_validation :sanitize_desc
@@ -114,7 +114,7 @@ class Blog
   def primariable?(user)
     !primary && !private && customed?(user) && joined_count == 1
   end
-  
+
   def primary!
     update_attributes(:primary => true,
                       :canjoin => false)
@@ -194,9 +194,9 @@ class Blog
   end
 
   def import!(uri, type)
-    feed = Feed.find_or_create_by :uri => uri
-    unless feed.valid?
-      self.errors.add :import_feed_uri, feed.errors[:uri]
+    feed = Feed.find_or_create_by_uri uri
+    if feed.nil?
+      self.errors.add :import_feed_uri, "此地址无法识别出有效的rss源"
       return false
     end
     self.import_feeds << ImportFeed.new(:feed => feed, :as_type => type)
