@@ -30,6 +30,8 @@ javascripts:
     - public/javascripts/cerabox.js
   sitemap:
     - public/javascripts/sitemap.js
+  category:
+    - public/javascripts/category.js
 
 stylesheets:
   base:
@@ -67,3 +69,5 @@ stylesheets:
     - public/stylesheets/cerabox.css
   sitemap:
     - public/stylesheets/sitemap.css
+  category:
+    - public/stylesheets/category.css

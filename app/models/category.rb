@@ -9,4 +9,10 @@ class Category
   embeds_many :category_subs
 
   scope :top_categories, where(:top => true).desc(:order)
+
+  class << self
+    def find_by_name!(name)
+      where(:name => name).first
+    end
+  end
 end

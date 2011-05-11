@@ -4,8 +4,14 @@
   %b Name:
   = @category.name
 %p
-  %b Category sub:
-  = @category.category_sub
+  - @category.category_subs.each do |sub|
+    %a{href: blog_path(sub.blog), target: "_blank"}
+      = sub.blog.title
+    |
+    = sub.new
+    |
+    = sub.top
+    %br
 %p
   %b Image:
   = @category.image

@@ -1,21 +1,4 @@
-%h1 分类页
-
-%table
-  %tr
-    %th Name
-    %th Category sub
-    %th Image
-    %th New
-    %th Top
-    %th
-    %th
-    %th
-
-  - @categories.each do |category|
-    %tr
-      %td= category.name
-      %td= category.category_sub
-      %td= category.image
-      %td= category.new
-      %td= category.top
-      %td= link_to 'Show', category
+- @categories.each do |category|
+  %a{href: category_path(category.name)}
+    = category.name
+  

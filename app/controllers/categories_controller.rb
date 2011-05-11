@@ -13,7 +13,7 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @category = Category.find(params[:id])
+    @category = Category.find_by_name!(params[:name])
 
     respond_to do |format|
       format.html # show.html.erb
