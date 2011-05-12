@@ -13,7 +13,6 @@ class User
   embeds_many :messages
   embeds_many :favors
   index "favors.post_id"
-  references_many :posts, :index => true
 
   attr_accessor :password, :code
   attr_accessible :name, :email, :password, :password_confirmation
