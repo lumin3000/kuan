@@ -31,7 +31,8 @@ class Blog
   field :template_conf, :type => Hash
 
   embeds_many :import_feeds
-
+  index "import_feeds.feed_id"
+  
   references_many :posts, :index => true, :validate => false
   references_many :sync_targets, :validate => false
 
@@ -193,20 +194,24 @@ class Blog
     true
   end
 
-  def import!(uri, type)
+  def import!(uri, type, author)
     feed = Feed.find_or_create_by_uri uri
     if feed.nil?
       self.errors.add :import_feed_uri, "此地址无法识别出有效的rss源" and return false
     end
-    if self.import_feeds.length >= 3
+    if import_feeds.length >= 3
       self.errors.add :import_feed_uri, "对不起，目前最多只可以导入3个rss源" and return false
     end
-    unless self.import_feeds.where(:feed_id => feed.id).first.nil?
+    unless import_feeds.where(:feed_id => feed.id).first.nil?
       self.errors.add :import_feed_uri, "此rss源已经导入过了" and return false
     end
-    self.import_feeds << ImportFeed.new(:feed => feed, :as_type => type)
+    self.import_feeds << ImportFeed.new(:feed => feed, :as_type => type, :author => author)
     feed.inc :imported_count, 1
     true
+  end
+
+  def cancel_import!(feed)
+    import_feeds.where(:feed_id => feed.id).destroy
   end
 
   def to_param
