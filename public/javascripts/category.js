@@ -20,11 +20,9 @@ document.addEvent('domready', function(){
     transition:Fx.Transitions.Quad.easeInOut
   })
   $$('.left').addEvent('click', function(){
-    console.log('left')
     cat.start(el.getScroll().x-600, 0)
   })
   $$('.right').addEvent('click', function(){
-    console.log('right')
     cat.start(el.getScroll().x+600, 0)
   })
 

@@ -25,8 +25,12 @@
                     &nbsp;
                 %a.blog_name{href: blog_path(sub.blog), target: "_blank"}<
                   = sub.blog.title
-                %a{href: "#"}<
-                  +加关注
+                .follow
+                  - if current_user and not current_user.all_blogs.include? sub.blog
+                    %a{:href => follow_toggle_blog_path(sub.blog), :id => "tar_follow_#{sub.blog.id}",
+                      :data => {:method => "POST", :remote => "true"}, :title => "关注"}<
+                      .btn_follow
+                        +加关注
     .right{class: "z_bg0"}
       >>
 .category_list{style: "display:none;"}
