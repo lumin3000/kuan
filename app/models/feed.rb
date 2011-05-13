@@ -50,10 +50,9 @@ class Feed
   end
 
   def transfer
-    blogs = Blog.where("import_feeds.feed_id" => id).group_by do |blog|
-      blog.import_feeds.find_by_id(id).first.is_new? ? :new : :old
-    end
-
+    blogs = Blog.where("import_feeds.feed_id" => id)
+    destroy and return if blogs.blank?
+    
     http = URI.parse uri
     begin
       rss = RSS::Parser.parse http, false
@@ -63,46 +62,41 @@ class Feed
     end
 
     rss.items.each do |item|
-      blogs[:new].each { |blog| post_item_to_blog item, blog, rss.channel }
-      blogs[:old].each { |blog| post_item_to_blog item, blog, rss.channel } if item.pubDate > fetched_at
+      blogs.each do |blog|
+        post_item_to_blog item, blog, rss.channel if item.date > fetched_at
+      end
     end
 
-    blogs[:new].each do |blog|
-      blog.import_feeds.find_by_id(id).first.update_attributes :is_new => false
-    end
   end
 
   private
 
   def post_item_to_blog(item, blog, channel)
     import_feed = blog.import_feeds.find_by_id(id).first
-    #:pics.to_s.camelize.constantize.new
-    # post_new = case post["type"]
-    #            when 1
-    #              Text.new(:content => post["post"])
-    #            when 2
-    #              trans_pics post["post"]
-    #            when 3
-    #              Text.new(:title => post["post"]["title"],
-    #                       :content => post["post"]["content"])
-    #            when 4
-    #              Link.new(:title => post["post"]["title"],
-    #                       :url => post["post"]["url"],
-    #                       :content => post["post"]["desc"])
-    #            when 5
-    #              Video.new(:content => post["post"]["desc"],
-    #                        :url => post["post"]["src"],
-    #                        :thumb => post["post"]["img"],
-    #                        :site => post["post"]["from"])
-    #            else
-    #              nil
-    #            end
-    # return if post_new.nil?
-    # post_new.blog = Blog.find_by_uri! @moving.to_uri
-    # post_new.author = @moving.user
-    # post_new.created_at = Time.at(post["pubtime"]).utc
-    # return unless post_new.valid?
-    # post_new.save
+    
+    post_new = send import_feed.as_type.to_s, item
+    #log unvalid item
+    return if post_new.nil?
+
+    if import_feed.as_type != :link
+      post_new.content += %(<br /><div><span>来自: <a href="#{item.link}">#{channel.title}</a></span>)
+      post_new.content += %(<span>作者: #{item.dc_creator}</span>) unless item.dc_creator.blank?
+      post_new.content += %(</div>)
+    end
+
+    post_new.blog = blog
+    post_new.author = import_feed.author
+    post_new.created_at = item.date
+
+    #log unvalid item
+    return unless post_new.valid?
+    
+    post_new.save
+  end
+
+  def text(item)
+    Text.new(:title => item.title,
+             :content => item.description)
   end
 
 end

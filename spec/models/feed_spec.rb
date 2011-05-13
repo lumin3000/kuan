@@ -19,7 +19,6 @@ describe Feed do
       @blog.import!(feed_uri, type, @user).should be_true
       @blog.reload
       @blog.import_feeds.first.as_type.should == type
-      @blog.import_feeds.first.should be_is_new
       @blog.import_feeds.first.feed.uri.should == feed_uri
       @blog.import_feeds.first.feed.imported_count.should == 1
       @blog.import_feeds.first.feed.title.should == "Silence"
@@ -33,7 +32,6 @@ describe Feed do
       @blog.import!(feed_uri, type, @user).should be_true
       @blog.reload
       @blog.import_feeds.first.as_type.should == type
-      @blog.import_feeds.first.should be_is_new
       @blog.import_feeds.first.feed.uri.should == "http://blog.sina.com.cn/rss/1191258123.xml"
       @blog.import_feeds.first.feed.imported_count.should == 1
       @blog.import_feeds.first.feed.title.should == "韩寒"
@@ -41,7 +39,6 @@ describe Feed do
       @user.follow! blog2, "founder"
       blog2.import!(feed_uri, type, @user).should be_true
       blog2.import_feeds.first.feed.should == @blog.import_feeds.first.feed
-      blog2.import_feeds.first.should be_is_new
       Feed.count.should == 1
     end
 

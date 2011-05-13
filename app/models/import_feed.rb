@@ -2,7 +2,6 @@ class ImportFeed
   include Mongoid::Document
 
   field :as_type, :type => Symbol
-  field :is_new, :type => Boolean, :default => true
   referenced_in :author, :class_name => 'User'
   referenced_in :feed
 
