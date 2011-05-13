@@ -12,7 +12,7 @@
         .transparentbg<
           &nbsp;
         %a.content_txt{href: blog_path(sub.blog)}<
-          = sub.blog.desc
+          = strip_tags(sub.blog.desc)
         .user_icon{style: "background-image:url(#{sub.blog.icon.url_for(:medium)})"}<
           %a{href: blog_path(sub.blog), target: "_blank"}<
             &nbsp;
