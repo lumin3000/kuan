@@ -116,6 +116,8 @@ EOF
     elsif @blog.unfollowed? current_user
       current_user.follow! @blog
       now_follow = true
+    else
+      now_follow = true
     end
     respond_to do |format|
       format.js { @follow = now_follow }
