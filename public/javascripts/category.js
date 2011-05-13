@@ -9,7 +9,8 @@ document.addEvent('domready', function(){
       tops[index].setStyle('z-index', 2)
       ++index>=length && (index=0)
       tops[index].setStyle('z-index', 3).show()
-      tops[index].getElement('img').fade('hide').fade('in')
+      tops[index].getElement('img') &&
+        tops[index].getElement('img').fade('hide').fade('in')
     }
   })(), 5000)
 

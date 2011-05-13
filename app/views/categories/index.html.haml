@@ -35,5 +35,5 @@
       >>
 .category_list{style: "display:none;"}
   - @categories.each do |category|
-    %a.spread_rowname{href: category_path(category.name)}<
+    %a.spread_rowname{href: category_by_name_path(category.name)}<
       = category.name
