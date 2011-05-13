@@ -334,37 +334,67 @@
   left: 180px
 
 /****************************************spread lv2***************************************************************
-
-.spread_main .contentbox
-  a
-    width: 60px
-    color: #3366cc
-    span
-      width: 60px
-      color: #8e8e8e
-      padding-left: 2px
-  width: 450px
-  padding-top: 350px
-  margin: 10px
-  float: left
-  .user_icon
-    width: 60px
-    height: 60px
-    background: url('images/avatar.jpg') no-repeat
-    border-radius: 5px
-    -moz-border-radius: 5px
-    -webkit-border-radius: 5px
+.spread_main
+  .mainbox
+    position: absolute
+    top: 350px
+    left: 0
+    width: 900px
+    padding-left: 10px
+  .contentbox
+    width: 410px
     float: left
-  .theme
-    width: 60px
-    color: #3366cc
-    text-align: center
-    padding-bottom: 10px
-  .content
-    width: 360px
-    height: 130px
-    font-size: 18px
-    overflow: hidden
-    color: #8e8e8e
-    padding: 0px 0px 0px 10px
-    float: right
+    padding: 10px 30px 0 10px
+    position: relative
+    .transparentbg
+      width: 430px
+      height: 140px
+      background-color: #999999
+      opacity: 0.1
+      -moz-opacity: 0.1
+      filter: alpha(opacity = 10)
+      border-radius: 5px
+      -moz-border-radius: 5px
+      -webkit-border-radius: 5px
+      z-index: -9
+      position: absolute
+      top: 0
+      left: 0
+    .content_txt
+      width: 330px
+      height: 120px
+      overflow: hidden
+      color: #8e8e8e
+      float: right
+    .content_image
+      border-radius: 5px
+      -moz-border-radius: 5px
+      -webkit-border-radius: 5px
+      overflow: hidden
+      width: 330px
+      height: 120px
+      float: right
+      img
+        border: none
+    .user_icon
+      width: 60px
+      height: 60px
+      overflow: hidden
+      background: url('images/avatar.jpg') no-repeat
+      border-radius: 5px
+      -moz-border-radius: 5px
+      -webkit-border-radius: 5px
+      float: left
+    .theme
+      width: 60px
+      height: 24px
+      padding: 10px 0 5px 0
+      text-align: center
+      color: #3366cc
+      line-height: 14px
+      overflow: hidden
+    .follow
+      width: 60px
+      padding: 5px 0 5px 0
+      text-align: center
+      color: #8e8e8e

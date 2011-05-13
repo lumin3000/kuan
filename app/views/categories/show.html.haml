@@ -1,27 +1,25 @@
-%p#notice= notice
+- css "category"
+- @site_layout = "site"
 
-%p
-  %b Name:
-  = @category.name
-%p
-  - @category.category_subs.each do |sub|
-    %a{href: blog_path(sub.blog), target: "_blank"}
-      = sub.blog.title
-    |
-    = sub.new
-    |
-    = sub.top
-    %br
-%p
-  %b Image:
-  = @category.image
-%p
-  %b New:
-  = @category.new
-%p
-  %b Top:
-  = @category.top
-
-= link_to 'Edit', edit_category_path(@category)
-\|
-= link_to 'Back', categories_path
+.spread_main
+  - unless @category.top_blog.blank?
+    %a.spread_banner{href: blog_path(@category.top_blog.blog)}
+      %img{src: @category.top_blog.image}
+  .spread_bg
+  .mainbox
+    - @category.category_subs.each do |sub|
+      .contentbox
+        .transparentbg<
+          &nbsp;
+        %a.content_txt{href: blog_path(sub.blog)}<
+          = sub.blog.desc
+        .user_icon{style: "background-image:url(#{sub.blog.icon.url_for(:medium)})"}<
+          %a{href: blog_path(sub.blog), target: "_blank"}<
+            &nbsp;
+        %a.theme{href: blog_path(sub.blog)}<
+          = sub.blog.title
+        - if current_user and not current_user.all_blogs.include? sub.blog
+          %a.follow{:href => follow_toggle_blog_path(sub.blog), :id => "tar_follow_#{sub.blog.id}",
+            :data => {:method => "POST", :remote => "true"}, :title => "关注"}<
+            .btn_follow
+              +加关注
