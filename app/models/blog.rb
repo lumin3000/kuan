@@ -2,6 +2,7 @@
 class Blog
   include Mongoid::Document
   include Mongoid::Timestamps
+
   field :uri
   index :uri, :unique => true
   field :title
@@ -29,12 +30,15 @@ class Blog
 
   field :template_conf, :type => Hash
 
+  embeds_many :import_feeds
+  index "import_feeds.feed_id"
+  
   references_many :posts, :index => true, :validate => false
   references_many :sync_targets, :validate => false
 
   attr_accessible :uri, :title, :desc, :icon, :primary, :private, :canjoin,
-    :posted_at, :custom_html, :open_register, :using_custom_html,
-    :custom_css, :template, :template_id, :template_conf, :tag
+  :posted_at, :custom_html, :open_register, :using_custom_html,
+  :custom_css, :template, :template_id, :template_conf, :tag
 
   before_update :post_privte_setter
   before_validation :sanitize_desc
@@ -42,8 +46,7 @@ class Blog
   validates_presence_of :title,
   :message => "请输入页面名字"
   validates_length_of :title,
-  :minimum => 1,
-  :maximum => 40,
+  :within => 1..40,
   :too_short => "最少%{count}个字",
   :too_long => "最多%{count}个字"
 
@@ -112,13 +115,14 @@ class Blog
   def primariable?(user)
     !primary && !private && customed?(user) && joined_count == 1
   end
-  
+
   def primary!
-    update_attributes(primary: true, canjoin: false)
+    update_attributes(:primary => true,
+                      :canjoin => false)
   end
 
   def unprimary!
-    update_attributes(primary: false)
+    update_attributes(:primary => false)
   end
 
   def followers_count
@@ -190,13 +194,32 @@ class Blog
     true
   end
 
+  def import!(uri, type, author)
+    feed = Feed.find_or_create_by_uri uri
+    if feed.nil?
+      self.errors.add :import_feed_uri, "此地址无法识别出有效的rss源" and return false
+    end
+    if import_feeds.length >= 3
+      self.errors.add :import_feed_uri, "对不起，目前最多只可以导入3个rss源" and return false
+    end
+    unless import_feeds.where(:feed_id => feed.id).first.nil?
+      self.errors.add :import_feed_uri, "此rss源已经导入过了" and return false
+    end
+    self.import_feeds << ImportFeed.new(:feed => feed, :as_type => type, :author => author)
+    feed.inc :imported_count, 1
+    true
+  end
+
+  def cancel_import!(feed)
+    import_feeds.where(:feed_id => feed.id).destroy
+  end
+
   def to_param
     uri.parameterize
   end
 
   def use_template(params)
-    [:custom_html, :using_custom_html, :template_id, :template_conf]
-      .each do |key|
+    [:custom_html, :using_custom_html, :template_id, :template_conf].each do |key|
       self.send "#{key}=", params[key] if params.has_key? key
     end
     normalize_template_conf
