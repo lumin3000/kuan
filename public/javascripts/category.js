@@ -20,10 +20,10 @@ document.addEvent('domready', function(){
     duration: 1500,
     transition:Fx.Transitions.Quad.easeInOut
   })
-  $$('.left').addEvent('click', function(){
+  $$('.spread_prev').addEvent('click', function(){
     cat.start(el.getScroll().x-600, 0)
   })
-  $$('.right').addEvent('click', function(){
+  $$('.spread_next').addEvent('click', function(){
     cat.start(el.getScroll().x+600, 0)
   })
 

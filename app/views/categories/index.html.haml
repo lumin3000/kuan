@@ -8,14 +8,12 @@
       %img{src: category.top_blog.image}
   .spread_bg
   .categories
-    .left{class: "z_bg0"}
-      <<
+    .spread_prev.row.row_button<
+      &nbsp;
     .categories_box
       .categories_inner
-        - categories_index = 0
         - @categories.each do |category|
-          - categories_index += 1
-          %div{class: "z_bg#{categories_index%2+1}"}
+          .row
             .spread_rowname<
               = category.name
             - category.category_subs.each do |sub|
@@ -31,8 +29,8 @@
                       :data => {:method => "POST", :remote => "true"}, :title => "关注"}<
                       .btn_follow
                         +加关注
-    .right{class: "z_bg0"}
-      >>
+    .spread_next.row.row_button<
+      &nbsp;
 .category_list{style: "display:none;"}
   - @categories.each do |category|
     %a.spread_rowname{href: category_by_name_path(category.name)}<
