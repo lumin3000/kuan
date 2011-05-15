@@ -26,6 +26,7 @@ document.addEvent('domready', function(){
   $$('.spread_next').addEvent('click', function(){
     cat.start(el.getScroll().x+600, 0)
   })
+  $$('.categories_inner').setStyle('width', $$('.categories_inner .row').length*100)
 
   //
   var bubbles = $$('.category_list a')
