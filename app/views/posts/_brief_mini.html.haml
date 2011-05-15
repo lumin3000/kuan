@@ -1,0 +1,4 @@
+- unless post.blank?
+  .item{ class: post.type }
+    = render partial: "posts/brief_#{post.type}", object: post, as: :post,
+      locals: {pic_size: '400'}

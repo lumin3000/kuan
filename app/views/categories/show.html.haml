@@ -11,8 +11,8 @@
       .contentbox
         .transparentbg<
           &nbsp;
-        %a.content_txt{href: blog_path(sub.blog)}<
-          = strip_tags(sub.blog.desc)
+        .content_txt<
+          = sub.blog.desc || (render partial: "posts/brief_mini", object: sub.blog.post_demo, as: :post)
         .user_icon{style: "background-image:url(#{sub.blog.icon.url_for(:medium)})"}<
           %a{href: blog_path(sub.blog), target: "_blank"}<
             &nbsp;
