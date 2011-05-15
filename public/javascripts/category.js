@@ -29,10 +29,13 @@ document.addEvent('domready', function(){
 
   //
   var bubbles = $$('.category_list a')
-  var sea = new Element('div', {
-    'class': 'spread_tag'
-  }).inject($$('.category_list')[0], 'after')
+  var sea
   for(var i=0,l=bubbles.length; i<l; i++){
-    bubbles[i].inject(sea).addClass('bubble'+(i+1))
+    if(i%15==0){
+      sea = new Element('div', {
+        'class': 'spread_tag'+(Number(i/15).floor())%2
+      }).inject($$('.category_list')[0], 'before')
+    }
+    bubbles[i].inject(sea).addClass('bubble'+((i+1)%30==0?30:(i+1)%30))
   }
 })
