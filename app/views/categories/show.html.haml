@@ -12,7 +12,7 @@
         .transparentbg<
           &nbsp;
         .content_txt<
-          = sub.blog.desc || (render partial: "posts/brief_mini", object: sub.blog.post_demo, as: :post)
+          = (sub.blog.desc && strip_tags(sub.blog.desc)) || (render partial: "posts/brief_mini", object: sub.blog.post_demo, as: :post)
         .user_icon{style: "background-image:url(#{sub.blog.icon.url_for(:medium)})"}<
           %a{href: blog_path(sub.blog), target: "_blank"}<
             &nbsp;
