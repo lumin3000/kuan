@@ -15,7 +15,8 @@
         - @categories.each do |category|
           .row
             .spread_rowname<
-              = category.name
+              %a{href: category_by_name_path(category.name)}<
+                = category.name
             - category.category_subs.each do |sub|
               - if sub == category.category_subs.first || sub == category.category_subs.second
                 .spread_rowbox{style: "background-image:url(#{sub.blog.icon.url_for(:medium)})"}<
