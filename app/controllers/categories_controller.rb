@@ -15,6 +15,7 @@ class CategoriesController < ApplicationController
 
   def show
     @category = Category.find_by_name!(params[:name])
+    render 'shared/404', :status => 404, :layout => false and return if @category.nil?
 
     respond_to do |format|
       format.html # show.html.erb

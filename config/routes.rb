@@ -95,7 +95,7 @@ Kuan::Application.routes.draw do
 
   get "/categories/manage", :to => "categories#manage", :as => "categories_manage"
   post "/categories/batch", :to => "categories#batch", :as => "categories_batch"
-  get "/categories/c/:name" => "categories#show", :as => 'category_by_name'
+  get "/category/:name" => "categories#show", :as => 'category_by_name'
   resources :categories do
     resources :category_subs
   end
