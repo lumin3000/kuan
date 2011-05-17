@@ -1,0 +1,12 @@
+.reposts
+  - @post.repost_history.each do |post|
+    .z_item
+      %a{ :href => posts_blog_path(post.parent) }
+        = post.parent.blog.title
+      >>
+      %a{ :href => posts_blog_path(post) }
+        = post.blog.title
+  .z_item
+    原帖：
+    %a{ :href => blog_path(@post.ancestor.blog) }
+      = @post.ancestor.blog.title

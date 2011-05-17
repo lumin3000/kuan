@@ -55,6 +55,7 @@ Kuan::Application.routes.draw do
     collection do
       post :recreate
     end
+    get :reposts
   end
 
   post "/set_primary_blog/:uri" => "blogs#set_primary_blog", :as => "set_primary_blog"

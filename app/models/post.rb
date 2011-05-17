@@ -26,7 +26,7 @@ class Post
 
   before_destroy :clean_comments_notices
   before_create :type_setter, :private_setter
-  after_create :ancestor_reposts_inc, :update_blog
+  after_create :ancestor_reposts_inc, :parent_reposts_inc, :update_blog
 
   scope :publics, where(:private.ne => true).desc(:created_at)
   scope :all, desc(:updated_at)
@@ -138,6 +138,21 @@ class Post
     TagStripper.filter self.content
   end
 
+  def repost_count_all
+    if ancestor
+      ancestor.repost_count
+    else
+      repost_count
+    end
+  end
+
+  def repost_history
+    return nil unless repost_count_all && repost_count_all > 1
+    Post.desc(:created_at).
+      where(:ancestor_id => ancestor_id || id).
+      limit(100)
+  end
+
   private
 
   def update_blog
@@ -178,6 +193,16 @@ class Post
         ancestor.update_attributes(:repost_count => 1)
       else
         ancestor.inc :repost_count, 1
+      end
+    end
+  end
+
+  def parent_reposts_inc
+    unless parent.nil?
+      if parent.repost_count.nil?
+        parent.update_attributes(:repost_count => 1)
+      else
+        parent.inc :repost_count, 1
       end
     end
   end

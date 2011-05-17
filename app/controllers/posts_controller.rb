@@ -121,6 +121,11 @@ class PostsController < ApplicationController
     render :layout => 'main'
   end
 
+  def reposts
+    @post = Post.find(params[:post_id])
+    render partial: "posts/reposts", layout: false
+  end
+
   def news
     pagination = {
       :page => params[:page] || 1,
