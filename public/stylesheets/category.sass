@@ -5,7 +5,7 @@
     text-decoration: none
     display: block
   width: 900px
-  height: 800px
+  height: 860px
   padding: 0
   margin: 0
   color: #000000
@@ -27,44 +27,71 @@
       height: 300px
 
 .spread_main
-  .z_bg0, 
-  .z_bg1, 
-  .z_bg2, 
-  .z_bg3
+  .row
     width: 100px
-    height: 282px
-    padding-top: 310px
+    height: 300px
+    background: url('/images/embed/spread_rowbg.gif') repeat-y
+    padding-top: 320px
     float: left
     a
       width: 80px
+      height: 30px
+      padding: 5px 12px 5px 8px
+      line-height: 18px
       color: #3366cc
+      overflow: hidden
       text-align: center
-      padding: 5px 0
       display: block
-      padding-left: 10px
       span
         width: 80px
+        height: 18px
+        line-height: 18px
         color: #8e8e8e
+        padding: 5px 12px 5px 8px
         text-align: center
-        padding: 5px 0
         display: block
       &.blog_name
         height: 32px
-  .z_bg0
-    background-color: #ffeee5
-  .z_bg1
-    background-color: #fffbda
-  .z_bg2
-    background-color: #dbffda
+    .spread_rowbox a
+      width: 60px
+      height: 60px
+      padding: 0
+    .spread_rowname a
+      padding: 0
   .follow
     width: 80px
     height: 26px
+  .noimage
+    width: 100px
+    height: 300px
+    padding-top: 320px
+    float: left
+  .row_button
+    width: 100px
+    height: 300px
+    padding-top: 320px
+    float: left
+    opacity: 0.5
+    -moz-opacity: 0.5
+    filter: alpha(opacity = 50)
+    .button
+      width: 100px
+      height: 144px
+      margin-top: 50px
+      border: none
 
 .categories
-  .left,
-  .right
+  .spread_prev,
+  .spread_next
     float: left
     cursor: pointer
+    padding-top: 0
+    margin-top: 340px
+  .spread_prev
+    background: url('/images/embed/spread_prev.gif') no-repeat
+  .spread_next
+    background: url('/images/embed/spread_next.gif') no-repeat
+
   .categories_box
     float: left
     overflow: hidden
@@ -78,18 +105,19 @@
   border-radius: 5px
   -moz-border-radius: 5px
   -webkit-border-radius: 5px
-  margin-left: 20px
+  margin-left: 18px
 
 .spread_rowname
   color: #000000
   text-align: center
-  padding-bottom: 10px
+  padding: 0 12px 10px 8px
 
 .spread_bg
   width: 900px
   height: 500px
   background: url('/images/spread_bg.png') no-repeat center
   position: absolute
+  overflow: hidden
   top: 400px
   left: 0
   bottom: 0
@@ -98,7 +126,7 @@
   filter: alpha(opacity = 20)
   z-index: -2
 
-.spread_tag
+.spread_tag0
   a
     text-decoration: none
     display: block
@@ -106,7 +134,16 @@
   height: 600px
   background: url('/images/bubblebg.png') no-repeat
   position: relative
-  margin-top: -20px
+  margin-top: -50px
+
+.spread_tag1
+  a
+    text-decoration: none
+  width: 900px
+  height: 600px
+  background: url('/images/bubblebg2.png') no-repeat
+  position: relative
+  margin-top: 1px
 
 .bubble1
   color: #3366cc
@@ -228,31 +265,6 @@
   top: 360px
   left: 580px
 
-.spread_prev
-  width: 100px
-  height: 60px
-  background: url('/images/spread_prev.png') no-repeat
-  position: absolute
-  top: 0
-  left: 10px
-
-.spread_next
-  width: 100px
-  height: 60px
-  background: url('/images/spread_next.png') no-repeat
-  position: absolute
-  top: 0
-  left: 800px
-
-.spread_tag2
-  a
-    text-decoration: none
-  width: 900px
-  height: 600px
-  background: url('/images/bubblebg2.png') no-repeat
-  position: relative
-  margin-top: 1px
-
 .bubble16
   color: #3366cc
   font-size: 36px
@@ -282,7 +294,7 @@
   font-size: 24px
   padding: 3px
   position: absolute
-  top: 280px
+  top: 290px
   left: 400px
 
 .bubble20
@@ -290,7 +302,7 @@
   font-size: 24px
   padding: 3px
   position: absolute
-  top: 450px
+  top: 460px
   left: 480px
 
 .bubble21
@@ -298,7 +310,7 @@
   font-size: 18px
   padding: 3px
   position: absolute
-  top: 430px
+  top: 450px
   left: 40px
 
 .bubble22
@@ -330,8 +342,48 @@
   font-size: 48px
   padding: 3px
   position: absolute
-  top: 410px
-  left: 180px
+  top: 430px
+  left: 140px
+
+.bubble26
+  color: #000000
+  font-size: 18px
+  padding: 3px
+  position: absolute
+  top: 350px
+  left: 60px
+
+.bubble27
+  color: #000000
+  font-size: 18px
+  padding: 3px
+  position: absolute
+  top: 530px
+  left: 570px
+
+.bubble28
+  color: #000000
+  font-size: 18px
+  padding: 3px
+  position: absolute
+  top: 480px
+  left: 620px
+
+.bubble29
+  color: #000000
+  font-size: 18px
+  padding: 3px
+  position: absolute
+  top: 120px
+  left: 690px
+
+.bubble30
+  color: #000000
+  font-size: 18px
+  padding: 3px
+  position: absolute
+  top: 85px
+  left: 110px
 
 /****************************************spread lv2***************************************************************
 .spread_main
@@ -343,6 +395,7 @@
     padding-left: 10px
   .contentbox
     width: 410px
+    height: 135px
     float: left
     padding: 10px 30px 0 10px
     position: relative
@@ -384,6 +437,9 @@
       -moz-border-radius: 5px
       -webkit-border-radius: 5px
       float: left
+      a
+        width: 60px
+        height: 60px
     .theme
       width: 60px
       height: 24px

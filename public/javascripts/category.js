@@ -20,19 +20,23 @@ document.addEvent('domready', function(){
     duration: 1500,
     transition:Fx.Transitions.Quad.easeInOut
   })
-  $$('.left').addEvent('click', function(){
+  $$('.spread_prev').addEvent('click', function(){
     cat.start(el.getScroll().x-600, 0)
   })
-  $$('.right').addEvent('click', function(){
+  $$('.spread_next').addEvent('click', function(){
     cat.start(el.getScroll().x+600, 0)
   })
+  $$('.categories_inner').setStyle('width', $$('.categories_inner .row').length*100)
 
   //
   var bubbles = $$('.category_list a')
-  var sea = new Element('div', {
-    'class': 'spread_tag'
-  }).inject($$('.category_list')[0], 'after')
+  var sea
   for(var i=0,l=bubbles.length; i<l; i++){
-    bubbles[i].inject(sea).addClass('bubble'+(i+1))
+    if(i%15==0){
+      sea = new Element('div', {
+        'class': 'spread_tag'+(Number(i/15).floor())%2
+      }).inject($$('.category_list')[0], 'before')
+    }
+    bubbles[i].inject(sea).addClass('bubble'+((i+1)%30==0?30:(i+1)%30))
   }
 })

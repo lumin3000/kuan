@@ -112,6 +112,13 @@ class Blog
                            }}).count
   end
 
+  def post_demo
+    Post.where(
+               :blog_id => id, 
+               :_type.in => ["Text", "Pics"], 
+               :private.ne => true).desc(:created_at).first
+  end
+
   def primariable?(user)
     !primary && !private && customed?(user) && joined_count == 1
   end
