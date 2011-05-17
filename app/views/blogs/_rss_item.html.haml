@@ -1,0 +1,18 @@
+- if @blog.errors.blank?
+  .rss_item
+    %span.z_title{title: rss.feed.uri}<
+      = rss.feed.title
+    %span.z_type{title: "关联类型"}<
+      - if rss.as_type.to_s == "link"
+        链接
+      - elsif rss.as_type.to_s == "text"
+        文字
+      - else
+        图片
+    %a.z_delete{title: "取消同步", href: "/rss_remove/#{rss.feed.id}"}<
+      x
+- else
+  .rss_item.z_error
+    - @blog.errors.each do |error|
+      = @blog.errors[error].first
+      (ー_ー)!!

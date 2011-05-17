@@ -3,11 +3,11 @@ class BlogsController < ApplicationController
   include LoggingHelper
 
   before_filter :signin_auth, :except => [:show]
-  before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick]
+  before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick, :rss_add, :rss_remove]
   before_filter :editor_auth, :only => [:followers, :editors, :exit]
   before_filter :find_by_uri, :only => [:show, :follow_toggle, :apply, :apply_entry,
     :extract_template_vars, :edit, :sync_apply, :sync_callback, :sync_cancel,
-    :sync_widget, :set_primary_blog]
+    :sync_widget, :set_primary_blog, :rss_add, :rss_remove]
   before_filter :blog_display, :only => [:show, :preview]
   before_filter :find_sync_target, :only => [:sync_apply, :sync_callback, :sync_cancel]
 
@@ -210,6 +210,20 @@ EOF
     render 'shared/404', status: 404, layout: false and return unless sync_target
     render('sync/_target.html.haml', layout: false,
            locals: {target: sync_target, target_name: params[:target]})
+  end
+
+  def rss_add
+    import_feed = @blog.import!(params[:rss_uri], params[:rss_type], current_user)
+    render 'blogs/_rss_item', :layout => false,
+      :locals => {:rss => import_feed}
+  end
+  
+  def rss_remove
+    feed = Feed.find(params[:feed_id])
+    @blog.cancel_import!(feed)
+    respond_to do |format|
+      format.json { render :json => {status: "success" } }
+    end
   end
 
   private

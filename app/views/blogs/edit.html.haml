@@ -127,6 +127,24 @@
         %span.partial_anchor
           = render :partial => 'sync/target', :object => douban,
             :locals => {:target_name => 'douban'}
+    .rss{data: {widget: "rss_importer"}}
+      %lable<
+        RSS关联
+      %select
+        %option{value: "link"}<
+          以链接形式发布
+        %option{value: "text"}<
+          以文字形式发布
+        %option{value: "pics"}<
+          以图片形式发布
+      %br
+      %input.rss_input
+      %a.button.rss_submit{href: "#"}<
+        添加
+      .rss_note
+        * 关联后，其新发表的文章将自动同步到宽岛 ^_^
+      .rss_list
+        = render :partial => "blogs/rss_item", :collection => @blog.import_feeds, :as => :rss
   %fieldset.advanced.menu
     - unless @blog.primary?
       .item.toggle_private

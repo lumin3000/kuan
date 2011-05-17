@@ -24,6 +24,8 @@ Kuan::Application.routes.draw do
     get '/posts/:post_id' => 'blogs#show'
     #Generating editor and follower resource would make more sense
     post '/follow_toggle' => 'blogs#follow_toggle'
+    post '/rss_add' => 'blogs#rss_add'
+    delete '/rss_remove/:feed_id' => 'blogs#rss_remove'
     get '/followers' => 'blogs#followers'
     match '/preview' => 'blogs#preview', :via => [:get, :post]
     match '/extract_template_vars' => 'blogs#extract_template_vars', :via => [:get, :post]

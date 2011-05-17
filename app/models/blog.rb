@@ -204,17 +204,18 @@ class Blog
   def import!(uri, type, author)
     feed = Feed.find_or_create_by_uri uri
     if feed.nil?
-      self.errors.add :import_feed_uri, "此地址无法识别出有效的rss源" and return false
+      self.errors.add :import_feed_uri, "此地址无法识别出有效的rss源" and return nil
     end
     if import_feeds.length >= 3
-      self.errors.add :import_feed_uri, "对不起，目前最多只可以导入3个rss源" and return false
+      self.errors.add :import_feed_uri, "对不起，目前最多只可以导入3个rss源" and return nil
     end
     unless import_feeds.where(:feed_id => feed.id).first.nil?
-      self.errors.add :import_feed_uri, "此rss源已经导入过了" and return false
+      self.errors.add :import_feed_uri, "此rss源已经导入过了" and return nil
     end
-    self.import_feeds << ImportFeed.new(:feed => feed, :as_type => type, :author => author)
+    import_feed = ImportFeed.new(:feed => feed, :as_type => type, :author => author)
+    self.import_feeds << import_feed
     feed.inc :imported_count, 1
-    true
+    import_feed
   end
 
   def cancel_import!(feed)

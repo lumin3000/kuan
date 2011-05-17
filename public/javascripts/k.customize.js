@@ -339,7 +339,7 @@ K.widgets.reloadAppearance = function(el){
     if (reset) {
       dataToSend = Object.toQueryString(dataToSend) + '&reset=1'
     }
-    new Request.HTML({
+    new Requesta.HTML({
       url: '/extract_template_vars',
       method: 'post',
       update: target,
@@ -401,3 +401,51 @@ document.addEvent('domready', function() {
     }, 80)
   }
 })
+
+K.widgets.rss_importer = function(el){
+  el.addEvents({
+    'click:relay(.z_delete)': function(e){
+      e.stop()
+      var el = e.target
+      new Request.JSON({
+        url: el.get('href'),
+        method: 'delete',
+        useSpinner: true,
+        spinnerTarget: el.getParent('.rss_item'),
+        onSuccess: function(response){
+          el.getParent('.rss_item').destroy()
+        },
+        onFailure: function(){
+          alert('操作失败')
+        }
+      }).send()
+    },
+    'click:relay(.z_error)': function(e){
+      e.stop()
+      this.destroy()
+    }
+  })
+
+  el.getElement('.rss_submit').addEvent('click', function(){
+    if(el.getElement('.rss_input').value.trim() == ''){
+      el.getElement('.rss_input').highlight()
+      return false
+    }
+    var d = {
+      'rss_uri': el.getElement('.rss_input').value,
+      'rss_type': el.getElement('select').value
+    }
+    new Request.HTML({
+      url: '/rss_add',
+      method: 'post',
+      append: el.getElement('.rss_list'),
+      useSpinner: true,
+      spinnerTarget: el,
+      data: d,
+      onComplete: function(){
+        el.getElement('.rss_input').value = ''
+      }
+    }).send()
+    return false
+  })
+}
