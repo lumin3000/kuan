@@ -153,6 +153,10 @@ class Post
       limit(100)
   end
 
+  def favors
+    return User.where('favors.post_id' => id) if favor_count > 0
+  end
+
   private
 
   def update_blog

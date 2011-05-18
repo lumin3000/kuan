@@ -649,6 +649,36 @@ K.tgt.reposts = function(){
     }
 }()
 
+K.tgt.favors = function(){
+    return function(el){
+        if(K.tgt._accordion.lock)return
+        K.tgt._accordion.lock = true
+
+        var url = el.get('href')
+        var container = el.getParent('.post')
+        if(K.tgt._accordion.el){
+            K.tgt._accordion.el.destroy()
+            K.tgt._accordion.el = null
+            if(K.tgt._accordion.target.get('href') == url){
+                K.tgt._accordion.lock = false
+                return
+            }
+        }
+        new Request.HTML({
+            url: url+'?r'+Number.random(1,999),
+            method: 'get',
+            append: container,
+            useSpinner: true,
+            spinnerTarget: el,
+            onSuccess: function(){
+                K.tgt._accordion.el = container.getElement('.favors')
+                K.tgt._accordion.target = el
+                K.tgt._accordion.lock = false
+            }
+        }).send()
+    }
+}()
+
 K.set_max_height = function(el){
     if(!el.getStyle('max-height') && el.getSize().y > 390){
         el.setStyle('height', 390)

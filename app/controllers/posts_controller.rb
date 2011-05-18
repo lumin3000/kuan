@@ -126,6 +126,12 @@ class PostsController < ApplicationController
     render partial: "posts/reposts", layout: false
   end
 
+  def favor_list
+    @post = Post.find(params[:post_id])
+    @favors = @post.favors
+    render partial: "posts/favors", layout: false
+  end
+
   def news
     pagination = {
       :page => params[:page] || 1,

@@ -55,7 +55,7 @@
             .num
               = post.repost_count_all
       - if post.favor_count && post.favor_count > 0
-        %a.favor_count{href: posts_blog_path(post)}
+        %a.favor_count{href: post_favor_list_path(post), :title => "喜欢的人", :data => { :tgt => "favors" } }
           .favor_icon{class: faved ? 'faved' : 'fave'}
           .num
             = post.favor_count

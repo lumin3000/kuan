@@ -1,0 +1,7 @@
+.favors
+  .c_arrow
+  %ul
+    - @favors.each do |user|
+      %li
+        %a{ :href => blog_path(user.primary_blog), :title => user.name }
+          %img{src: user.primary_blog.icon.url_for(:small)}
