@@ -382,13 +382,14 @@ document.addEvent('domready', function(){
 
   $(document.body).addEvents({
     'click:relay([data-tgt])': function(e){
-      var tgt = e.target.get('data-tgt')
-      var ev = e.target.get('data-event')
+      var el = this
+      var tgt = el.get('data-tgt')
+      var ev = el.get('data-event')
       var func
       if(tgt && (!ev || ev == 'click')){
         e.stop()
         func = K.tgt[tgt]
-        if (typeof func == 'function') func.call(this, e.target)
+        if (typeof func == 'function') func.call(this, el)
       }
     }
   })
@@ -612,6 +613,40 @@ K.tgt.comments = function(){
                 if(comments_target.getParent('.new_reply')){
                     comments_target.getParent('.new_reply').removeClass('new_reply')
                 }
+                lock = false
+            }
+        }).send()
+    }
+}()
+
+K.tgt.reposts = function(){
+    var reposts_el
+    var reposts_target
+    var lock = false
+
+    return function(el){
+        if(lock)return
+        lock = true
+
+        var url = el.get('href')
+        var container = el.getParent('.post')
+        if(reposts_el){
+            reposts_el.destroy()
+            reposts_el = null
+            if(reposts_target.get('href') == url){
+                lock = false
+                return
+            }
+        }
+        new Request.HTML({
+            url: url+'?r'+Number.random(1,999),
+            method: 'get',
+            append: container,
+            useSpinner: true,
+            spinnerTarget: el,
+            onSuccess: function(){
+                reposts_el = container.getElement('.reposts')
+                reposts_target = el
                 lock = false
             }
         }).send()
