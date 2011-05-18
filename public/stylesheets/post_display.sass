@@ -290,8 +290,7 @@
   display: none
 
 
-.chat,
-.reposts
+.chat
   width: auto
   margin:
     top: 16px
@@ -504,3 +503,29 @@
 
   .num
     float: left
+
+.reposts
+  clear: both
+  background: #f4f4f4
+  padding: 1px
+  margin: 10px 0
+  border: 0
+  position: relative
+  @include border-radius(11px)
+  ul
+    li
+      display: inline-block
+  img
+    border: 2px solid #8E9494
+    padding: 1px
+    margin: 1px
+    @include size(24px, 24px)
+    &.original
+      border: 2px solid #4A84F2
+    
+  .c_arrow
+    right: 55px
+  .z_left
+    background: url(/images/embed/right-arrow.png) no-repeat center
+    @include size(32px, 32px)
+    margin: 0 10px

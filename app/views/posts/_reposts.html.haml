@@ -1,13 +1,11 @@
 .reposts
+  .c_arrow
   %ul
+    %li
+      %a{ :href => blog_path(@post.ancestor.blog), :title => "原帖：" + @post.ancestor.blog.title }
+        %img.original{src: @post.ancestor.blog.icon.url_for(:small)}
+    %li.z_left
     - @post.repost_history.each do |post|
       %li
-        %a{ :href => posts_blog_path(post.parent) }
-          = post.parent.blog.title
-        >>
-        %a{ :href => posts_blog_path(post) }
-          = post.blog.title
-    %li
-      原帖：
-      %a{ :href => blog_path(@post.ancestor.blog) }
-        = @post.ancestor.blog.title
+        %a{ :href => posts_blog_path(post), :title => post.blog.title }
+          %img{src: post.blog.icon.url_for(:small)}
