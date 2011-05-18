@@ -10,4 +10,12 @@ class Audio < Post
 
   before_validation :sanitize_content
   validates_presence_of :song_id
+
+  def flash_url
+    "http://www.xiami.com/widget/0_#{song_id}/singlePlayer.swf"
+  end
+
+  def flash_url_autoplay
+    "http://img.xiami.com/widget/0_#{song_id}_/singlePlayer.swf"
+  end
 end

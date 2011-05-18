@@ -1,0 +1,7 @@
+%p
+  %img{src: audio.album_art}
+%embed{src: audio.flash_url, wmode: 'transparent', width: 257, height: 33,
+  type: 'application/x-shockwave-flash'}
+%p
+  = preserve do
+    != audio.content
