@@ -100,5 +100,7 @@ Kuan::Application.routes.draw do
     resources :category_subs
   end
 
+  match "/demos/:action", :controller => :demos
+  
   root :to => redirect("/home")
 end
