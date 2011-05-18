@@ -48,11 +48,12 @@
       - if current_user
         %a.reply{ :href => post_comments_path(post), :title => "评论", :data => { :tgt => "comments" } }<
           = post.comments.count == 0 ? " " : post.comments.count
-      - if post.repost_count_all && post.repost_count_all > 0
+      - if (post.repost_count && post.repost_count > 0) || post.ancestor_id
         %a.repost_count{href: post_reposts_path(post), :title => "转贴记录", :data => { :tgt => "reposts" } }
           .repost_icon
-          .num
-            = post.repost_count_all
+          - if post.repost_count_all > 0
+            .num
+              = post.repost_count_all
       - if post.favor_count && post.favor_count > 0
         %a.favor_count{href: posts_blog_path(post)}
           .favor_icon{class: faved ? 'faved' : 'fave'}

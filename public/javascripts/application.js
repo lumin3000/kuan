@@ -578,22 +578,22 @@ K.widgets.video = function(el){
 
 K.tgt = {}
 
+K.tgt._accordion = {
+  el: null,
+  target: null,
+  lock: false
+}
 K.tgt.comments = function(){
-    var comments_el
-    var comments_target
-    var lock = false
-
     return function(el){
-        if(lock)return
-        lock = true
-
+        if(K.tgt._accordion.lock)return
+        K.tgt._accordion.lock = true
         var url = el.get('href')
         var container = el.getParent('.post')
-        if(comments_el){
-            comments_el.destroy()
-            comments_el = null
-            if(comments_target.get('href') == url){
-                lock = false
+        if(K.tgt._accordion.el){
+            K.tgt._accordion.el.destroy()
+            K.tgt._accordion.el = null
+            if(K.tgt._accordion.target.get('href') == url){
+                K.tgt._accordion.lock = false
                 return
             }
         }
@@ -604,37 +604,33 @@ K.tgt.comments = function(){
             useSpinner: true,
             spinnerTarget: el,
             onSuccess: function(){
-                comments_el = container.getElement('.chat')
-                K.set_max_height(comments_el.getElement('.c_content'))
-                comments_target = el
-                if(comments_el.getElement('[name=count]').value > 0){
-                    container.getElement('.reply').innerHTML = comments_el.getElement('[name=count]').value
+                K.tgt._accordion.el = container.getElement('.chat')
+                K.set_max_height(K.tgt._accordion.el.getElement('.c_content'))
+                K.tgt._accordion.target = el
+                if(K.tgt._accordion.el.getElement('[name=count]').value > 0){
+                    container.getElement('.reply').innerHTML = K.tgt._accordion.el.getElement('[name=count]').value
                 }
-                if(comments_target.getParent('.new_reply')){
-                    comments_target.getParent('.new_reply').removeClass('new_reply')
+                if(K.tgt._accordion.target.getParent('.new_reply')){
+                    K.tgt._accordion.target.getParent('.new_reply').removeClass('new_reply')
                 }
-                lock = false
+                K.tgt._accordion.lock = false
             }
         }).send()
     }
 }()
 
 K.tgt.reposts = function(){
-    var reposts_el
-    var reposts_target
-    var lock = false
-
     return function(el){
-        if(lock)return
-        lock = true
+        if(K.tgt._accordion.lock)return
+        K.tgt._accordion.lock = true
 
         var url = el.get('href')
         var container = el.getParent('.post')
-        if(reposts_el){
-            reposts_el.destroy()
-            reposts_el = null
-            if(reposts_target.get('href') == url){
-                lock = false
+        if(K.tgt._accordion.el){
+            K.tgt._accordion.el.destroy()
+            K.tgt._accordion.el = null
+            if(K.tgt._accordion.target.get('href') == url){
+                K.tgt._accordion.lock = false
                 return
             }
         }
@@ -645,9 +641,9 @@ K.tgt.reposts = function(){
             useSpinner: true,
             spinnerTarget: el,
             onSuccess: function(){
-                reposts_el = container.getElement('.reposts')
-                reposts_target = el
-                lock = false
+                K.tgt._accordion.el = container.getElement('.reposts')
+                K.tgt._accordion.target = el
+                K.tgt._accordion.lock = false
             }
         }).send()
     }
