@@ -1,5 +1,13 @@
 ;(function($){
 
+String.implement({
+  camelize: function() {
+    return this.replace(/_[a-z]/g, function(matched) {
+      return matched.charAt(1).toUpperCase()
+    })
+  }
+})
+
 Element.implement({
   delegate: function(type, selector, fn) {
     if (typeOf(fn) != 'function') {
@@ -962,5 +970,148 @@ K.widgets.validatedForm = (function() {
     })
   }
 })()
+
+K.SongDataSource = new Class({
+  initialize: function() {
+    this.prevRequest = {cancel: function(){}}
+    this.urlTemplate = 'http://api.xiami.com/app/nineteen/search/key/{key}/logo/1/page/{page}'
+    this.cache = {}
+  }
+, fetch: function(params, cb) {
+    this.prevRequest.cancel()
+    var key = params.key
+    if (!key) return
+    var self = this
+    params.key = encodeURIComponent(key)
+    if (!params.page) params.page = 1
+
+    this.prevRequest = new Request.JSONP({
+      url: this.urlTemplate.substitute(params)
+    , onComplete: function(response) {
+        if (typeOf(response.results) == 'array') {
+          response.results.each(function(song) {
+            K.SongDataSource.normalizeField(song,
+              'song_name artist_name song_id album_logo'.split(' '))
+            self.cache[song.songId] = song
+          })
+        }
+        cb(response)
+      }
+    }).send()
+  }
+})
+K.SongDataSource.normalizeField = function(obj, fields) {
+  fields.each(function(f) {
+    obj[f.camelize()] = decodeURIComponent(obj[f]).replace(/\+/g , ' ')
+  })
+}
+
+K.ListDisplay = new Class({
+  Implements: [Options, Events]
+, initialize: function(context, options) {
+    this.setOptions(options)
+    this.dataSource = options.dataSource
+    this.currentPage = this.options.currentPage
+    this.context = context
+    // TODO: Move those logic out to get an ULTIMATE library
+    this.itemsContainer = context.getElement(this.options.itemsContainer)
+      .addEvent('click:relay([data-song-id])', function(e, item) {
+        this.fireEvent('itemPicked', item.get('data-song-id'))
+      }.bind(this))
+  }
+, options: {
+    currentPage: 1
+  , template: ''
+  , itemTemplate: '<li data-song-id="{songId}">{songName} -  {artistName}</li>'
+  , itemsContainer: 'ul'
+  }
+, render: function(data) {
+    var rendered = data.results.map(function(item) {
+      return this.options.itemTemplate.substitute(item)
+    }, this).join("\n")
+    if (!rendered) {
+      this.renderAsEmpty()
+      return
+    }
+    this.itemsContainer.set('html', rendered)
+    this.context.removeClass('empty')
+  }
+, renderAsEmpty: function() {
+    this.context.addClass('empty')
+  }
+, hide: function() { this.context.hide() }
+, show: function() { this.context.show() }
+})
+
+K.poweredInput = function(input) {
+  input.addEvents({
+    change: function(e) {
+      setTimeout(function() {
+        this.fireEvent('doChange', e)
+      }.bind(this), 1)
+    }
+  , keydown: function(e) {
+      setTimeout(function() {
+        this.fireEvent('doChange', e)
+      }.bind(this), 1)
+    }
+  })
+  return input
+}
+
+K.poweredForm = function(form) {
+  form.acceptParam = function(data, mapping) {
+    for (var i in mapping) {
+      if (!mapping.hasOwnProperty(i)) return
+      new Element('input', {
+        type: 'hidden'
+      , name: mapping[i]
+      , value: data[i]
+      }).inject(this)
+    }
+  }
+  return form
+}
+
+K.widgets.autocpl = function(input) {
+  var dataSource = new K.SongDataSource()
+    , list = new K.ListDisplay($('songCmplPrompt'), {dataSource: dataSource})
+    , controller = new Events()
+    , form = K.poweredForm(input.getParent('form'))
+  K.poweredInput(input)
+  input.addEvents({
+    'doChange:pause(1000)': function(e) {
+      controller.fireEvent('dataNeeded', e)
+    }
+  })
+  controller.addEvents({
+    dataNeeded: function(e) {
+      var value = input.value
+      if (!value || !value.trim()) return
+      dataSource.fetch({key: value}, function(data) {
+        list.render(data)
+      })
+    }
+  , pageTurn: function(pageNum) {
+      dataSource.fetch({key: input.value , page: pageNum}, function(data) {
+        list.render(data)
+      })
+    }
+  })
+  list.addEvent('itemPicked', function(id) {
+    var song = dataSource.cache[id]
+    if (!song) return
+    console.log(song)
+    list.hide()
+    input.getParent('[data-input-holder]').hide()
+    form.acceptParam(song, {
+      songId: 'song_id'
+    , songName: 'song_name'
+    , artistName: 'artist_name'
+    , albumName: 'album_name'
+    , albumLogo: 'album_art'
+    })
+  })
+}
 
 })(document.id)

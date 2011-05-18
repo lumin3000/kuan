@@ -1,0 +1,14 @@
+- @post_type ||= capture do
+  音乐贴
+
+- content_for :form do
+  #songCmplPrompt
+    %ul.song_list
+    .empty_message
+      Nothing to see here
+  .option_text_top<
+    &nbsp;
+  .title_text.audio{'data-input-holder' => 1}
+    = text_field_tag :song_id, '', :alt => '搜索歌名，歌手，专辑...',
+      'data-widget' => 'overtext autocpl'
+  = content_for :content_area

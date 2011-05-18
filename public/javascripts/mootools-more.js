@@ -1,6 +1,6 @@
 // MooTools: the javascript framework.
-// Load this file's selection again by visiting: http://mootools.net/more/5885fb96c26b83620722a4232b0e6a82 
-// Or build this file again with packager using: packager build More/Elements.From More/Element.Delegation More/Form.Request.Append More/OverText More/Fx.Accordion More/Fx.Move More/Fx.Reveal More/Fx.Slide More/Fx.SmoothScroll More/Sortables More/Assets More/Color More/Spinner More/Locale
+// Load this file's selection again by visiting: http://mootools.net/more/f08efba96911946fe1e17e275b27c2bc 
+// Or build this file again with packager using: packager build More/Elements.From More/Element.Delegation More/Form.Request.Append More/OverText More/Fx.Accordion More/Fx.Move More/Fx.Reveal More/Fx.Slide More/Fx.SmoothScroll More/Sortables More/Request.JSONP More/Assets More/Color More/Spinner More/Locale
 /*
 ---
 
@@ -20,6 +20,7 @@ authors:
   - Tim Wienk
   - Christoph Pojer
   - Aaron Newton
+  - Jacob Thornton
 
 requires:
   - Core/MooTools
@@ -30,8 +31,8 @@ provides: [MooTools.More]
 */
 
 MooTools.More = {
-	'version': '1.3.1.1',
-	'build': '0292a3af1eea242b817fecf9daa127417d10d4ce'
+	'version': '1.3.2.1',
+	'build': 'e586bcd2496e9b22acfde32e12f84d49ce09e59d'
 };
 
 
@@ -256,7 +257,7 @@ Events.implement(Events.Pseudos(pseudos, proto.addEvent, proto.removeEvent));
 	if (this[klass]) this[klass].implement(Events.prototype);
 });
 
-}).call(this);
+})();
 
 
 /*
@@ -294,7 +295,7 @@ Event.definePseudo = function(key, listener){
 var proto = Element.prototype;
 [Element, Window, Document].invoke('implement', Events.Pseudos(pseudos, proto.addEvent, proto.removeEvent));
 
-}).call(this);
+})();
 
 
 /*
@@ -336,6 +337,12 @@ var check = function(split, target, event){
 	return Slick.match(target, split.value) && (!condition || condition.call(target, event));
 };
 
+var bubbleUp = function(split, event, fn){
+	for (var target = event.target; target && target != this; target = document.id(target.parentNode)){
+		if (target && check(split, target, event)) return fn.call(target, event, target);
+	}
+};
+
 var formObserver = function(eventName){
 
 	var $delegationKey = '$delegation:';
@@ -357,16 +364,20 @@ var formObserver = function(eventName){
 			var event = args[0],
 				forms = this.retrieve($delegationKey + 'forms', []),
 				target = event.target,
-				form = (target.get('tag') == 'form') ? target : event.target.getParent('form'),
-				formEvents = form.retrieve($delegationKey + 'originalFn', []),
-				formListeners = form.retrieve($delegationKey + 'listeners', []);
+				form = (target.get('tag') == 'form') ? target : event.target.getParent('form');
+				
+			if (!form) return;
+				
+			var formEvents = form.retrieve($delegationKey + 'originalFn', []),
+				formListeners = form.retrieve($delegationKey + 'listeners', []),
+				self = this;
 
 			forms.include(form);
 			this.store($delegationKey + 'forms', forms);
 
 			if (!formEvents.contains(fn)){
 				var formListener = function(event){
-					if (check(split, this, event)) fn.call(this, event);
+					bubbleUp.call(self, split, event, fn);
 				};
 				form.addEvent(eventName, formListener);
 
@@ -386,9 +397,9 @@ var inputObserver = function(eventName){
 		listener: function(split, fn, args){
 			var events = {blur: function(){
 				this.removeEvents(events);
-			}};
+			}}, self = this;
 			events[eventName] = function(event){
-				if (check(split, this, event)) fn.call(this, event);
+				bubbleUp.call(self, split, event, fn);
 			};
 			args[0].target.addEvents(events);
 		}
@@ -419,24 +430,14 @@ if (!eventListenerSupport) Object.append(eventOptions, {
 	select: inputObserver('select')
 });
 
-
 Event.definePseudo('relay', {
-	listener: function(split, fn, args, monitor, options){
-		var event = args[0];
-
-		for (var target = event.target; target && target != this; target = target.parentNode){
-			var finalTarget = document.id(target);
-			if (check(split, finalTarget, event)){
-				if (finalTarget) fn.call(finalTarget, event, finalTarget);
-				return;
-			}
-		}
+	listener: function(split, fn, args){
+		bubbleUp.call(this, split, args[0], fn);
 	},
 	options: eventOptions
 });
 
-}).call(this);
-
+})();
 
 
 /*
@@ -464,7 +465,7 @@ provides: [Class.Binds]
 
 Class.Mutators.Binds = function(binds){
 	if (!this.prototype.initialize) this.implement('initialize', function(){});
-	return binds;
+	return Array.from(binds).concat(this.prototype.Binds || []);
 };
 
 Class.Mutators.initialize = function(initialize){
@@ -546,10 +547,10 @@ Class.refactor = function(original, refactors){
 
 	Object.each(refactors, function(item, name){
 		var origin = original.prototype[name];
-		if (origin && origin.$origin) origin = origin.$origin;
+		origin = (origin && origin.$origin) || origin || function(){};
 		original.implement(name, (typeof item == 'function') ? function(){
 			var old = this.previous;
-			this.previous = origin || function(){};
+			this.previous = origin;
 			var value = item.apply(this, arguments);
 			this.previous = old;
 			return value;
@@ -677,7 +678,10 @@ Element.implement({
 	},
 
 	getComputedSize: function(options){
-		
+		//<1.2compat>
+		//legacy support for my stupid spelling error
+		if (options && options.plains) options.planes = options.plains;
+		//</1.2compat>
 
 		options = Object.merge({
 			styles: ['padding','border'],
@@ -727,7 +731,7 @@ Element.implement({
 
 });
 
-}).call(this);
+})();
 
 
 /*
@@ -743,219 +747,228 @@ license: MIT-style license
 
 authors:
   - Aaron Newton
+  - Jacob Thornton
 
 requires:
+  - Core/Options
   - Core/Element.Dimensions
-  - /Element.Measure
+  - Element.Measure
 
 provides: [Element.Position]
 
 ...
 */
 
-(function(){
+(function(original){
 
-var original = Element.prototype.position;
+var local = Element.Position = {
+
+	options: {/*
+		edge: false,
+		returnPos: false,
+		minimum: {x: 0, y: 0},
+		maximum: {x: 0, y: 0},
+		relFixedPosition: false,
+		ignoreMargins: false,
+		ignoreScroll: false,
+		allowNegative: false,*/
+		relativeTo: document.body,
+		position: {
+			x: 'center', //left, center, right
+			y: 'center' //top, center, bottom
+		},
+		offset: {x: 0, y: 0}
+	},
+
+	getOptions: function(element, options){
+		options = Object.merge({}, local.options, options);
+		local.setPositionOption(options);
+		local.setEdgeOption(options);
+		local.setOffsetOption(element, options);
+		local.setDimensionsOption(element, options);
+		return options;
+	},
+
+	setPositionOption: function(options){
+		options.position = local.getCoordinateFromValue(options.position);
+	},
+
+	setEdgeOption: function(options){
+		var edgeOption = local.getCoordinateFromValue(options.edge);
+		options.edge = edgeOption ? edgeOption :
+			(options.position.x == 'center' && options.position.y == 'center') ? {x: 'center', y: 'center'} :
+			{x: 'left', y: 'top'};
+	},
+
+	setOffsetOption: function(element, options){
+		var parentOffset = {x: 0, y: 0},
+			offsetParent = element.measure(function(){
+				return document.id(this.getOffsetParent());
+			}),
+			parentScroll = offsetParent.getScroll();
+
+		if (!offsetParent || offsetParent == element.getDocument().body) return;
+		parentOffset = offsetParent.measure(function(){
+			var position = this.getPosition();
+			if (this.getStyle('position') == 'fixed'){
+				var scroll = window.getScroll();
+				position.x += scroll.x;
+				position.y += scroll.y;
+			}
+			return position;
+		});
+
+		options.offset = {
+			parentPositioned: offsetParent != document.id(options.relativeTo),
+			x: options.offset.x - parentOffset.x + parentScroll.x,
+			y: options.offset.y - parentOffset.y + parentScroll.y
+		};
+	},
+
+	setDimensionsOption: function(element, options){
+		options.dimensions = element.getDimensions({
+			computeSize: true,
+			styles: ['padding', 'border', 'margin']
+		});
+	},
+
+	getPosition: function(element, options){
+		var position = {};
+		options = local.getOptions(element, options);
+		var relativeTo = document.id(options.relativeTo) || document.body;
+
+		local.setPositionCoordinates(options, position, relativeTo);
+		if (options.edge) local.toEdge(position, options);
+
+		var offset = options.offset;
+		position.left = ((position.x >= 0 || offset.parentPositioned || options.allowNegative) ? position.x : 0).toInt();
+		position.top = ((position.y >= 0 || offset.parentPositioned || options.allowNegative) ? position.y : 0).toInt();
+
+		local.toMinMax(position, options);
+
+		if (options.relFixedPosition || relativeTo.getStyle('position') == 'fixed') local.toRelFixedPosition(relativeTo, position);
+		if (options.ignoreScroll) local.toIgnoreScroll(relativeTo, position);
+		if (options.ignoreMargins) local.toIgnoreMargins(position, options);
+
+		position.left = Math.ceil(position.left);
+		position.top = Math.ceil(position.top);
+		delete position.x;
+		delete position.y;
+
+		return position;
+	},
+
+	setPositionCoordinates: function(options, position, relativeTo){
+		var offsetY = options.offset.y,
+			offsetX = options.offset.x,
+			calc = (relativeTo == document.body) ? window.getScroll() : relativeTo.getPosition(),
+			top = calc.y,
+			left = calc.x,
+			winSize = window.getSize();
+
+		switch(options.position.x){
+			case 'left': position.x = left + offsetX; break;
+			case 'right': position.x = left + offsetX + relativeTo.offsetWidth; break;
+			default: position.x = left + ((relativeTo == document.body ? winSize.x : relativeTo.offsetWidth) / 2) + offsetX; break;
+		}
+
+		switch(options.position.y){
+			case 'top': position.y = top + offsetY; break;
+			case 'bottom': position.y = top + offsetY + relativeTo.offsetHeight; break;
+			default: position.y = top + ((relativeTo == document.body ? winSize.y : relativeTo.offsetHeight) / 2) + offsetY; break;
+		}
+	},
+
+	toMinMax: function(position, options){
+		var xy = {left: 'x', top: 'y'}, value;
+		['minimum', 'maximum'].each(function(minmax){
+			['left', 'top'].each(function(lr){
+				value = options[minmax] ? options[minmax][xy[lr]] : null;
+				if (value != null && ((minmax == 'minimum') ? position[lr] < value : position[lr] > value)) position[lr] = value;
+			});
+		});
+	},
+
+	toRelFixedPosition: function(relativeTo, position){
+		var winScroll = window.getScroll();
+		position.top += winScroll.y;
+		position.left += winScroll.x;
+	},
+
+	toIgnoreScroll: function(relativeTo, position){
+		var relScroll = relativeTo.getScroll();
+		position.top -= relScroll.y;
+		position.left -= relScroll.x;
+	},
+
+	toIgnoreMargins: function(position, options){
+		position.left += options.edge.x == 'right'
+			? options.dimensions['margin-right']
+			: (options.edge.x != 'center'
+				? -options.dimensions['margin-left']
+				: -options.dimensions['margin-left'] + ((options.dimensions['margin-right'] + options.dimensions['margin-left']) / 2));
+
+		position.top += options.edge.y == 'bottom'
+			? options.dimensions['margin-bottom']
+			: (options.edge.y != 'center'
+				? -options.dimensions['margin-top']
+				: -options.dimensions['margin-top'] + ((options.dimensions['margin-bottom'] + options.dimensions['margin-top']) / 2));
+	},
+
+	toEdge: function(position, options){
+		var edgeOffset = {},
+			dimensions = options.dimensions,
+			edge = options.edge;
+
+		switch(edge.x){
+			case 'left': edgeOffset.x = 0; break;
+			case 'right': edgeOffset.x = -dimensions.x - dimensions.computedRight - dimensions.computedLeft; break;
+			// center
+			default: edgeOffset.x = -(Math.round(dimensions.totalWidth / 2)); break;
+		}
+
+		switch(edge.y){
+			case 'top': edgeOffset.y = 0; break;
+			case 'bottom': edgeOffset.y = -dimensions.y - dimensions.computedTop - dimensions.computedBottom; break;
+			// center
+			default: edgeOffset.y = -(Math.round(dimensions.totalHeight / 2)); break;
+		}
+
+		position.x += edgeOffset.x;
+		position.y += edgeOffset.y;
+	},
+
+	getCoordinateFromValue: function(option){
+		if (typeOf(option) != 'string') return option;
+		option = option.toLowerCase();
+
+		return {
+			x: option.test('left') ? 'left'
+				: (option.test('right') ? 'right' : 'center'),
+			y: option.test(/upper|top/) ? 'top'
+				: (option.test('bottom') ? 'bottom' : 'center')
+		};
+	}
+
+};
 
 Element.implement({
 
 	position: function(options){
-		//call original position if the options are x/y values
-		if (options && (options.x != null || options.y != null)){
-			return original ? original.apply(this, arguments) : this;
+		if (options && (options.x != null || options.y != null)) {
+			return (original ? original.apply(this, arguments) : this);
 		}
+		var position = this.setStyle('position', 'absolute').calculatePosition(options);
+		return (options && options.returnPos) ? position : this.setStyles(position);
+	},
 
-		Object.each(options || {}, function(v, k){
-			if (v == null) delete options[k];
-		});
-
-		options = Object.merge({
-			// minimum: { x: 0, y: 0 },
-			// maximum: { x: 0, y: 0},
-			relativeTo: document.body,
-			position: {
-				x: 'center', //left, center, right
-				y: 'center' //top, center, bottom
-			},
-			offset: {x: 0, y: 0}/*,
-			edge: false,
-			returnPos: false,
-			relFixedPosition: false,
-			ignoreMargins: false,
-			ignoreScroll: false,
-			allowNegative: false*/
-		}, options);
-
-		//compute the offset of the parent positioned element if this element is in one
-		var parentOffset = {x: 0, y: 0},
-			parentPositioned = false;
-
-		/* dollar around getOffsetParent should not be necessary, but as it does not return
-		 * a mootools extended element in IE, an error occurs on the call to expose. See:
-		 * http://mootools.lighthouseapp.com/projects/2706/tickets/333-element-getoffsetparent-inconsistency-between-ie-and-other-browsers */
-		var offsetParent = this.measure(function(){
-			return document.id(this.getOffsetParent());
-		});
-		if (offsetParent && offsetParent != this.getDocument().body){
-			parentOffset = offsetParent.measure(function(){
-				return this.getPosition();
-			});
-			parentPositioned = offsetParent != document.id(options.relativeTo);
-			options.offset.x = options.offset.x - parentOffset.x;
-			options.offset.y = options.offset.y - parentOffset.y;
-		}
-
-		//upperRight, bottomRight, centerRight, upperLeft, bottomLeft, centerLeft
-		//topRight, topLeft, centerTop, centerBottom, center
-		var fixValue = function(option){
-			if (typeOf(option) != 'string') return option;
-			option = option.toLowerCase();
-			var val = {};
-
-			if (option.test('left')){
-				val.x = 'left';
-			} else if (option.test('right')){
-				val.x = 'right';
-			} else {
-				val.x = 'center';
-			}
-
-			if (option.test('upper') || option.test('top')){
-				val.y = 'top';
-			} else if (option.test('bottom')){
-				val.y = 'bottom';
-			} else {
-				val.y = 'center';
-			}
-
-			return val;
-		};
-
-		options.edge = fixValue(options.edge);
-		options.position = fixValue(options.position);
-		if (!options.edge){
-			if (options.position.x == 'center' && options.position.y == 'center') options.edge = {x:'center', y:'center'};
-			else options.edge = {x:'left', y:'top'};
-		}
-
-		this.setStyle('position', 'absolute');
-		var rel = document.id(options.relativeTo) || document.body,
-				calc = rel == document.body ? window.getScroll() : rel.getPosition(),
-				top = calc.y, left = calc.x;
-
-		var dim = this.getDimensions({
-			computeSize: true,
-			styles:['padding', 'border','margin']
-		});
-
-		var pos = {},
-			prefY = options.offset.y,
-			prefX = options.offset.x,
-			winSize = window.getSize();
-
-		switch (options.position.x){
-			case 'left':
-				pos.x = left + prefX;
-				break;
-			case 'right':
-				pos.x = left + prefX + rel.offsetWidth;
-				break;
-			default: //center
-				pos.x = left + ((rel == document.body ? winSize.x : rel.offsetWidth)/2) + prefX;
-				break;
-		}
-
-		switch (options.position.y){
-			case 'top':
-				pos.y = top + prefY;
-				break;
-			case 'bottom':
-				pos.y = top + prefY + rel.offsetHeight;
-				break;
-			default: //center
-				pos.y = top + ((rel == document.body ? winSize.y : rel.offsetHeight)/2) + prefY;
-				break;
-		}
-
-		if (options.edge){
-			var edgeOffset = {};
-
-			switch (options.edge.x){
-				case 'left':
-					edgeOffset.x = 0;
-					break;
-				case 'right':
-					edgeOffset.x = -dim.x-dim.computedRight-dim.computedLeft;
-					break;
-				default: //center
-					edgeOffset.x = -(dim.totalWidth/2);
-					break;
-			}
-
-			switch (options.edge.y){
-				case 'top':
-					edgeOffset.y = 0;
-					break;
-				case 'bottom':
-					edgeOffset.y = -dim.y-dim.computedTop-dim.computedBottom;
-					break;
-				default: //center
-					edgeOffset.y = -(dim.totalHeight/2);
-					break;
-			}
-
-			pos.x += edgeOffset.x;
-			pos.y += edgeOffset.y;
-		}
-
-		pos = {
-			left: ((pos.x >= 0 || parentPositioned || options.allowNegative) ? pos.x : 0).toInt(),
-			top: ((pos.y >= 0 || parentPositioned || options.allowNegative) ? pos.y : 0).toInt()
-		};
-
-		var xy = {left: 'x', top: 'y'};
-
-		['minimum', 'maximum'].each(function(minmax){
-			['left', 'top'].each(function(lr){
-				var val = options[minmax] ? options[minmax][xy[lr]] : null;
-				if (val != null && ((minmax == 'minimum') ? pos[lr] < val : pos[lr] > val)) pos[lr] = val;
-			});
-		});
-
-		if (rel.getStyle('position') == 'fixed' || options.relFixedPosition){
-			var winScroll = window.getScroll();
-			pos.top+= winScroll.y;
-			pos.left+= winScroll.x;
-		}
-		if (options.ignoreScroll){
-			var relScroll = rel.getScroll();
-			pos.top -= relScroll.y;
-			pos.left -= relScroll.x;
-		}
-
-		if (options.ignoreMargins){
-			pos.left += (
-				options.edge.x == 'right' ? dim['margin-right'] :
-				options.edge.x == 'center' ? -dim['margin-left'] + ((dim['margin-right'] + dim['margin-left'])/2) :
-					- dim['margin-left']
-			);
-			pos.top += (
-				options.edge.y == 'bottom' ? dim['margin-bottom'] :
-				options.edge.y == 'center' ? -dim['margin-top'] + ((dim['margin-bottom'] + dim['margin-top'])/2) :
-					- dim['margin-top']
-			);
-		}
-
-		pos.left = Math.ceil(pos.left);
-		pos.top = Math.ceil(pos.top);
-		if (options.returnPos) return pos;
-		else this.setStyles(pos);
-		return this;
+	calculatePosition: function(options){
+		return local.getPosition(this, options);
 	}
 
 });
 
-}).call(this);
+})(Element.prototype.position);
 
 
 /*
@@ -1645,21 +1658,24 @@ if (!window.Form) window.Form = {};
 
 		property: 'form.request',
 
-		initialize: function(form, update, options){
+		initialize: function(form, target, options){
 			this.element = document.id(form);
 			if (this.occlude()) return this.occluded;
-			this.update = document.id(update);
-			this.setOptions(options);
-			this.makeRequest();
-			if (this.options.resetForm){
-				this.request.addEvent('success', function(){
-					Function.attempt(function(){
-						this.element.reset();
-					}.bind(this));
-					if (window.OverText) OverText.update();
-				}.bind(this));
+			this.setOptions(options)
+				.setTarget(target)
+				.attach();
+		},
+
+		setTarget: function(target){
+			this.target = document.id(target);
+			if (!this.request){
+				this.makeRequest();
+			} else {
+				this.request.setOptions({
+					update: this.target
+				});
 			}
-			this.attach();
+			return this;
 		},
 
 		toElement: function(){
@@ -1667,52 +1683,62 @@ if (!window.Form) window.Form = {};
 		},
 
 		makeRequest: function(){
+			var self = this;
 			this.request = new Request.HTML(Object.merge({
-					update: this.update,
+					update: this.target,
 					emulation: false,
 					spinnerTarget: this.element,
 					method: this.element.get('method') || 'post'
 			}, this.options.requestOptions)).addEvents({
 				success: function(tree, elements, html, javascript){
 					['complete', 'success'].each(function(evt){
-						this.fireEvent(evt, [this.update, tree, elements, html, javascript]);
-					}, this);
-				}.bind(this),
+						self.fireEvent(evt, [self.target, tree, elements, html, javascript]);
+					});
+				},
 				failure: function(){
-					this.fireEvent('complete', arguments).fireEvent('failure', arguments);
-				}.bind(this),
+					self.fireEvent('complete', arguments).fireEvent('failure', arguments);
+				},
 				exception: function(){
-					this.fireEvent('failure', arguments);
-				}.bind(this)
+					self.fireEvent('failure', arguments);
+				}
 			});
+			return this.attachReset();
+		},
+
+		attachReset: function(){
+			if (!this.options.resetForm) return this;
+			this.request.addEvent('success', function(){
+				Function.attempt(function(){
+					this.element.reset();
+				}.bind(this));
+				if (window.OverText) OverText.update();
+			}.bind(this));
+			return this;
 		},
 
 		attach: function(attach){
-			if (attach == null) attach = true;
-			var method = attach ? 'addEvent' : 'removeEvent';
-
+			var method = (attach != false) ? 'addEvent' : 'removeEvent';
 			this.element[method]('click:relay(button, input[type=submit])', this.saveClickedButton.bind(this));
 
 			var fv = this.element.retrieve('validator');
 			if (fv) fv[method]('onFormValidate', this.onFormValidate);
 			else this.element[method]('submit', this.onSubmit);
+
+			return this;
 		},
 
 		detach: function(){
-			this.attach(false);
-			return this;
+			return this.attach(false);
 		},
 
 		//public method
 		enable: function(){
-			this.attach();
-			return this;
+			return this.attach();
 		},
 
 		//public method
 		disable: function(){
-			this.detach();
-			return this;
+			return this.detach();
 		},
 
 		onFormValidate: function(valid, form, event){
@@ -1739,10 +1765,11 @@ if (!window.Form) window.Form = {};
 		},
 
 		saveClickedButton: function(event, target){
-			if (!this.options.sendButtonClicked || !target.get('name')) return;
-			this.options.extraData[target.get('name')] = target.get('value') || true;
+			var targetName = target.get('name');
+			if (!targetName || !this.options.sendButtonClicked) return;
+			this.options.extraData[targetName] = target.get('value') || true;
 			this.clickedCleaner = function(){
-				delete this.options.extraData[target.get('name')];
+				delete this.options.extraData[targetName];
 				this.clickedCleaner = function(){};
 			}.bind(this);
 		},
@@ -1767,46 +1794,19 @@ if (!window.Form) window.Form = {};
 
 	});
 
-	Element.Properties.formRequest = {
-
-		set: function(){
-			var opt = Array.link(arguments, {options: Type.isObject, update: Type.isElement, updateId: Type.isString}),
-				update = opt.update || opt.updateId,
-				updater = this.retrieve('form.request');
-			if (update){
-				if (updater) updater.update = document.id(update);
-				this.store('form.request:update', update);
-			}
-			if (opt.options){
-				if (updater) updater.setOptions(opt.options);
-				this.store('form.request:options', opt.options);
-			}
-			return this;
-		},
-
-		get: function(){
-			var opt = Array.link(arguments, {options: Type.isObject, update: Type.isElement, updateId: Type.isString}),
-				update = opt.update || opt.updateId;
-			if (opt.options || update || !this.retrieve('form.request')){
-				if (opt.options || !this.retrieve('form.request:options')) this.set('form.request', opt.options);
-				if (update) this.set('form.request', update);
-				this.store('form.request', new Form.Request(this, this.retrieve('form.request:update'), this.retrieve('form.request:options')));
-			}
-			return this.retrieve('form.request');
+	Element.implement('formUpdate', function(update, options){
+		var fq = this.retrieve('form.request');
+		if (!fq) {
+			fq = new Form.Request(this, update, options);
+		} else {
+			if (update) fq.setTarget(update);
+			if (options) fq.setOptions(options).makeRequest();
 		}
-
-	};
-
-	Element.implement({
-
-		formUpdate: function(update, options){
-			this.get('formRequest', update, options).send();
-			return this;
-		}
-
+		fq.send();
+		return this;
 	});
 
-}).call(this);
+})();
 
 
 /*
@@ -2132,7 +2132,7 @@ Element.implement({
 
 });
 
-}).call(this);
+})();
 
 
 /*
@@ -2191,11 +2191,11 @@ Form.Request.Append = new Class({
 						}
 					}).adopt(kids);
 				}
-				container.inject(this.update, this.options.inject);
+				container.inject(this.target, this.options.inject);
 				if (this.options.requestOptions.evalScripts) Browser.exec(javascript);
 				this.fireEvent('beforeEffect', container);
 				var finish = function(){
-					this.fireEvent('success', [container, this.update, tree, elements, html, javascript]);
+					this.fireEvent('success', [container, this.target, tree, elements, html, javascript]);
 				}.bind(this);
 				if (this.options.useReveal){
 					container.set('reveal', this.options.revealOptions).get('reveal').chain(finish);
@@ -2208,6 +2208,7 @@ Form.Request.Append = new Class({
 				this.fireEvent('failure', xhr);
 			}.bind(this)
 		});
+		this.attachReset();
 	}
 
 });
@@ -2751,12 +2752,44 @@ Fx.Accordion = new Class({
 			}
 		}.bind(this));
 
-		return useFx ? this.start(obj) : this.set(obj);
+		return useFx ? this.start(obj) : this.set(obj).internalChain.callChain();
 	}
 
 });
 
+/*<1.2compat>*/
+/*
+	Compatibility with 1.2.0
+*/
+var Accordion = new Class({
 
+	Extends: Fx.Accordion,
+
+	initialize: function(){
+		this.parent.apply(this, arguments);
+		var params = Array.link(arguments, {'container': Type.isElement});
+		this.container = params.container;
+	},
+
+	addSection: function(toggler, element, pos){
+		toggler = document.id(toggler);
+		element = document.id(element);
+
+		var test = this.togglers.contains(toggler);
+		var len = this.togglers.length;
+		if (len && (!test || pos)){
+			pos = pos != null ? pos : len - 1;
+			toggler.inject(this.togglers[pos], 'before');
+			element.inject(toggler, 'after');
+		} else if (this.container && !test){
+			toggler.inject(this.container);
+			element.inject(this.container);
+		}
+		return this.parent.apply(this, arguments);
+	}
+
+});
+/*</1.2compat>*/
 
 
 /*
@@ -2891,7 +2924,7 @@ Fx.Slide = new Class({
 
 		this.addEvent('complete', function(){
 			this.open = (wrapper['offset' + this.layout.capitalize()] != 0);
-			if (this.open && options.resetHeight) wrapper.setStyle('height', '');
+			if (this.open && this.options.resetHeight) wrapper.setStyle('height', '');
 		}, true);
 	},
 
@@ -3062,6 +3095,7 @@ Fx.Scroll = new Class({
 		var now = Array.flatten(arguments);
 		if (Browser.firefox) now = [Math.round(now[0]), Math.round(now[1])]; // not needed anymore in newer firefox versions
 		this.element.scrollTo(now[0], now[1]);
+		return this;
 	},
 
 	compute: function(from, to, delta){
@@ -3167,13 +3201,22 @@ Fx.Scroll = new Class({
 
 });
 
-
+//<1.2compat>
+Fx.Scroll.implement({
+	scrollToCenter: function(){
+		return this.toElementCenter.apply(this, arguments);
+	},
+	scrollIntoView: function(){
+		return this.toElementEdge.apply(this, arguments);
+	}
+});
+//</1.2compat>
 
 function isBody(element){
 	return (/^(?:body|html)$/i).test(element.tagName);
 }
 
-}).call(this);
+})();
 
 
 /*
@@ -3199,7 +3242,7 @@ provides: [Fx.SmoothScroll]
 ...
 */
 
-Fx.SmoothScroll = new Class({
+/*<1.2compat>*/var SmoothScroll = /*</1.2compat>*/Fx.SmoothScroll = new Class({
 
 	Extends: Fx.Scroll,
 
@@ -3359,12 +3402,6 @@ var Drag = new Class({
 		var limit = options.limit;
 		this.limit = {x: [], y: []};
 
-		var styles = this.element.getStyles('left', 'right', 'top', 'bottom');
-		this._invert = {
-			x: options.modifiers.x == 'left' && styles.left == 'auto' && !isNaN(styles.right.toInt()) && (options.modifiers.x = 'right'),
-			y: options.modifiers.y == 'top' && styles.top == 'auto' && !isNaN(styles.bottom.toInt()) && (options.modifiers.y = 'bottom')
-		};
-
 		var z, coordinates;
 		for (z in options.modifiers){
 			if (!options.modifiers[z]) continue;
@@ -3381,7 +3418,6 @@ var Drag = new Class({
 			else this.value.now[z] = this.element[options.modifiers[z]];
 
 			if (options.invert) this.value.now[z] *= -1;
-			if (this._invert[z]) this.value.now[z] *= -1;
 
 			this.mouse.pos[z] = event.page[z] - this.value.now[z];
 
@@ -3431,7 +3467,6 @@ var Drag = new Class({
 			this.value.now[z] = this.mouse.now[z] - this.mouse.pos[z];
 
 			if (options.invert) this.value.now[z] *= -1;
-			if (this._invert[z]) this.value.now[z] *= -1;
 
 			if (options.limit && this.limit[z]){
 				if ((this.limit[z][1] || this.limit[z][1] === 0) && (this.value.now[z] > this.limit[z][1])){
@@ -3545,10 +3580,9 @@ Drag.Move = new Class({
 			this.container = document.id(this.container.getDocument().body);
 
 		if (this.options.style){
-			if (this.options.modifiers.x == "left" && this.options.modifiers.y == "top"){
-				var parentStyles,
-					parent = element.getOffsetParent();
-				var styles = element.getStyles('left', 'top');
+			if (this.options.modifiers.x == 'left' && this.options.modifiers.y == 'top'){
+				var parent = element.getOffsetParent(),
+					styles = element.getStyles('left', 'top');
 				if (parent && (styles.left == 'auto' || styles.top == 'auto')){
 					element.setPosition(element.getPosition(parent));
 				}
@@ -3727,7 +3761,11 @@ var Sortables = new Class({
 		clone: false,
 		revert: false,
 		handle: false,
-		dragOptions: {}
+		dragOptions: {}/*<1.2compat>*/,
+		snap: 4,
+		constrain: false,
+		preventDefault: false
+		/*</1.2compat>*/
 	},
 
 	initialize: function(lists, options){
@@ -3848,7 +3886,11 @@ var Sortables = new Class({
 		this.clone = this.getClone(event, element);
 
 		this.drag = new Drag.Move(this.clone, Object.merge({
-			
+			/*<1.2compat>*/
+			preventDefault: this.options.preventDefault,
+			snap: this.options.snap,
+			container: this.options.constrain && this.element.getParent(),
+			/*</1.2compat>*/
 			droppables: this.getDroppables()
 		}, this.options.dragOptions)).addEvents({
 			onSnap: function(){
@@ -3917,6 +3959,150 @@ var Sortables = new Class({
 	}
 
 });
+
+
+/*
+---
+
+script: Request.JSONP.js
+
+name: Request.JSONP
+
+description: Defines Request.JSONP, a class for cross domain javascript via script injection.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+  - Guillermo Rauch
+  - Arian Stolwijk
+
+requires:
+  - Core/Element
+  - Core/Request
+  - MooTools.More
+
+provides: [Request.JSONP]
+
+...
+*/
+
+Request.JSONP = new Class({
+
+	Implements: [Chain, Events, Options],
+
+	options: {/*
+		onRequest: function(src, scriptElement){},
+		onComplete: function(data){},
+		onSuccess: function(data){},
+		onCancel: function(){},
+		onTimeout: function(){},
+		onError: function(){}, */
+		onRequest: function(src){
+			if (this.options.log && window.console && console.log){
+				console.log('JSONP retrieving script with url:' + src);
+			}
+		},
+		onError: function(src){
+			if (this.options.log && window.console && console.warn){
+				console.warn('JSONP '+ src +' will fail in Internet Explorer, which enforces a 2083 bytes length limit on URIs');
+			}
+		},
+		url: '',
+		callbackKey: 'callback',
+		injectScript: document.head,
+		data: '',
+		link: 'ignore',
+		timeout: 0,
+		log: false
+	},
+
+	initialize: function(options){
+		this.setOptions(options);
+	},
+
+	send: function(options){
+		if (!Request.prototype.check.call(this, options)) return this;
+		this.running = true;
+
+		var type = typeOf(options);
+		if (type == 'string' || type == 'element') options = {data: options};
+		options = Object.merge(this.options, options || {});
+
+		var data = options.data;
+		switch (typeOf(data)){
+			case 'element': data = document.id(data).toQueryString(); break;
+			case 'object': case 'hash': data = Object.toQueryString(data);
+		}
+
+		var index = this.index = Request.JSONP.counter++;
+
+		var src = options.url +
+			(options.url.test('\\?') ? '&' :'?') +
+			(options.callbackKey) +
+			'=Request.JSONP.request_map.request_'+ index +
+			(data ? '&' + data : '');
+
+		if (src.length > 2083) this.fireEvent('error', src);
+
+		Request.JSONP.request_map['request_' + index] = function(){
+			this.success(arguments, index);
+		}.bind(this);
+
+		var script = this.getScript(src).inject(options.injectScript);
+		this.fireEvent('request', [src, script]);
+
+		if (options.timeout) this.timeout.delay(options.timeout, this);
+
+		return this;
+	},
+
+	getScript: function(src){
+		if (!this.script) this.script = new Element('script', {
+			type: 'text/javascript',
+			async: true,
+			src: src
+		});
+		return this.script;
+	},
+
+	success: function(args, index){
+		if (!this.running) return;
+		this.clear()
+			.fireEvent('complete', args).fireEvent('success', args)
+			.callChain();
+	},
+
+	cancel: function(){
+		if (this.running) this.clear().fireEvent('cancel');
+		return this;
+	},
+
+	isRunning: function(){
+		return !!this.running;
+	},
+
+	clear: function(){
+		this.running = false;
+		if (this.script){
+			this.script.destroy();
+			this.script = null;
+		}
+		return this;
+	},
+
+	timeout: function(){
+		if (this.running){
+			this.running = false;
+			this.fireEvent('timeout', [this.script.get('src'), this.script]).fireEvent('failure').cancel();
+		}
+		return this;
+	}
+
+});
+
+Request.JSONP.counter = 0;
+Request.JSONP.request_map = {};
 
 
 /*
@@ -4212,7 +4398,7 @@ String.implement({
 
 });
 
-}).call(this);
+})();
 
 
 
@@ -4281,7 +4467,7 @@ Object.extend({
 
 });
 
-}).call(this);
+})();
 
 
 /*
@@ -4335,7 +4521,9 @@ var Locale = this.Locale = {
 
 		if (set) locale.define(set, key, value);
 
-		
+		/*<1.2compat>*/
+		if (set == 'cascade') return Locale.inherit(name, key);
+		/*</1.2compat>*/
 
 		if (!current) current = locale;
 
@@ -4350,7 +4538,9 @@ var Locale = this.Locale = {
 
 			this.fireEvent('change', locale);
 
-			
+			/*<1.2compat>*/
+			this.fireEvent('langChange', locale.name);
+			/*</1.2compat>*/
 		}
 
 		return this;
@@ -4447,7 +4637,25 @@ Locale.Set = new Class({
 
 });
 
+/*<1.2compat>*/
+var lang = MooTools.lang = {};
 
+Object.append(lang, Locale, {
+	setLanguage: Locale.use,
+	getCurrentLanguage: function(){
+		var current = Locale.getCurrent();
+		return (current) ? current.name : null;
+	},
+	set: function(){
+		Locale.define.apply(this, arguments);
+		return this;
+	},
+	get: function(set, key, args){
+		if (key) set += '.' + key;
+		return Locale.get(set, args);
+	}
+});
+/*</1.2compat>*/
 
-}).call(this);
+})();
 
