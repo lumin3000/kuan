@@ -150,11 +150,11 @@ class Post
     return nil unless repost_count_all && repost_count_all > 1
     Post.desc(:created_at).
       where(:ancestor_id => ancestor_id || id).
-      limit(100)
+      limit(30)
   end
 
   def favors
-    return User.where('favors.post_id' => id) if favor_count > 0
+    return User.where('favors.post_id' => id).limit(50) if favor_count > 0
   end
 
   private
