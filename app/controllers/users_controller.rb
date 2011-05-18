@@ -8,7 +8,8 @@ class UsersController < ApplicationController
       redirect_to home_path and return
     end
     @user = User.new
-    @rand = rand(2)+1
+    # @rand = rand(2)+1
+    @rand = 0
     invitation_refer
     render :layout => "application"
   end
