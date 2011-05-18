@@ -5,8 +5,8 @@ class DemosController < ApplicationController
 
   def kdtcreate
     require 'kdt/colortext'
-    str = ColorText.instance.generate params[:content]
-    render :text => str, :content_type => 'text/plain'
+    file = ColorText.new.generate params[:content]
+    open(file, 'rb') {|io| render :text => io.read, :content_type => "image/png"}
   end
 
 end
