@@ -7,7 +7,7 @@ require 'subexec'
 
 class ColorText
 
-  LINE_LENGTH = 12
+  LINE_LENGTH = 15
   COLORS = %w[blue yellow red green]
 
   def initialize
@@ -69,8 +69,9 @@ class ColorText
       color = last_color = @color_stick || (color_flag ? COLORS.sample : "black")
       color_flag = !color_flag
       @color_stick = nil
-      c += %( -fill #{color} -font #{@ttf} -pointsize 40 label:"#{token}")
-    end + %( +append -size 500 #{file})
+      pointsize = color_flag ? "26" : "32"
+      c += %( -fill #{color} -font #{@ttf} -pointsize #{pointsize} label:"#{token}")
+    end + %( +append -size 500x -flatten #{file})
     @color_stick = (last_color == 'black') ? nil : last_color
     @logger.info command
     run_command command
