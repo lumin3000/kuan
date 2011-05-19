@@ -2,5 +2,7 @@
 - content_for :title, '宽岛体_DEMO'
 
 = form_tag({action: :kdtcreate}) do
+  %div
+    用#可以让文字变颜色喔，比如 "我喜欢#宽岛#～真是个好地方"
   = text_area_tag 'content', nil, :size => "100x20"
   = submit_tag "生成宽岛体"
