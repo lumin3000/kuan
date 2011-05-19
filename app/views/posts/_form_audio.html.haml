@@ -9,8 +9,8 @@
       %span.total_num>
       个结果
       .pagination
-        %a.prev_page{href: "#"} 上一页
-        %a.next_page{href: "#"} 下一页
+        %a.prev_page{href: "#", 'data-action' => 'turnPrevPage'} 上一页
+        %a.next_page{href: "#", 'data-action' => 'turnNextPage'} 下一页
     .empty_message
       Nothing to see here
   .option_text_top<

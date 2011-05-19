@@ -1029,12 +1029,17 @@ K.ListDisplay = new Class({
         this.fireEvent('itemPicked', item.get('data-song-id'))
       }.bind(this))
     this.numIndicator = context.getElement('.total_num')
+    this.currentPage = 1
+    context.addEvent('click:relay([data-action])', function(e, clicked) {
+      e.stop()
+      var action = clicked.get('data-action')
+      this[action]()
+    }.bind(this))
   }
 , options: {
-    currentPage: 1
-  , template: ''
-  , itemTemplate: '<li data-song-id="{songId}">{songName} -  {artistName}</li>'
+    itemTemplate: '<li data-song-id="{songId}">{songName} -  {artistName}</li>'
   , itemsContainer: 'ul'
+  , perPage: 8
   }
 , render: function(data) {
     var rendered = data.results.map(function(item) {
@@ -1046,14 +1051,56 @@ K.ListDisplay = new Class({
     }
     this.itemsContainer.set('html', rendered)
     this.context.removeClass('empty')
+    this.total = data.total
     this.numIndicator.set('html', data.total)
+    this.renderPaging()
     this.show()
+    return this
+  }
+, renderPaging: function() {
+    var context = this.context
+
+    if (this.isAtLastPage()) {
+      context.addClass('lastPage')
+    } else {
+      context.removeClass('lastPage')
+    }
+
+    if (this.isAtFirstPage()) {
+      context.addClass('firstPage')
+    } else {
+      context.removeClass('firstPage')
+    }
   }
 , renderAsEmpty: function() {
     this.context.addClass('empty')
   }
 , hide: function() { this.context.hide() }
 , show: function() { this.context.show() }
+, setPageNum: function(num) {
+    if (typeof num != 'number') throw new TypeError()
+    this.currentPage = num
+    this.renderPaging()
+  }
+, resetPaging: function() {
+    this.setPageNum(1)
+  }
+, turnNextPage: function() {
+    if (this.isAtLastPage()) return
+    this.setPageNum(this.currentPage + 1)
+    this.fireEvent('pageTurn', this.currentPage)
+  }
+, isAtLastPage: function() {
+    return this.currentPage * this.options.perPage >= this.total
+  }
+, turnPrevPage: function() {
+    if (this.isAtFirstPage()) return
+    this.setPageNum(this.currentPage - 1)
+    this.fireEvent('pageTurn', this.currentPage)
+  }
+, isAtFirstPage: function() {
+    return this.currentPage == 1
+  }
 })
 
 K.poweredInput = function(input) {
@@ -1105,16 +1152,16 @@ K.widgets.autocpl = function(input) {
     dataNeeded: function(e) {
       var value = input.value
       if (!value || !value.trim()) return
-      console.log("needed", value)
       dataSource.fetch({key: value}, function(data) {
-        list.render(data)
+        // FIXME: Time coupling
+        list.render(data).resetPaging()
       })
     }
-  , pageTurn: function(pageNum) {
-      dataSource.fetch({key: input.value , page: pageNum}, function(data) {
-        list.render(data)
-      })
-    }
+  })
+  list.addEvent('pageTurn', function(pageNum) {
+    dataSource.fetch({key: input.value , page: pageNum}, function(data) {
+      list.render(data)
+    })
   })
   list.addEvent('itemPicked', function(id) {
     var song = dataSource.cache[id]
