@@ -976,6 +976,7 @@ K.SongDataSource = new Class({
     this.prevRequest = {cancel: function(){}}
     this.urlTemplate = 'http://www.xiami.com/app/nineteen/search/key/{key}/logo/1/page/{page}'
     this.cache = {}
+    this.requestCache = {}
   }
 , fetch: function(params, cb) {
     this.prevRequest.cancel()
@@ -984,9 +985,16 @@ K.SongDataSource = new Class({
     var self = this
     params.key = encodeURIComponent(key)
     if (!params.page) params.page = 1
+    var url = this.urlTemplate.substitute(params)
+      , cached = this.requestCache[url]
+    if (cached) {
+      if (cached == 'inProgress') return
+      else return cb(cached)
+    }
 
+    this.requestCache[url] = 'inProgress'
     this.prevRequest = new Request.JSONP({
-      url: this.urlTemplate.substitute(params)
+      url: url
     , log: true
     , onComplete: function(response) {
         if (typeOf(response.results) == 'array') {
@@ -996,6 +1004,7 @@ K.SongDataSource = new Class({
             self.cache[song.songId] = song
           })
         }
+        self.requestCache[url] = response
         cb(response)
       }
     }).send()
@@ -1048,13 +1057,15 @@ K.ListDisplay = new Class({
 K.poweredInput = function(input) {
   input.addEvents({
     change: function(e) {
+      this.prevValue = this.value
       setTimeout(function() {
-        this.fireEvent('doChange', e)
+        if (this.prevValue != this.value) this.fireEvent('doChange', e)
       }.bind(this), 1)
     }
   , keydown: function(e) {
+      this.prevValue = this.value
       setTimeout(function() {
-        this.fireEvent('doChange', e)
+        if (this.prevValue != this.value) this.fireEvent('doChange', e)
       }.bind(this), 1)
     }
   })
@@ -1092,6 +1103,7 @@ K.widgets.autocpl = function(input) {
     dataNeeded: function(e) {
       var value = input.value
       if (!value || !value.trim()) return
+      console.log("needed", value)
       dataSource.fetch({key: value}, function(data) {
         list.render(data)
       })
