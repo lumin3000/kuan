@@ -44,7 +44,7 @@ class RichFilter
     def auto_link!(str)
       str_with_links = str.dup
       URI.extract(str, LEGAL_URL_SCHEMES) do |link|
-        str_with_links[link] = %(<a href="#{link}">#{link}</a>)
+        str_with_links[link] = %(<a href="#{link}" target="_blank">#{link}</a>)
       end 
       str_with_links
     end

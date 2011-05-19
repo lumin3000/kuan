@@ -231,7 +231,7 @@ describe Post, "reposting" do
 
     it "ancestor should have correct reposts count" do
       @post.reload
-      @post.repost_count.should == 2
+      @post.repost_count.should == 3
     end
 
     it "should not be repost when parent is deleted" do
@@ -335,7 +335,7 @@ EOF
   describe "given a raw url post" do
     before :each do
       @orig_content = 'http://g.cn'
-      @expected = '<a href="http://g.cn">http://g.cn</a>'
+      @expected = '<a href="http://g.cn" target="_blank">http://g.cn</a>'
       @post.content = @orig_content
       @post.save!
       @post.reload
@@ -351,14 +351,14 @@ EOF
         @post.content = content
         @post.save!
         @post.reload
-        @post.content.should == content
+        @post.content.should == '<a href="http://g.cn">http://g.cn</a>'
       end
     end
   end
 
   describe "given a href attr with fucking Chinese" do
     before :each do
-      @orig_content = '<a href="http://k.org/中文">awwyeaah</a>'
+      @orig_content = '<a href="http://k.org/中文" >awwyeaah</a>'
       @expected_content = '<a href="http://k.org/%E4%B8%AD%E6%96%87">awwyeaah</a>'
       @post.content = @orig_content
       @post.save!
