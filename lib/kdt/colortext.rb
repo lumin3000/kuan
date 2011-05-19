@@ -14,6 +14,7 @@ class ColorText
     @ttf = File.join(File.dirname(File.expand_path(__FILE__)),'fzlt.ttf')
     @bg = File.join(File.dirname(File.expand_path(__FILE__)),'bg.jpg')
     @file_dir = %(#{Rails.root.to_s}/tmp/kdts/)
+    Dir.mkdir(@file_dir) unless Dir.exist?(@file_dir)
     @filename_base = %(#{Process.pid}_)
     @color_stick = nil
     @logger ||= Logger.new("#{Rails.root.to_s}/log/demo_kdt.log")
@@ -86,6 +87,7 @@ class ColorText
       c += %( -label '' #{file})
     end + %( -tile 1x -geometry '1x1+0+0<' -texture #{@bg} #{m_file})
     run_command command
+    files.each {|f| File.delete f}
     m_file
   end
 
