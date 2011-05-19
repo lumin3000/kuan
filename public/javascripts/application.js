@@ -974,19 +974,20 @@ K.widgets.validatedForm = (function() {
 K.SongDataSource = new Class({
   initialize: function() {
     this.prevRequest = {cancel: function(){}}
-    this.urlTemplate = 'http://api.xiami.com/app/nineteen/search/key/{key}/logo/1/page/{page}'
+    this.urlTemplate = 'http://www.xiami.com/app/nineteen/search/key/{key}/logo/1/page/{page}'
     this.cache = {}
   }
 , fetch: function(params, cb) {
     this.prevRequest.cancel()
     var key = params.key
-    if (!key) return
+    if (!key) throw params
     var self = this
     params.key = encodeURIComponent(key)
     if (!params.page) params.page = 1
 
     this.prevRequest = new Request.JSONP({
       url: this.urlTemplate.substitute(params)
+    , log: true
     , onComplete: function(response) {
         if (typeOf(response.results) == 'array') {
           response.results.each(function(song) {
@@ -1035,6 +1036,7 @@ K.ListDisplay = new Class({
     }
     this.itemsContainer.set('html', rendered)
     this.context.removeClass('empty')
+    this.show()
   }
 , renderAsEmpty: function() {
     this.context.addClass('empty')
@@ -1078,6 +1080,8 @@ K.widgets.autocpl = function(input) {
     , list = new K.ListDisplay($('songCmplPrompt'), {dataSource: dataSource})
     , controller = new Events()
     , form = K.poweredForm(input.getParent('form'))
+    , songTemplate = '<img src={albumLogo}><embed class="player" src="http://www.xiami.com/widget/0_{songId}/singlePlayer.swf" wmode="transparent" width=257 height=33></embed><span class="cancel">重新选择</span>'
+    , inputHolder = input.getParent('[data-input-holder]')
   K.poweredInput(input)
   input.addEvents({
     'doChange:pause(1000)': function(e) {
@@ -1101,9 +1105,14 @@ K.widgets.autocpl = function(input) {
   list.addEvent('itemPicked', function(id) {
     var song = dataSource.cache[id]
     if (!song) return
-    console.log(song)
     list.hide()
-    input.getParent('[data-input-holder]').hide()
+    var stage = new Element('div', {
+      html: songTemplate.substitute(song)
+    }).replaces(inputHolder)
+    stage.getElements('.cancel').addEvent('click', function(e) {
+      input.set('value', '')
+      inputHolder.replaces(stage)
+    })
     form.acceptParam(song, {
       songId: 'song_id'
     , songName: 'song_name'
