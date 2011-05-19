@@ -29,8 +29,6 @@ class ColorText
     montage files
   end
 
-  private
-
   def wrap_lines(str)
     str.lines.reduce([]) do |lines, l|
       l.chomp!
@@ -46,15 +44,17 @@ class ColorText
           ins_offset = ins_counter
           sep_offsets.each do |i|
             @logger.info "sep_offsets #{i} #{ins_offset} #{line_counter}"
-            if (line_counter*LINE_LENGTH...(line_counter+1)*LINE_LENGTH).cover? i
+            start_pos = line_counter*LINE_LENGTH+ins_offset
+            end_pos = start_pos + LINE_LENGTH + ins_counter - ins_offset
+            if (start_pos...end_pos).cover? i
               m.insert i - line_counter*LINE_LENGTH - ins_offset, '#'
-              ins_counter += 1
+              ins_counter += 1 
             end
           end
           @logger.info m
           lines << m
           line_counter += 1
-        end
+        end 
       end
       lines
     end

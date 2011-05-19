@@ -11,7 +11,7 @@ class Width
       case b
       when 32
         12288
-      when 33...127
+      when 33...256
         excludes.include?(b.chr) ? b : b+65248
       else
         b
