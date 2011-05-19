@@ -60,12 +60,17 @@ class ColorText
     end
   end
 
+  # convert -size 500x100 xc:none -fill blue -draw 'line 15,0 15,99' -undercolor white \
+# \( -clone 0 -fill black -font fzlt.ttf -pointsize 26 -annotate +5+60 '宽岛' \) \
+# \( -clone 0 -fill green  -font fzlt.ttf -pointsize 32 -annotate +5+60 '测试' \) \
+# -delete 0 -trim +repage +append -transparent blue -trim +repage \
+# -background white -flatten o.png
   def convert(line, count)
     @logger.info line
     file = @file_dir + @filename_base + count.to_s + '.png'
     color_flag = !@color_stick.nil?
     last_color = nil
-    command = line.split('#').reduce("convert") do |c, token|
+    command = line.split('#').reduce("convert ") do |c, token|
       color = last_color = @color_stick || (color_flag ? COLORS.sample : "black")
       color_flag = !color_flag
       @color_stick = nil
