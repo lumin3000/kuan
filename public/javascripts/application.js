@@ -1028,6 +1028,7 @@ K.ListDisplay = new Class({
       .addEvent('click:relay([data-song-id])', function(e, item) {
         this.fireEvent('itemPicked', item.get('data-song-id'))
       }.bind(this))
+    this.numIndicator = context.getElement('.total_num')
   }
 , options: {
     currentPage: 1
@@ -1045,6 +1046,7 @@ K.ListDisplay = new Class({
     }
     this.itemsContainer.set('html', rendered)
     this.context.removeClass('empty')
+    this.numIndicator.set('html', data.total)
     this.show()
   }
 , renderAsEmpty: function() {

@@ -2,8 +2,15 @@
   音乐贴
 
 - content_for :form do
-  #songCmplPrompt
+  #songCmplPrompt{style: 'display: none'}
     %ul.song_list
+    .summary
+      共
+      %span.total_num>
+      个结果
+      .pagination
+        %a.prev_page{href: "#"} 上一页
+        %a.next_page{href: "#"} 下一页
     .empty_message
       Nothing to see here
   .option_text_top<
