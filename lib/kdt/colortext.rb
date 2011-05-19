@@ -8,10 +8,11 @@ require 'subexec'
 class ColorText
 
   LINE_LENGTH = 15
-  COLORS = %w[blue yellow red green]
+  COLORS = %w[blue red green purple orange] 
 
   def initialize
-    @ttf = File.join(File.dirname(File.expand_path(__FILE__)),'fzxy.ttf')
+    @ttf = File.join(File.dirname(File.expand_path(__FILE__)),'fzlt.ttf')
+    @bg = File.join(File.dirname(File.expand_path(__FILE__)),'bg.jpg')
     @file_dir = %(#{Rails.root.to_s}/tmp/kdts/)
     @filename_base = %(#{Process.pid}_)
     @color_stick = nil
@@ -60,23 +61,19 @@ class ColorText
     end
   end
 
-  # convert -size 500x100 xc:none -fill blue -draw 'line 15,0 15,99' -undercolor white \
-# \( -clone 0 -fill black -font fzlt.ttf -pointsize 26 -annotate +5+60 '宽岛' \) \
-# \( -clone 0 -fill green  -font fzlt.ttf -pointsize 32 -annotate +5+60 '测试' \) \
-# -delete 0 -trim +repage +append -transparent blue -trim +repage \
-# -background white -flatten o.png
   def convert(line, count)
     @logger.info line
     file = @file_dir + @filename_base + count.to_s + '.png'
     color_flag = !@color_stick.nil?
     last_color = nil
-    command = line.split('#').reduce("convert ") do |c, token|
+    base_command = %(convert -size 500x100 xc:none -fill yellow -draw 'line 15,0 15,99' -undercolor white)
+    command = line.split('#').reduce(base_command) do |c, token|
       color = last_color = @color_stick || (color_flag ? COLORS.sample : "black")
       color_flag = !color_flag
       @color_stick = nil
       pointsize = color_flag ? "26" : "32"
-      c += %( -fill #{color} -font #{@ttf} -pointsize #{pointsize} label:"#{token}")
-    end + %( +append -size 500x -flatten #{file})
+      c += %( \\( -clone 0 -fill #{color} -font #{@ttf} -pointsize #{pointsize} -annotate +5+60 "#{token}" \\))
+    end + %( -delete 0 -trim +repage +append -transparent yellow -trim +repage -background white -flatten #{file})
     @color_stick = (last_color == 'black') ? nil : last_color
     @logger.info command
     run_command command
@@ -87,7 +84,7 @@ class ColorText
     m_file = @file_dir + @filename_base + "m.png"
     command = files.reduce("montage") do |c, file|
       c += %( -label '' #{file})
-    end + %( -tile 1x -geometry '1x1+0+0<' #{m_file})
+    end + %( -tile 1x -geometry '1x1+0+0<' -texture #{@bg} #{m_file})
     run_command command
     m_file
   end
