@@ -24,9 +24,10 @@ class ColorText
     require 'chinese/width'
     str = Width.instance.half2full str, ['#']
     line_count = 0
-    files = wrap_lines(str).map do |line|
+    files = wrap_lines(str).reduce([]) do |fs, line|
       line_count += 1
-      convert line, line_count
+      fs << convert(line, line_count) unless line.blank?
+      fs
     end
     montage files
   end
@@ -85,7 +86,7 @@ class ColorText
     m_file = @file_dir + @filename_base + "m.png"
     command = files.reduce("montage") do |c, file|
       c += %( -label '' #{file})
-    end + %( -tile 1x -geometry '1x1+0+0<' -texture #{@bg} #{m_file})
+    end + %( -tile 1x -geometry '1x1+0+0<' #{m_file})
     run_command command
     files.each {|f| File.delete f}
     m_file
