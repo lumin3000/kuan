@@ -1,0 +1,6 @@
+- content_for :site_layout, 'site_middle_size'
+- content_for :title, '宽岛体_DEMO'
+
+= form_tag({action: :kdtcreate}) do
+  = text_area_tag 'content', nil, :size => "100x20"
+  = submit_tag "生成宽岛体"
