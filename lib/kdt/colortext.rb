@@ -7,12 +7,11 @@ require 'subexec'
 
 class ColorText
 
-  LINE_LENGTH = 15
+  LINE_LENGTH = 14
   COLORS = %w[blue red green purple orange] 
 
   def initialize
     @ttf = File.join(File.dirname(File.expand_path(__FILE__)),'fzlt.ttf')
-    @bg = File.join(File.dirname(File.expand_path(__FILE__)),'bg.jpg')
     @file_dir = %(#{Rails.root.to_s}/tmp/kdts/)
     Dir.mkdir(@file_dir) unless Dir.exist?(@file_dir)
     @filename_base = %(#{Process.pid}_)
@@ -46,7 +45,6 @@ class ColorText
         l.scan(/.{1,#{LINE_LENGTH}}/) do |m|
           ins_offset = ins_counter
           sep_offsets.each do |i|
-            @logger.info "sep_offsets #{i} #{ins_offset} #{line_counter}"
             start_pos = line_counter*LINE_LENGTH+ins_offset
             end_pos = start_pos + LINE_LENGTH + ins_counter - ins_offset
             if (start_pos...end_pos).cover? i
@@ -54,7 +52,6 @@ class ColorText
               ins_counter += 1 
             end
           end
-          @logger.info m
           lines << m
           line_counter += 1
         end 
@@ -66,17 +63,18 @@ class ColorText
   def convert(line, count)
     @logger.info line
     file = @file_dir + @filename_base + count.to_s + '.png'
+    base_command = %(convert -size 500x100 xc:none -fill yellow -draw 'line 15,0 15,99' -undercolor white)
     color_flag = !@color_stick.nil?
     last_color = nil
-    base_command = %(convert -size 500x100 xc:none -fill yellow -draw 'line 15,0 15,99' -undercolor white)
     command = line.split('#').reduce(base_command) do |c, token|
       color = last_color = @color_stick || (color_flag ? COLORS.sample : "black")
       color_flag = !color_flag
       @color_stick = nil
-      pointsize = color_flag ? "26" : "32"
+      pointsize = color_flag ? "26" : "34"
       c += %( \\( -clone 0 -fill #{color} -font #{@ttf} -pointsize #{pointsize} -annotate +5+60 "#{token}" \\))
     end + %( -delete 0 -trim +repage +append -transparent yellow -trim +repage -background white -flatten #{file})
     @color_stick = (last_color == 'black') ? nil : last_color
+    @color_stick = @color_stick.nil? ? COLORS.sample : nil if line.last == '#'
     @logger.info command
     run_command command
     file
