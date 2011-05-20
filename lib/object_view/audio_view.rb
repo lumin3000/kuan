@@ -1,9 +1,14 @@
 class AudioView < PostView
   expose_without_escape :@post, :content
   expose :@post, :song_name, :artist_name, :album_name
+  expose_by_dict :@post, :album_art => :album_art_100
 
   def audio
     true
+  end
+
+  def album_art_55
+    h @post.album_art.sub(/_1\.jpg$/, '_3.jpg')
   end
 
   def player_code
