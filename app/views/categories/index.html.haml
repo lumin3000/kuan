@@ -9,7 +9,7 @@
   .slide_togglers
   .spread_bg
   .categories
-    .spread_prev.row.row_button<
+    .spread_prev.row.row_button{data: {widget: "fixHover"}}<
       &nbsp;
     .categories_box
       .categories_inner
@@ -31,7 +31,7 @@
                       :data => {:method => "POST", :remote => "true"}, :title => "关注"}<
                       .btn_follow
                         +加关注
-    .spread_next.row.row_button<
+    .spread_next.row.row_button{data: {widget: "fixHover"}}<
       &nbsp;
 .category_list{style: "display:none;"}
   - @categories.each do |category|
