@@ -339,7 +339,7 @@ K.widgets.reloadAppearance = function(el){
     if (reset) {
       dataToSend = Object.toQueryString(dataToSend) + '&reset=1'
     }
-    new Requesta.HTML({
+    new Request.HTML({
       url: '/extract_template_vars',
       method: 'post',
       update: target,
