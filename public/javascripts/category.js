@@ -1,20 +1,9 @@
 document.addEvent('domready', function(){
-  //
-  setInterval((function(){
-    var tops = $$('.spread_banner')
-    var length = tops.length
-    var index = 0
-    return function(){
-      tops.setStyle('z-index', 1)
-      tops[index].setStyle('z-index', 2)
-      ++index>=length && (index=0)
-      tops[index].setStyle('z-index', 3).show()
-      tops[index].getElement('img') &&
-        tops[index].getElement('img').fade('hide').fade('in')
-    }
-  })(), 5000)
+  //slides
+  K.slide.init()
+  K.slide.start()
 
-  //
+  //categories
   var el = $$('.categories_box')[0]
   var cat = new Fx.Scroll(el, {
     duration: 1500,
@@ -28,7 +17,7 @@ document.addEvent('domready', function(){
   })
   $$('.categories_inner').setStyle('width', $$('.categories_inner .row').length*100)
 
-  //
+  //bubbles
   var bubbles = $$('.category_list a')
   var sea
   for(var i=0,l=bubbles.length; i<l; i++){
@@ -40,3 +29,44 @@ document.addEvent('domready', function(){
     bubbles[i].inject(sea).addClass('bubble'+((i+1)%30==0?30:(i+1)%30))
   }
 })
+
+K.slide = function(){
+  var tops
+  var length
+  var index = 0
+  var togglers = []
+
+  return {
+    init: function(){
+      tops = $$('.spread_banner')
+      length = tops.length
+      var el
+      for(var i=0; i<length; i++){
+        el = new Element('span', {}).inject($$('.slide_togglers')[0])
+        el.addEvent('click', function(j){
+          return function(){
+            this.show(j)
+          }.bind(this)
+        }.call(this, i))
+        togglers[i] = el
+      }
+    },
+    show: function(i){
+      tops.setStyle('z-index', 1)
+      tops[index].setStyle('z-index', 2)
+      togglers[index].removeClass('highlight')
+      index = i
+      tops[index] || (index = 0)
+      tops[index].setStyle('z-index', 3).show()
+      tops[index].getElement('img') &&
+        tops[index].getElement('img').fade('hide').fade('in')
+      togglers[index].addClass('highlight')
+    },
+    next: function(){
+      this.show.call(this, index+1)
+    },
+    start: function(){
+      setInterval(this.next.bind(this), 5000)
+    }
+  }
+}()
