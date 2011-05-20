@@ -32,17 +32,20 @@
 .slide_togglers
   z-index: 99
   position: relative
-  top: 300px
-  left: 750px
+  top: 290px
+  left: 740px
+  padding: 10px
+  display: inline-block
   span
+    cursor: pointer
     display: inline-block
-    height: 10px
-    width: 10px
-    border: 3px solid blue
-    @include border-radius(8px)
-    margin: 2px
+    height: 12px
+    width: 12px
+    border: 3px solid white
+    @include border-radius(12px)
+    margin: 3px
     &.highlight
-      background: red
+      background: white
 .spread_main
   .row
     width: 100px

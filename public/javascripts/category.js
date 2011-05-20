@@ -49,6 +49,7 @@ K.slide = function(){
           }.bind(this)
         }.call(this, i))
         togglers[i] = el
+        i==0 && el.addClass('highlight')
       }
     },
     show: function(i){
