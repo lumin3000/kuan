@@ -1,6 +1,6 @@
 class AudioView < PostView
   expose_without_escape :@post, :content
-  expose :@post, :song_name, :artist_name
+  expose :@post, :song_name, :artist_name, :album_name
 
   def audio
     true

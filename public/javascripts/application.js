@@ -1000,7 +1000,7 @@ K.SongDataSource = new Class({
         if (typeOf(response.results) == 'array') {
           response.results.each(function(song) {
             K.SongDataSource.normalizeField(song,
-              'song_name artist_name song_id album_logo'.split(' '))
+              'song_name artist_name song_id album_logo album_name'.split(' '))
             self.cache[song.songId] = song
           })
         }
@@ -1125,6 +1125,7 @@ K.poweredForm = function(form) {
   form.acceptParam = function(data, mapping) {
     for (var i in mapping) {
       if (!mapping.hasOwnProperty(i)) return
+      console.log(mapping[i], data[i])
       new Element('input', {
         type: 'hidden'
       , name: mapping[i]
