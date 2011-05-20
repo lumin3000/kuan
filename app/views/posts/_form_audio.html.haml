@@ -1,0 +1,21 @@
+- @post_type ||= capture do
+  音乐贴
+
+- content_for :form do
+  #songCmplPrompt{style: 'display: none'}
+    %ul.song_list
+    .summary
+      共
+      %span.total_num>
+      个结果
+      .pagination
+        %a.prev_page{href: "#", 'data-action' => 'turnPrevPage'} 上一页
+        %a.next_page{href: "#", 'data-action' => 'turnNextPage'} 下一页
+    .empty_message
+      Nothing to see here
+  .option_text_top<
+    &nbsp;
+  .title_text.audio{'data-input-holder' => 1}
+    = text_field_tag :song_id, '', :alt => '搜索歌名，歌手，专辑...',
+      'data-widget' => 'overtext autocpl', 'autocomplete' => 'off'
+  = content_for :content_area
