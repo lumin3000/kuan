@@ -190,7 +190,6 @@ Section里使用</p>
 <li><a href="#photo-set-section">photo_set</a> 多张图片的图片帖
 <li><a href="#link-section">link</a> 链接
 <li><a href="#video-section">video</a> 视频
-<li><a href="#audio-section">audio</a> 音频
 </ul>
 
 
@@ -266,36 +265,6 @@ Section里使用</p>
 <li>video_code_500 大坨视频代码，点击展开后宽度为500px</li>
 <li>content 描述内容，可能为空</li>
 </ul>
-
-<h3 id="audio-section">Audio Section</h3>
-
-<p><a href="#posts-section">Posts Section</a>下可用，"音频"类型的帖子可进入该section</p>
-
-<h4>字段</h4>
-
-<ul>
-<li>song_name 歌曲名</li>
-<li>artist_name 表演者名</li>
-<li>album_name 专辑名</li>
-<li>album_art_55 55x55专辑封面</li>
-<li>album_art_100 100x100专辑封面</li>
-<li>player_code 播放器代码，宽257px，高33px</li>
-<li>player_code_autoplay 同上，加载完成时自动开始播放</li>
-<li>content 描述内容，可能为空</li>
-</ul>
-
-<p>慎用<code>player_code_autoplay</code>...【难道你希望打开帖子列表页时很多首歌一起合奏么。】下面这段代码可以满足在帖子列表页不会自动播放，而进入单个帖子的页面又可以自动播放：</p>
-
-<pre><code>
-    {{#audio}}
-      {{#post_index}}
-        {{player_code}}
-      {{/post_index}}
-      {{#post_single}}
-        {{player_code_autoplay}}
-      {{/post_single}}
-    {{/audio}}
-</code></pre>
 
 <h3 id="tags-section">Tags Section</h3>
 
