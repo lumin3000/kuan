@@ -1,7 +1,9 @@
 - content_for :site_layout, 'site_middle_size'
 - content_for :title, '宽岛体_DEMO'
+- js 'demo'
 
 = form_tag({action: :kdtcreate}) do
+  #emotion
   %div
     用#可以让文字变颜色喔，比如 "我喜欢#宽岛#～真是个好地方"
   = text_area_tag 'content', nil, :size => "100x20"

@@ -32,6 +32,8 @@ javascripts:
     - public/javascripts/sitemap.js
   category:
     - public/javascripts/category.js
+  demo:
+    - public/javascripts/demo.js
 
 stylesheets:
   base:
