@@ -995,7 +995,6 @@ K.SongDataSource = new Class({
     this.requestCache[url] = 'inProgress'
     this.prevRequest = new Request.JSONP({
       url: url
-    , log: true
     , onComplete: function(response) {
         if (typeOf(response.results) == 'array') {
           response.results.each(function(song) {
@@ -1125,7 +1124,6 @@ K.poweredForm = function(form) {
   form.acceptParam = function(data, mapping) {
     for (var i in mapping) {
       if (!mapping.hasOwnProperty(i)) return
-      console.log(mapping[i], data[i])
       new Element('input', {
         type: 'hidden'
       , name: mapping[i]
