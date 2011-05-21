@@ -10,12 +10,14 @@ document.addEvent('domready', function(){
     transition:Fx.Transitions.Quad.easeInOut
   })
   $$('.spread_prev').addEvent('click', function(){
-    cat.start(el.getScroll().x-600, 0)
+    var x = el.getScroll().x
+    cat.start(x==0 ? $$('.categories_inner')[0].getWidth()-el.getWidth() : x-600, 0)
   })
   $$('.spread_next').addEvent('click', function(){
-    cat.start(el.getScroll().x+600, 0)
+    var x = el.getScroll().x
+    cat.start(x>$$('.categories_inner')[0].getWidth()-el.getWidth() ? 0 : x+600, 0)
   })
-  $$('.categories_inner').setStyle('width', $$('.categories_inner .row').length*100)
+  $$('.categories_inner').setStyle('width', $$('.categories_inner .row').length*100+$$('.categories_inner .row2').length*90)
 
   //bubbles
   var bubbles = $$('.category_list a')
@@ -49,6 +51,7 @@ K.slide = function(){
           }.bind(this)
         }.call(this, i))
         togglers[i] = el
+        i==0 && el.addClass('highlight')
       }
     },
     show: function(i){

@@ -9,18 +9,18 @@
   .slide_togglers
   .spread_bg
   .categories
-    .spread_prev.row.row_button<
+    .spread_prev.row.row_button{data: {widget: "fixHover"}}<
       &nbsp;
     .categories_box
       .categories_inner
         - @categories.each do |category|
-          .row
+          .row{class: (category.category_subs.count > 2 ? "row2" : "")}
             .spread_rowname<
               %a{href: category_by_name_path(category.name)}<
                 = category.name
-            - category.category_subs.each do |sub|
-              - if sub == category.category_subs.first || sub == category.category_subs.second
-                .spread_rowbox{style: "background-image:url(#{sub.blog.icon.url_for(:medium)})"}<
+            - category.category_subs.take(4).each do |sub|
+              .spread_rowbox
+                .spread_rowimg{style: "background-image:url(#{sub.blog.icon.url_for(:medium)})"}<
                   %a{href: blog_path(sub.blog), target: "_blank"}<
                     &nbsp;
                 %a.blog_name{href: blog_path(sub.blog), target: "_blank"}<
@@ -31,7 +31,7 @@
                       :data => {:method => "POST", :remote => "true"}, :title => "关注"}<
                       .btn_follow
                         +加关注
-    .spread_next.row.row_button<
+    .spread_next.row.row_button{data: {widget: "fixHover"}}<
       &nbsp;
 .category_list{style: "display:none;"}
   - @categories.each do |category|
