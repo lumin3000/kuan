@@ -769,6 +769,7 @@ K.widgets.navigator = function(el){
 K.box = new Class({
   Implements: Options,
   options: {
+    zIndex: null,
     top: 200,
     width: 360,
     height: 150
@@ -779,7 +780,7 @@ K.box = new Class({
       .setStyles({
         'height': this.options.height,
         'width': this.options.width,
-        zIndex: 2
+        zIndex: (this.options.zIndex ? this.options.zIndex : 2)
       })
     this.box_top = new Element('div', {'class':'k_box_top'})
       .inject(this.box)
@@ -824,7 +825,7 @@ K.widgets.invite = function(el){
       .addEvent('click', function(){
         this.select()
       }).inject(msg)
-    new K.box(msg, {height:140, width: 420}).show()
+    new K.box(msg, {height:140, width: 420, zIndex: 99}).show()
   })
 }
 
