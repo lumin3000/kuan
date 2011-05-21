@@ -118,7 +118,7 @@ class Feed
 
     post_new.blog = blog
     post_new.author = import_feed.author
-    post_new.created_at = item.date
+    post_new.created_at = (item.date > Time.now) ? Time.now : item.date
 
     unless post_new.valid?
       @@logger.warn "Item unvalid #{uri} #{item.title} #{uri}"
