@@ -5,8 +5,6 @@
       - if @post.ancestor
         %a{ :href => blog_path(@post.ancestor.blog), :title => "原帖：" + @post.ancestor.blog.title }
           %img.original{src: @post.ancestor.blog.icon.url_for(:small)}
-      - elsif @post.ancestor_id
-        原帖已被删除
       - else
         %a{ :href => blog_path(@post.blog), :title => "原帖：" + @post.blog.title }
           %img.original{src: @post.blog.icon.url_for(:small)}

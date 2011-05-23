@@ -147,9 +147,9 @@ class Post
   end
 
   def repost_history
-    return nil unless repost_count_all && repost_count_all > 1
+    return nil unless repost_count_all && repost_count_all >= 1
     Post.desc(:created_at).
-      where(:ancestor_id => ancestor_id || id).
+      where(:ancestor_id => (ancestor.nil? ? id : ancestor.id)).
       limit(30)
   end
 
