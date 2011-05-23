@@ -231,7 +231,7 @@ describe Post, "reposting" do
 
     it "ancestor should have correct reposts count" do
       @post.reload
-      @post.repost_count.should == 3
+      @post.repost_count.should == 2
     end
 
     it "should not be repost when parent is deleted" do

@@ -202,7 +202,7 @@ class Post
   end
 
   def parent_reposts_inc
-    unless parent.nil?
+    unless parent.nil? || parent == ancestor
       if parent.repost_count.nil?
         parent.update_attributes(:repost_count => 1)
       else
