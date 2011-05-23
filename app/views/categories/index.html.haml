@@ -1,6 +1,9 @@
+- @sub_title = "宽岛推荐"
+- content_for :title, @sub_title
+- @site_layout = "site"
+- @nav_now = "discovery"
 - css "category"
 - js "category"
-- @site_layout = "site"
 
 .spread_main
   - @top_categories.each do |category|

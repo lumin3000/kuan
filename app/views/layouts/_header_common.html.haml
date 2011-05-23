@@ -6,24 +6,37 @@
         我的主页
       %span><
         |    
-    %a.z_discovery{href: tags_path}><
-      兴趣
-    %span><
-      |    
     %a.z_news{href: news_posts_path}><
       新鲜事儿
     %span><
       |    
-    %a.z_sitemap{href: sitemap_path}><
-      宽岛地图
+    .menu><
+      %div<
+        %a{href: categories_path}
+          探索发现
+          %span<
+            &nbsp;
+      %div<
+        %a{href: categories_path} 推荐
+      %div<
+        %a{href: tags_path} 兴趣
+      %div<
+        %a{href: wall_posts_path} 宽墙
+      %div<
+        %a{href: sitemap_path} 宽岛地图
+    %a.tar.z_discovery{href: "#"}><
+      探索发现
+      %span<
+        &nbsp;
     - if current_user
       %span><
         |    
       .menu><
         %div<
-          我的帐户
-          %span<
-            &nbsp;
+          %a{href: edit_user_path(current_user)}
+            我的帐户
+            %span<
+              &nbsp;
         %div<
           %a{href: edit_user_path(current_user)} 帐户设置
         %div<

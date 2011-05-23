@@ -1,5 +1,9 @@
-- css "category"
+- @sub_title = "宽岛推荐"
+- content_for :title, @sub_title
 - @site_layout = "site"
+- @nav_now = "discovery"
+
+- css "category"
 
 .spread_main
   - unless @category.top_blog.blank?
