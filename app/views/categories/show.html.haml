@@ -7,7 +7,7 @@
       %img{src: @category.top_blog.image}
   .spread_bg
   .mainbox
-    - @category.category_subs.each do |sub|
+    - @category.category_subs.slice(0, 6).each do |sub|
       .contentbox
         .transparentbg<
           &nbsp;
