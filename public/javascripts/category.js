@@ -6,7 +6,7 @@ document.addEvent('domready', function(){
   //categories
   var el = $$('.categories_box')[0]
   var cat = new Fx.Scroll(el, {
-    duration: 1500,
+    duration: 500,
     transition:Fx.Transitions.Quad.easeInOut
   })
   $$('.spread_prev').addEvent('click', function(){
