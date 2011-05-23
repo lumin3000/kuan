@@ -14,10 +14,13 @@
       %div<
         %a{href: categories_path}
           探索发现
-          %span<
+          %span.z_more<
             &nbsp;
       %div<
-        %a{href: categories_path} 推荐
+        %a{href: categories_path}<
+          推荐
+          %span.z_new<
+            new!
       %div<
         %a{href: tags_path} 兴趣
       %div<
@@ -26,7 +29,7 @@
         %a{href: sitemap_path} 宽岛地图
     %a.tar.z_discovery{href: "#"}><
       探索发现
-      %span<
+      %span.z_more<
         &nbsp;
     - if current_user
       %span><
@@ -35,7 +38,7 @@
         %div<
           %a{href: edit_user_path(current_user)}
             我的帐户
-            %span<
+            %span.z_more<
               &nbsp;
         %div<
           %a{href: edit_user_path(current_user)} 帐户设置
@@ -45,7 +48,7 @@
           %a{href: signout_path, :data => { :confirm => "确定登出?"}} 退出
       %a.tar.z_account{href: "#"}><
         我的帐户
-        %span<
+        %span.z_more<
           &nbsp;
     - else
       %span><

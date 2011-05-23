@@ -65,7 +65,7 @@ pre
     padding: 5px 12px
     text-decoration: none
     margin: 0 -5px
-    span
+    .z_more
       display: inline-block
       width: 14px
       height: 14px
@@ -81,7 +81,7 @@ pre
     color: #fff
     @include border-radius(8px)
     background-color: $blue
-    span
+    .z_more
       background: url('/images/icons.gif') -100px -40px
   .menu
     z-index: 9999
@@ -105,7 +105,7 @@ pre
       padding: 4px
       height: 24px
       color: $blue
-      span
+      .z_more
         display: inline-block
         *display: inline
         *zoom: 1
@@ -121,6 +121,10 @@ pre
         text-decoration: none
         padding: 0
         margin: 0
+        .z_new
+          color: red
+          top: 0
+
 
 .js_enabled .navigator .menu
   display: none
