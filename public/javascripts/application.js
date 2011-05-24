@@ -626,6 +626,7 @@ K.tgt.comments = function(){
                     new Fx.Scroll(ele.getElement('.c_content'))
                       .toElement(ele.getElement('.c_content').getLast('.mine'))
                 }
+                new Fx.Scroll(window).toElementEdge(ele, 'y')
                 K.tgt._accordion.lock = false
             }
         }).send()
