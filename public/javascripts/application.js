@@ -1053,6 +1053,7 @@ K.ListDisplay = new Class({
       var action = clicked.get('data-action')
       this[action]()
     }.bind(this))
+    this.keyIndicator = context.getElement('.search_key')
   }
 , options: {
     itemTemplate: '<li data-song-id="{songId}">{songName} -  {artistName}</li>'
@@ -1063,16 +1064,16 @@ K.ListDisplay = new Class({
     var rendered = data.results.map(function(item) {
       return this.options.itemTemplate.substitute(item)
     }, this).join("\n")
+    this.show()
     if (!rendered) {
-      this.renderAsEmpty()
-      return
+      this.renderAsEmpty(data)
+      return this
     }
     this.itemsContainer.set('html', rendered)
     this.context.removeClass('empty')
     this.total = data.total
     this.numIndicator.set('html', data.total)
     this.renderPaging()
-    this.show()
     return this
   }
 , renderPaging: function() {
@@ -1090,8 +1091,9 @@ K.ListDisplay = new Class({
       context.removeClass('firstPage')
     }
   }
-, renderAsEmpty: function() {
+, renderAsEmpty: function(data) {
     this.context.addClass('empty')
+    this.keyIndicator.set('html', data.key)
   }
 , hide: function() { this.context.hide() }
 , show: function() { this.context.show() }
