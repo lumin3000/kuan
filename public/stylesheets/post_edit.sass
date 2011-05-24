@@ -16,6 +16,7 @@
     width: 620px
     padding: 0 20px 0 0
     border-right: 1px dashed #CADBEA
+    position: relative
   .right
     width: 190px
     float: right
@@ -413,3 +414,59 @@
 
 embed.player
   display: inline
+
+input#song_id
+  padding-left: 0.5em
+  width: 610px
+
+#songCmplPrompt
+  position: absolute
+  z-index: 1
+  top: 133px
+  color: #68879F
+  font-size: 14px
+  line-height: 2
+  background: white
+  border: 1px solid #cadbea
+  padding: 10px 10px 0px 10px
+  border-top: 0
+  width: 600px
+  @include border_radius(0 0 10px 10px)
+
+.song_list
+  padding: 0
+  margin: 0
+
+  .song_item
+    @include clear_fix
+    height: 30px
+    cursor: pointer
+
+  .hover
+    background: #cadbea
+
+  .song_name, .artist_name
+    display: inline
+    padding: 0
+    margin: 0
+
+  .song_name
+    width: 400px
+    float: left
+
+  .artist_name
+    text-align: center
+    width: 200px
+    float: right
+
+.summary
+  @include clear_fix
+
+  .song_name
+    width: 400px
+    float: left
+
+  .artist_name
+    text-align: center
+    width: 200px
+    float: right

@@ -1056,8 +1056,8 @@ K.ListDisplay = new Class({
     this.keyIndicator = context.getElement('.search_key')
   }
 , options: {
-    itemTemplate: '<li data-song-id="{songId}">{songName} -  {artistName}</li>'
-  , itemsContainer: 'ul'
+    itemTemplate: '<li class="song_item" data-widget="fixHover" data-song-id="{songId}"><span class="song_name">{songName}</span><span class="artist_name">{artistName}</span></li>'
+  , itemsContainer: '.song_list'
   , perPage: 8
   }
 , render: function(data) {
@@ -1070,6 +1070,7 @@ K.ListDisplay = new Class({
       return this
     }
     this.itemsContainer.set('html', rendered)
+    K.applyWidgets(this.itemsContainer)
     this.context.removeClass('empty')
     this.total = data.total
     this.numIndicator.set('html', data.total)
