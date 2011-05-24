@@ -742,6 +742,11 @@ K.tgt.reply = function(){
           var replyCount = post && post.getElement('.reply')
           if (replyCount) replyCount.innerHTML = chat.getElement('[name=count]').value
         }
+      },
+      onFailure: function(){
+        lock = false
+        input.set('disabled', false).highlight()
+        el.set('disabled', false)
       }
     }).send()
   }
