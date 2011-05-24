@@ -693,6 +693,13 @@ K.tgt.favors = function(){
 }()
 
 K.set_max_height = function(el){
+    if(K.checkMobile()){
+      el.setStyles({
+        'max-height':9999,
+        'height':'auto'
+      })
+      return
+    }
     if(!el.getStyle('max-height') && el.getSize().y > 390){
         el.setStyle('height', 390)
     }
