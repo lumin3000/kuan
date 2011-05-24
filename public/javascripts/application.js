@@ -612,14 +612,19 @@ K.tgt.comments = function(){
             useSpinner: true,
             spinnerTarget: el,
             onSuccess: function(){
-                K.tgt._accordion.el = container.getElement('.chat')
+                var el = container.getElement('.chat')
+                K.tgt._accordion.el = el
                 K.set_max_height(K.tgt._accordion.el.getElement('.c_content'))
                 K.tgt._accordion.target = el
-                if(K.tgt._accordion.el.getElement('[name=count]').value > 0){
-                    container.getElement('.reply').innerHTML = K.tgt._accordion.el.getElement('[name=count]').value
+                if(el.getElement('[name=count]').value > 0){
+                    container.getElement('.reply').innerHTML = el.getElement('[name=count]').value
                 }
                 if(K.tgt._accordion.target.getParent('.new_reply')){
                     K.tgt._accordion.target.getParent('.new_reply').removeClass('new_reply')
+                }
+                if(el.getElement('.c_content').getElement('.mine')){
+                    new Fx.Scroll(el.getElement('.c_content'))
+                      .toElement(el.getElement('.c_content').getLast('.mine'))
                 }
                 K.tgt._accordion.lock = false
             }

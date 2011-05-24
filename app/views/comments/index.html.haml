@@ -5,7 +5,7 @@
   .c_content
     %input{ :type => "hidden", :name => "count", :value => @post.comments.count }
     - @post.comments.each do |comment|
-      .box
+      .box{class: (current_user == comment.author ? "mine" : "")}
         %img.c_avatar{:src => comment.author.primary_blog.icon.url_for(:'16')}
         %span.c_body
           %span.c_name><
