@@ -64,6 +64,12 @@ class Douban < OAuthTarget
     post_request(post.url, title, post.stripped_content)
   end
 
+  def handle_audio(post)
+    url = compose_url(post)
+    title = "#{post.song_name} - #{post.artist_name}"
+    post_request(url, title, post.stripped_content)
+  end
+
   def access_token
     return @access_token if @access_token
     hacked_consumer = consumer.dup
