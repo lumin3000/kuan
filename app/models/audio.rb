@@ -20,4 +20,8 @@ class Audio < Post
   def flash_url_autoplay
     "http://img.xiami.com/widget/0_#{song_id}_/singlePlayer.swf"
   end
+
+  def album_art_orig
+    self.album_art.sub '_1.jpg', '.jpg'
+  end
 end

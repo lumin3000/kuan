@@ -4,6 +4,7 @@ class SinaWeibo < OAuthTarget
   require 'json'
   require 'curb'
   require 'uri'
+  require 'open-uri'
   SITE = 'http://api.t.sina.com.cn/'
 
   class << self
@@ -58,6 +59,13 @@ class SinaWeibo < OAuthTarget
     update_status status
   end
 
+  def handle_audio(post)
+    song_info = "#{post.song_name} - #{post.artist_name} "
+    damned_upload "#{SITE}statuses/upload.json",
+      :pic => open(post.album_art_orig),
+      :status => song_info + compose_status(post.stripped_content, post, -(song_info.size))
+  end
+
   def grid
     self.class.grid
   end
@@ -91,7 +99,8 @@ class SinaWeibo < OAuthTarget
     actual_request.headers['Authorization'] = fake_request['Authorization']
     fields = params.map do |k, v|
       if k == :pic
-        Curl::PostField.file k.to_s, v.server_md5.to_s do |f|
+        path = v.respond_to?(:server_md5) ? v.server_md5 : v.path
+        Curl::PostField.file k.to_s, path.to_s do |f|
           f.content_type = v.content_type
           v.read
         end
