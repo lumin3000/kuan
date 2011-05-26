@@ -1053,26 +1053,28 @@ K.ListDisplay = new Class({
       var action = clicked.get('data-action')
       this[action]()
     }.bind(this))
+    this.keyIndicator = context.getElement('.search_key')
   }
 , options: {
-    itemTemplate: '<li data-song-id="{songId}">{songName} -  {artistName}</li>'
-  , itemsContainer: 'ul'
+    itemTemplate: '<li class="song_item" data-widget="fixHover" data-song-id="{songId}"><span class="song_name">{songName}</span><span class="artist_name">{artistName}</span></li>'
+  , itemsContainer: '.song_list'
   , perPage: 8
   }
 , render: function(data) {
     var rendered = data.results.map(function(item) {
       return this.options.itemTemplate.substitute(item)
     }, this).join("\n")
+    this.show()
     if (!rendered) {
-      this.renderAsEmpty()
-      return
+      this.renderAsEmpty(data)
+      return this
     }
     this.itemsContainer.set('html', rendered)
+    K.applyWidgets(this.itemsContainer)
     this.context.removeClass('empty')
     this.total = data.total
     this.numIndicator.set('html', data.total)
     this.renderPaging()
-    this.show()
     return this
   }
 , renderPaging: function() {
@@ -1090,8 +1092,9 @@ K.ListDisplay = new Class({
       context.removeClass('firstPage')
     }
   }
-, renderAsEmpty: function() {
+, renderAsEmpty: function(data) {
     this.context.addClass('empty')
+    this.keyIndicator.set('html', data.key)
   }
 , hide: function() { this.context.hide() }
 , show: function() { this.context.show() }

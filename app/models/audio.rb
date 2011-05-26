@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Audio < Post
   include Mongoid::Document
   field :song_id
@@ -11,7 +12,7 @@ class Audio < Post
     :album_name
 
   before_validation :sanitize_content
-  validates_presence_of :song_id
+  validates_presence_of :song_id, :message => '选首歌先?'
 
   def flash_url
     "http://www.xiami.com/widget/0_#{song_id}/singlePlayer.swf"
@@ -19,5 +20,9 @@ class Audio < Post
 
   def flash_url_autoplay
     "http://img.xiami.com/widget/0_#{song_id}_/singlePlayer.swf"
+  end
+
+  def album_art_orig
+    self.album_art.sub '_1.jpg', '.jpg'
   end
 end

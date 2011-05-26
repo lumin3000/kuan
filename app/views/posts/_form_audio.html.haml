@@ -2,20 +2,36 @@
   音乐贴
 
 - content_for :form do
-  #songCmplPrompt{style: 'display: none'}
-    %ul.song_list
-    .summary
-      共
-      %span.total_num>
-      个结果
+  .option_text_top<
+    &nbsp;
+  - if post.song_id.nil?
+    .title_text.audio{'data-input-holder' => 1}
+      = text_field_tag :search_key, '', :alt => '搜索歌曲，专辑，艺术家...',
+        'data-widget' => 'overtext autocpl', 'autocomplete' => 'off'
+    #songCmplPrompt{style: 'display: none'}
+      .summary
+        .song_name
+          歌曲(共搜索到
+          %span.total_num>
+          首)
+        .artist_name
+          艺术家
+      %ul.song_list
       .pagination
         %a.prev_page{href: "#", 'data-action' => 'turnPrevPage'} 上一页
         %a.next_page{href: "#", 'data-action' => 'turnNextPage'} 下一页
-    .empty_message
-      Nothing to see here
-  .option_text_top<
-    &nbsp;
-  .title_text.audio{'data-input-holder' => 1}
-    = text_field_tag :song_id, '', :alt => '搜索歌名，歌手，专辑...',
-      'data-widget' => 'overtext autocpl', 'autocomplete' => 'off'
+      .empty_message
+        没有搜索到
+        %span.search_key>
+        对应的歌曲
+  - unless post.song_id.nil?
+    = hidden_field_tag :song_id, post.song_id
+    = hidden_field_tag :song_name, post.song_name
+    = hidden_field_tag :artist_name, post.artist_name
+    = hidden_field_tag :album_name, post.album_name
+    = hidden_field_tag :album_art, post.album_art
+    %div
+      %img{src: post.album_art}
+      %embed.player{src: post.flash_url, width: 257, height: 33,
+        wmode: 'transparent', type: 'application/x-shockwave-flash'}
   = content_for :content_area
