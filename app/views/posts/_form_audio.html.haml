@@ -6,7 +6,7 @@
     &nbsp;
   - if post.song_id.nil?
     .title_text.audio{'data-input-holder' => 1}
-      = text_field_tag :song_id, '', :alt => '搜索歌曲，专辑，艺术家...',
+      = text_field_tag :search_key, '', :alt => '搜索歌曲，专辑，艺术家...',
         'data-widget' => 'overtext autocpl', 'autocomplete' => 'off'
     #songCmplPrompt{style: 'display: none'}
       .summary
