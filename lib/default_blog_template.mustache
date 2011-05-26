@@ -71,6 +71,20 @@
                 {{video_code_500}}
                 {{content}}
               {{/video}}
+              {{#audio}}
+                <div>
+                  <img src="{{album_art_100}}">
+                </div>
+                <div>
+                  {{#post_single}}
+                    {{player_code_autoplay}}
+                  {{/post_single}}
+                  {{#post_index}}
+                    {{player_code}}
+                  {{/post_index}}
+                </div>
+                {{content}}
+              {{/audio}}
             </div>
             <div class='content_footer'>
               <div class="tags">
