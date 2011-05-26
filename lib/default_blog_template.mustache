@@ -8,7 +8,9 @@
     <link href="/stylesheets/blog_show.css" media="screen" rel="stylesheet" type="text/css" />
     <meta name="description" content="{{meta_desc}}"></meta>
     {{#define}}
-      color background 背景颜色 #fff
+    color background 背景颜色 #fff
+  	bool 	show_followers 显示关注的页面 1
+  	bool	show_pages 显示我所有的页面 1
     {{/define}}
     <style type='text/css'>
       body {
@@ -73,9 +75,7 @@
               {{/video}}
               {{#audio}}
                 <div>
-                  <img src="{{album_art_100}}">
-                </div>
-                <div>
+                  <img src="{{album_art_100}}" /><br /><br />
                   {{#post_single}}
                     {{player_code_autoplay}}
                   {{/post_single}}
@@ -151,7 +151,49 @@
           </div>
           <div id='description'>
             {{desc}}
-          </div>
+          </div>          
+          
+{{#is_primary}}
+<!-- pages -->
+
+{{#bool_show_pages}}
+{{#has_other_pages}}
+<div style="margin:10px">
+<p class="sideheader"><strong>{{title}}的兴趣</strong></p>
+  <p>
+<div class="following">
+
+      {{#other_pages}}
+      <a href="{{url}}" title="{{title}}"><img src="{{icon_24}}" border="0"/></a>            {{/other_pages}}
+
+</div>
+</p> 
+</div>
+{{/has_other_pages}}
+{{/bool_show_pages}}
+
+
+<!-- Following -->
+
+{{#bool_show_followers}}
+<div style="margin:10px">
+
+<p class="sideheader"><strong>关注的页面</strong></p>
+  <p>
+<div class="following">
+{{#has_following}}
+      {{#followings}}
+      <a href="{{url}}"  title="{{title}}"><img src="{{icon_24}}" border="0"/></a>            {{/followings}}
+      {{/has_following}}
+</div>
+</p> 
+</div>
+{{/bool_show_followers}}
+
+</div>
+{{/is_primary}}
+          
+          
         </div>
       </div>
     </div>
