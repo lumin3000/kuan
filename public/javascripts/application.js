@@ -1081,15 +1081,15 @@ K.ListDisplay = new Class({
     var context = this.context
 
     if (this.isAtLastPage()) {
-      context.addClass('lastPage')
+      context.addClass('last_page')
     } else {
-      context.removeClass('lastPage')
+      context.removeClass('last_page')
     }
 
     if (this.isAtFirstPage()) {
-      context.addClass('firstPage')
+      context.addClass('first_page')
     } else {
-      context.removeClass('firstPage')
+      context.removeClass('first_page')
     }
   }
 , renderAsEmpty: function(data) {

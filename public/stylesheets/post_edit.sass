@@ -442,6 +442,7 @@ input#song_id
   .song_item
     @include clear_fix
     height: 30px
+    overflow: hidden
     cursor: pointer
 
   .hover
@@ -472,3 +473,7 @@ input#song_id
     text-align: center
     width: 200px
     float: right
+
+.last_page .next_page,
+.first_page .prev_page
+  visibility: hidden
