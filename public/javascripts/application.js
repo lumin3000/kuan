@@ -1161,7 +1161,7 @@ K.widgets.autocpl = function(input) {
     , list = new K.ListDisplay($('songCmplPrompt'), {dataSource: dataSource})
     , controller = new Events()
     , form = K.poweredForm(input.getParent('form'))
-    , songTemplate = '<img src={albumLogo}><embed class="player" src="http://www.xiami.com/widget/0_{songId}/singlePlayer.swf" wmode="transparent" width=257 height=33></embed><span class="cancel">重新选择</span>'
+    , songTemplate = '<img src={albumLogo}><embed class="player" src="http://www.xiami.com/widget/0_{songId}/singlePlayer.swf" wmode="transparent" width=257 height=33></embed><a href="#" class="cancel">重新选择</a>'
     , inputHolder = input.getParent('[data-input-holder]')
   K.poweredInput(input)
   input.addEvents({
@@ -1192,6 +1192,7 @@ K.widgets.autocpl = function(input) {
       html: songTemplate.substitute(song)
     }).replaces(inputHolder)
     stage.getElements('.cancel').addEvent('click', function(e) {
+      e.stop()
       input.set('value', '')
       inputHolder.replaces(stage)
     })
