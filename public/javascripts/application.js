@@ -1207,6 +1207,9 @@ K.widgets.autocpl = function(input) {
     , albumLogo: 'album_art'
     })
   })
+  'html body #container'.split(' ').each(function(selector) {
+    document.getElement(selector).setStyle('height', '100%')
+  })
 }
 
 })(document.id)
