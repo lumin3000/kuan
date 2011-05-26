@@ -1172,7 +1172,10 @@ K.widgets.autocpl = function(input) {
   controller.addEvents({
     dataNeeded: function(e) {
       var value = input.value
-      if (!value || !value.trim()) return
+      if (!value || !value.trim()) {
+        list.hide()
+        return
+      }
       dataSource.fetch({key: value}, function(data) {
         // FIXME: Time coupling
         list.render(data).resetPaging()
