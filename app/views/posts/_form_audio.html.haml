@@ -30,7 +30,7 @@
     = hidden_field_tag :artist_name, post.artist_name
     = hidden_field_tag :album_name, post.album_name
     = hidden_field_tag :album_art, post.album_art
-    %div
+    %div.audio_preview
       %img{src: post.album_art}
       %embed.player{src: post.flash_url, width: 257, height: 33,
         wmode: 'transparent', type: 'application/x-shockwave-flash'}

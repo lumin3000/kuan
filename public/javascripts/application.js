@@ -1193,6 +1193,7 @@ K.widgets.autocpl = function(input) {
     list.hide()
     var stage = new Element('div', {
       html: songTemplate.substitute(song)
+    , 'class': 'audio_preview'
     }).replaces(inputHolder)
     stage.getElements('.cancel').addEvent('click', function(e) {
       e.stop()
