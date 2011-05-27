@@ -2843,28 +2843,28 @@ margin-bottom:30px;
 }
 
 .reply .reply_icon_s{
-	width:45px;
-	height:45px;
+	width:36px;
+	height:36px;
     background:url('images/reply_icon_s.gif') no-repeat top left;
     overflow:hidden;
     position:absolute;
-    top:42px;
-    left:53px; 
+    top:50px;
+    left:60px; 
     z-index:1;   
 
 }
 
 .reply .icon{
-	width:36px;
-	height:36px;
+	width:30px;
+	height:30px;
 	border-radius:5px;
 	-moz-border_radius:5px;
 	-webkit-border-radius:5px;
 	background:url('images/test002.jpg') no-repeat 0 0;
 	overflow:hidden;
 	position:absolute;
-	top:47px;
-	left:57px;
+	top:53px;
+	left:63px;
 	z-index:10;
 }
 
