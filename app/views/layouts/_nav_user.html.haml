@@ -31,6 +31,6 @@
           = current_user.messages.unreads.count
       %a{ href: messages_path, title: "消息", class: (@now_path == "messages" ? "highlight" : "")}<
         消息
-  .z_name
+  .z_name{style: "display:none"}
     %a{href: home_path(@user.primary_blog)}<
       = @user.primary_blog.title
