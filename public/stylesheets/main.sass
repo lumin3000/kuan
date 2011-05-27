@@ -2,48 +2,43 @@
 .nav_user
   a
     cursor: pointer
+    color: #3366cc
   height: 110px
+  width: 900px
+  background: url('/images/embed/dash_bg2.gif') no-repeat top left
+  overflow: hidden
   position: relative
   padding: 0
   color: #fff
-  .z_header
-    width: 900px
-    height: 45px
-    background-color: #548ff4
-    @include border-radius(8px)
-    position: absolute
-    top: 60px
-    right: 0
-    left: 0
-    bottom: 0
   .z_icon
     @include size(60px, 60px)
     background: url('/images/default_icon_60.jpg') no-repeat 0 0
     @include border-radius(5px)
     position: absolute
-    top: 15px
-    left: 20px
+    top: 12px
+    left: 22px
     a
       width: 60px
       height: 60px
       display: block
       text-decoration: none
+  .z_icon_s_outer
+    width: 36px
+    height: 36px
+    background: url('/images/embed/dash_icon_s.gif') no-repeat top left
+    overflow: hidden
+    position: absolute
+    top: 50px
+    left: 60px
   .z_icon_s
     width: 30px
     height: 30px
-    border: 3px solid #548ff4
-    -webkit-border-top-left-radius: 5px
-    -webkit-border-top-right-radius: 5px
-    -moz-border-radius-topleft: 5px
-    -moz-border-radius-topright: 5px
-    border-top-left-radius: 5px
-    border-top-right-radius: 5px
+    @include border-radius(5px)
     background: url('/images/default_icon_30.jpg') no-repeat 0 0
     overflow: hidden
     position: absolute
-    top: 42px
-    left: 60px
-    z-index: 1
+    top: 53px
+    left: 63px
     a
       width: 30px
       height: 30px
@@ -90,43 +85,46 @@
       top: 0
       text-align: center
     span
-      color: #cfe9ff
+      color: #36c
       text-align: center
+      top: 33px
+      width: 40px
+      position: absolute
     a
       @include hide_text
       width: 40px
-      height: 30px
+      height: 55px
       display: block
     .z_following
       a
-        background: url('/images/navi_icon.gif') no-repeat 0 -40px
+        background: url('/images/embed/dash_follow_btn.gif') no-repeat top left
         &.highlight,
         &:hover
-          background: url('/images/navi_icon.gif') no-repeat 0 0
+          background: url('/images/embed/dash_follow_btn_hover.gif') no-repeat top left
     .z_favor
       right: -50px
       top: -30px
       a
-        background: url('/images/navi_icon.gif') no-repeat -40px -40px
+        background: url('/images/embed/dash_collect_btn.gif') no-repeat top left
         &.highlight,
         &:hover
-          background: url('/images/navi_icon.gif') no-repeat -40px 0
+          background: url('/images/embed/dash_collect_btn_hover.gif') no-repeat top left
     .z_buzz
       right: -100px
       top: -60px
       a
-        background: url('/images/navi_icon.gif') no-repeat -80px -40px
+        background: url('/images/embed/dash_reply_btn.gif') no-repeat top left
         &.highlight,
         &:hover
-          background: url('/images/navi_icon.gif') no-repeat -80px 0
+          background: url('/images/embed/dash_reply_btn_hover.gif') no-repeat top left
     .z_message
       right: -150px
       top: -90px
       a
-        background: url('/images/navi_icon.gif') no-repeat -120px -40px
+        background: url('/images/embed/dash_message_btn.gif') no-repeat top left
         &.highlight,
         &:hover
-          background: url('/images/navi_icon.gif') no-repeat -120px 0
+          background: url('/images/embed/dash_message_btn_hover.gif') no-repeat top left
 
 .list_box
   border: 1px solid #cadbea

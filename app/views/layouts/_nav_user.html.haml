@@ -1,9 +1,9 @@
 .nav_user
-  .z_header
   .z_icon{style: "background-image:url(#{@user.primary_blog.icon.url_for(:medium)})"}<
     %a{href: blog_path(@user.primary_blog)}<
       &nbsp;
   - if @blog && !@blog.primary
+    .z_icon_s_outer
     .z_icon_s{style: "background-image:url(#{@blog.icon.url_for(:'30')})"}<
       %a{href: home_path(@blog)}<
         &nbsp;
@@ -20,17 +20,17 @@
       %a{ href: favors_posts_path, title: "我喜欢的", class: (@now_path == "favors" ? "highlight" : "")}<
         我喜欢的
     .z_buzz<
-      %a{ href: buzz_path, title: "回复", class: (@now_path == "buzz" ? "highlight" : "")}<
-        回复
       %span<
         - if current_user.comments_notices.unreads.count > 0
           = current_user.comments_notices.unreads.count
+      %a{ href: buzz_path, title: "回复", class: (@now_path == "buzz" ? "highlight" : "")}<
+        回复
     .z_message<
-      %a{ href: messages_path, title: "消息", class: (@now_path == "messages" ? "highlight" : "")}<
-        消息
       %span<
         - if current_user.messages.unreads.count > 0
           = current_user.messages.unreads.count
+      %a{ href: messages_path, title: "消息", class: (@now_path == "messages" ? "highlight" : "")}<
+        消息
   .z_name
     %a{href: home_path(@user.primary_blog)}<
       = @user.primary_blog.title
