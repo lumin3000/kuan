@@ -13,7 +13,6 @@ describe Width do
 
     it "should composite utf8 and ascii" do
       str = "・°"
-      p str.codepoints.to_a
       Width.instance.half2full(str)
     end
   end
