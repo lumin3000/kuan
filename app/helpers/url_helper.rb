@@ -62,4 +62,8 @@ module UrlHelper
   def fucking_root
     root_url(:subdomain => 'www')
   end
+
+  def contact_address
+    "kuankuandao@gmail.com"
+  end
 end

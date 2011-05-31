@@ -39,7 +39,7 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
-    @referer = request.referer
+    @referer = request.env["HTTP_REFERER"]
     if not @post.editable_by? @user
       render :status => :forbidden, :text => "放开那帖子"
     end
@@ -49,7 +49,11 @@ class PostsController < ApplicationController
     @post = Post.find(params.delete :id)
     if @post.update_attributes(params)
       session[:post_id] = @post.id
-      redirect_to params[:referer] || home_path
+      if params[:referer].blank?
+        redirect_to posts_blog_path(@post)
+      else
+        redirect_to params[:referer]
+      end
     else
       @referer = params[:referer]
       return render 'edit'

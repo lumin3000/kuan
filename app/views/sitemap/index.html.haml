@@ -11,10 +11,12 @@
     %a.location.bookmark{name: "bookmark", href: url_with_subdomain("bookmark"), :target => "_blank", :title => "书签工具"}
     %a.location.wall{name: "wall", href: wall_posts_path, :target => "_blank", :title => "宽墙"}
     %a.location.group{name: "group", href: url_with_subdomain("kuandaogroup"), :target => "_blank", :title => "宽岛组"}
+    %a.location.contact{name: "contact", href: "mailto:"+contact_address, :target => "_blank", :title => "意见反馈"}
     %a.sub.sub_construct{name: "construct", href: url_with_subdomain("kccc"), :target => "_blank"}宽岛建设
     %a.sub.sub_bookmark{name: "bookmark", href: url_with_subdomain("bookmark"), :target => "_blank"}书签工具
     %a.sub.sub_wall{name: "wall", href: wall_posts_path, :target => "_blank"}宽墙
     %a.sub.sub_group{name: "group", href: url_with_subdomain("kuandaogroup"), :target => "_blank"}宽岛组
+    %a.sub.sub_contact{name: "contact", href: "mailto:"+contact_address, :target => "_blank"}意见反馈
     .note.left.note_construct
       .text<
         宽岛有什么新变化？
@@ -30,6 +32,13 @@
     .note.left.note_group
       .text<
         民间宽岛后备组织，提意见的地方
+      .arrow
+    .note.left.note_contact
+      .text<
+        官方:
+        = contact_address
+        %br
+        任何问题建议，请与我们联系
       .arrow
 #blog_list{style: "display:none"}
   - @blogs.each do |blog|
