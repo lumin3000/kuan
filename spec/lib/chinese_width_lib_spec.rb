@@ -13,7 +13,7 @@ describe Width do
 
     it "should composite utf8 and ascii" do
       str = "・°"
-      Width.instance.half2full(str)
+      Width.instance.half2full(str) 
     end
   end
 end

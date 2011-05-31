@@ -1,7 +1,7 @@
 class Favor
   include Mongoid::Document
   include Mongoid::Timestamps
-  referenced_in :post
+  referenced_in :post, :validate => false
   embedded_in :user, :inverse_of => :favors
 
   validates_presence_of :post
