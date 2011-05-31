@@ -40,7 +40,7 @@ Kuan::Application.routes.draw do
     get '/sync_callback/:target' => 'blogs#sync_callback'
     delete '/sync/:target' => 'blogs#sync_cancel'
     get '/sync_widget/:target' => 'blogs#sync_widget'
-    get '/feed' => 'blogs#feed'
+    get '/feed' => 'blogs#feed', :format => :atom
   end
 
   post "/upload/:type", :to => 'images#create'

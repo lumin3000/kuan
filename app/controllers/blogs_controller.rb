@@ -230,7 +230,6 @@ EOF
     @posts = @blog.posts.desc(:created_at).limit(10)
     @blog_url = url_for_blog_(@blog).chomp '/'
     respond_to do |format|
-      format
       format.atom { render :layout => false}
     end
   end
