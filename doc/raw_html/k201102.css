@@ -1059,11 +1059,15 @@ font-family:"Hiragino Sans GB",hei,"microsoft yahei";
 
 .dashboard{margin-top:24px;}
 .dashboard .menu{
-	padding-top:4px;
+	padding:0 0 5px 0;
 	width:186px;
-	padding-left:14px;
 	float:right;
 	overflow:hidden;
+	border:1px solid #dcdcdc;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	background-color:#f4f4f4;
 }
 .dashboard .menu a{
 	color:#8e9494;
@@ -1226,6 +1230,7 @@ font-family:"Hiragino Sans GB",hei,"microsoft yahei";
 .dashboard .head .head_bg{
 	width:900px;
 	height:150px;
+	background:url('images/head_bg.jpg') no-repeat top left;
 	position:absolute;
 	top:0;
 	left:0;
@@ -1252,7 +1257,7 @@ font-family:"Hiragino Sans GB",hei,"microsoft yahei";
 }
 
 .dashboard .left{
-	width:30px;
+	width:50px;
 }
 
 .dashboard .post_area div{
@@ -1261,46 +1266,67 @@ font-family:"Hiragino Sans GB",hei,"microsoft yahei";
 }
 .dashboard .post_area a{
 	display:block;
-	width:110px;
-	height:90px;
+	width:70px;
+	height:70px;
 	overflow:hidden;
+	margin:10px 0 0 20px;
 	float:left;
 	text-indent: -100px;
 }
 
 
 .dashboard .post_area .text{
-	background-image:url('images/dash_text.gif');
+	width:80px;
+	height:80px;
+	background:url('images/dash_text.gif') no-repeat;
 }
 
 .dashboard .post_area  .text:hover{
- 	background-image:url('images/dash_text_hover.gif');
+	width:80px;
+	height:80px;
+ 	background:url('images/dash_text_hover.gif') no-repeat;
 }
 
 
 .dashboard .post_area .picture{
-	background-image:url('images/dash_picture.gif');
+	width:80px;
+	height:80px;
+	background:url('images/dash_picture.gif') no-repeat;
 }
 .dashboard .post_area .picture:hover{
-	background-image:url('images/dash_picture_hover.gif');
+	width:80px;
+	height:80px;
+	background:url('images/dash_picture_hover.gif') no-repeat;
 }
 .dashboard .post_area .link{
-	background-image:url('images/dash_link.gif');
+	width:80px;
+	height:80px;
+	background:url('images/dash_link.gif') no-repeat;
 }
 .dashboard .post_area .link:hover{
-	background-image:url('images/dash_link_hover.gif');
+	width:80px;
+	height:80px;
+	background:url('images/dash_link_hover.gif') no-repeat;
 }
 .dashboard .post_area .video{
-	background-image:url('images/dash_video.gif');
+	width:80px;
+	height:80px;
+	background:url('images/dash_video.gif') no-repeat;
 }
 .dashboard .post_area .video:hover{
-	background-image:url('images/dash_video_hover.gif');
+	width:80px;
+	height:80px;
+	background:url('images/dash_video_hover.gif') no-repeat;
 }
 .dashboard .post_area .audio{
-	background-image:url('images/dash_audio.gif');
+	width:80px;
+	height:80px;
+	background:url('images/dash_audio.gif') no-repeat;
 }
 .dashboard .post_area .audio:hover{
-	background-image:url('images/dash_audio_hover.gif');
+	width:80px;
+	height:80px;
+	background:url('images/dash_audio_hover.gif') no-repeat;
 }
 
 .dashboard .head_menu{
@@ -1330,22 +1356,22 @@ font-family:"Hiragino Sans GB",hei,"microsoft yahei";
 }
 .dashboard .head_menu .my_follow{
 	height:20px;
-	background:url('images/icon.gif') 0px -40px no-repeat;
+	background:url('images/icon_follow.gif') no-repeat top left;
 }
 
 .dashboard .head_menu .my_collect{
 	height:20px;
-	background:url('images/icon.gif') -20px -40px no-repeat;
+	background:url('images/icon_collect.gif') no-repeat top left;
 }
 
 .dashboard .head_menu .my_reply{
 	height:40px;
-	background:url('images/icon.gif') -40px -40px no-repeat;
+	background:url('images/icon_reply.gif') no-repeat top left;
 }
 
 .dashboard .head_menu .my_message{
 	height:40px;
-	background:url('images/icon.gif') -60px -40px no-repeat;
+	background:url('images/icon_message.gif') no-repeat top left;
 }
 
 .dashboard .head_txt{
@@ -1478,7 +1504,7 @@ font-family:"Hiragino Sans GB",hei,"microsoft yahei";
 	color:#777777;
 }
 
-.my_pages a.selector:hover{
+ a.selector:hover{
 	background:url('images/mypages_close.png');
 }
 
@@ -2820,7 +2846,7 @@ margin-bottom:30px;
 .site .reply{
 	height:110px;
 	width:900px;
-	background:url('images/reply_bg.gif') no-repeat top left;
+	background:url('images/reply_bg.jpg') no-repeat top left;
 	overflow:hidden;
 	position:relative;
 	padding:0;
@@ -3029,7 +3055,6 @@ margin-bottom:30px;
 /***********************************dashboard_my_homepage************************************************/
 
 .dashboard .head{
-	background: url('images/dash_bg.gif') no-repeat;
 	width:900px;
 	height:150px;
 	overflow:hidden;
@@ -3048,7 +3073,7 @@ margin-bottom:30px;
     top:48px;
     left:55px;
     z-index:1;
-    border:3px solid #7999dd;
+    border:3px solid #3366cc;
     border-bottom:none;
     border-top-right-radius:10px;
     border-top-left-radius:10px;
