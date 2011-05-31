@@ -11,7 +11,7 @@ class User
   index "followings.blog_id"
   embeds_many :comments_notices
   embeds_many :messages
-  embeds_many :favors
+  embeds_many :favors, :validate => false
   index "favors.post_id"
 
   attr_accessor :password, :code
