@@ -2,13 +2,13 @@
 class BlogsController < ApplicationController
   include LoggingHelper
 
-  before_filter :signin_auth, :except => [:show]
+  before_filter :signin_auth, :except => [:show, :feed]
   before_filter :custom_auth, :only => [:edit, :update, :upgrade, :kick, :rss_add, :rss_remove]
   before_filter :editor_auth, :only => [:followers, :editors, :exit]
   before_filter :find_by_uri, :only => [:show, :follow_toggle, :apply, :apply_entry,
     :extract_template_vars, :edit, :sync_apply, :sync_callback, :sync_cancel,
-    :sync_widget, :set_primary_blog, :rss_add, :rss_remove]
-  before_filter :blog_display, :only => [:show, :preview]
+    :sync_widget, :set_primary_blog, :rss_add, :rss_remove, :feed]
+  before_filter :blog_display, :only => [:show, :preview, :feed]
   before_filter :find_sync_target, :only => [:sync_apply, :sync_callback, :sync_cancel]
 
   def new
@@ -223,6 +223,15 @@ EOF
     @blog.cancel_import!(feed)
     respond_to do |format|
       format.json { render :json => {status: "success" } }
+    end
+  end
+
+  def feed
+    @posts = @blog.posts.desc(:created_at).limit(10)
+    @blog_url = url_for_blog_(@blog).chomp '/'
+    respond_to do |format|
+      format
+      format.atom { render :layout => false}
     end
   end
 
