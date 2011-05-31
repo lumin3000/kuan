@@ -10,9 +10,11 @@ atom_feed(:language => "zh-CN",
     feed.entry(post, :url => posts_blog_path(post)) do |entry|
       case post.class.to_s
       when "Text"
-        entry.title post.title
+        t = post.title.blank? ? (@blog.title+'-文字') : post.title
+        entry.title t
         entry.content post.content, :type => 'html'
       when "Pics"
+        entry.title @blog.title + '-图片'
         c = post.photos.reduce("") do |sum, photo|
           sum += <<EOF
 <div>#{photo.desc}</div>
@@ -23,21 +25,24 @@ EOF
         c += %(<div>#{post.content}</div>)
         entry.content c, :type => 'html'
       when "Link"
-        entry.title post.title
+        t = post.title.blank? ? (@blog.title+'-链接') : post.title
+        entry.title t
         c = <<EOF
 <div><a href="#{post.url}">#{post.url}</a></div>
 <div>#{post.content}</div>
 EOF
         entry.content c, :type => 'html'
       when "Video"
+        entry.title @blog.title + '-视频'
         c = <<EOF
 <div><img src="#{post.thumb}" /></div>
 <div>#{post.content}</div>
 EOF
         entry.content c, :type => 'html'
       when "Audio"
-        entry.title post.song_name + '-' + post.artist_name
+        entry.title @blog.title + '-音乐'
         c = <<EOF
+<div>#{post.song_name}-#{post.artist_name}</div>
 <div><img src="#{post.album_art}" /></div>
 <div>#{post.content}</div>
 EOF
