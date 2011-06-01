@@ -121,7 +121,7 @@ class Feed
     post_new.created_at = (item.date > Time.now) ? Time.now : item.date
 
     unless post_new.valid?
-      @@logger.warn "Item unvalid #{uri} #{item.title} #{uri}"
+      @@logger.warn "Item unvalid #{uri} #{item.title} #{uri} #{post_new.errors}"
       return
     end
 
