@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     flash[:success] = "欢迎注册"
     #log register user's reference
     logging_refer
-    redirect_to params[:redirect_back] ? params[:refer] : home_path
+    redirect_to params[:redirect_back] ? params[:refer] : categories_path
   end
 
   #param :uri: 显示指定uri的blog的信息和帖子列表，否则使用默认页面
