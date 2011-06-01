@@ -45,20 +45,18 @@ a.page_name
   @include clear_fix
 
   .menu
-    padding-top: 4px
+    padding: 0 0 5px 0
+    margin-top: 12px
     width: 186px
-    padding-left: 14px
     float: right
-    height: 500px
-
+    background-color: #f4f4f4
+    @include border-radius(10px)
     a
       color: $light-gray
       text-decoration: none
 
-
     .page_operation
       margin: 0px 10px
-
 
     .page_operation
       line-height: 24px
@@ -183,12 +181,7 @@ a.page_name
     height: 30px
     border: 3px solid #7999dd
     border-bottom: 0
-    -webkit-border-top-left-radius: 10px
-    -moz-border-radius-topleft: 10px
-    border-top-left-radius: 10px
-    -webkit-border-top-right-radius: 10px
-    -moz-border-radius-topright: 10px
-    border-top-right-radius: 10px
+    @include border-radius(10px)
     background: url('/images/default_icon_30.jpg') no-repeat 0 0
     overflow: hidden
     position: absolute
@@ -201,50 +194,51 @@ a.page_name
     text-decoration: none
 
     .left
-      width: 30px
+      width: 50px
     div
       height: 100px
       float: left
     
     a
       display: block
-      width: 110px
-      height: 90px
+      width: 80px
+      height: 80px
+      margin: 10px 0 0 20px
       overflow: hidden
       float: left
       text-indent: -100px
 
     .text
-      background-image: url('/images/embed/dash_text.gif')
+      background: url('/images/embed/dash_text.png') no-repeat
       &:hover
-        background-image: url('/images/embed/dash_text_hover.gif')
+        background: url('/images/embed/dash_text_hover.png') no-repeat
 
     .picture
-      background-image: url('/images/embed/dash_picture.gif')
+      background: url('/images/embed/dash_picture.png') no-repeat
       &:hover
-        background-image: url('/images/embed/dash_picture_hover.gif')
+        background: url('/images/embed/dash_picture_hover.png') no-repeat
 
     .link
-      background-image: url('/images/embed/dash_link.gif')
+      background: url('/images/embed/dash_link.png') no-repeat
       &:hover
-        background-image: url('/images/embed/dash_link_hover.gif')
+        background: url('/images/embed/dash_link_hover.png') no-repeat
 
     .video
-      background-image: url('/images/embed/dash_video.gif')
+      background: url('/images/embed/dash_video.png') no-repeat
       &:hover
-        background-image: url('/images/embed/dash_video_hover.gif')
+        background: url('/images/embed/dash_video_hover.png') no-repeat
 
     .audio
-      background-image: url('/images/embed/dash_audio.gif')
+      background: url('/images/embed/dash_audio.png') no-repeat
       &:hover
-        background-image: url('/images/embed/dash_audio_hover.gif')
+        background: url('/images/embed/dash_audio_hover.png') no-repeat
 
   .head_menu
     width: 180px
     height: 55px
     overflow: hidden
     float: right
-    padding-top: 45px
+    padding-top: 40px
     padding-right: 5px
     a
       display: block
@@ -252,25 +246,34 @@ a.page_name
       float: left
       text-decoration: none
       margin: 0px 10px
-      color: #3366cc
+      color: white
       *text-align: center
       cursor: pointer
+      font-weight: bold
     span
       display: block
       height: 20px
       text-indent: -1000px
     .my_follow
       height: 20px
-      background: url('/images/icon.gif') 0px -40px no-repeat
+      background: url('/images/embed/icon_follow.png') no-repeat top left
+      &:hover
+        background: url('/images/embed/icon_follow_hover.png') no-repeat top left
     .my_collect
       height: 20px
-      background: url('/images/icon.gif') -20px -40px no-repeat
+      background: url('/images/embed/icon_collect.png') no-repeat top left
+      &:hover
+        background: url('/images/embed/icon_collect_hover.png') no-repeat top left
     .my_reply
       height: 40px
-      background: url('/images/icon.gif') -40px -40px no-repeat
+      background: url('/images/embed/icon_reply.png') no-repeat top left
+      &:hover
+        background: url('/images/embed/icon_reply_hover.png') no-repeat top left
     .my_message
       height: 40px
-      background: url('/images/icon.gif') -60px -40px no-repeat
+      background: url('/images/embed/icon_message.png') no-repeat top left
+      &:hover
+        background: url('/images/embed/icon_message_hover.png') no-repeat top left
 
 .breadcrumbs
   clear: both

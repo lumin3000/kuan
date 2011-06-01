@@ -3,7 +3,6 @@
     %a{href: blog_path(@user.primary_blog)}<
       &nbsp;
   - if @blog && !@blog.primary
-    .z_icon_s_outer
     .z_icon_s{style: "background-image:url(#{@blog.icon.url_for(:'30')})"}<
       %a{href: home_path(@blog)}<
         &nbsp;
