@@ -3057,7 +3057,7 @@ margin-bottom:30px;
 
 .reply .reply_unmber{
 	width:100px;
-	color:#ffffff;
+	color:#fffff;
 	position:absolute;
     top:85px;
 	right:5px;
@@ -3548,8 +3548,9 @@ margin-bottom:30px;
 
 .spread_main .row_button .button{
 	width:100px;
-	height:144px;
-	margin-top:50px;
+	height:80px;
+	position:relative;
+	top:50px;
 	border:none;
 }
 
