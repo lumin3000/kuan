@@ -94,7 +94,6 @@ class Feed
       return
     end
 
-    update_attributes(:fetched_at => Time.now)
     @@logger.info "Fetched #{uri} at #{Time.now}"
   end
 
@@ -105,7 +104,7 @@ class Feed
 
     post_new = send import_feed.as_type.to_s, item
     if post_new.nil?
-      @@logger.warn "Item error #{uri} #{item.title} #{uri}"
+      @@logger.warn "Item error #{uri} #{item.title}"
       return
     end
 
@@ -121,11 +120,12 @@ class Feed
     post_new.created_at = (item.date > Time.now) ? Time.now : item.date
 
     unless post_new.valid?
-      @@logger.warn "Item unvalid #{uri} #{item.title} #{uri}"
+      @@logger.warn "Item unvalid #{uri} #{item.title} #{post_new.errors}"
       return
     end
 
     post_new.save
+    update_attributes(:fetched_at => post_new.created_at)
   end
 
   def text(item)
