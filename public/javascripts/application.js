@@ -1208,8 +1208,20 @@ K.widgets.autocpl = function(input) {
     , albumLogo: 'album_art'
     })
   })
-  'html body #container'.split(' ').each(function(selector) {
-    document.getElement(selector).setStyle('height', '100%')
+  var containers = document.getElements('html, body, #container')
+    , scrollableContainers = document.getElements('html, body')
+  scrollableContainers.setStyle('overflowY', 'auto')
+  function fixHeight() {
+    containers.setStyle('height', '100%')
+  }
+  fixHeight()
+  K.widgets.addEvents({
+    RFTHide: function() {
+      fixHeight()
+    }
+  , RFTShow: function() {
+      containers.setStyle('height', 'auto')
+    }
   })
 }
 

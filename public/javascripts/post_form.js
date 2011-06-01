@@ -163,6 +163,7 @@ K.post = (function(){
             tar_tog_textarea.hide()
             tar_tog_textarea_close.show()
             box_text.show()
+            K.widgets.fireEvent('RFTShow')
             return false
         })
         tar_tog_textarea_close.addEvent('click', function(){
@@ -170,6 +171,7 @@ K.post = (function(){
             tar_tog_textarea_close.hide()
             box_text.hide()
             K.editor.setContent('')
+            K.widgets.fireEvent('RFTHide')
             return false
         })
     }
