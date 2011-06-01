@@ -7,19 +7,43 @@ document.addEvent('domready', function(){
   var el = $$('.categories_box')[0]
   var cat = new Fx.Scroll(el, {
     duration: 500,
-    transition:Fx.Transitions.Quad.easeInOut
+    transition: 'quad:in:out'
   })
-  $$('.spread_prev').addEvent('click', function(){
-    var x = el.getScroll().x
-    cat.start(x==0 ? $$('.categories_inner')[0].getWidth()-el.getWidth() : x-600, 0)
+  var cat_slow = new Fx.Scroll(el, {
+    duration: 100000,
+    transition: 'linear'
   })
-  $$('.spread_next').addEvent('click', function(){
-    var x = el.getScroll().x
-    cat.start(x>$$('.categories_inner')[0].getWidth()-el.getWidth() ? 0 : x+600, 0)
+  var scroll_lock = false
+  $$('.spread_prev').addEvents({
+    'mouseenter': function(){
+      cat_slow.start(el.getScroll().x-5000, 0)
+    },
+    'mouseleave': function(){
+      cat_slow.stop()
+    },
+    'click': function(){
+      cat_slow.stop()
+      var x = el.getScroll().x
+      cat.start(x==0 ? $$('.categories_inner')[0].getWidth()-el.getWidth() : x-600, 0)
+    }
+  })
+  $$('.spread_next').addEvents({
+    'mouseenter': function(){
+      cat_slow.start(el.getScroll().x+5000, 0)
+    },
+    'mouseleave': function(){
+      cat_slow.stop()
+    },
+    'click': function(){
+      cat_slow.stop()
+      var x = el.getScroll().x
+      cat.start(x>$$('.categories_inner')[0].getWidth()-el.getWidth() ? 0 : x+600, 0)
+    }
   })
   $$('.categories_inner').setStyle('width', $$('.categories_inner .row').length*100+$$('.categories_inner .row2').length*90)
 
   //bubbles
+  /*
   var bubbles = $$('.category_list a')
   var sea
   for(var i=0,l=bubbles.length; i<l; i++){
@@ -29,7 +53,7 @@ document.addEvent('domready', function(){
       }).inject($$('.category_list')[0], 'before')
     }
     bubbles[i].inject(sea).addClass('bubble'+((i+1)%30==0?30:(i+1)%30))
-  }
+  }*/
 })
 
 K.slide = function(){
