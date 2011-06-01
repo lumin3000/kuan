@@ -1,7 +1,7 @@
 @import 'lib'
 
 @mixin dashboard_sidebar_button
-  display: inline-block
+  @include inline_block
   @include size(14px, 14px)
   overflow: hidden
 
@@ -57,8 +57,6 @@ a.page_name
 
     .page_operation
       margin: 0px 10px
-
-    .page_operation
       line-height: 24px
 
     span
@@ -167,11 +165,11 @@ a.page_name
     background-image: url('/images/default_icon_medium.gif')
     background-repeat: no-repeat
     background-position: center
-    -moz-border-radius: 5px
-    border-radius: 5px
+    @include border-radius(5px)
     margin: 20px
     float: left
-    
+    display: inline
+
     a
       @include size(60px, 60px)
       display: block
@@ -241,7 +239,7 @@ a.page_name
     padding-top: 40px
     padding-right: 5px
     a
-      display: block
+      display: inline
       width: 20px
       float: left
       text-decoration: none
@@ -326,6 +324,10 @@ a.page_name
   a
     color: $light-gray
     text-decoration: none
+
+    &:hover
+      text-decoration: none
+      *cursor: pointer
 
     &.selector
       background: url('/images/mypages_close_a.gif')
@@ -447,3 +449,7 @@ a.page_name
     right: 20px
     cursor: pointer
     overflow: hidden
+
+.page_operation_item
+  _padding-top: 5px
+  _padding-bottom: 5px
