@@ -2861,7 +2861,7 @@ margin-bottom:30px;
 .site .reply{
 	height:110px;
 	width:900px;
-	background:url('images/reply_bg.jpg') no-repeat top left;
+	background:url('images/reply_bg.gif') no-repeat top left;
 	overflow:hidden;
 	position:relative;
 	padding:0;
@@ -2956,85 +2956,85 @@ margin-bottom:30px;
 
 
 .reply .nav_icon_follow{
-	width:40px;
-	height:55px;
+	width:20px;
+	height:20px;
 	overflow:hidden;
 	position:absolute;
-	right:140px;
-	top:30px;
+	right:160px;
+	top:65px;
 }
 
 .reply .nav_icon_follow a{
-	width:40px;
-	height:55px;
-	background:url('images/reply_follow_btn.gif') no-repeat top left;
+	width:20px;
+	height:20px;
+	background:url('images/icon_follow.png') no-repeat top left;
 	display:block;
 
 }
 
 .reply .nav_icon_follow a:hover{
-    background:url('images/reply_follow_btn_hover.gif') no-repeat top left;
+    background:url('images/icon_follow_hover.png') no-repeat top left;
 
 
 }
 
 .reply .nav_icon_collect{
-	width:40px;
-	height:55px;
+	width:20px;
+	height:20px;
 	overflow:hidden;
 	position:absolute;
-	right:100px;
-	top:30px;
+	right:120px;
+	top:65px;
 }
 
 .reply .nav_icon_collect a{
-	width:40px;
-	height:55px;
-	background:url('images/reply_collect_btn.gif') no-repeat top left;
+	width:20px;
+	height:20px;
+	background:url('images/icon_collect.png') no-repeat top left;
     display:block;
 }
 .reply .nav_icon_collect a:hover{
-	background:url('images/reply_collect_btn_hover.gif') no-repeat top left;
+	background:url('images/icon_collect_hover.png') no-repeat top left;
 
 }
 
 .reply .nav_icon_reply{
-	width:40px;
-	height:55px;
+	width:20px;
+	height:20px;
     overflow:hidden;
     position:absolute;
-	right:60px;
-	top:30px;
+	right:80px;
+	top:65px;
 }
 .reply .nav_icon_reply a{
-	width:40px;
-	height:55px;
-    background:url('images/reply_reply_btn.gif') no-repeat top left;
+	width:20px;
+	height:20px;
+    background:url('images/icon_reply.png') no-repeat top left;
     display:block;
 
 }
 .reply .nav_icon_reply a:hover{
-    background:url('images/reply_reply_btn_hover.gif') no-repeat top left;
+    background:url('images/icon_reply_hover.png') no-repeat top left;
 
 }
 
 	
 .reply .nav_icon_message{
-	width:40px;
-	height:55px;
+	width:20px;
+	height:20px;
     overflow:hidden;
     position:absolute;
-	right:20px;
-	top:30px;
+	right:40px;
+	top:65px;
 }
 .reply .nav_icon_message a{
-	width:40px;
-	height:55px;
-	background:url('images/reply_message_btn.gif') no-repeat top left;
+	width:20px;
+	height:20px;
+	background:url('images/icon_message.png') no-repeat top left;
     display:block;
 }
 .reply .nav_icon_message a:hover{
-	background:url('images/reply_message_btn_hover.gif') no-repeat top left;
+	background:url('images/icon_message_hover.png') no-repeat top left;
 }
 .reply .name{
 	width:200px;
@@ -3047,20 +3047,20 @@ margin-bottom:30px;
 
 .reply .message_unmber{
 	width:50px;
-	color:#3366cc;
+	color:#ffffff;
 	position:absolute;
-	top:63px;
-	right:3px;
+	top:85px;
+	right:15px;
 	
 }
 
 
 .reply .reply_unmber{
 	width:100px;
-	color:#3366cc;
+	color:#ffffff;
 	position:absolute;
-    top:63px;
-	right:-5px;
+    top:85px;
+	right:5px;
 }
 
 
