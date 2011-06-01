@@ -6,8 +6,9 @@
 - js "category"
 
 .spread_main
+  .loading
   - @top_categories.each do |category|
-    %a.spread_banner{href: blog_path(category.top_blog.blog), style: (category == @top_categories.first ? "" : "display:none")}
+    %a.spread_banner{target: "_blank", href: blog_path(category.top_blog.blog), style: (category == @top_categories.first ? "" : "display:none")}
       %img{src: category.top_blog.image}
   .slide_togglers
   .spread_bg
