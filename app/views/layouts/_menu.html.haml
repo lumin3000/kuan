@@ -1,18 +1,18 @@
 .menu
   = blog_list
   .page_operation
-    %div
+    %div.page_operation_item
       %span.icon_posts &nbsp;
       %span
         %a{href: home_path(@blog)}
           ! #{@blog.total_post_num}篇文章
-    %div
+    %div.page_operation_item
       %span.icon_followed &nbsp;
       %span
         %a{href: followers_blog_path(@blog)}
           ! #{@blog.followers_count}人关注
     - unless @blog.primary?
-      %div
+      %div.page_operation_item
         - if !@blog.primary? && @blog.edited?(current_user)
           %span.icon_members &nbsp;
           %span
@@ -22,7 +22,7 @@
           %span.icon_members.disabled &nbsp;
           %span.disabled{title: "默认主页没有其它成员"}
             成员管理
-      %div
+      %div.page_operation_item
         - if @blog.primariable? current_user
           %span.icon_primary &nbsp;
           %span
@@ -31,7 +31,7 @@
           %span.icon_primary.disabled &nbsp;
           %span.disabled{title: "只有非私密且没有其它组员的页面才可设置为默认主页"}
             设置为默认主页
-    %div
+    %div.page_operation_item
       - if @blog.customed? current_user
         %span.icon_config &nbsp;
         %span
@@ -45,7 +45,7 @@
         %span.icon_remove &nbsp;
         %span
           %a{href: "#"} 删除
-    %div
+    %div.page_operation_item
       %span.icon_view &nbsp;
       %span
         %a{href: blog_path(@blog)} 查看

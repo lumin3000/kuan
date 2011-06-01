@@ -1,7 +1,7 @@
 @import 'lib'
 
 @mixin dashboard_sidebar_button
-  display: inline-block
+  @include inline_block
   @include size(14px, 14px)
   overflow: hidden
 
@@ -55,12 +55,8 @@ a.page_name
       color: $light-gray
       text-decoration: none
 
-
     .page_operation
       margin: 0px 10px
-
-
-    .page_operation
       line-height: 24px
 
     span
@@ -448,3 +444,7 @@ a.page_name
     right: 20px
     cursor: pointer
     overflow: hidden
+
+.page_operation_item
+  _padding-top: 5px
+  _padding-bottom: 5px
