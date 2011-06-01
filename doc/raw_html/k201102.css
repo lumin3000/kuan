@@ -1230,7 +1230,7 @@ font-family:"Hiragino Sans GB",hei,"microsoft yahei";
 .dashboard .head .head_bg{
 	width:900px;
 	height:150px;
-	background:url('images/head_bg.jpg') no-repeat top left;
+	background:url('images/dash_bg2.gif') no-repeat top left;
 	position:absolute;
 	top:0;
 	left:0;
@@ -1278,55 +1278,55 @@ font-family:"Hiragino Sans GB",hei,"microsoft yahei";
 .dashboard .post_area .text{
 	width:80px;
 	height:80px;
-	background:url('images/dash_text.gif') no-repeat;
+	background:url('images/dash_text.png') no-repeat;
 }
 
 .dashboard .post_area  .text:hover{
 	width:80px;
 	height:80px;
- 	background:url('images/dash_text_hover.gif') no-repeat;
+ 	background:url('images/dash_text_hover.png') no-repeat;
 }
 
 
 .dashboard .post_area .picture{
 	width:80px;
 	height:80px;
-	background:url('images/dash_picture.gif') no-repeat;
+	background:url('images/dash_picture.png') no-repeat;
 }
 .dashboard .post_area .picture:hover{
 	width:80px;
 	height:80px;
-	background:url('images/dash_picture_hover.gif') no-repeat;
+	background:url('images/dash_picture_hover.png') no-repeat;
 }
 .dashboard .post_area .link{
 	width:80px;
 	height:80px;
-	background:url('images/dash_link.gif') no-repeat;
+	background:url('images/dash_link.png') no-repeat;
 }
 .dashboard .post_area .link:hover{
 	width:80px;
 	height:80px;
-	background:url('images/dash_link_hover.gif') no-repeat;
+	background:url('images/dash_link_hover.png') no-repeat;
 }
 .dashboard .post_area .video{
 	width:80px;
 	height:80px;
-	background:url('images/dash_video.gif') no-repeat;
+	background:url('images/dash_video.png') no-repeat;
 }
 .dashboard .post_area .video:hover{
 	width:80px;
 	height:80px;
-	background:url('images/dash_video_hover.gif') no-repeat;
+	background:url('images/dash_video_hover.png') no-repeat;
 }
 .dashboard .post_area .audio{
 	width:80px;
 	height:80px;
-	background:url('images/dash_audio.gif') no-repeat;
+	background:url('images/dash_audio.png') no-repeat;
 }
 .dashboard .post_area .audio:hover{
 	width:80px;
 	height:80px;
-	background:url('images/dash_audio_hover.gif') no-repeat;
+	background:url('images/dash_audio_hover.png') no-repeat;
 }
 
 .dashboard .head_menu{
@@ -1334,7 +1334,7 @@ font-family:"Hiragino Sans GB",hei,"microsoft yahei";
 	height:55px;
 	overflow:hidden;
 	float:right;
-	padding-top:45px;
+	padding-top:40px;
 	padding-right:5px;
 }
 
@@ -1351,27 +1351,42 @@ font-family:"Hiragino Sans GB",hei,"microsoft yahei";
 
 .dashboard .head_menu span{
 	display:block;
-	height:20px;
+	height:20px; 
 	text-indent: -1000px;
 }
 .dashboard .head_menu .my_follow{
 	height:20px;
-	background:url('images/icon_follow.gif') no-repeat top left;
+	background:url('images/icon_follow.png') no-repeat top left;
+}
+.dashboard .head_menu .my_follow:hover{
+	height:20px;
+	background:url('images/icon_follow_hover.png') no-repeat top left;
 }
 
 .dashboard .head_menu .my_collect{
 	height:20px;
-	background:url('images/icon_collect.gif') no-repeat top left;
+	background:url('images/icon_collect.png') no-repeat top left;
+}
+.dashboard .head_menu .my_collect:hover{
+	height:20px;
+	background:url('images/icon_collect_hover.png') no-repeat top left;
 }
 
 .dashboard .head_menu .my_reply{
 	height:40px;
-	background:url('images/icon_reply.gif') no-repeat top left;
+	background:url('images/icon_reply.png') no-repeat top left;
 }
-
+.dashboard .head_menu .my_reply:hover{
+	height:40px;
+	background:url('images/icon_reply_hover.png') no-repeat top left;
+}
 .dashboard .head_menu .my_message{
 	height:40px;
-	background:url('images/icon_message.gif') no-repeat top left;
+	background:url('images/icon_message.png') no-repeat top left;
+}
+.dashboard .head_menu .my_message:hover{
+	height:40px;
+	background:url('images/icon_message_hover.png') no-repeat top left;
 }
 
 .dashboard .head_txt{
