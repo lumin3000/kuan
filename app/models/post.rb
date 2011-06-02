@@ -119,6 +119,10 @@ class Post
     favor_count.nil? ? update_attributes(:favor_count => 0) : inc(:favor_count, -1)
   end
 
+  def muted_by?(user)
+    not user.nil? and user.mutings.where(:post_id => id).count > 0
+  end
+
   def notify_watchers(comment)
     watchers = self.watchers
     watchers.delete comment.author
@@ -128,9 +132,9 @@ class Post
   end
 
   def watchers
-    watchers =  self.comments.map {|f| f.author}
-    watchers << self.author
-    watchers.uniq
+    watchers =  comments.map {|f| f.author}
+    watchers << author
+    watchers.uniq.reject {|user| self.muted_by?(user)}
   end
 
   def stripped_content

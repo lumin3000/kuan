@@ -16,7 +16,7 @@
     - if current_user
       = link_to "转贴", renew_post_path(post), :class => 'repost', :title => '转贴'
       - favor_href, favor_data = favor_toggle_post_path(post), { :widget => "rest", :callback => "toggle", :md => "put" }
-      - faved = current_user && post.favored_by?(current_user)
+      - faved = post.favored_by?(current_user)
       - if faved
         - favor_data["class"] = "fave"
         - favor_data["title"] = "喜欢"
@@ -27,6 +27,19 @@
         - favor_data["title"] = "不喜欢"
         %a{ :href => favor_href, :title => '喜欢', :class => 'fave', :data => favor_data}<
           喜欢
+    - if current_user && controller.action_name == "buzz"
+      - mute_href, mute_data = mute_toggle_post_path(post), { :widget => "rest", :callback => "toggle", :md => "put" }
+      - if post.muted_by?(current_user)
+        - favor_data["class"] = "muted"
+        - favor_data["title"] = "静音"
+        %a{ :href => mute_href, :title => '解除静音', :class => 'unmuted', :data => mute_data }<
+          解除静音
+      - else
+        - favor_data["class"] = "unmuted"
+        - favor_data["title"] = "解除静音"
+        %a{ :href => mute_href, :title => '静音', :class => 'muted', :data => mute_data}<
+          静音
+    
   .content_body
     = render partial: sub_template, object: post
   .content_footer
