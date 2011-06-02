@@ -27,7 +27,7 @@
         - favor_data["title"] = "不喜欢"
         %a{ :href => favor_href, :title => '喜欢', :class => 'fave', :data => favor_data}<
           喜欢
-    - if current_user && controller.action_name == "buzz"
+    - if current_user && controller.action_name == "buzz" && false
       - mute_href, mute_data = mute_toggle_post_path(post), { :widget => "rest", :callback => "toggle", :md => "put" }
       - if post.muted_by?(current_user)
         - favor_data["class"] = "muted"
