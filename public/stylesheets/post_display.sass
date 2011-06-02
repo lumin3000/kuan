@@ -248,7 +248,7 @@
 .post
   padding: 2px 18px
 
-  .remove, .edit, .repost, .reply, .open, .fave, .faved
+  .remove, .edit, .repost, .reply, .open, .fave, .faved, .muted, .unmuted
     @include post_button
 
   .open
@@ -278,12 +278,18 @@
   .faved
     background-position: 0 -80px
 
+  .muted
+    background: transparent url(/images/embed/muted.gif) no-repeat
+
+  .unmuted
+    background: transparent url(/images/embed/unmuted.gif) no-repeat
+
 .article
-  .remove, .edit, .open, .repost, .fave, .faved
+  .remove, .edit, .open, .repost, .fave, .faved, .muted, .unmuted
     visibility: hidden
 
 .hover
-  .remove, .edit, .reply, .open, .repost, .fave, .faved
+  .remove, .edit, .reply, .open, .repost, .fave, .faved, .muted, .unmuted
     visibility: visible
 
 .post_single .open
