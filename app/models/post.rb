@@ -7,6 +7,7 @@ class Post
   referenced_in :author, :class_name => 'User', :index => true
   embeds_many :comments
   index :created_at
+  references_many :mutedusers, :class_name => "User", :validate => false
 
   field :parent_id
   field :ancestor_id
@@ -119,6 +120,20 @@ class Post
     favor_count.nil? ? update_attributes(:favor_count => 0) : inc(:favor_count, -1)
   end
 
+  #mute/unmute operations
+
+  def muted!(user)
+    mutedusers << user 
+  end
+
+  def unmuted!(user)
+    mutedusers.where(:user_id => user.id).destroy
+  end
+
+  def muted_by?(user)
+    mutedusers.where(:user_id => user.id).count > 0
+  end
+
   def notify_watchers(comment)
     watchers = self.watchers
     watchers.delete comment.author
@@ -128,9 +143,9 @@ class Post
   end
 
   def watchers
-    watchers =  self.comments.map {|f| f.author}
-    watchers << self.author
-    watchers.uniq
+    watchers =  comments.map {|f| f.author}
+    watchers << author
+    watchers.uniq - mutedusers
   end
 
   def stripped_content

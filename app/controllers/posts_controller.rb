@@ -4,7 +4,6 @@ class PostsController < ApplicationController
   before_filter :signin_auth, :except => [:wall, :news]
   before_filter :content_admin_auth, :only => [:all]
 
-
   def new
     @post = Post.new params
     @referer = request.referer
@@ -110,6 +109,19 @@ class PostsController < ApplicationController
       current_user.add_favor_post! @post
     end
 
+    respond_to do |format|
+      format.json { render :text => {:status => "success"}.to_json }
+    end
+  end
+
+  def mute_toggle
+    post = Post.find params[:id]
+    if post.muted_by?(current_user)
+      post.unmuted!(current_user)
+    else
+      post.muted!(current_user)
+    end
+    
     respond_to do |format|
       format.json { render :text => {:status => "success"}.to_json }
     end

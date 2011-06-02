@@ -13,7 +13,6 @@ class User
   embeds_many :messages
   embeds_many :favors, :validate => false
   index "favors.post_id"
-  references_many :muteposts, :class_name => "Post", :validate => false
 
   attr_accessor :password, :code
   attr_accessible :name, :email, :password, :password_confirmation
@@ -227,16 +226,6 @@ class User
     comments_notices.unreads.each do |c|
       c.read!
     end
-  end
-
-  #mute/unmute operations
-
-  def mute!(post)
-    muteposts << post if muteposts.where(:post_id => post.id).count == 0
-  end
-
-  def unmute!(post)
-    muteposts.where(:post_id => post.id).destroy
   end
 
   #template operations
