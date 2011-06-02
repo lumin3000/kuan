@@ -52,6 +52,7 @@ Kuan::Application.routes.draw do
     member do
       get :renew
       put :favor_toggle
+      put :mute_toggle
     end
     collection do
       post :recreate

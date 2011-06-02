@@ -29,7 +29,6 @@ describe Comment do
 
   describe "notice watchers when user comment a post" do
     it "should notice post author" do
-      length = @user.comments_notices.unreads.count
       @new_post = Factory.build(:text)
       @new_post.author = @user
       @new_post.blog = @blog
@@ -39,9 +38,37 @@ describe Comment do
       @new_post.comments << @new_comment
       @new_comment.post.should_not be_nil
       @post.watchers.should be_include(@user)
-
       @user.reload
       @user.comments_notices.unreads.count.should == 1
+    end
+  end
+
+  describe "mute post" do
+    it "should mute/unmute a post" do
+      post = Factory.build(:text)
+      post.author = @user
+      post.blog = @blog
+      post.save
+      
+      @user.mute! post
+      @user.reload
+      comment = Comment.new
+      comment.author = @comment_author
+      comment.content = "just content"
+      post.comments << comment 
+      post.should be_muted_by @user
+      post.watchers.should_not be_include(@user)
+      @user.comments_notices.unreads.count.should == 1
+ 
+      @user.unmute! post
+      @user.reload
+      post.watchers.should be_include(@user)
+      new_comment = Comment.new
+      new_comment.author = @comment_author
+      new_comment.content = "just content2"
+      post.comments << new_comment
+      @user.comments_notices.unreads.count.should == 2
+      post.should_not be_muted_by @user
     end
   end
 end
