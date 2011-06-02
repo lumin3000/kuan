@@ -117,9 +117,9 @@ class PostsController < ApplicationController
   def mute_toggle
     post = Post.find params[:id]
     if post.muted_by?(current_user)
-      post.unmuted!(current_user)
+      current_user.unmute! post
     else
-      post.muted!(current_user)
+      current_user.mute! post
     end
     
     respond_to do |format|

@@ -13,6 +13,7 @@ class User
   embeds_many :messages
   embeds_many :favors, :validate => false
   index "favors.post_id"
+  embeds_many :mutings, :validate => false
 
   attr_accessor :password, :code
   attr_accessible :name, :email, :password, :password_confirmation
@@ -32,7 +33,6 @@ class User
     :message => "此邮箱已被使用"
 
   validates_presence_of :password, :message => "请输入密码", :on => :create
-  # validates_presence_of :password_confirmation, :message => "请再次输入密码", :on => :create
   validates_confirmation_of :password, :message => "两次密码不统一", :on => :update
 
   validates_length_of :password,
@@ -226,6 +226,16 @@ class User
     comments_notices.unreads.each do |c|
       c.read!
     end
+  end
+
+  #mute/unmute operations
+
+  def mute!(post)
+    mutings << Muting.new(:post => post) unless post.muted_by?(self)
+  end
+
+  def unmute!(post)
+    mutings.where(:post_id => post.id).destroy 
   end
 
   #template operations
