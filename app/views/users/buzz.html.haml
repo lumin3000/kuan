@@ -20,3 +20,7 @@
       = render partial: "posts/post_full", object: p, as: :post,
         locals: { article_class: (b.unread? ? "new_reply" : "") }
   = pagination(@buzz_list)
+:javascript
+  window.document.addEvent("domready", function() {
+    $$('.new_reply .reply')[0] && K.tgt.comments($$('.new_reply .reply')[0])
+  });
