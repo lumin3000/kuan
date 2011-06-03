@@ -14,6 +14,11 @@ class Comment
 
   after_create :notify_watchers
 
+  def manageable_by?(user)
+    return false if user.nil?
+    author == user || post.author == user || post.blog.customed?(user)
+  end
+
   protected
   
   def notify_watchers

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class CommentsController < ApplicationController
   before_filter :signin_auth
   layout proc{ |c| c.request.xhr? ? false : "application" }
@@ -17,6 +18,21 @@ class CommentsController < ApplicationController
       render "comments/index"
     else
       render "comments/index"
+    end
+  end
+
+  def destroy
+    @post = Post.find(params[:post_id])
+    @comment = @post.comments.find(params[:id])
+    if(@comment.nil? || !(@comment.manageable_by? @user))
+      respond_to do |format|
+        format.json { render :json => {status: "error", message: "删除失败" } }
+      end
+      return
+    end
+    @comment.destroy
+    respond_to do |format|
+      format.json { render :json => {status: "success", message: "删除成功" } }
     end
   end
 end

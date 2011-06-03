@@ -71,4 +71,16 @@ describe Comment do
       post.should_not be_muted_by @user
     end
   end
+
+  describe "manage comment" do
+    it "should be manageable" do
+      @comment.manageable_by?(@user).should be_true
+    end
+    it "should be manageable" do
+      @comment.manageable_by?(@old_comment_author).should be_true
+    end
+    it "should be unmanageable" do
+      @comment.manageable_by?(@comment_author).should be_false
+    end
+  end
 end

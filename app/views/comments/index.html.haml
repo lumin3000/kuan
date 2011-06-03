@@ -5,7 +5,7 @@
   .c_content
     %input{ :type => "hidden", :name => "count", :value => @post.comments.count }
     - @post.comments.each do |comment|
-      .box{class: (current_user == comment.author ? "mine" : "")}
+      .box{class: (current_user == comment.author ? "mine" : ""), :data => {:widget => "fixHover"}}
         %img.c_avatar{:src => comment.author.primary_blog.icon.url_for(:'16')}
         %span.c_body
           %span.c_name><
@@ -15,9 +15,17 @@
           = auto_link h(comment.content)
           %span.c_date<
             = "(#{comment.created_at})"
+        - if current_user and comment.manageable_by? current_user
+          %a.remove_comment{ :href => post_comment_path(@post, comment), :title => '删除回复',
+            :data => { :doconfirm => "(→_→) 确定删除此回复吗?", :widget => "rest", :callback => "del", :md => "delete", :parent => "box" }}<
+            X
+
   .c_input
     = form_tag( post_comments_path, :method => "post", :autocomplete => "off" ) do |f|
       .txt
         %input{ :type => "text", :name => "content", :onkeydown => "if(new Event(event).code==13){this.getParent('form').getElement('.c_submitter').getElement('input').click();return false;}" }
       .c_submitter
         %input{ :type => "submit", :value => "评论", :data => { :tgt => "reply" } }
+:javascript
+  console.log('a')
+  K.applyWidgets($$('.chat')[0])

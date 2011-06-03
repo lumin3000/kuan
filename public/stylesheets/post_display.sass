@@ -329,9 +329,19 @@
   .box
     margin: 0 0 12px 0
     height: auto
-
     div
       margin: 0 0 5px 0
+    .remove_comment
+      float: right
+      margin-right: 12px
+      visibility: hidden
+      color: $gray
+      &:hover
+        text-decoration: none
+        color: $light-blue
+  .box.hover
+    .remove_comment    
+      visibility: visible
 
 .c_input
   height: 30px

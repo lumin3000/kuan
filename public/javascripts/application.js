@@ -732,12 +732,13 @@ K.tgt.reply = function(){
       data: { content: input.value},
       useSpinner: true,
       spinnerTarget: el.getParent(),
-      onSuccess: function(responseTree, responseElements){
+      onSuccess: function(responseTree, responseElements, responseHTML , responseJS){
         var els = responseElements[0].getChildren()
         chat.empty()
         els.each(function(item){
             item.inject(chat)
         })
+        Browser.exec(responseJS)
         K.set_max_height(chat.getElement('.c_content'))
         chat.getElement('.c_content').scrollTo(0, 9999)
         lock = false
