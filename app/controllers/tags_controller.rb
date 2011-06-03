@@ -7,9 +7,9 @@ class TagsController < ApplicationController
     post_filter = Post.all
     unless current_user.nil?
       post_filter = case @scope
-                    when "subs"
+                    when "bysubs"
                       Post.subs(current_user)
-                    when "my"
+                    when "byme"
                       Post.author(current_user)
                     else
                       post_filter
