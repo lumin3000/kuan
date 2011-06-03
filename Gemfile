@@ -6,13 +6,15 @@ gem 'mongo', '1.2.4'
 gem 'bson', '1.2.4'
 gem 'bson_ext', '1.2.4'
 gem 'mongoid', '2.0.0.rc.7'
+gem 'riddle'
+gem 'mongoid-sphinx-huacnlee', require: 'mongoid_sphinx'
 gem 'haml'
 gem 'haml-rails'
 gem 'mini_magick'
 gem 'mustache'
 gem 'nokogiri'
 gem 'jammit'
-gem 'whenever', :require => false
+gem 'whenever', require: false
 gem 'capistrano'
 gem 'oauth'
 gem 'curb'
@@ -27,5 +29,5 @@ group :development, :test do
 end
 
 group :test do
-  gem 'factory_girl_rails', :require => false
+  gem 'factory_girl_rails', require: false
 end
