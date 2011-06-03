@@ -1,4 +1,4 @@
-.article.tar_post{ class: (article_class ||= "")+(target_post_id == post.id ? " hover" : "") , :data => {:widget => 'fixHover'}}
+.article.tar_post{ class: (article_class ||= "")+(target_post_id == post.id ? " hover" : "") , :data => {:widget => 'fixHover', :hoverunique => "article"}}
   .author_arrow
   .avatar
     .image{style: "background-image:url(#{post.blog.icon.url_for(:medium)})"}<
