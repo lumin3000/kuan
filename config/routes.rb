@@ -64,7 +64,6 @@ Kuan::Application.routes.draw do
   post "/set_primary_blog/:uri" => "blogs#set_primary_blog", :as => "set_primary_blog"
   get "/posts/new/:type(/to/:blog_uri)" => "posts#new", :as => "new_post"
   post "/posts/fetch/:type(/to/:blog_uri)" => "posts#fetch", :as => "fetch_post"
-  #Maybe favors should have a controller too
   get '/favors(/page/:page)' => 'posts#favors', :page => /\d+/, :as => "favors_posts"
   get '/news(/page/:page)', :to => 'posts#news', :page => /\d+/, :as => "news_posts"
   get '/news/all(/page/:page)', :to => 'posts#news', :page => /\d+/, :all => true
@@ -82,8 +81,8 @@ Kuan::Application.routes.draw do
     put ':id/ignore' => :ignore, :as => "ignore"
   end
 
-  get "/tag/:tag(/page/:page)" => "tags#show", :page => /\d+/, :as => 'tagged'
-  get "/tags", :to => "tags#index"
+  get "/tag/:tag(/:scope)(/page/:page)" => "tags#show", page: /\d+/, as: 'tagged'
+  get "/tags" => "tags#index"
 
   resources :movings, :only => [:new, :create]
 

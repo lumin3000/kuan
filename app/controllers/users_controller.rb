@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class UsersController < ApplicationController
-  before_filter :signin_auth, :only => [:show, :edit, :update, :followings, :buzz, :read_all_comments_notices]
-  before_filter :signup_auth, :only => [:new, :create]
+  before_filter :signin_auth, only: [:show, :edit, :update, :followings, :buzz, :read_all_comments_notices]
+  before_filter :signup_auth, only: [:new, :create]
 
   def new
     if signed_in?
@@ -11,13 +11,13 @@ class UsersController < ApplicationController
     # @rand = rand(2)+1
     @rand = 0
     invitation_refer
-    render :layout => "application"
+    render layout: "application"
   end
 
   def create
     @user = User.new params[:user]
     @rand = params[:rand]
-    return (render 'new', :layout => "application") if !@user.save
+    return (render 'new', layout: "application") if !@user.save
 
     #create primary blog 
     @user.create_primary_blog!
@@ -37,41 +37,30 @@ class UsersController < ApplicationController
     redirect_to params[:redirect_back] ? params[:refer] : categories_path
   end
 
-  #param :uri: 显示指定uri的blog的信息和帖子列表，否则使用默认页面
   def show
     @blog = @user.primary_blog
     @blogs = @user.blogs
-    pagination = {
-      :page => params[:page] || 1,
-      :per_page => 10,
-    }
+    #param :uri: 显示指定uri的blog的信息和帖子列表，否则使用默认页面
     @at_dashboard = params[:uri].blank?
     if !@at_dashboard
-      param_blog = Blog.where(:uri => params[:uri]).first
+      param_blog = Blog.where(uri: params[:uri]).first
       @blog = @user.blogs.include?(param_blog) ? param_blog : @blog
-      cond = {:blog_id => @blog.id}
+      posts_c = Post.where({blog_id: @blog.id})
     else
-      sub_id_list = @user.all_blogs.reduce [], do |list, blog|
-        if blog.open_to?(@user) then list << blog.id else list end
-      end
-      cond = {:blog_id.in => sub_id_list}
+      posts_c = Post.subs(@user)
     end
-    @posts = Post.desc(:created_at).where(cond).paginate(pagination)
-    render :layout => "common"
+    @posts = posts_c.desc(:created_at).paginate(pagination_default)
+    render layout: "common"
   end
 
   def buzz
-    pagination = {
-      :page => params[:page] || 1,
-      :per_page => 10,
-    }
     if(params[:unread])
-      @buzz_list = current_user.unread_comments_notices_list(pagination)
+      @buzz_list = current_user.unread_comments_notices_list(pagination_default)
       @unread = true
     else
-      @buzz_list = current_user.comments_notices_list(pagination)
+      @buzz_list = current_user.comments_notices_list(pagination_default)
     end
-    render :layout => "main"
+    render layout: "main"
   end
 
   def read_all_comments_notices
@@ -82,7 +71,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    render :layout => "account"
+    render layout: "account"
   end
 
   def update
@@ -95,21 +84,21 @@ class UsersController < ApplicationController
       flash[:success] = "帐户信息更新成功"
       redirect_to home_path
     else
-      render 'edit', :layout => "account"
+      render 'edit', layout: "account"
     end
   end
 
   def followings
     @blogs = @user.subs
-    render :layout => "main"
+    render layout: "main"
   end
 
   private
 
   def signup_auth
-    render 'shared/404', :status => 404 and return if params[:code].blank?
+    render 'shared/404', status: 404 and return if params[:code].blank?
     @inv_user = User.find_by_code params[:code]
-    render 'shared/404', :status => 404 if @inv_user.nil? 
+    render 'shared/404', status: 404 if @inv_user.nil? 
   end
 
   def logging_refer
