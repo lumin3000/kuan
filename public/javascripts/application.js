@@ -359,7 +359,7 @@ K.widgets.fixHover = (function() {
   var className = 'hover'
     , events = {
         mouseenter: function() {
-          var unique = $(this).get('data-hoverunique')
+          var unique = $(this).get('data-uniqueHoverClass')
           if(unique){
             $$('.'+className+'.'+unique).removeClass(className)
           }
