@@ -59,6 +59,10 @@ describe Tag, " for posts" do
                              :tags => @tag_first)
     posts = Post.tagged @tag_first
     posts.count.should == 2
+    posts = Post.author(@user).tagged @tag_first
+    posts.count.should == 2
+    posts = Post.subs(@user).tagged @tag_first
+    posts.count.should == 2
   end
 end
 

@@ -3,18 +3,18 @@ class Post
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  referenced_in :blog, :index => true
-  referenced_in :author, :class_name => 'User', :index => true
+  referenced_in :blog, index: true
+  referenced_in :author, class_name: 'User', index: true
   embeds_many :comments
   index :created_at
 
   field :parent_id
   field :ancestor_id
   index :ancestor_id
-  field :private, :type => Boolean, :default => false
-  field :repost_count, :type => Integer, :default => 0
-  field :favor_count, :type => Integer, :default => 0
-  field :tags, :type => Array, :default => []
+  field :private, type: Boolean, default: false
+  field :repost_count, type: Integer, default: 0
+  field :favor_count, type: Integer, default: 0
+  field :tags, type: Array, default: []
   index :tags
 
   attr_accessible :blog, :author, :author_id, :blog_id, :created_at, :comments, :parent, :tags, :private
@@ -30,10 +30,17 @@ class Post
 
   scope :publics, where(:private.ne => true).desc(:created_at)
   scope :all, desc(:updated_at)
-  scope :tagged, lambda { |tag| where(:tags => tag, :private.ne => true).desc(:created_at) }
   scope :pics_and_text, where(:_type.in => ["Text", "Pics"], :private.ne => true)
-  scope :in_day, lambda { |date| where(:created_at.gte => date.midnight,
-                                       :created_at.lte => date.end_of_day).desc(:created_at) }
+  scope :tagged, ->(tag) { where(:tags => tag, :private.ne => true).desc(:created_at) }
+  scope :in_day, ->(date) { where(:created_at.gte => date.midnight,
+                                  :created_at.lte => date.end_of_day).desc(:created_at) }
+  scope :author, ->(user) { where(author_id: user.id) }
+  scope :subs, ->(user) do
+    sub_id_list = user.all_blogs.reduce [], do |list, blog|
+      if blog.open_to?(user) then list << blog.id else list end
+    end
+    where({:blog_id.in => sub_id_list})
+  end
 
   def haml_object_ref
     "post"
