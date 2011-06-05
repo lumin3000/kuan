@@ -14,7 +14,7 @@ class Pics < Post
       end
       new_photos = photos.map do |p|
         p.delete :id
-        i = Image.criteria.id(p[:image]).first
+        i = Image.all.for_ids(p[:image]).first
         p[:image] = i
         Photo.new(p)
       end
