@@ -87,24 +87,24 @@ class User
   end
 
   def follow!(blog, auth="follower")
-    f = followings.where(:blog_id => blog.id).first
+    f = followings.where(blog_id: blog.id).first
     if f.nil?
-      followings << Following.new(:blog => blog, :auth => auth)
+      followings << Following.new(blog: blog, auth: auth)
       if auth == "follower"
         (blog.founders + blog.lord.to_a).each do |founder|
-          founder.receive_message! Message.new(:sender => self,
-                                             :blog => blog,
-                                             :type => "follow"
+          founder.receive_message! Message.new(sender: self,
+                                             blog: blog,
+                                             type: "follow"
                                              )
         end
       end
     else
-      f.update_attributes :auth => auth
+      f.update_attributes auth: auth
     end
   end
 
   def unfollow!(blog)
-    followings.where(:blog_id => blog._id).destroy
+    followings.where(blog_id: blog._id).destroy
   end
 
   #Getting user's blogs 
@@ -180,7 +180,11 @@ class User
   end
 
   def del_favor_post!(post)
-    post.favor_count_dec if favors.where(:post_id => post.id).destroy > 0
+    f = favors.where(post_id: post.id).first
+    unless f.nil?
+      f.destroy
+      post.favor_count_dec 
+    end
   end
 
   def favor_posts
@@ -193,9 +197,10 @@ class User
   #Messages operations
 
   def receive_message!(message)
-    messages.where(:sender_id => message.sender.id,
-                   :blog_id => message.blog.id,
-                   :type => message.type).destroy
+    c = messages.where(sender_id: message.sender.id,
+                       blog_id: message.blog.id,
+                       type: message.type)
+    c.destroy_all if c.count > 0
     messages << message
     messages.first.delete if messages.length > Message::LIMIT
   end

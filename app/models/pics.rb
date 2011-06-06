@@ -9,9 +9,7 @@ class Pics < Post
   def update_attributes(attrs = {})
     photos = attrs.delete :photos
     if photos.is_a? Array
-      self.photos.each do |p|
-        p.destroy
-      end
+      self.photos.each { |p| p.destroy}
       new_photos = photos.map do |p|
         p.delete :id
         i = Image.all.for_ids(p[:image]).first

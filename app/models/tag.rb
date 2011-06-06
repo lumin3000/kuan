@@ -46,8 +46,8 @@ class Tag
     end
 
     def set_new_hots(old_hots)
-      old_hots.each {|tag| tag.update_attributes(:new => false)}
-      (hottest.to_a - old_hots).each { |tag| tag.update_attributes(:new => true)}
+      old_hots.each {|tag| tag.update_attributes(new: false)}
+      (hottest.to_a - old_hots).each { |tag| tag.update_attributes(new: true)}
     end
   end
 end
