@@ -17,8 +17,8 @@ describe Pics do
 
     params = @param.dup.update({
       photos: [
-        {image: @images[0].id.to_s, desc: "Photo1"},
-        {image: @images[1].id.to_s, desc: "yet another photo"},
+        Photo.new({image: @images[0], desc: "Photo1"}),
+        Photo.new({image: @images[1], desc: "yet another photo"}),
       ],
       content: "Blah",
     })
