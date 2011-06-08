@@ -84,24 +84,8 @@ PREVENT_CLICK
     fetch_posts
     @rendered = render_blog
     return if @render_error
-    if params[:kmon] || @blog.open_register?
-      prepare_for_kmon
-    end
     render :text => @rendered
   end
-
-  def prepare_for_kmon
-    return if current_user
-    default_inviter = @blog.primary? ? @blog.lord : @blog.founders.first
-    @code = default_inviter.inv_code
-    general_log 'invitation_refer', request.remote_ip, @code, request.referer
-    @rendered.sub! /<body([^>]*)>/, <<EOF
-<body data-kmon="1" \\1>
-#{@blog_view.load_js}
-#{advertising_bar}
-EOF
-  end
-  private :prepare_for_kmon
 
   def followers
     @blogs = @user.blogs
@@ -323,9 +307,5 @@ EOF
     thumbnail_id = params[:tpl_thumbnail_id]
     tpl[:thumbnail_id] = thumbnail_id unless thumbnail_id.blank?
     current_user.submit_template tpl
-  end
-
-  def advertising_bar
-    render_to_string 'blogs/_advertising_bar', :layout => false
   end
 end
