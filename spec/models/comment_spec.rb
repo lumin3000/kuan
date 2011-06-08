@@ -14,6 +14,7 @@ describe Comment do
     @old_comment_author = Factory.create(:user_unique)
     @comment.author = @old_comment_author
     @post.comments << @comment
+    @post.notify_watchers @comment
   end
 
   describe "content validations" do
@@ -37,6 +38,7 @@ describe Comment do
       @new_comment.author = @comment_author
       @new_comment.content = "just content"
       @new_post.comments << @new_comment
+      @new_post.notify_watchers @new_comment
       @new_comment.post.should_not be_nil
       @post.watchers.should be_include(@user)
       @new_post.watchers.should be_include(@user)
@@ -55,7 +57,8 @@ describe Comment do
       comment = Comment.new
       comment.author = @comment_author
       comment.content = "just content"
-      post.comments << comment 
+      post.comments << comment
+      post.notify_watchers comment
       post.should be_muted_by @user
       post.watchers.should_not be_include(@user)
       @user.comments_notices.unreads.count.should == 1
@@ -65,7 +68,8 @@ describe Comment do
       new_comment = Comment.new
       new_comment.author = @comment_author
       new_comment.content = "just content2"
-      post.comments << new_comment
+      post.comments << new_comment 
+      post.notify_watchers new_comment
       @user.comments_notices.unreads.count.should == 2
       post.should_not be_muted_by @user
     end
