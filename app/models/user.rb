@@ -4,40 +4,40 @@ class User
   include Mongoid::Timestamps
   field :name
   field :email
-  index :email, :unique => true
+  index :email, unique: true
   field :salt
   field :encrypted_password
   embeds_many :followings
   index "followings.blog_id"
-  embeds_many :comments_notices
-  embeds_many :messages
-  embeds_many :favors, :validate => false
+  embeds_many :comments_notices, validate: false
+  embeds_many :messages, validate: false
+  embeds_many :favors, validate: false
   index "favors.post_id"
-  embeds_many :mutings, :validate => false
+  embeds_many :mutings, validate: false
 
   attr_accessor :password, :code
   attr_accessible :name, :email, :password, :password_confirmation
 
-  validates_presence_of :name, :message => "请输入用户名"
+  validates_presence_of :name, message: "请输入用户名"
   validates_length_of :name,
-    :within => 1..40,
-    :too_short => "最少%{count}个字",
-    :too_long => "最多%{count}个字"
+    within: 1..40,
+    too_short: "最少%{count}个字",
+    too_long: "最多%{count}个字"
   validates_presence_of :email, 
-    :message => "请输入邮箱"
+    message: "请输入邮箱"
   validates_format_of :email, 
-    :with => /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, 
-    :message => "邮箱格式不正确"
+    with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, 
+    message: "邮箱格式不正确"
   validates_uniqueness_of :email, 
-    :case_sensitive => false, 
-    :message => "此邮箱已被使用"
+    case_sensitive: false, 
+    message: "此邮箱已被使用"
 
-  validates_presence_of :password, :message => "请输入密码", :on => :create
-  validates_confirmation_of :password, :message => "两次密码不统一", :on => :update
+  validates_presence_of :password, message: "请输入密码", :on => :create
+  validates_confirmation_of :password, message: "两次密码不统一", :on => :update
 
   validates_length_of :password,
-    :within => 5..32,
-    :too_short => "最少%{count}个字",
+    within: 5..32,
+    too_short: "最少%{count}个字",
   :too_long => "最多%{count}个字", :unless => Proc.new { |a| a.password.blank? }
 
   before_save :encrypt_password, :unless => Proc.new { |a| a.password.blank? }
@@ -220,10 +220,9 @@ class User
   end
 
   def insert_unread_comments_notices!(post)
-    c = comments_notices.where( :post_id => post.id )
+    c = comments_notices.where(  post_id: post.id )
     c.destroy if c.length > 0
     comments_notices.first.delete if comments_notices.length > 99
-    
     comments_notices << CommentsNotice.new(:post => post)
   end
 

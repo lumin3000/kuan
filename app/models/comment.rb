@@ -4,13 +4,13 @@ class Comment
   include Mongoid::Timestamps
   field :content
   embedded_in :post, :inverse_of => :comments
-  referenced_in :author, :class_name => 'User'
+  referenced_in :author, class_name: 'User'
   attr_accessible :content, :post, :author, :author_id
 
-  validates_presence_of :content, :message => "回复不能为空"
+  validates_presence_of :content, message: "回复不能为空"
   validates_length_of :content,
-    :minimum => 1,
-    :too_short => "写几个字吧"
+    minimum: 1,
+    too_short: "写几个字吧"
 
   after_create :notify_watchers
 

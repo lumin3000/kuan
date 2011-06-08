@@ -32,14 +32,15 @@ describe Comment do
       @new_post = Factory.build(:text)
       @new_post.author = @user
       @new_post.blog = @blog
+      @new_post.save!
       @new_comment = Comment.new
       @new_comment.author = @comment_author
       @new_comment.content = "just content"
       @new_post.comments << @new_comment
       @new_comment.post.should_not be_nil
       @post.watchers.should be_include(@user)
-      @user.reload
-      @user.comments_notices.unreads.count.should == 1
+      @new_post.watchers.should be_include(@user)
+      @user.comments_notices.unreads.count.should == 2
     end
   end
 
@@ -49,9 +50,8 @@ describe Comment do
       post.author = @user
       post.blog = @blog
       post.save
-      
+
       @user.mute! post
-      @user.reload
       comment = Comment.new
       comment.author = @comment_author
       comment.content = "just content"
@@ -61,7 +61,6 @@ describe Comment do
       @user.comments_notices.unreads.count.should == 1
  
       @user.unmute! post
-      @user.reload
       post.watchers.should be_include(@user)
       new_comment = Comment.new
       new_comment.author = @comment_author
