@@ -11,7 +11,6 @@ class Blog
   field :primary, :type => Boolean, :default => false
   field :private, :type => Boolean, :default => false
   field :canjoin, :type => Boolean, :default => false
-  field :open_register, :type => Boolean, :default => false
   field :posted_at, :type => Time
   index :posted_at
   field :tag
@@ -37,7 +36,7 @@ class Blog
   references_many :sync_targets, :validate => false
 
   attr_accessible :uri, :title, :desc, :icon, :primary, :private, :canjoin,
-  :posted_at, :custom_html, :open_register, :using_custom_html,
+  :posted_at, :custom_html, :using_custom_html,
   :custom_css, :template, :template_id, :template_conf, :tag
 
   before_update :post_privte_setter
