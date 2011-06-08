@@ -17,8 +17,8 @@ describe Pics do
 
     params = @param.dup.update({
       photos: [
-        Photo.new({image: @images[0], desc: "Photo1"}),
-        Photo.new({image: @images[1], desc: "yet another photo"}),
+               {image: @images[0].id.to_s, desc: "Photo1"},
+               {image: @images[1].id.to_s, desc: "yet anohter photo"},
       ],
       content: "Blah",
     })
@@ -30,11 +30,6 @@ describe Pics do
     it "should create a complete pics model" do
       @post.should be_valid
       @post.save.should be_true
-
-      image = @post.photos[0].image
-
-      posts = Post.all.to_ary
-      posts.should be_include(@post)
     end
   end
 
