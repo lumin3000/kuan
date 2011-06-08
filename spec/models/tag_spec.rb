@@ -133,7 +133,7 @@ describe Tag, " for activities" do
     tag = Tag.find_by_tag @tag
     tag.tagged_count.should == 1
     tag.activity[d.to_s].should == 1
-    tag.should be_new
+    tag.new.should be_true
     Tag.hot_tag_posts.should be_key @tag
     Tag.hot_tag_posts[@tag].should == @post
   end

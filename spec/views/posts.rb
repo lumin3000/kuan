@@ -13,7 +13,6 @@ describe "posts/new.html.haml" do
   it "new form" do
     for po in Post.subclasses
       @post = Factory.build(po.name.downcase.to_sym)
-
       stub_template "posts/_#{po.name.downcase}" => ""
       render
       assert_select "div"

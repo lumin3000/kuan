@@ -94,12 +94,14 @@ describe CommentsNotice do
 
   describe "read notice" do
     it "should set unread = false" do
-      @post = Post.new
-      @new_comments_notice = CommentsNotice.new(:post => @post)
-
+      post = Factory.build(:text)
+      post.author = @user
+      post.blog = @blog
+      post.save
+      @new_comments_notice = CommentsNotice.new(:post => post)
       @user.comments_notices = [ @comments_notice, 
                                 @read_comments_notice,
-                                @new_comments_notice ]
+                                 @new_comments_notice ]
       @user.reload
       length = @user.comments_notices.unreads.count
       @user.comments_notices.last.read!
@@ -125,15 +127,20 @@ describe CommentsNotice do
   describe "limit user comments notices in database" do
     before :each do
       @post_first = Factory.build(:text)
+      @post_first.author, @post_first.blog = @user, @blog
       @user.insert_unread_comments_notices!(@post_first)
       @user.reload
       @length1 = @user.comments_notices.length
       98.times do |i|
-        @user.insert_unread_comments_notices!(Factory.build(:text))
+        pm = Factory.build(:text)
+        pm.author, pm.blog = @user, @blog
+        @user.insert_unread_comments_notices!(pm)
       end
       @user.reload
       @length99 = @user.comments_notices.length
-      @user.insert_unread_comments_notices!(Factory.build(:text))
+      pl = Factory.build(:text)
+      pl.author, pl.blog = @user, @blog
+      @user.insert_unread_comments_notices!(pl)
       @user.reload
       @length100 = @user.comments_notices.length
       @user.insert_unread_comments_notices!(@post_new)
