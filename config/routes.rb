@@ -92,8 +92,6 @@ Kuan::Application.routes.draw do
     end
   end
 
-  match "/pop_the_gate/:action(/:blog_id)", :controller => :pop_the_gate
-
   get "/sitemap", :to => "sitemap#index", :as => "sitemap"
 
   get "/categories/manage", :to => "categories#manage", :as => "categories_manage"
