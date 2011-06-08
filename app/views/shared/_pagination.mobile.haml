@@ -1,0 +1,7 @@
+.page_control
+  - if defined?(prev_page_url)
+    %a.page_left{href: prev_page_url} &#8592; 最近的
+  - if current_page != 1
+    .page_number= current_page
+  - if defined?(next_page_url)
+    %a.page_right{href: next_page_url} 以前的 &#8594;

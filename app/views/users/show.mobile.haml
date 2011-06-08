@@ -1,0 +1,8 @@
+- css :posts_display
+
+- @site_layout = 'site'
+.dashboard
+  .main{ :data => { :widget => "sugar" } }
+    .timeline
+      = render :partial => "posts/post_full", :collection => @posts, :as => :post
+    = pagination(@posts)

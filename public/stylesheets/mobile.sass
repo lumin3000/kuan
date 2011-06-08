@@ -1,0 +1,26 @@
+@import 'base'
+
+.head
+  height: 60px
+  .head_avatar
+    @include size(60px, 60px)
+    background-repeat: no-repeat
+    background-position: center
+    @include border-radius(5px)
+    float: left
+    display: inline
+ 
+    a
+      @include size(60px, 60px)
+      display: block
+      text-decoration: none
+  .icon_s
+    width: 30px
+    height: 30px
+    border: 3px solid #7999dd
+    @include border-radius(10px)
+    overflow: hidden
+    position: absolute
+    top: 50px
+    left: 60px
+    z-index: 1

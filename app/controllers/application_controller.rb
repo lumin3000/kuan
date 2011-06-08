@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   include SessionsHelper
   include UrlHelper
+  include MobileHelper
 
   def pagination_default
     { page: params[:page] || 1,  per_page: 10 }
