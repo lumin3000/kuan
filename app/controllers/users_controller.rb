@@ -49,7 +49,7 @@ class UsersController < ApplicationController
     else
       posts_c = Post.subs(@user)
     end
-    @posts = posts_c.desc(:created_at).paginate(pagination_default)
+    @posts = posts_c.desc(:created_at).page(params[:page])
     render layout: "common"
   end
 

@@ -28,7 +28,6 @@ class Post
   before_create :type_setter, :private_setter
   after_create :ancestor_reposts_inc, :parent_reposts_inc, :update_blog
 
-  scope :publics, where(:private.ne => true).desc(:created_at)
   scope :all_by_updated, desc(:updated_at)
   scope :pics_and_text, where(:_type.in => ["Text", "Pics"], :private.ne => true)
   scope :tagged, ->(tag) { where(:tags => tag, :private.ne => true).desc(:created_at) }
@@ -41,6 +40,7 @@ class Post
     end
     where({:blog_id.in => sub_id_list})
   end
+  scope :publics, ->(page) { where(:private.ne => true).desc(:created_at).page(page) }
 
   def haml_object_ref
     "post"
@@ -79,8 +79,8 @@ class Post
       (self.subclasses.include? klass) ? klass.new(args) : nil
     end
 
-    def news(pagination)
-      Blog.latest.paginate(pagination).reduce([]) do |posts, b|
+    def news(page)
+      Blog.latest.page(page).reduce([]) do |posts, b|
         post = b.posts.desc(:created_at).limit(1).first
         posts << post if not post.nil? and post.created_at == b.posted_at
         posts

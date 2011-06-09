@@ -2,7 +2,8 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.7'
 
-gem 'mongoid', '2.0.0'
+gem 'mongoid', '2.0.2'
+gem 'kaminari'
 gem 'bson'
 gem 'bson_ext'
 gem 'haml', '~> 3.0.0'
