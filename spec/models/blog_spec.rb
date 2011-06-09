@@ -77,41 +77,6 @@ describe Blog do
     end
   end
 
-  describe "public blogs" do
-    before :each do
-      Blog.delete_all
-    end
-
-    it "should show public blogs" do
-      @blog = Factory.build(:blog_unique)
-      @blog2 = Factory.build(:blog_unique)
-      @blog.save
-      @blog2.save
-      Blog.public.length.should == 2
-      Blog.public.should include @blog
-      Blog.public.should include @blog2
-    end
-
-    it "should not show private blogs" do
-      @blog = Factory.build(:blog_unique)
-      @blog_private = Factory.build(:blog_unique, :private => true)
-      @blog.save
-      @blog_private.save
-      Blog.public.length.should == 1
-      Blog.public.should include @blog
-      Blog.public.should_not include @blog_private
-    end
-    it "should handle old data private is nil" do
-      @blog = Factory.build(:blog_unique)
-      @blog_old = Factory.build(:blog_unique, :private => nil)
-      @blog.save
-      @blog_old.save
-      Blog.public.length.should == 2
-      Blog.public.should include @blog
-      Blog.public.should include @blog_old
-    end
-  end
-
   describe "list latest blogs" do
     before :each do
       Blog.delete_all

@@ -16,7 +16,6 @@ class Blog
   field :tag
   index :tag
 
-  scope :public, :excludes => { :private => true }
   scope :latest, :excludes => { :private => true, :posted_at => nil },
   :order_by => { :posted_at => :desc },
   :limit => 500

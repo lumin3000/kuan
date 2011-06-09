@@ -166,7 +166,7 @@ class PostsController < ApplicationController
       :page => params[:page] || 1,
       :per_page => 50,
     }
-    @posts = Post.all.paginate(pagination)
+    @posts = Post.all_by_updated.paginate(pagination)
     render "news", :layout => "common"
   end
 

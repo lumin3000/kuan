@@ -29,7 +29,7 @@ class Post
   after_create :ancestor_reposts_inc, :parent_reposts_inc, :update_blog
 
   scope :publics, where(:private.ne => true).desc(:created_at)
-  scope :all, desc(:updated_at)
+  scope :all_by_updated, desc(:updated_at)
   scope :pics_and_text, where(:_type.in => ["Text", "Pics"], :private.ne => true)
   scope :tagged, ->(tag) { where(:tags => tag, :private.ne => true).desc(:created_at) }
   scope :in_day, ->(date) { where(:created_at.gte => date.midnight,
