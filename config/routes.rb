@@ -17,7 +17,7 @@ Kuan::Application.routes.draw do
 
   constraints(Subdomain) do
     get '/' => 'blogs#show'
-    get '/kmon' => 'blogs#show', :kmon => true
+    get '/kmon' => redirect('/')
     get '/(page/:page)' => 'blogs#show', :page => /\d+/
     get '/edit' => 'blogs#edit'
     put '/' => 'blogs#update'
@@ -91,8 +91,6 @@ Kuan::Application.routes.draw do
       post :submit
     end
   end
-
-  match "/pop_the_gate/:action(/:blog_id)", :controller => :pop_the_gate
 
   get "/sitemap", :to => "sitemap#index", :as => "sitemap"
 

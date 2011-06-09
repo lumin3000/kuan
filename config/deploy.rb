@@ -32,7 +32,7 @@ namespace :deploy do
   end
 
   task :sass do
-    run "cd #{current_release} && rake RAILS_ENV=production sass:build"
+    run "cd #{current_release} && bundle exec rake RAILS_ENV=production sass:build"
   end
 
   task :jammit do

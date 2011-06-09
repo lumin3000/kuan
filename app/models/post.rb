@@ -59,13 +59,12 @@ class Post
   end
 
   def parent
-    Post.criteria.id(parent_id).first unless parent_id.nil?
+    Post.all.for_ids(parent_id).first unless parent_id.nil?
   end
 
   def ancestor
     return nil if ancestor_id.nil?
-    a = Post.criteria.id(ancestor_id).first
-    a ||= parent
+    Post.all.for_ids(ancestor_id).first || parent
   end
 
   def tags=(tags)

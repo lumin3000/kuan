@@ -15,6 +15,7 @@ class CommentsController < ApplicationController
     @comment = Comment.new(:content => params[:content], :author_id => current_user.id)
     if @comment.valid?
       @post.comments << @comment
+      @post.notify_watchers @comment
       render "comments/index"
     else
       render "comments/index"
