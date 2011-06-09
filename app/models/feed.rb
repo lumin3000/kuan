@@ -50,6 +50,8 @@ class Feed
       begin
         rss = RSS::Parser.parse http, false
         return uri, rss.channel.title
+      rescue Errno::ECONNRESET
+        return nil
       rescue Exception => e
         return nil if is_strict
         http.open do |io|
