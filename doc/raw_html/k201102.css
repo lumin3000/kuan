@@ -61,7 +61,7 @@ label{font-family:Hiragino Sans GB,hei,microsoft yahei;}
 	border:0;
 	width:270px;
 	height:46px;
-	background:url('images/logo.gif');
+	background:url('images/logo.png');
 	float:left;
 }
 
@@ -583,13 +583,38 @@ font-family:"Hiragino Sans GB",hei,"microsoft yahei";
 	height:420px;
 }
 
+.registation_bg{
+	width:600px;
+	height:400px;
+	background:url('images/registation_bg.jpg') no-repeat top left;
+	overflow:hidden;
+	position:absolute;
+	opacity: 0.5;
+	-moz-opacity: 0.5;
+	filter:alpha(opacity=50);
+	top:50px;
+	left:350px;
+	z-index:-1;
+}
+
+.registation_animation{
+	width:600px;
+	height:270px;
+    background:url('images/registation_animation.gif') no-repeat top left;
+    overflow:hidden;
+    position:absolute;
+    top:150px;
+    left:350px;
+    z-index:1;
+}
+
 .registation_show{
 	width:960px;
 	height:500px;
 }
 
 .registation_intro{
-	background: url(images/registation.png) no-repeat;
+	background: url('images/registation.png') no-repeat;
 	width:960px;
 	height:364px;	
 }
