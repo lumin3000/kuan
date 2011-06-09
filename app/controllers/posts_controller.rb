@@ -154,11 +154,7 @@ class PostsController < ApplicationController
   end
 
   def all
-    pagination = {
-      :page => params[:page] || 1,
-      :per_page => 50,
-    }
-    @posts = Post.all_by_updated.paginate(pagination)
+    @posts = Post.all_by_updated.page(params[:page]).per(50)
     render "news", :layout => "common"
   end
 

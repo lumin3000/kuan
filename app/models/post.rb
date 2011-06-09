@@ -88,7 +88,7 @@ class Post
     end
 
     def wall
-      Blog.latest[0..200].sample(50).reduce([]) do |posts, b|
+      Blog.latest.limit(200).sample(50).reduce([]) do |posts, b|
         p = b.posts.pics_and_text.desc(:created_at).limit(10)
         p.blank? ? posts : (posts << p.sample)
       end

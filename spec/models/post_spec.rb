@@ -82,12 +82,8 @@ describe Post do
       @post.created_at = 1.hour.ago
       @post.save!
       @blog.reload
-      @pagination = {
-        :page => 1,
-        :order => "posted_at DESC",
-        :per_page => 999,
-      }
     end
+    
     describe "list news" do
       it "should order desc" do
         @post_new = Factory.build(:text)
@@ -97,7 +93,7 @@ describe Post do
         @post_new.save!
         @blog_new.reload
    
-        @news = Post.news(@pagination)
+        @news = Post.news(nil)
         @news.first.should == @post_new
         @news.last.should == @post
       end
@@ -107,16 +103,17 @@ describe Post do
         @post_private.blog = @blog_private
         @post_private.save
    
-        @news = Post.news(@pagination)
+        @news = Post.news(nil)
         @news.length.should == 1
       end
    
       it "should handle when all posts in blog was deleted" do
         @post.destroy
-        @news = Post.news(@pagination)
+        @news = Post.news(nil)
         @news.length.should == 0
       end
     end
+    
     describe "list all public posts" do
       it "should order desc" do
         @post_new = Factory.build(:text)
@@ -126,7 +123,7 @@ describe Post do
         @post_new.save!
         @blog_new.reload
    
-        @news = Post.publics.paginate(@pagination)
+        @news = Post.publics(nil)
         @news.first.should == @post_new
         @news.last.should == @post
       end
@@ -137,7 +134,7 @@ describe Post do
         @post_private.private = true
         @post_private.save!
    
-        @news = Post.publics.paginate(@pagination)
+        @news = Post.publics(nil)
         @news.length.should == 1
       end
     end

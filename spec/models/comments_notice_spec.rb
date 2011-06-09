@@ -51,22 +51,17 @@ describe CommentsNotice do
 
       @user.save
       @user.reload
-      @pagination = {
-        :page => 1,
-        :order => "created_at DESC",
-        :per_page => 999,
-      }
     end
 
     it "should order in desc" do
       @user.comments_notices.first.post.should == @post_old
-      tmp = @user.comments_notices_list(@pagination)
+      tmp = @user.comments_notices_list
       tmp.first.post.should == @post
     end
 
     it "should list unread" do
       @user.comments_notices.first.unread = false
-      tmp = @user.unread_comments_notices_list(@pagination)
+      tmp = @user.unread_comments_notices_list
       tmp.length.should == 1
       tmp.first.post.should == @post
     end
