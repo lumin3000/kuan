@@ -1,21 +1,26 @@
 .header
   %a.logo{href: fucking_root, title: "我的主页"}
-  .navigator<
+  %ul.toolbar
+    %li<
+      %a{href:"#"} 切换到网页版
     - if current_user
-      %a.text{href: new_post_path("text", @blog)} 发布文字
-      %a.my_follow{ href: followings_path, title: "我关注的"}<
-        %span 我关注的
-      %a.my_collect{ href: favors_posts_path, title: "我喜欢的"}<
-        %span 我喜欢的
-      %a.my_reply{ href: buzz_path, title: "回复"}<
-        %span 回复
-        - if current_user.comments_notices.unreads.count > 0
-          = current_user.comments_notices.unreads.count
-
-      %a.my_message{ href: messages_path, title: "消息"}<
-        %span 消息
-        - if current_user.messages.unreads.count > 0
-          = current_user.messages.unreads.count
-    - else
-      %span><
-        &nbsp;
+      %li<
+        %a.my_follow{ href: followings_path, title: "我关注的"}<
+          %span 我关注的
+      %li<
+        %a.my_collect{ href: favors_posts_path, title: "我喜欢的"}<
+          %span 我喜欢的
+      %li<
+        %a.my_reply{ href: buzz_path, title: "回复"}<
+          %span 回复
+          - if current_user.comments_notices.unreads.count > 0
+            = current_user.comments_notices.unreads.count
+      %li<
+        %a.my_message{ href: messages_path, title: "消息"}<
+          %span 消息
+          - if current_user.messages.unreads.count > 0
+            = current_user.messages.unreads.count
+  - if current_user
+    %ul.post
+      %li
+        %a.text{href: new_post_path("text", @blog)} 发布文字

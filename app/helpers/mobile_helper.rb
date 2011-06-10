@@ -19,6 +19,7 @@ module MobileHelper
 
   def is_mobile_device?
     request.user_agent.to_s.downcase =~ Regexp.new(MOBILE_USER_AGENTS)
+    true
   end
 
   def mobile_view?
