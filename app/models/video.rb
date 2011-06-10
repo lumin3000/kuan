@@ -19,6 +19,8 @@ class Video < Post
 
   FETCH_SITES = [:youku, :tudou, :ku6]
 
+  DEFAULT_THUMB = "/images/default_video.png"
+
   def url=(url)
     begin
       super(html url)
@@ -49,6 +51,10 @@ class Video < Post
 
   def content=(content)
     super unless content.blank?
+  end
+
+  def thumb
+    super.nil? ? DEFAULT_THUMB : super
   end
 
   private
