@@ -49,16 +49,16 @@ class UsersController < ApplicationController
     else
       posts_c = Post.subs(@user)
     end
-    @posts = posts_c.desc(:created_at).paginate(pagination_default)
+    @posts = posts_c.desc(:created_at).page(params[:page])
     render layout: "common"
   end
 
   def buzz
     if(params[:unread])
-      @buzz_list = current_user.unread_comments_notices_list(pagination_default)
+      @buzz_list = Kaminari.paginate_array(current_user.unread_comments_notices_list).page(params[:page])
       @unread = true
     else
-      @buzz_list = current_user.comments_notices_list(pagination_default)
+      @buzz_list = Kaminari.paginate_array(current_user.comments_notices_list).page(params[:page])
     end
     render layout: "main"
   end

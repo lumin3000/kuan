@@ -268,7 +268,7 @@ PREVENT_CLICK
       }
       @view_context[:pagination] = pagination
       @posts = Post.desc(:created_at).where({:blog_id => @blog.id})
-        .paginate(pagination)
+        .page(pagination[:page]).per(per_page)
 
     else
       @posts = [Post.find(@post_id)]

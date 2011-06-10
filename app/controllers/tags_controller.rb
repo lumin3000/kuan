@@ -15,7 +15,7 @@ class TagsController < ApplicationController
                       post_filter
                     end
     end
-    @posts = post_filter.tagged(@tag).paginate(pagination_default)
+    @posts = post_filter.tagged(@tag).page(params[:page])
     @blogs = Blog.tagged(@tag).limit(10)
     render layout: "common"
   end

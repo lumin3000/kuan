@@ -211,12 +211,12 @@ class User
 
   #Comments' notices operations
   
-  def comments_notices_list(pagination)
-    comments_notices.desc(:created_at).paginate(pagination)
+  def comments_notices_list
+    comments_notices.desc(:created_at)
   end
 
-  def unread_comments_notices_list(pagination)
-    comments_notices.where(:unread => true).desc(:created_at).paginate(pagination)
+  def unread_comments_notices_list
+    comments_notices.where(unread: true).desc(:created_at)
   end
 
   def insert_unread_comments_notices!(post)
