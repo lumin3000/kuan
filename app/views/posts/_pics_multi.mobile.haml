@@ -1,0 +1,6 @@
+- pics_multi.photos.each_with_index do |p, index|
+  - i = p.image
+  %a{href: i.url_for(:medium)}<
+    %img{src: i.url_for(:small)}
+  %p= p.desc
+%p.desc!= pics_multi.content

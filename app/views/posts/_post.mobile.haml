@@ -7,11 +7,9 @@
       %a.remove{ :href => post_path(post), :title => '删除',
         :data => { :doconfirm => "确定删除该条帖子吗?", :widget => "rest", :callback => "del", :md => "delete", :parent => "tar_post" }}<
         删除
-      = link_to "编辑", edit_post_path(post), :class => 'edit', :title => '编辑'
     %a.open{ :href => posts_blog_path(post), :target => "_blank",
       title: '展开' }
     - if current_user
-      = link_to "转贴", renew_post_path(post), :class => 'repost', :title => '转贴'
       - favor_href, favor_data = favor_toggle_post_path(post), { :widget => "rest", :callback => "toggle", :md => "put" }
       - faved = post.favored_by?(current_user)
       - if faved
@@ -24,29 +22,9 @@
         - favor_data["title"] = "不喜欢"
         %a{ :href => favor_href, :title => '喜欢', :class => 'fave', :data => favor_data}<
           喜欢
-    - if current_user && controller.action_name == "buzz"
-      - mute_href, mute_data = mute_toggle_post_path(post), { :widget => "rest", :callback => "toggle", :md => "put" }
-      - if post.muted_by?(current_user)
-        - mute_data["class"] = "muted"
-        - mute_data["title"] = "静音"
-        %a{ :href => mute_href, :title => '解除静音', :class => 'unmuted', :data => mute_data }<
-          解除静音
-      - else
-        - mute_data["class"] = "unmuted"
-        - mute_data["title"] = "解除静音"
-        %a{ :href => mute_href, :title => '静音: 不再提示有新回复', :class => 'muted', :data => mute_data}<
-          静音
-    
   .content_body
     = render partial: sub_template, object: post
   .content_footer
-    - unless post.tags.blank?
-      .tags<
-        标签：
-        - post.tags.each do |tag|
-          %a{ :href => tagged_path(tag) }<
-            = "#{tag.to(12)}"
-            = ", " unless tag == post.tags.last
     .left<
       - unless post.parent.nil?
         %span.repost_info

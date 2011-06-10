@@ -1,9 +1,5 @@
-.article.tar_post{ class: (article_class ||= "")+(target_post_id == post.id ? " hover" : "") , :data => {:widget => 'fixHover', :uniqueHoverClass => "article"}}
-  .author_arrow
-  .avatar
-    .image{style: "background-image:url(#{post.blog.icon.url_for(:medium)})"}<
-      %a{href: blog_path(post.blog)}<
-        &nbsp;
-    %div<
-      %a.page_name{href: blog_path(post.blog)}= post.blog.title
+.article
+  %a.avatar{href: blog_path(post.blog)}<
+    %img{src: post.blog.icon.url_for(:'16')}
+    %span= post.blog.title
   .content= render_post post
