@@ -1,26 +1,18 @@
 .header
-  %a.logo{href: fucking_root, title: "我的主页"}
-  %ul.toolbar
-    %li<
-      %a{href:"#"} 切换到网页版
-    - if current_user
-      %li<
-        %a.my_follow{ href: followings_path, title: "我关注的"}<
-          %span 我关注的
-      %li<
-        %a.my_collect{ href: favors_posts_path, title: "我喜欢的"}<
-          %span 我喜欢的
-      %li<
-        %a.my_reply{ href: buzz_path, title: "回复"}<
-          %span 回复
-          - if current_user.comments_notices.unreads.count > 0
-            = current_user.comments_notices.unreads.count
-      %li<
-        %a.my_message{ href: messages_path, title: "消息"}<
-          %span 消息
-          - if current_user.messages.unreads.count > 0
-            = current_user.messages.unreads.count
+  %h1 宽岛
+  %a.button{href:"#"} 切换到网页版
   - if current_user
-    %ul.post
-      %li
-        %a.text{href: new_post_path("text", @blog)} 发布文字
+    %a.button.my_follow{ href: followings_path, title: "我关注的"}<
+      %span 关注
+    %a.button.my_collect{ href: favors_posts_path, title: "我喜欢的"}<
+      %span 喜欢
+    %a.button.my_reply{ href: buzz_path, title: "回复"}<
+      %span 回复
+      - if current_user.comments_notices.unreads.count > 0
+        = current_user.comments_notices.unreads.count
+    %a.button.my_message{ href: messages_path, title: "消息"}<
+      %span 消息
+      - if current_user.messages.unreads.count > 0
+        = current_user.messages.unreads.count
+  - if current_user
+    %a.button.blueButton.text{href: new_post_path("text", @blog)} 发布文字
