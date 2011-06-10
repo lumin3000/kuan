@@ -20,7 +20,7 @@ class Comment
 
   def manageable_by?(user)
     return false if user.nil?
-    author == user || post.author == user || post.blog.customed?(user)
+    post.blog.customed?(user)
   end
 
   protected
