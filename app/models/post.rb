@@ -12,6 +12,7 @@ class Post
   field :ancestor_id
   index :ancestor_id
   field :private, type: Boolean, default: false
+  field :import, type: Boolean, default: false
   field :repost_count, type: Integer, default: 0
   field :favor_count, type: Integer, default: 0
   field :tags, type: Array, default: []
@@ -171,7 +172,7 @@ class Post
 
   def update_blog
     blog.update_attributes(:posted_at => created_at)
-    blog.handle_sync(self)
+    blog.handle_sync(self) unless import?
   end
 
   def type_setter

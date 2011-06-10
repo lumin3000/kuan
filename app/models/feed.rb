@@ -120,6 +120,7 @@ class Feed
     post_new.blog = blog
     post_new.author = import_feed.author
     post_new.created_at = (item.date > Time.now) ? Time.now : item.date
+    post_new.import = true
 
     unless post_new.valid?
       @@logger.warn "Item unvalid #{uri} #{item.title} #{post_new.errors}"
@@ -145,7 +146,7 @@ class Feed
     photos = doc.xpath('//img').reduce [] do |suc_photos, img_e|
       begin
         image = Image.create_from_url img_e.attribute('src').value, PROCESS_PHOTO
-        suc_photos << Photo.new(:image => image, :desc => "") unless image.nil?
+        suc_photos << {image: image.id.to_s, desc: ""} unless image.nil?
       rescue Exception => e
       end
       suc_photos
