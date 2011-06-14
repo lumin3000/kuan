@@ -8,7 +8,12 @@ module MobileHelper
                        'mobile'
 
   def set_mobile_format
-    session[:mobile_view] = is_mobile_device?
+    @has_mobile_view = true
+    if params[:mobile].to_i == 1
+      session[:mobile_view] = true 
+    elsif session[:mobile_view] != true
+      session[:mobile_view] = false
+    end
     request.format = :mobile if session[:mobile_view]
     # session[:mobile_view] = true if session[:mobile_view].nil? && is_mobile_device?
   end
@@ -19,7 +24,6 @@ module MobileHelper
 
   def is_mobile_device?
     request.user_agent.to_s.downcase =~ Regexp.new(MOBILE_USER_AGENTS)
-    true
   end
 
   def mobile_view?

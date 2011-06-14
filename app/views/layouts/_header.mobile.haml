@@ -1,5 +1,8 @@
 .header
   %h1 宽岛
-  %a.button.rightButton{href:"#"} 切换到网页版
+  %a.button.rightButton{href: home_path(mobile: 0)} 切换到网页版
   - if current_user
-    %a.button.leftButton.blueButton.text{href: new_post_path("text", @blog)} 发布文字
+    - if params[:controller] == 'users' && params[:action] == 'show'
+      %a.button.leftButton.blueButton.text{href: new_post_path("text", @blog)} 发布文字
+    - else
+      %a.button.back{href: home_path} 控制面板

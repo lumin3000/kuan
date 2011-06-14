@@ -5,17 +5,9 @@
     = content_for?(:meta) ? content_for(:meta) : ""
     %title<
       = content_for?(:title) ? content_for(:title) : "宽岛"
-    - if is_mobile_device?
-      = stylesheet_link_tag "mobile"
-    - else
-      - css :base
-      = include_stylesheets *@css
-      - js :common
-      = include_javascripts *@js
+    = stylesheet_link_tag "mobile"
     = csrf_meta_tag
     %link{ :rel => "shortcut icon", :href => "/images/favicon.ico" }
-    :javascript
-      document.id(document.documentElement).addClass('js_enabled')
     = yield :head if content_for?(:head)
   %body
     #container{class: content_for?(:site_layout) ? yield(:site_layout) : "site"}
