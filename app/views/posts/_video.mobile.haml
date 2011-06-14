@@ -1,0 +1,10 @@
+%p
+  视频(来自
+  %a{ :href => video.url }<  
+    = video.site
+  ):
+%p  
+  %a{ :href => video.player }       
+    %img{ :src => video.thumb }     
+%p
+  != video.content

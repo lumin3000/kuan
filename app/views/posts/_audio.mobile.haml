@@ -1,0 +1,7 @@
+%p
+  音乐: 
+  %a{href: audio.flash_url}<
+    = audio.song_name + " ( " + audio.artist_name + " ) "
+%p
+  = preserve do
+    != audio.content
