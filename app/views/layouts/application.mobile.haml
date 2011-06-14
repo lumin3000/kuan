@@ -19,5 +19,5 @@
     = yield :head if content_for?(:head)
   %body
     #container{class: content_for?(:site_layout) ? yield(:site_layout) : "site"}
-      = use_header(@header)
+      = use_header()
       = content_for?(:content) ? yield(:content) : yield

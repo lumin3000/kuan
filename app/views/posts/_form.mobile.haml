@@ -1,0 +1,26 @@
+= render partial: sub_template, object: @post,
+  as: :post
+
+= form_t params do
+  %ul
+    - @sub_title = "#{@action}#{@post_type}"
+    = hidden_field_tag :type, @post.type
+    %input{name: 'referer', type: 'hidden', value: @referer}
+    - if params[:action] == 'renew'
+      = hidden_field_tag :parent_id, @parent.id
+    - unless @post.errors.empty?
+      %li.error
+        = @post.errors.values.first.first
+    = content_for :form
+    %li
+      - if @post.new_record? 
+        %span 发布到:
+        %select{name: 'blog_id'}
+          - @target_blogs.each do |b|
+            %option{value: b.id, selected: b == @default_target_blog,
+              data: {tags: b.tag}}
+              = b.title
+    %li
+      %input.tags{type: "text", name: "tags", value: (tags_for_post_form @post, (@post.new_record?) ? @default_target_blog : nil), placeholder: "标签"}
+   
+  %input.greenButton{ :type => "submit", :value => (%w[new renew].include? params[:action])? '发布' : '保存' }

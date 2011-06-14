@@ -14,7 +14,7 @@ module ApplicationHelper
     @css.unshift space 
   end
 
-  def use_header(t)
+  def use_header(t=nil)
     if(t.nil?)
       render partial: "layouts/header"
     else
