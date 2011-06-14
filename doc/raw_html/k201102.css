@@ -587,15 +587,15 @@ font-family:"Hiragino Sans GB",hei,"microsoft yahei";
 }
 
 .registation_bg{
-	width:600px;
+	width:900px;
 	height:400px;
-	background:url('images/registation_bg.gif') no-repeat top left;
+	background:url('images/registation_bg.jpg') no-repeat top left;
 	position:absolute;
 	opacity: 0.9;
 	-moz-opacity: 0.9;
 	filter:alpha(opacity=90);
-	top:0;
-	left:180px;
+	top:20px;
+	left:50px;
 	z-index:-1;
 }
 
@@ -635,8 +635,9 @@ font-family:"Hiragino Sans GB",hei,"microsoft yahei";
 	border-radius:5px;
 }
 .registation_title .txt {
+	padding-top:60px;
 	display:inline-block;
-	font-size:30px;
+	font-size:24px;
 	color:#3366cc;
 }
 

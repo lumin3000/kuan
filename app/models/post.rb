@@ -12,6 +12,7 @@ class Post
   field :ancestor_id
   index :ancestor_id
   field :private, type: Boolean, default: false
+  field :import, type: Boolean, default: false
   field :repost_count, type: Integer, default: 0
   field :favor_count, type: Integer, default: 0
   field :tags, type: Array, default: []
@@ -28,8 +29,7 @@ class Post
   before_create :type_setter, :private_setter
   after_create :ancestor_reposts_inc, :parent_reposts_inc, :update_blog
 
-  scope :publics, where(:private.ne => true).desc(:created_at)
-  scope :all, desc(:updated_at)
+  scope :all_by_updated, desc(:updated_at)
   scope :pics_and_text, where(:_type.in => ["Text", "Pics"], :private.ne => true)
   scope :tagged, ->(tag) { where(:tags => tag, :private.ne => true).desc(:created_at) }
   scope :in_day, ->(date) { where(:created_at.gte => date.midnight,
@@ -41,6 +41,7 @@ class Post
     end
     where({:blog_id.in => sub_id_list})
   end
+  scope :publics, ->(page) { where(:private.ne => true).desc(:created_at).page(page) }
 
   def haml_object_ref
     "post"
@@ -79,8 +80,8 @@ class Post
       (self.subclasses.include? klass) ? klass.new(args) : nil
     end
 
-    def news(pagination)
-      Blog.latest.paginate(pagination).reduce([]) do |posts, b|
+    def news(page)
+      Blog.latest.page(page).reduce([]) do |posts, b|
         post = b.posts.desc(:created_at).limit(1).first
         posts << post if not post.nil? and post.created_at == b.posted_at
         posts
@@ -88,7 +89,7 @@ class Post
     end
 
     def wall
-      Blog.latest[0..200].sample(50).reduce([]) do |posts, b|
+      Blog.latest.limit(200).sample(50).reduce([]) do |posts, b|
         p = b.posts.pics_and_text.desc(:created_at).limit(10)
         p.blank? ? posts : (posts << p.sample)
       end
@@ -171,7 +172,7 @@ class Post
 
   def update_blog
     blog.update_attributes(:posted_at => created_at)
-    blog.handle_sync(self)
+    blog.handle_sync(self) unless import?
   end
 
   def type_setter

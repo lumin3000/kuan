@@ -150,24 +150,12 @@ class PostsController < ApplicationController
   end
 
   def news
-    pagination = {
-      :page => params[:page] || 1,
-      :per_page => 10,
-    }
-    if params[:all]
-      @posts = Post.publics.paginate(pagination)
-    else
-      @posts = Post.news(pagination)
-    end
+    @posts = params[:all] ? Post.publics(params[:page]) : Post.news(params[:page])
     render :layout => "common"
   end
 
   def all
-    pagination = {
-      :page => params[:page] || 1,
-      :per_page => 50,
-    }
-    @posts = Post.all.paginate(pagination)
+    @posts = Post.all_by_updated.page(params[:page]).per(50)
     render "news", :layout => "common"
   end
 
