@@ -10,6 +10,7 @@ class BlogsController < ApplicationController
     :sync_widget, :set_primary_blog, :rss_add, :rss_remove, :feed]
   before_filter :blog_display, :only => [:show, :preview, :feed]
   before_filter :find_sync_target, :only => [:sync_apply, :sync_callback, :sync_cancel]
+  before_filter :set_mobile_format, only: [:show]
 
   def new
     @blog = Blog.new
@@ -80,6 +81,14 @@ PREVENT_CLICK
   end
 
   def show
+    if mobile_view?
+      if params[:post_id]
+        @post = Post.find(params[:post_id])
+        render 'posts/show'
+      else
+      end
+      return
+    end
     build_view_context
     fetch_posts
     @rendered = render_blog
