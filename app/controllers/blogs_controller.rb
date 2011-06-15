@@ -82,10 +82,24 @@ PREVENT_CLICK
 
   def show
     if mobile_view?
+      render 'shared/404', :status => 404, :layout => false and return if @blog.nil?
+      if not @blog.open_to?(current_user)
+        render 'shared/403', :status => 403, :layout => false and return
+      end
       if params[:post_id]
         @post = Post.find(params[:post_id])
         render 'posts/show'
       else
+        cur_page = params[:page].to_i
+        per_page = 10
+        pagination = {
+          :page => cur_page > 1 ? cur_page : 1,
+          :per_page => per_page,
+          :total_pages => @blog.total_post_num.fdiv(per_page).ceil,
+        }
+        @posts = Post.desc(:created_at).where({:blog_id => @blog.id})
+          .page(pagination[:page]).per(per_page)
+        render 'blogs/show'
       end
       return
     end

@@ -1,0 +1,12 @@
+.blog
+  %h2
+    %a.avatar{href: blog_path(@blog)}<
+      %img{src: @blog.icon.url_for(:'30')}
+    .page_name{href: blog_path(@blog)}= @blog.title
+  %ul
+    - @posts.each do |p|
+      %li.article
+        .content
+          = render_post p
+   
+  = pagination(@posts)
