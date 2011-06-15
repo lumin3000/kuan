@@ -7,7 +7,7 @@
 body{
 	margin:0px;
 	font-size:12px;
-	font-family:"Hiragino Sans GB,hei,microsoft yahei";
+	font-family:"Hiragino Sans GB",hei,"microsoft yahei";
 }
 
 a{ 
@@ -1757,9 +1757,64 @@ div.my_pages_default a.selector:hover{
 
 /*lookaround*/
 .latest h1{
-	margin:18px 0 22px 0;
-	color:#3f7be0;	
+	margin-top:30px 0 0 0;
+	color:#009FFF;	
 }
+
+.latest h1 .others{
+	font-size:14px;
+	font-weight: normal;
+}
+
+.title_search {
+	width:200px;
+	float:right;
+	margin-right:52px;
+}
+
+
+/***search minibar***/
+.search_method{
+	width:100px;
+	text-align:right;
+}
+
+.search_method .search_arrow{
+background: url("images/search_arrow.gif") no-repeat;
+width: 12px;
+height: 13px;
+font-size:1px;
+margin-right:20px;
+margin-left:auto;
+margin-bottom: -1px;
+z-index:2;
+position: relative;
+}
+
+.search_method .list{
+	text-align:left;
+	border:1px solid gainsboro;
+	border-radius: 8px;
+}
+.search_method a{
+
+	display:block;
+	border-top: 1px solid #EAEAEA;
+	margin-top: -1px;
+	_margin-top: 5px;
+	padding: 4px;
+	padding-left:15px;
+	height: 24px;
+	color: #36C;
+	font-size:14px;
+}
+
+div.search_method a.first{
+	border:0px;
+}
+
+
+
 
 /***customize****/
 .customize .nav{
