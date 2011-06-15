@@ -1809,6 +1809,10 @@ position: relative;
 	font-size:14px;
 }
 
+.search_method .selected{
+	font-weight:bold;
+}
+
 div.search_method a.first{
 	border:0px;
 }
