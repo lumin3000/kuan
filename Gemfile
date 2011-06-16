@@ -16,6 +16,7 @@ gem 'whenever', require: false
 gem 'capistrano'
 gem 'oauth'
 gem 'curb'
+gem "mongoid-sphinx-huacnlee", :require => "mongoid_sphinx"
 
 group :development, :test do
   gem 'rspec'
