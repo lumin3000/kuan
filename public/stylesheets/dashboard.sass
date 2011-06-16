@@ -146,15 +146,29 @@ a.page_name
   .timeline
     padding-top: 12px
     margin-left: 20px
-
   .head
-    clear: both
-    background: url('/images/embed/dash_bg.jpg') no-repeat
+    background: url('/images/dash_.gif') no-repeat
     width: 900px
-    height: 130px
+    height: 150px
+    overflow: hidden
+    position: relative
+    padding: 0
+  .head_bg
+    clear: both
+    width: 900px
+    height: 100px
+    background: #548FF4
+    @include border-radius(15px)
     overflow:hidden
     position: relative
-   
+    .dialog_arrow
+      width: 30px
+      height: 30px
+      background: url('/images/embed/dialog_arrow.gif')
+      position: absolute
+      top: 99px
+      left: 805px
+
     .head_avatar
       @include size(60px, 60px)
       background-repeat: no-repeat
@@ -171,58 +185,54 @@ a.page_name
     .icon_s
       width: 30px
       height: 30px
-      border: 3px solid #7999dd
-      @include border-radius(10px)
       overflow: hidden
       position: absolute
-      top: 50px
-      left: 60px
+      top: 48px
+      left: 55px
       z-index: 1
+      border: 3px solid #548FF4
+      border-bottom: none
+      border-top-right-radius: 10px
+      border-top-left-radius: 10px
+      -moz-border-radius-topright: 10px
+      -moz-border-radius-topleft: 10px
+      -webkit-border-top-right-radius: 10px
+      -webkit-border-top-left-radius: 10px
    
     .post_area
       margin-left: 60px
       text-decoration: none
-   
       .left
-        width: 50px
+        width: 30px
       div
         height: 100px
         float: left
       
       a
         display: block
-        width: 80px
+        width: 110px
         height: 80px
-        margin: 10px 0 0 20px
+        margin-top: 10px
         overflow: hidden
         float: left
+        @include border-radius(10px)
         text-indent: -100px
+        background-position: 0 -6px
+        &:hover
+          background-color: #2660c2
    
       .text
-        background: url('/images/embed/dash_text.png') no-repeat
-        &:hover
-          background: url('/images/embed/dash_text_hover.png') no-repeat
-   
+        background-image: url('/images/embed/dash_text.gif')
       .picture
-        background: url('/images/embed/dash_picture.png') no-repeat
-        &:hover
-          background: url('/images/embed/dash_picture_hover.png') no-repeat
-   
+        background-image: url('/images/embed/dash_picture.gif')
       .link
-        background: url('/images/embed/dash_link.png') no-repeat
-        &:hover
-          background: url('/images/embed/dash_link_hover.png') no-repeat
-   
+        background-image: url('/images/embed/dash_link.gif')
       .video
-        background: url('/images/embed/dash_video.png') no-repeat
-        &:hover
-          background: url('/images/embed/dash_video_hover.png') no-repeat
-   
+        background-image: url('/images/embed/dash_video.gif')
       .audio
-        background: url('/images/embed/dash_audio.png') no-repeat
-        &:hover
-          background: url('/images/embed/dash_audio_hover.png') no-repeat
-   
+        background-image: url('/images/embed/dash_audio.gif')
+      .explore
+        background-image: url('/images/embed/dash_explore.gif')
     .head_menu
       width: 180px
       height: 55px

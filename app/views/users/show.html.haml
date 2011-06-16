@@ -3,46 +3,33 @@
 - @site_layout = 'site'
 .dashboard
   .head
-    .head_avatar{style: "background-image:url(#{@user.primary_blog.icon.url_for(:medium)})"}<
-      %a{href: blog_path(@user.primary_blog)}<
-        &nbsp;
-    - if @blog && !@blog.primary
-      .icon_s{style: "background-image:url(#{@blog.icon.url_for(:'30')})"}<
-        %a{href: home_path(@blog)}<
+    .head_bg
+      .dialog_arrow
+      .head_avatar{style: "background-image:url(#{@user.primary_blog.icon.url_for(:medium)})"}<
+        %a{href: blog_path(@user.primary_blog)}<
           &nbsp;
-
-    .head_menu
-      %a.my_follow{ href: followings_path, title: "我关注的"}<
-        %span 我关注的
-      %a.my_collect{ href: favors_posts_path, title: "我喜欢的"}<
-        %span 我喜欢的
-      %a.my_reply{ href: buzz_path, title: "回复"}<
-        %span 回复
-        - if current_user.comments_notices.unreads.count > 0
-          = current_user.comments_notices.unreads.count
-
-      %a.my_message{ href: messages_path, title: "消息"}<
-        %span 消息
-        - if current_user.messages.unreads.count > 0
-          = current_user.messages.unreads.count
-
-    .post_area
-      .left
-      %a.text{href: new_post_path("text", @blog)} 发布文字
-      %a.picture{href: new_post_path("pics", @blog)} 发布图片
-      %a.link{href: new_post_path("link", @blog)} 发布链接
-      %a.video{href: new_post_path("video", @blog)} 发布视频
-      %a.audio{href: new_post_path("audio", @blog)} 发布音乐
-      .right
-    - unless flash.blank?
-      .dashboard_flash
-        - flash.each do |k, v|
-          %div{:class => "#{k}"}<
-            = v
-        %a.cancel{onclick: "this.getParent('.dashboard_flash').destroy();return false;"}
-          关闭
-        
-    = render partial: "layouts/breadcrumbs"
+      - if @blog && !@blog.primary
+        .icon_s{style: "background-image:url(#{@blog.icon.url_for(:'30')})"}<
+          %a{href: home_path(@blog)}<
+            &nbsp;
+      .post_area
+        .left
+        %a.text{href: new_post_path("text", @blog)} 发布文字
+        %a.picture{href: new_post_path("pics", @blog)} 发布图片
+        %a.link{href: new_post_path("link", @blog)} 发布链接
+        %a.video{href: new_post_path("video", @blog)} 发布视频
+        %a.audio{href: new_post_path("audio", @blog)} 发布音乐
+        %a.explore{href: news_posts_path} 新鲜事儿
+        .right
+      - unless flash.blank?
+        .dashboard_flash
+          - flash.each do |k, v|
+            %div{:class => "#{k}"}<
+              = v
+          %a.cancel{onclick: "this.getParent('.dashboard_flash').destroy();return false;"}
+            关闭
+          
+      = render partial: "layouts/breadcrumbs"
   = render partial: "layouts/menu"
   .main{ :data => { :widget => "sugar" } }
     .timeline
