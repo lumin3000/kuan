@@ -1,0 +1,21 @@
+.comments
+  = form_tag( post_comments_path, :method => "post", :autocomplete => "off" ) do |f|
+    %ul
+      - if @post.comments.count > 0
+        %li
+          - @post.comments.each do |comment|
+            .box
+              %span.c_body
+                %span.c_name><
+                  %a{ :href => blog_path(comment.author.primary_blog) }><
+                    = "#{comment.author.name}"
+                  ：
+                = auto_link h(comment.content)
+                %span.c_date<
+                  = "(#{comment.created_at})"
+      %li
+        .txt
+          %input{ :type => "text", :name => "content", placeholder: "回复内容" }
+    %input{ type: "hidden", name: "show_post", value: "true"}
+    .c_submitter
+      %input.greenButton{ :type => "submit", :value => "评论", :data => { :tgt => "reply" } }

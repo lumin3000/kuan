@@ -2,6 +2,7 @@
 class CommentsController < ApplicationController
   before_filter :signin_auth
   layout proc{ |c| c.request.xhr? ? false : "application" }
+  before_filter :set_mobile_format, only: [:create]
 
   def index
     @post = Post.find(params[:post_id])
@@ -16,9 +17,11 @@ class CommentsController < ApplicationController
     if @comment.valid?
       @post.comments << @comment
       @post.notify_watchers @comment
+    end
+    if params[:show_post].nil?
       render "comments/index"
     else
-      render "comments/index"
+      redirect_to posts_blog_path(@post)
     end
   end
 

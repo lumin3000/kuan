@@ -78,7 +78,7 @@ body
     &.active
       -webkit-border-image: url(/images/mobile/backButton.png) 0 8 0 14
   .leftButton, .cancel
-    left: 6px
+    left: 10px
     right: auto
   .greenButton
     display: block
@@ -140,6 +140,8 @@ body
     font-weight: bold
 
 .article
+  &:hover
+    background: lightyellow
   a
     color: #666
     text-overflow: ellipsis
@@ -164,7 +166,7 @@ body
           margin-right: 5px
       .right
         float: right
-        a
+        a, div
           float: right
           margin-left: 5px
       .update_time
@@ -224,3 +226,50 @@ ul
         display: block
         width: 246px
         margin: -12px 0 0 17px
+#container
+  .comments
+    a
+      color: #36c
+    .c_date
+      color: #009A93
+      font-size: 12px
+      font-weight: normal
+  .blog
+    h2
+      height: 30px
+      margin-left: 10px
+      .avatar
+        img
+          -webkit-border-radius: 8px
+          display: inline-block
+          position: absolute
+      .page_name
+        margin-left: 36px
+    .content
+      margin-left: auto
+  .page_control
+    border: 0
+    background: none
+    clear: both
+    overflow: hidden
+    padding: 0 10px 20px 10px
+    .page_left, .page_right, .page_number
+      font-size: 14px
+      text-align: center
+      -webkit-border-radius: 8px
+      -webkit-box-sizing: border-box
+      width: 33%
+      float: left
+      display: inline-block
+      color: rgb(50, 79, 133)
+      padding: 11px 10px 14px 10px
+    a
+      text-decoration: none
+      color: rgb(183, 190, 205)
+      background: white
+      border: 1px solid rgb(180, 180, 180)
+      &:hover
+        color: #fff
+        background: #36c
+    .page_right
+      float: right

@@ -1,8 +1,4 @@
-- css :posts_display
-
-- @site_layout = 'site'
 .dashboard
-  .main{ :data => { :widget => "sugar" } }
-    %ul.timeline
-      = render :partial => "posts/post_full", :collection => @posts, :as => :post
-    = pagination(@posts)
+  %ul
+    = render :partial => "posts/post_full", :collection => @posts, :as => :post
+  = pagination(@posts)
