@@ -1,0 +1,12 @@
+.dashboard_menu
+  = blog_list
+  .my_follow
+    %a{ href: followings_path, title: "我关注的"}<
+      %span 我关注的
+  .my_collect
+    %a{ href: favors_posts_path, title: "我喜欢的"}<
+      %span 我喜欢的
+  .my_search
+    .inputer
+      %input{type: "text"}
+      %a{href: "#"} 搜索

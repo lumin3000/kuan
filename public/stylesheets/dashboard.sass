@@ -39,6 +39,37 @@ a.page_name
   margin-top: 24px
   @include clear_fix
 
+  .dashboard_menu
+    padding-top: 4px
+    width: 186px
+    padding-left: 14px
+    float: right
+    .my_pages, .my_followers, .my_collect
+      padding-bottom: 8px
+    .my_pages .selector, .my_follow a, .my_collect a
+      display: block
+      width: 148px
+      height: 34px
+      cursor: pointer
+      line-height: 34px
+      font-weight: bold
+      font-size: 14px
+      padding-left: 10px
+      padding-right: 28px
+      overflow: hidden
+      color: #777777
+      border-bottom: 1px solid gainsboro
+    .my_follow a
+      background: url('/images/embed/my_followers.gif')
+      padding-left: 26px
+      color: #777777!important
+    .my_collect a
+      background: url('/images/embed/my_collect.gif')
+      padding-left: 26px
+      color: #777777!important
+    .selector_open .my_pages_default
+      border-bottom: none
+      height: 25px
   .menu
     padding: 0 0 5px 0
     margin-top: 12px
@@ -317,6 +348,14 @@ a.page_name
       background: url(/images/embed/private.gif) no-repeat
     .primary
       background: url(/images/embed/primary.gif) no-repeat
+  .my_pages_default
+    .z_icon
+      display: inline-block
+      width: 14px
+      height: 14px
+      background: url(/images/icon_my_pages.gif) no-repeat center
+      margin-left: -4px
+      margin-right: 2px
   .selector
     .primary,
     .private,
@@ -365,7 +404,6 @@ a.page_name
     @include size(166px, 21px)
     padding: 0 10px 5px 10px
     overflow: hidden
-
   .selector_open_menu
     width: 166px
     background: url('/images/mypages_open2.png') repeat-y

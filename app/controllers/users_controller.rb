@@ -49,6 +49,7 @@ class UsersController < ApplicationController
       @blog = @user.blogs.include?(param_blog) ? param_blog : @blog
       posts_c = Post.where({blog_id: @blog.id})
     else
+      @blog = nil
       posts_c = Post.subs(@user)
     end
     @posts = posts_c.desc(:created_at).page(params[:page])

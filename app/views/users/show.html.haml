@@ -30,7 +30,10 @@
             关闭
           
       = render partial: "layouts/breadcrumbs"
-  = render partial: "layouts/menu"
+  - if @at_dashboard
+    = render partial: "layouts/dashboard_menu"
+  - else
+    = render partial: "layouts/menu"
   .main{ :data => { :widget => "sugar" } }
     .timeline
       = render :partial => "posts/post_full", :collection => @posts, :as => :post

@@ -1,14 +1,24 @@
 .my_pages.shrinked{data: {widget: "shrinked", trigger: ".selector"}}
-  %a.selector{href: path.call(@blog)}
-    .z_type{class: blog_type(@blog)}><
-    .z_title><
-      = @blog.title
-  - @other_blogs = @blogs.reject {|b| b == @blog}
-  .selector_open
-    .selector_open_head.selector
+  - if @blog
+    %a.selector{href: path.call(@blog)}
       .z_type{class: blog_type(@blog)}><
       .z_title><
         = @blog.title
+  - else
+    %a.selector{href: "#"}<
+      .my_pages_default
+      %span 我的页面
+  - @other_blogs = @blogs.reject {|b| b == @blog}
+  .selector_open
+    - if @blog
+      .selector_open_head.selector
+        .z_type{class: blog_type(@blog)}><
+        .z_title><
+          = @blog.title
+    - else
+      .selector_open_head.selector.my_pages_default<
+        .z_icon
+        %span我的页面
     .selector_open_menu
       - @other_blogs.each do |b|
         - if !@exclude_primary || (!b.primary && b.edited?(current_user))
