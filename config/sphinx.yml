@@ -1,0 +1,12 @@
+default: &defaults
+  listen: localhost:9312
+  mem_limit: '512M'
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
