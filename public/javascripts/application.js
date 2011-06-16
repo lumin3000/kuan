@@ -769,6 +769,26 @@ K.widgets.textboxlist = function(el){
   });
 }
 
+K.widgets.search = function(el){
+  function search(type){
+    var v = el.getElement('input')
+    if(v.value.trim()!=''){
+      window.location = '/tag/'+encodeURI(v.value)
+    }
+  }
+  el.getElement('.all').addEvent('click', function(){
+    search()
+    return false
+  })
+  el.getElement('input').addEvent('keydown', function(e){
+    e=new Event(e);
+    if(e.code==13 && !(e.shift||e.alt||e.meta)){
+      search()
+      return false;
+    }
+  });
+}
+
 K.widgets.navigator = function(el){
   var nav_now = el.get('data-highlight')
   el.getElements('.z_'+nav_now).addClass('highlight')
