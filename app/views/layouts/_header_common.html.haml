@@ -12,14 +12,14 @@
       回复
       %span><
         - if current_user.comments_notices.unreads.count > 0
-          = "("+current_user.comments_notices.unreads.count+")"
+          = "(#{current_user.comments_notices.unreads.count})"
     %span><
       |    
     %a.z_messages{ href: messages_path, title: "消息"}><
       消息
       %span><
         - if current_user.messages.unreads.count > 0
-          = "("+current_user.messages.unreads.count+")"
+          = "(#{current_user.messages.unreads.count})"
     - if current_user
       %span><
         |    
