@@ -3,7 +3,7 @@
 class PostsController < ApplicationController
   before_filter :signin_auth, :except => [:wall, :news]
   before_filter :content_admin_auth, :only => [:all]
-  before_filter :set_mobile_format, only: [:new, :create]
+  before_filter :set_mobile_format, only: [:new, :create, :news]
 
   def new
     @post = Post.new params
