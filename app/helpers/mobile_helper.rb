@@ -11,10 +11,14 @@ module MobileHelper
     @has_mobile_view = true
     if params[:mobile].to_i == 1
       session[:mobile_view] = true 
-    elsif session[:mobile_view] != true || params[:mobile].to_s == "0"
+    elsif params[:mobile].to_s == "0"
       session[:mobile_view] = false
     end
-    session[:mobile_view] = true if session[:mobile_view].nil? && is_mobile_device?
+    if session[:mobile_view].nil? && is_mobile_device?
+      session[:mobile_view] = true 
+    elsif session[:mobile_view].nil?
+      session[:mobile_view] = false
+    end
     request.format = :mobile if session[:mobile_view]
   end
 
