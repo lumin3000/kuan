@@ -5,8 +5,8 @@
       .z_title><
         = @blog.title
   - else
-    %a.selector{href: "#"}<
-      .my_pages_default
+    %a.selector.my_pages_default{href: "#"}< 
+      .z_icon
       %span 我的页面
   - @other_blogs = @blogs.reject {|b| b == @blog}
   .selector_open
