@@ -3,6 +3,8 @@
   .navigator{data: {widget: "navigator", highlight: (@nav_now || "dashboard")}}<
     - if @has_mobile_view && is_mobile_device?
       %a{href: home_path(mobile: 1)} 手机版
+      %span><
+        |    
     - if current_user
       %a.z_dashboard{href: fucking_root}><
         我的家
