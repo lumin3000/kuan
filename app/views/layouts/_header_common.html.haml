@@ -1,11 +1,11 @@
 .header
-  %a.logo{href: fucking_root, title: "我的主页"}
+  %a.logo{href: fucking_root, title: "我的家"}
   .navigator{data: {widget: "navigator", highlight: (@nav_now || "dashboard")}}<
     -# - if @has_mobile_view && is_mobile_device?
     -#   %a{href: home_path(mobile: 1)} 手机版
     - if current_user
       %a.z_dashboard{href: fucking_root}><
-        我的主页
+        我的家
       %span><
         |    
     %a.z_buzz{ href: buzz_path, title: "回复"}><
