@@ -2,27 +2,27 @@
 .nav_user
   a
     cursor: pointer
-    color: #3366cc
   height: 110px
   position: relative
   padding: 0
   color: #fff
   .z_header
     width: 900px
-    height: 108px
+    height: 45px
+    background-color: #548ff4
     @include border-radius(8px)
-    background: url('/images/embed/dash_bg2.jpg') no-repeat
     position: absolute
+    top: 60px
     right: 0
     left: 0
     bottom: 0
 
   .z_icon
     @include size(60px, 60px)
-    @include border-radius(10px)
+    @include border-radius(5px)
     position: absolute
-    top: 12px
-    left: 22px
+    top: 15px
+    left: 20px
     a
       width: 60px
       height: 60px
@@ -31,12 +31,19 @@
   .z_icon_s
     width: 30px
     height: 30px
-    border: 3px solid #7999dd
-    @include border-radius(10px)
+    border: 3px solid #548ff4
+    -webkit-border-top-left-radius: 5px
+    -webkit-border-top-right-radius: 5px
+    -moz-border-radius-topleft: 5px
+    -moz-border-radius-topright: 5px
+    border-top-left-radius: 5px
+    border-top-right-radius: 5px
+    background: url('/images/default_icon_30.jpg') no-repeat 0 0
     overflow: hidden
     position: absolute
-    top: 53px
-    left: 63px
+    top: 42px
+    left: 60px
+    z-index: 1
     a
       width: 30px
       height: 30px
@@ -68,65 +75,7 @@
       font-size: 12px
       padding: 0 10px
       position: relative
-      bottom: -25px
-  .z_container
-    width: 200px
-    height: 40px
-    position: absolute
-    bottom: 5px
-    right: 0
-    div
-      width: 40px
-      height: 30px
-      float: left
-      right: 0px
-      top: 0
-      text-align: center
-    span
-      position: absolute
-      display: block
-      color: white
-      text-align: center
-      top: 20px
-      width: 40px
-      font-weight: bold
-    a
-      @include hide_text
-      width: 20px
-      height: 20px
-      display: block
-      margin: 0 10px
-    .z_following
-      a
-        background: url('/images/embed/icon_follow.png') no-repeat top left
-        &.highlight,
-        &:hover
-          background: url('/images/embed/icon_follow_hover.png') no-repeat top left
-    .z_favor
-      right: -50px
-      top: -30px
-      a
-        background: url('/images/embed/icon_collect.png') no-repeat top left
-        &.highlight,
-        &:hover
-          background: url('/images/embed/icon_collect_hover.png') no-repeat top left
-    .z_buzz
-      right: -100px
-      top: -60px
-      a
-        background: url('/images/embed/icon_reply.png') no-repeat top left
-        &.highlight,
-        &:hover
-          background: url('/images/embed/icon_reply_hover.png') no-repeat top left
-    .z_message
-      right: -150px
-      top: -90px
-      a
-        background: url('/images/embed/icon_message.png') no-repeat top left
-        &.highlight,
-        &:hover
-          background: url('/images/embed/icon_message_hover.png') no-repeat top left
-
+      bottom: -35px
 .list_box
   border: 1px solid #cadbea
   @include border-radius(12px)
