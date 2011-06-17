@@ -4,12 +4,13 @@
 - css "user"
 
 - content_for :content, do
-  .registation_intro{:style => "background:url(/images/registation.png) no-repeat bottom"}
-    .registation_logo
-    
+  .registation_logo
+    .registation_bg
+    .registation_animation
+    %img{src: "/images/logo.gif"}
   .registation_title
     %span.txt
-      = "#{@inv_user.name} 邀请你上岛测试，发现真实的自己"
+      = "#{@inv_user.name} 邀请你上岛，开始新的生活"
    
   = form_for(@user, :url => users_path, :html => {:class => 'registation'}) do |f|
     .item
@@ -38,5 +39,3 @@
     = hidden_field_tag 'refer', request.referer
     .submit_box
       = f.submit "注册"
-  .registation_txt
-    在宽岛上，你可以简单地发布清晰的图片，建立多个页面来展示你的个性和爱好，同和你有共同兴趣的人们认识并交流⋯⋯
