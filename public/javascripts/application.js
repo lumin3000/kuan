@@ -771,16 +771,17 @@ K.widgets.textboxlist = function(el){
 
 K.widgets.search = function(el){
   function search(type){
-    var v = el.getElement('input')
+    var v = el.getElement('input.key')
+    var url = el.getElement('input.url')
     if(v.value.trim()!=''){
-      window.location = '/tag/'+encodeURI(v.value)
+      window.location = (url.value.trim == '' ? '/' : url.value)+'tag/'+encodeURI(v.value)
     }
   }
   el.getElement('.all').addEvent('click', function(){
     search()
     return false
   })
-  el.getElement('input').addEvent('keydown', function(e){
+  el.getElement('input.key').addEvent('keydown', function(e){
     e=new Event(e);
     if(e.code==13 && !(e.shift||e.alt||e.meta)){
       search()

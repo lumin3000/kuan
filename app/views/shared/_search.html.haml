@@ -1,3 +1,4 @@
 .search_bar{data: {widget: 'search'}}
-  %input{type: "text"}
+  %input.key{type: "text"}
+  %input.url{type: "hidden", value: (@blog ? blog_path(@blog) : "")}
   %a.all{href: "#"} 搜索
