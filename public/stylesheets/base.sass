@@ -53,11 +53,12 @@ pre
 
 .navigator
   margin-left: $logo-width
+  padding-top: 10px
+.navigator, .latest .z_nav
+  padding-right: 0
   text-align: right
   font-size: 14px
   line-height: 24px
-  padding-top: 10px
-  padding-right: 0
   span
     color: $blue
   a
@@ -127,8 +128,10 @@ pre
           top: 0
 
 
-.js_enabled .navigator .menu
-  display: none
+.js_enabled
+  .navigator, .latest .z_nav
+    .menu
+      display: none
 
 a.logo
   display: inline
@@ -285,9 +288,15 @@ a.logo
   .z_name
     word-wrap: break-word        
 
-.latest h1
-  margin: 30px 0px
-  color: #009fff
+.latest
+  h1
+    float: left
+    margin: 30px 0px
+    color: #009fff
+  .z_nav
+    float: right
+    margin: 30px 76px
+
 
 .search_bar
   background: url('/images/embed/dash_search.gif')

@@ -6,6 +6,29 @@
 
 .latest
   %h1 正在发生的事
+  .z_nav{data: {widget: "navigator"}}
+    .menu><
+      %div<
+        %a{href: categories_path}
+          探索发现
+          %span.z_more<
+            &nbsp;
+      %div<
+        %a{href: categories_path}<
+          推荐
+          %span.z_new<
+            new!
+      %div<
+        %a{href: tags_path} 兴趣
+      %div<
+        %a{href: wall_posts_path} 宽墙
+      %div<
+        %a{href: sitemap_path} 宽岛地图
+    %a.tar.z_discovery{href: "#"}><
+      探索发现
+      %span.z_more<
+        &nbsp;
+
   .timeline{ :data => { :widget => "sugar" } }
     = render :partial => "posts/post_full", :collection => @posts, :as => :post
 
