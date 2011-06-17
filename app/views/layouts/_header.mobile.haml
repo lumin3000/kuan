@@ -1,8 +1,11 @@
 .header
-  %h1 宽岛
+  %h1<
+    宽岛
+    = "_"+@sub_title if @sub_title
+
   %a.button.rightButton{href: home_path(mobile: 0)} 切换到网页版
   - if current_user
     - if params[:controller] == 'users' && params[:action] == 'show'
       %a.button.leftButton.blueButton.text{href: new_post_path("text", @blog)} 发布文字
     - else
-      %a.button.back{href: fucking_root} 控制面板
+      %a.button.back{href: fucking_root} 我的家
