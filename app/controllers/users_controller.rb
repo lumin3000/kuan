@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_filter :signin_auth, only: [:show, :edit, :update, :followings, :buzz, :read_all_comments_notices]
   before_filter :signup_auth, only: [:new, :create]
 
-  before_filter :set_mobile_format, only: [:show]
+  before_filter :set_mobile_format, only: [:new, :show]
 
   def new
     if signed_in?
