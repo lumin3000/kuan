@@ -10,5 +10,3 @@
         = render partial: "posts/post_full", object: p, as: :post,
           locals: { article_class: (b.unread? ? "new_reply" : "") }
   = pagination(@buzz_list)
-  %form{ action: buzz_readall_path, method: "put" }<
-    %input{type: "submit", value: "全部标识为已读"} 
