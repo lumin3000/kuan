@@ -5,6 +5,12 @@
   %a.button.rightButton{href: home_path(mobile: 0)} 切换到网页版
   %a.button.rightButton{href: news_posts_path} 探索
   - if current_user
+    - if current_user.comments_notices.unreads.count > 0
+      %a.button.rightButton{href: buzz_unread_path, title: "查看未读回复"}
+        = "未读回复(#{current_user.comments_notices.unreads.count})"
+    - else
+      %a.button.rightButton{href: buzz_path, title: "回复"}
+        = "回复"
     - if params[:controller] == 'users' && params[:action] == 'show'
       %a.button.leftButton.blueButton.text{href: new_post_path("text", @blog)} 发布文字
     - else
