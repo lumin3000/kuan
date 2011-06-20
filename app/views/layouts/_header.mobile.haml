@@ -2,7 +2,7 @@
   %h1<
     宽岛
     = "_"+@sub_title if @sub_title
-  %a.button.rightButton{href: home_path(mobile: 0)} 切换到网页版
+  %a.button.rightButton{href: current_url(:mobile => 0)} 切换到网页版
   %a.button.rightButton{href: news_posts_path} 探索
   - if current_user
     - if current_user.comments_notices.unreads.count > 0

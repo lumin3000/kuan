@@ -66,4 +66,8 @@ module UrlHelper
   def contact_address
     "kuankuandao@gmail.com"
   end
+
+  def current_url(p={})
+    url_for p.merge({only_path: false})
+  end
 end

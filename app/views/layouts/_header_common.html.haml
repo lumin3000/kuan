@@ -2,7 +2,7 @@
   %a.logo{href: fucking_root, title: "我的家"}
   .navigator{data: {widget: "navigator", highlight: (@nav_now || "dashboard")}}<
     - if @has_mobile_view && is_mobile_device?
-      %a{href: home_path(mobile: 1)} 手机版
+      %a{href: current_url(mobile: 1)} 手机版
       %span><
         |    
     - if current_user
