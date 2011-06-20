@@ -44,7 +44,7 @@ a.page_name
     width: 186px
     padding-left: 14px
     float: right
-    .my_pages, .my_followers, .my_collect
+    .my_pages, .my_follow, .my_collect
       padding-bottom: 8px
     .my_pages .selector, .my_follow a, .my_collect a
       display: block
@@ -62,10 +62,12 @@ a.page_name
     .my_follow a
       background: url('/images/embed/my_followers.gif')
       padding-left: 26px
+      padding-right: 12px
       color: #777777!important
     .my_collect a
       background: url('/images/embed/my_collect.gif')
       padding-left: 26px
+      padding-right: 12px
       color: #777777!important
     .selector_open .my_pages_default
       border-bottom: none
@@ -354,12 +356,13 @@ a.page_name
       background: url(/images/embed/primary.gif) no-repeat
   .my_pages_default
     .z_icon
-      display: inline-block
+      float: left
       width: 14px
       height: 14px
       background: url(/images/icon_my_pages.gif) no-repeat center
       margin-left: -4px
-      margin-right: 2px
+      margin-right: 4px
+      padding-top: 16px
   .selector
     .primary,
     .private,
