@@ -7,7 +7,7 @@ class BlogsController < ApplicationController
   before_filter :editor_auth, :only => [:followers, :editors, :exit]
   before_filter :find_by_uri, :only => [:show, :follow_toggle, :apply, :apply_entry,
     :extract_template_vars, :edit, :sync_apply, :sync_callback, :sync_cancel,
-    :sync_widget, :set_primary_blog, :rss_add, :rss_remove, :feed]
+    :sync_widget, :set_primary_blog, :rss_add, :rss_remove, :feed, :search]
   before_filter :blog_display, :only => [:show, :preview, :feed]
   before_filter :find_sync_target, :only => [:sync_apply, :sync_callback, :sync_cancel]
   before_filter :set_mobile_format, only: [:show]

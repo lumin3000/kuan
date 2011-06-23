@@ -2,6 +2,7 @@
 class Post
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Sphinx
 
   referenced_in :blog, index: true
   referenced_in :author, class_name: 'User', index: true
@@ -42,6 +43,15 @@ class Post
     where({:blog_id.in => sub_id_list})
   end
   scope :publics, ->(page) { where(:private.ne => true).desc(:created_at).page(page) }
+
+  search_index(fields: [:title, :tags, :content],
+               attributes: [:created_at, :blog_num_id, :private],
+               attribute_types: {created_at: Time, blog_num_id: Integer, private: Boolean})
+
+  #for sphinx indexing
+  def blog_num_id
+    blog.num_id
+  end
 
   def haml_object_ref
     "post"

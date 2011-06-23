@@ -101,6 +101,8 @@ Kuan::Application.routes.draw do
     resources :category_subs
   end
 
+  get "/search/:keyword(/:scope)(/page/:page)", :to => "search#index", :as => "search"
+
   match "/demos/:action", :controller => :demos
   
   root :to => redirect("/home")

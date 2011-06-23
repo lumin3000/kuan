@@ -1,0 +1,11 @@
+- css :tags
+- content_for :title, "#{@keyword}_搜索_宽岛"
+
+- css :posts_display
+
+.tag
+  %h1= %("#{@keyword}"#{@scope_words})
+  .timeline{ :data => { :widget => "sugar" } }
+    = render :partial => "posts/post_full", :collection => @posts, :as => :post
+    = pagination(@posts)
+.clear_fix
