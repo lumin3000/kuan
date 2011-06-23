@@ -45,12 +45,12 @@ class Post
   scope :publics, ->(page) { where(:private.ne => true).desc(:created_at).page(page) }
 
   search_index(fields: [:title, :tags, :content],
-               attributes: [:created_at, :blog_num_id],
-               attribute_types: {created_at: Time, blog_num_id: Integer})
+               attributes: [:created_at, :blog_num_id, :private],
+               attribute_types: {created_at: Time, blog_num_id: Integer, private: Boolean})
 
   #for sphinx indexing
   def blog_num_id
-    blog_id.to_s[0...8].hex
+    blog.num_id
   end
 
   def haml_object_ref

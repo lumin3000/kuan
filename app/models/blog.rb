@@ -101,6 +101,10 @@ class Blog
     super((tag.blank?) ? nil : tag.strip)
   end
 
+  def num_id
+    id.to_s[0...8].hex
+  end
+
   def joined_count
     User.collection.find({"followings" => {
                              "$elemMatch"=> {
