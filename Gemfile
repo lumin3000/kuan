@@ -17,7 +17,7 @@ gem 'capistrano'
 gem 'oauth'
 gem 'curb'
 gem 'fast_xs'
-gem "mongoid-sphinx-huacnlee", :require => "mongoid_sphinx"
+gem 'mongoid-sphinx-huacnlee', require: 'mongoid_sphinx'
 
 group :development, :test do
   gem 'rspec'

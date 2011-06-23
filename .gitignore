@@ -8,6 +8,7 @@
 # Everything else
 .bundle
 db/*.sqlite3
+db/sphinx
 log/*
 *.log
 tmp/**/*
