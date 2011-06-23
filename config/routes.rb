@@ -101,7 +101,7 @@ Kuan::Application.routes.draw do
     resources :category_subs
   end
 
-  get "/search/:keyword(/page/:page)(/per_page/:per_page)", :to => "search#index", :as => "search"
+  get "/search/:keyword(/:scope)(/page/:page)", :to => "search#index", :as => "search"
 
   match "/demos/:action", :controller => :demos
   
