@@ -18,8 +18,12 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
-every 12.hours do
-  rake "mongoid_sphinx:reindex"
+
+job_type :sphinx, "cd :path && RAILS_ENV=:environment PATH=/usr/local/coreseek/bin:$PATH INDEX_ONLY=true rake :task :output"
+
+every 1.day, :at => '2:30am'  do
+  set :output, "log/sphinx_index.log"
+  sphinx "mongoid_sphinx:index"
 end
 
 every 1.day, :at => '4:30am' do
