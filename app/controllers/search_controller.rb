@@ -33,8 +33,9 @@ class SearchController < ApplicationController
 
     #search title and tags 
     @posts = Post.search("@(title,tags) #{@keyword}", options)
-    
-    if page > @posts.total_pages
+
+    #total_pages will crash when get 0 result
+    if @posts.count > 0 and page > @posts.total_pages
       options[:page] -= @posts.total_pages
       #search content
       @posts += Post.search("@content #{@keyword}", options)
