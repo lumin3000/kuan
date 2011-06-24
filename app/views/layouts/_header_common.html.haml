@@ -13,14 +13,14 @@
     %a.z_buzz{ href: buzz_path, title: "回复"}><
       回复
       %span><
-        - if current_user.comments_notices.unreads.count > 0
+        - if not current_user.nil? and current_user.comments_notices.unreads.count > 0
           = "(#{current_user.comments_notices.unreads.count})"
     %span><
       |    
     %a.z_messages{ href: messages_path, title: "消息"}><
       消息
       %span><
-        - if current_user.messages.unreads.count > 0
+        - if not current_user.nil? and current_user.messages.unreads.count > 0
           = "(#{current_user.messages.unreads.count})"
     - if current_user
       %span><
