@@ -15,7 +15,7 @@
                   = "(#{comment.created_at})"
       %li
         .txt
-          %input{ :type => "text", :name => "content", placeholder: "回复内容" }
+          %textarea{ :name => "content", placeholder: "回复内容" }
     %input{ type: "hidden", name: "show_post", value: "true"}
     .c_submitter
       %input.greenButton{ :type => "submit", :value => "评论", :data => { :tgt => "reply" } }
