@@ -44,10 +44,6 @@ class Post
   end
   scope :publics, ->(page) { where(:private.ne => true).desc(:created_at).page(page) }
 
-  search_index(fields: [:title, :tags, :content],
-               attributes: [:created_at, :blog_num_id, :private],
-               attribute_types: {created_at: Time, blog_num_id: Integer, private: Boolean})
-
   #for sphinx indexing
   def blog_num_id
     blog.num_id
@@ -113,6 +109,54 @@ class Post
       end.each { |tag, count| Tag.accumulate tag, count, cal_date.to_s }
       Tag.set_new_hots old_hots
     end
+
+    #for sphinx stream (xmlpipe2 output), no cursor timeout
+    def sphinx_stream_no_timeout
+      #Real stream
+      STDOUT.sync = true
+
+      # Schema
+      puts <<EOF
+<?xml version="1.0" encoding="utf-8"?>
+<sphinx:docset>
+<sphinx:schema>
+<sphinx:field name="classname"/>
+<sphinx:field name="title"/>
+<sphinx:field name="tags"/>
+<sphinx:field name="content"/>
+<sphinx:attr name="_id" type="string" />
+<sphinx:attr name="private" type="bool"/>
+<sphinx:attr name="blog_num_id" type="int"/>
+</sphinx:schema>
+EOF
+
+      # Documents
+      Post.collection.db['posts'].find({}, timeout: false) do |cursor|
+        cursor.each do |document|
+          if document['title'].blank? and document['content'].blank? and document['tags'].blank?
+            next
+          end
+
+          puts <<EOF
+<sphinx:document id="#{self.generate_id(document['_id'])}">
+<classname>#{self.to_s}</classname>
+EOF
+          puts "<title>#{document['title'].to_xs}</title>" unless document['title'].blank?
+          puts "<tags>#{document['tags'].to_s.to_xs}</tags>" unless document['tags'].blank?
+          puts "<content>#{document['content'].to_xs}</content>" unless document['content'].blank?
+          
+          puts <<EOF
+<_id>#{document['_id']}</_id>
+<private>#{document['private'] ? 1 : 0}</private>
+<blog_num_id>#{document['blog_id'].to_s[0...8].hex}</blog_num_id>
+</sphinx:document>
+EOF
+        end
+      end
+
+      puts '</sphinx:docset>'
+    end
+
   end
 
   # Must stub this out
@@ -191,7 +235,7 @@ class Post
 
   def private_setter
     self.private = self.blog.private
-    ensure return true
+  ensure return true
   end
 
   def clean_comments_notices
