@@ -35,16 +35,15 @@ namespace :deploy do
     run "cd #{current_release} && bundle exec rake RAILS_ENV=production sass:build"
   end
 
+  task :sphinx do
+    run "cd #{current_release} && bundle exec rake RAILS_ENV=production mongoid_sphinx:restart"
+  end
+
   task :jammit do
     run "cd #{current_release} && bundle exec jammit -u 'http://i.kuandao.com'"
   end
 end
 
-# namespace :logs do
-#   task :watch do
-#     stream("tail -f #{current_path}/log/production.log")
-#   end
-# end
-
 before("deploy:symlink", "deploy:sass")
-after("deploy:sass", "deploy:jammit") 
+before("deploy:sass", "deploy:sphinx")
+after("deploy:sass", "deploy:jammit")
