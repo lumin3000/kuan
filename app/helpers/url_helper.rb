@@ -52,11 +52,11 @@ module UrlHelper
   end
 
   def tag_escape(tag)
-    tag.gsub('.', '$k*').gsub('/', '^k*')
+    tag.gsub('.', '$k*').gsub('/', '*fk*')
   end
 
   def tag_unescape(tag)
-    tag.gsub('$k*', '.').gsub('^k*', '/')
+    tag.gsub('$k*', '.').gsub('*fk*', '/')
   end
 
   def fucking_root
