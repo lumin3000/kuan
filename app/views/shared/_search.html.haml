@@ -1,4 +1,4 @@
 .search_bar{data: {widget: 'search'}}
-  %input.key{type: "text"}
-  %input.url{type: "hidden", value: (@blog ? blog_path(@blog) : "")}
-  %a.all{href: "#"} 搜索
+  %form{action: (@blog ? blog_path(@blog) : "/")+"search"+(scope ? "/"+scope : ""), method: "get"}
+    %input.key{type: "text", alt: "搜索"+(scope ? (scope=='blog' ? "本页面" : "我的家") : "全站"), data: {widget: "overtext"}, name: "q"}
+    %a.submit{href: "#"} 搜索

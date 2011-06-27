@@ -773,11 +773,16 @@ K.widgets.search = function(el){
   function search(type){
     var v = el.getElement('input.key')
     var url = el.getElement('input.url')
+    var form = el.getElement('form')
+    var lo
     if(v.value.trim()!=''){
-      window.location = (url.value.trim == '' ? '/' : url.value)+'tag/'+encodeURI(v.value)
+      form.submit()
+    }else{
+      v.highlight()
     }
+    return false
   }
-  el.getElement('.all').addEvent('click', function(){
+  el.getElement('.submit').addEvent('click', function(){
     search()
     return false
   })

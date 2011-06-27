@@ -103,4 +103,8 @@ module ApplicationHelper
       post.content
     end
   end
+  
+  def search_bar(scope=nil)
+    render partial: 'shared/search', locals: {scope: scope}
+  end
 end

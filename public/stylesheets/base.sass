@@ -302,6 +302,10 @@ a.logo
     margin: 33px 20px 27px 20px
     .menu
       @include border-radius(3px)
+  .my_search
+    float: right
+    margin-top: 30px
+    margin-right: 72px
   a.tar
     margin-right: 0
 
@@ -312,7 +316,6 @@ a.logo
   height: 30px
   line-height: 30px
   width: 184px
-  display: none
   input
     margin: 0
     margin-left: 2px
@@ -324,10 +327,16 @@ a.logo
     display: block
     float: left
     font-size: 14px
-  a
+  .overTxtLabel
+    font-size: 14px
+    padding-top: 5px
+  .submit
     height: 30px
     line-height: 30px
     width: 30px
     display: block
     float: right
     @include hide_text
+
+.overTxtLabel
+  color: $light-gray
