@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class SearchController < ApplicationController
   def index
-    @keyword = params[:keyword].gsub('/', '\/')
+    @keyword = params[:q].gsub('/', '\/')
     page = pagination_default[:page].to_i
     per_page = pagination_default[:per_page].to_i
     scope = params[:scope] || "all"
