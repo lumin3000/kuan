@@ -105,6 +105,19 @@ module ApplicationHelper
   end
   
   def search_bar(scope=nil)
-    render partial: 'shared/search', locals: {scope: scope}
+    if(scope == "tag")
+      action = "/tag"
+      alt = "标签"
+    elsif(scope == "blog" && @blog)
+      action = blog_path(@blog)+"search/blog"
+      alt = "本页面"
+    elsif(scope == "subs")
+      action = "/search/subs"
+      alt = "我的家"
+    else
+      action = "/search"
+      alt = "全站"
+    end
+    render partial: 'shared/search', locals: {scope: scope, action: action, alt: alt}
   end
 end

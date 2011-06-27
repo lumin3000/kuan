@@ -5,8 +5,10 @@
 
 - @site_layout = "site" unless @blogs.empty?
 
-.tag
+.tag_page
   %h1= @tag
+  .my_search
+    = search_bar("tag")
   .timeline{ :data => { :widget => "sugar" } }
     = render :partial => "posts/post_full", :collection => @posts, :as => :post
     = pagination(@posts)

@@ -1,4 +1,5 @@
 .search_bar{data: {widget: 'search'}}
-  %form{action: (@blog ? blog_path(@blog) : "/")+"search"+(scope ? "/"+scope : ""), method: "get"}
-    %input.key{type: "text", alt: "搜索"+(scope ? (scope=='blog' ? "本页面" : "我的家") : "全站"), data: {widget: "overtext"}, name: "q"}
+  %form{action: action, method: "get"}
+    %input.key{type: "text", alt: "搜索"+alt, data: {widget: "overtext"}, name: "q"}
+    %input.scope{type: "hidden", value:scope}
     %a.submit{href: "#"} 搜索

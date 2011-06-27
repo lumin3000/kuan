@@ -774,9 +774,15 @@ K.widgets.search = function(el){
     var v = el.getElement('input.key')
     var url = el.getElement('input.url')
     var form = el.getElement('form')
+    var scope = el.getElement('.scope')
     var lo
     if(v.value.trim()!=''){
-      form.submit()
+      if(scope.value == 'tag'){
+        var val = encodeURIComponent(v.value.replace('/', '^k*'))
+        window.location = '/tag/'+val
+      }else{
+        form.submit()
+      }
     }else{
       v.highlight()
     }
