@@ -778,7 +778,7 @@ K.widgets.search = function(el){
     var lo
     if(v.value.trim()!=''){
       if(scope.value == 'tag'){
-        var val = encodeURIComponent(v.value.replace('/', '^k*'))
+        var val = encodeURIComponent(v.value.replace('/', '*fk*'))
         window.location = '/tag/'+val
       }else{
         form.submit()
