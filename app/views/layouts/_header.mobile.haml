@@ -2,12 +2,12 @@
   %h1<
     宽岛
     = "_"+@sub_title if @sub_title
-  %a.button.rightButton{href: current_url(:mobile => 0)} 切换到网页版
+  %a.button.rightButton{href: current_url(:mobile => 0)} 网页版
   %a.button.rightButton{href: news_posts_path} 探索
   - if current_user
     - if current_user.comments_notices.unreads.count > 0
       %a.button.rightButton{href: buzz_unread_path, title: "查看未读回复"}
-        = "未读回复(#{current_user.comments_notices.unreads.count})"
+        = "未读 #{current_user.comments_notices.unreads.count}"
     - else
       %a.button.rightButton{href: buzz_path, title: "回复"}
         = "回复"
