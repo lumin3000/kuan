@@ -1265,6 +1265,9 @@ K.widgets.autocpl = function(input) {
 
 K.comet_header_counter = function(data){
   for (var k in data) {
-    $(k).innerHTML = "("+data[k]+")"
+    if (data[k] > 0)
+      $(k).innerHTML = "("+data[k]+")"
+    else
+      $(k).innerHTML = ""
   }
 }

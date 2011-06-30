@@ -228,13 +228,19 @@ class User
     c.destroy if c.length > 0
     comments_notices.first.delete if comments_notices.length > 99
     comments_notices << CommentsNotice.new(post: post)
-    push_to_comet(comments_count: comments_notices.length)
+    push_to_comet(comments_count: comments_notices.unreads.length)
   end
 
   def read_all_comments_notices!
     comments_notices.unreads.each do |c|
       c.read!
     end
+  end
+
+  def read_post(post)
+    notice = comments_notices.get_by_post(post).first
+    notice.read! unless notice.nil?
+    push_to_comet(comments_count: comments_notices.unreads.length)
   end
 
   #mute/unmute operations
