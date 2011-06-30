@@ -88,8 +88,10 @@ PREVENT_CLICK
       end
       if params[:post_id]
         @post = Post.find(params[:post_id])
-        notice = current_user.comments_notices.get_by_post(@post).first
-        notice.read! unless notice.nil?
+        unless current_user.nil?
+          notice = current_user.comments_notices.get_by_post(@post).first
+          notice.read! unless notice.nil?
+        end
         render 'posts/show'
       else
         cur_page = params[:page].to_i
