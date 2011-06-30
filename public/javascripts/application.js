@@ -1262,3 +1262,9 @@ K.widgets.autocpl = function(input) {
 }
 
 })(document.id)
+
+K.comet_header_counter = function(data){
+  for (var k in data) {
+    $(k).innerHTML = "("+data[k]+")"
+  }
+}

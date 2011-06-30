@@ -5,7 +5,6 @@
     = content_for?(:meta) ? content_for(:meta) : ""
     %title<
       = content_for?(:title) ? content_for(:title) : "宽岛"
-    
     - css :base
     = include_stylesheets *@css
     - js :common

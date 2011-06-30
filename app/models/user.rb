@@ -2,6 +2,8 @@
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Comet::Pusher
+  
   field :name
   field :email
   index :email, unique: true
@@ -38,11 +40,13 @@ class User
   validates_length_of :password,
     within: 5..32,
     too_short: "最少%{count}个字",
-  :too_long => "最多%{count}个字", :unless => Proc.new { |a| a.password.blank? }
+    too_long: "最多%{count}个字",
+    :unless => Proc.new { |a| a.password.blank? }
 
   before_save :encrypt_password, :unless => Proc.new { |a| a.password.blank? }
-  
   before_save :email_downcase
+
+  comet_channel -> user { "/user/#{user.id}" }
 
   class << self
     def authenticate(email, password)
@@ -220,10 +224,11 @@ class User
   end
 
   def insert_unread_comments_notices!(post)
-    c = comments_notices.where(  post_id: post.id )
+    c = comments_notices.where(post_id: post.id)
     c.destroy if c.length > 0
     comments_notices.first.delete if comments_notices.length > 99
     comments_notices << CommentsNotice.new(post: post)
+    push_to_comet(comments_count: comments_notices.length)
   end
 
   def read_all_comments_notices!
