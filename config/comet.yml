@@ -8,4 +8,4 @@ test:
   <<: *defaults
 
 production:
-  server: '117.79.233.21:8080'
+  server: 'www.kuandao.com:8080'

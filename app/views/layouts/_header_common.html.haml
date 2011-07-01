@@ -6,18 +6,18 @@
       %span><
         |    
     - if current_user
-      -# %script{type: "text/javascript", src: %(http://#{@comet_config["server"]}/application.js), charset: "utf-8"}
+      = include_javascripts :juggernaut
       :javascript
-        window.WEB_SOCKET_SWF_LOCATION = 'http://#{@comet_config["server"]}/WebSocketMain.swf'
+        window.WEB_SOCKET_SWF_LOCATION = '/WebSocketMain.swf'
         document.addEvent("domready", function() {
           K.comet_header_counter({
             comments_count: #{current_user.comments_notices.unreads.count},
             messages_count: #{current_user.messages.unreads.count}
           })
-          // var jug = new Juggernaut({host: '#{@comet_config["host"]}', port: #{@comet_config["port"] || 8080}})
-          // jug.subscribe('#{current_user.channel}', function(data){
-          //   K.comet_header_counter(data)
-          // })
+          var jug = new Juggernaut({host: '#{@comet_config["host"]}', port: #{@comet_config["port"] || 8080}})
+          jug.subscribe('#{current_user.channel}', function(data){
+            K.comet_header_counter(data)
+          })
         })
       %a.z_dashboard{href: fucking_root}><
         我的家
