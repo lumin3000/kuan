@@ -9,7 +9,7 @@ class Message
   referenced_in :blog
   embedded_in :user, :inverse_of => :messages
   scope :unreads, where(unread: true)
-  validates :type, :inclusion => {:in => %w[join join_feed follow]}
+  validates :type, :inclusion => {:in => %w[join join_feed follow register]}
 
   LIMIT = 100
   

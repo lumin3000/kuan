@@ -90,11 +90,11 @@ class User
     blog
   end
 
-  def follow!(blog, auth="follower")
+  def follow!(blog, auth="follower", message_send=true)
     f = followings.where(blog_id: blog.id).first
     if f.nil?
       followings << Following.new(blog: blog, auth: auth)
-      if auth == "follower"
+      if auth == "follower" and message_send
         (blog.founders + blog.lord.to_a).each do |founder|
           founder.receive_message! Message.new(sender: self,
                                              blog: blog,
