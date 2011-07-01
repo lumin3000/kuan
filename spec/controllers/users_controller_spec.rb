@@ -222,18 +222,6 @@ describe UsersController do
         user.subs.should_not be_include bp
       end
 
-      it "should follow administrator's blogs" do
-        blog = Factory(:blog, :uri => "kuaniao")
-        post :create, :user => @attr, :code => @code
-        user = User.where(:email => @attr[:email]).first
-        user.subs.should include blog
-      end
-
-      it "should not follow administrator's blogs" do
-        post :create, :user => @attr, :code => @code
-        user = User.where(:email => @attr[:email]).first
-        user.subs.should be_empty
-      end
     end
 
   end
