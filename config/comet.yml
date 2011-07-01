@@ -8,4 +8,4 @@ test:
   <<: *defaults
 
 production:
-  <<: *defaults
+  server: '117.79.233.21:8080'
