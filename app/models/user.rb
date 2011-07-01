@@ -207,6 +207,7 @@ class User
     c.destroy_all if c.count > 0
     messages << message
     messages.first.delete if messages.length > Message::LIMIT
+    push_to_comet messages_count: messages.unreads.length
   end
 
   def read_all_messages!
@@ -228,7 +229,7 @@ class User
     c.destroy if c.length > 0
     comments_notices.first.delete if comments_notices.length > 99
     comments_notices << CommentsNotice.new(post: post)
-    push_to_comet(comments_count: comments_notices.unreads.length)
+    push_to_comet comments_count: comments_notices.unreads.length
   end
 
   def read_all_comments_notices!
@@ -240,7 +241,7 @@ class User
   def read_post(post)
     notice = comments_notices.get_by_post(post).first
     notice.read! unless notice.nil?
-    push_to_comet(comments_count: comments_notices.unreads.length)
+    push_to_comet comments_count: comments_notices.unreads.length
   end
 
   #mute/unmute operations
