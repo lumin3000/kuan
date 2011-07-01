@@ -9,12 +9,12 @@
       %script{type: "text/javascript", src: %(http://#{@comet_config["server"]}/application.js), charset: "utf-8"}
       :javascript
         window.WEB_SOCKET_SWF_LOCATION = 'http://#{@comet_config["server"]}/WebSocketMain.swf'
-        var jug = new Juggernaut({host: '#{@comet_config["host"]}', port: #{@comet_config["port"] || 8080}})
         document.addEvent("domready", function() {
           K.comet_header_counter({
             comments_count: #{current_user.comments_notices.unreads.count},
             messages_count: #{current_user.messages.unreads.count}
           })
+          var jug = new Juggernaut({host: '#{@comet_config["host"]}', port: #{@comet_config["port"] || 8080}})
           jug.subscribe('#{current_user.channel}', function(data){
             K.comet_header_counter(data)
           })
