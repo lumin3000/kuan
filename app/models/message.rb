@@ -2,13 +2,13 @@ class Message
   include Mongoid::Document
   field :type
   field :content
-  field :unread, :type => Boolean, :default => true
-  field :done, :type => Boolean, :default => false
-  field :ignored, :type => Boolean, :default => false
+  field :unread, type: Boolean, default: true
+  field :done, type: Boolean, default: false
+  field :ignored, type: Boolean, default: false
   field :sender_id
   referenced_in :blog
   embedded_in :user, :inverse_of => :messages
-  scope :unreads, where(:unread => true)
+  scope :unreads, where(unread: true)
   validates :type, :inclusion => {:in => %w[join join_feed follow]}
 
   LIMIT = 100
@@ -22,17 +22,17 @@ class Message
   end
 
   def read!
-    update_attributes :unread => false 
+    update_attributes unread: false 
   end
 
   def ignore!
-    update_attributes :ignored => true
+    update_attributes ignored: true
   end
 
   def doing!
     return if done?
     send type
-    update_attributes :done => true
+    update_attributes done: true
   end
 
   def feed!
@@ -45,5 +45,10 @@ class Message
 
   def join
     sender.follow! blog, "member" if blog.applied?(sender) and blog.customed?(user)
+    #all apply join message for the sender to the blog should be done
+    blog.founders.each do |founder|
+      m = founder.messages.where(type: "join", blog_id: blog.id).first
+      m.update_attributes(done: true) unless m.nil?
+    end
   end
 end
