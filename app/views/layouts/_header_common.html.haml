@@ -16,7 +16,6 @@
             messages_count: #{current_user.messages.unreads.count}
           })
           jug.subscribe('#{current_user.channel}', function(data){
-            console.log(data)
             K.comet_header_counter(data)
           })
         })
