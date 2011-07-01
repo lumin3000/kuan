@@ -3,7 +3,8 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
   include UrlHelper
   include MobileHelper
-
+  include Comet::Config
+  
   def pagination_default
     { page: params[:page] || 1,  per_page: 10 }
   end
@@ -11,4 +12,5 @@ class ApplicationController < ActionController::Base
   def business_config
     YAML.load_file "#{Rails.root}/config/business.yml"
   end
+
 end

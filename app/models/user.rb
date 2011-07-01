@@ -2,6 +2,8 @@
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Comet::Pusher
+  
   field :name
   field :email
   index :email, unique: true
@@ -38,11 +40,13 @@ class User
   validates_length_of :password,
     within: 5..32,
     too_short: "最少%{count}个字",
-  :too_long => "最多%{count}个字", :unless => Proc.new { |a| a.password.blank? }
+    too_long: "最多%{count}个字",
+    :unless => Proc.new { |a| a.password.blank? }
 
   before_save :encrypt_password, :unless => Proc.new { |a| a.password.blank? }
-  
   before_save :email_downcase
+
+  comet_channel -> user { "/user/#{user.id}" }
 
   class << self
     def authenticate(email, password)
@@ -86,11 +90,11 @@ class User
     blog
   end
 
-  def follow!(blog, auth="follower")
+  def follow!(blog, auth="follower", message_send=true)
     f = followings.where(blog_id: blog.id).first
     if f.nil?
       followings << Following.new(blog: blog, auth: auth)
-      if auth == "follower"
+      if auth == "follower" and message_send
         (blog.founders + blog.lord.to_a).each do |founder|
           founder.receive_message! Message.new(sender: self,
                                              blog: blog,
@@ -203,6 +207,7 @@ class User
     c.destroy_all if c.count > 0
     messages << message
     messages.first.delete if messages.length > Message::LIMIT
+    push_to_comet messages_count: messages.unreads.length
   end
 
   def read_all_messages!
@@ -220,16 +225,23 @@ class User
   end
 
   def insert_unread_comments_notices!(post)
-    c = comments_notices.where(  post_id: post.id )
+    c = comments_notices.where(post_id: post.id)
     c.destroy if c.length > 0
     comments_notices.first.delete if comments_notices.length > 99
     comments_notices << CommentsNotice.new(post: post)
+    push_to_comet comments_count: comments_notices.unreads.length
   end
 
   def read_all_comments_notices!
     comments_notices.unreads.each do |c|
       c.read!
     end
+  end
+
+  def read_post(post)
+    notice = comments_notices.get_by_post(post).first
+    notice.read! unless notice.nil?
+    push_to_comet comments_count: comments_notices.unreads.length
   end
 
   #mute/unmute operations

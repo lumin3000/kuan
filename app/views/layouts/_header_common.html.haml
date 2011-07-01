@@ -6,22 +6,31 @@
       %span><
         |    
     - if current_user
+      %script{type: "text/javascript", src: %(http://#{@comet_config["server"]}/application.js), charset: "utf-8"}
+      :javascript
+        window.WEB_SOCKET_SWF_LOCATION = 'http://#{@comet_config["server"]}/WebSocketMain.swf'
+        var jug = new Juggernaut({host: '#{@comet_config["host"]}', port: #{@comet_config["port"] || 8080}})
+        document.addEvent("domready", function() {
+          K.comet_header_counter({
+            comments_count: #{current_user.comments_notices.unreads.count},
+            messages_count: #{current_user.messages.unreads.count}
+          })
+          jug.subscribe('#{current_user.channel}', function(data){
+            K.comet_header_counter(data)
+          })
+        })
       %a.z_dashboard{href: fucking_root}><
         我的家
       %span><
         |    
       %a.z_buzz{ href: buzz_path, title: "回复"}><
         回复
-        %span><
-          - if current_user.comments_notices.unreads.count > 0
-            = "(#{current_user.comments_notices.unreads.count})"
+        %span#comments_count><
       %span><
         |    
       %a.z_messages{ href: messages_path, title: "消息"}><
         消息
-        %span><
-          - if not current_user.nil? and current_user.messages.unreads.count > 0
-            = "(#{current_user.messages.unreads.count})"
+        %span#messages_count><
       %span><
         |    
       .menu><

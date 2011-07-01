@@ -21,16 +21,21 @@ class UsersController < ApplicationController
     @rand = params[:rand]
     return (render 'new', layout: "application") if !@user.save
 
-    #create primary blog 
+    #create primary blog
     @user.create_primary_blog!
     #follow inviter's open blogs
-    @inv_user.blogs.each {|b| @user.follow! b unless b.private?}
+    @inv_user.blogs.each {|b| @user.follow!(b, "follower", false) unless b.private?}
 
     #follow administrator's blog
     business_config["signup_follow_blogs"].each do |uri|
       blog = Blog.find_by_uri! uri
-      @user.follow! blog unless blog.nil?
+      @user.follow!(blog, "follower", false) unless blog.nil?
     end
+
+    #send message to inviter
+    @inv_user.receive_message! Message.new(sender: @user,
+                                           blog: @user.primary_blog,
+                                           type: "register")
 
     sign_in @user
     flash[:success] = "欢迎注册"
@@ -79,8 +84,8 @@ class UsersController < ApplicationController
 
   def update
     if(params[:user][:password].blank? && params[:user][:password_confirmation].blank?)
-       params[:user].delete(:password)
-       params[:user].delete(:password_confirmation)
+      params[:user].delete(:password)
+      params[:user].delete(:password_confirmation)
     end
 
     if @user.update_attributes params[:user]
@@ -101,7 +106,7 @@ class UsersController < ApplicationController
   def signup_auth
     render 'shared/404', status: 404 and return if params[:code].blank?
     @inv_user = User.find_by_code params[:code]
-    render 'shared/404', status: 404 if @inv_user.nil? 
+    render 'shared/404', status: 404 if @inv_user.nil?
   end
 
   def logging_refer

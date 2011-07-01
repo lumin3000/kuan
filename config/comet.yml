@@ -1,0 +1,11 @@
+default: &defaults
+  server: 'localhost:8080'
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  server: '117.79.233.21:8080'
