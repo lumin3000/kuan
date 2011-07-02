@@ -7,6 +7,7 @@ javascripts:
     - public/javascripts/mootools-more.js
     - public/javascripts/rails.js
     - public/javascripts/application.js
+    - public/javascripts/juggernaut.js
   posts:
     - public/javascripts/textboxlist.js
     - public/javascripts/post_form.js

@@ -13,6 +13,8 @@
     %link{ :rel => "shortcut icon", :href => "/images/favicon.ico" }
     :javascript
       document.id(document.documentElement).addClass('js_enabled')
+      window.WEB_SOCKET_SWF_LOCATION = '/WebSocketMain.swf'
+      K.comet = new Juggernaut({host: '#{@comet_config["host"]}', port: #{@comet_config["port"] || 8080}})
     = yield :head if content_for?(:head)
   %body
     #container{class: content_for?(:site_layout) ? yield(:site_layout) : "site"}

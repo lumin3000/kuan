@@ -29,7 +29,7 @@ class Post
 
   before_destroy :clean_comments_notices
   before_create :type_setter, :private_setter
-  after_create :ancestor_reposts_inc, :parent_reposts_inc, :update_blog
+  after_create :ancestor_reposts_inc, :parent_reposts_inc, :update_blog, :push_to_clients
 
   scope :all_by_updated, desc(:updated_at)
   scope :pics_and_text, where(:_type.in => ["Text", "Pics"], :private.ne => true)
@@ -44,8 +44,6 @@ class Post
     where({:blog_id.in => sub_id_list})
   end
   scope :publics, ->(page) { where(:private.ne => true).desc(:created_at).page(page) }
-
-  comet_channel -> post { "/post/#{post.id}" }
 
   #for sphinx indexing
   def blog_num_id
@@ -95,6 +93,10 @@ class Post
         posts << post if not post.nil? and post.created_at == b.posted_at
         posts
       end
+    end
+
+    def news_channel
+      "/news"
     end
 
     def wall
@@ -279,4 +281,10 @@ EOF
     end
   end
 
+  def push_to_clients
+    return if private? or import?
+    channels = User.where("followings.blog_id" => blog.id).map { |u| u.home_channel }
+    channels << Post.news_channel
+    push_to_comet(channels, post_id: id, blog_id: blog.id)
+  end
 end

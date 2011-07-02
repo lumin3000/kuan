@@ -6,17 +6,14 @@
       %span><
         |    
     - if current_user
-      = include_javascripts :juggernaut
       :javascript
-        window.WEB_SOCKET_SWF_LOCATION = '/WebSocketMain.swf'
         document.addEvent("domready", function() {
-          K.comet_header_counter({
+          K.header_counter({
             comments_count: #{current_user.comments_notices.unreads.count},
             messages_count: #{current_user.messages.unreads.count}
           })
-          var jug = new Juggernaut({host: '#{@comet_config["host"]}', port: #{@comet_config["port"] || 8080}})
-          jug.subscribe('#{current_user.channel}', function(data){
-            K.comet_header_counter(data)
+          K.comet.subscribe('#{current_user.counter_channel}', function(data){
+            K.header_counter(data)
           })
         })
       %a.z_dashboard{href: fucking_root}><

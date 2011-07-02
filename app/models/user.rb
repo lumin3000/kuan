@@ -46,8 +46,6 @@ class User
   before_save :encrypt_password, :unless => Proc.new { |a| a.password.blank? }
   before_save :email_downcase
 
-  comet_channel -> user { "/user/#{user.id}" }
-
   class << self
     def authenticate(email, password)
       user  = User.where(:email => email.downcase).first
@@ -76,6 +74,15 @@ class User
   #invitation code
   def inv_code
     _id.to_s.to_i(16).to_s(32)
+  end
+
+  #comet channel
+  def counter_channel
+    "/user/counter/#{id}"
+  end
+
+  def home_channel
+    "/user/home/#{id}"
   end
 
   #user and blog's relationships
@@ -207,7 +214,7 @@ class User
     c.destroy_all if c.count > 0
     messages << message
     messages.first.delete if messages.length > Message::LIMIT
-    push_to_comet messages_count: messages.unreads.length
+    push_to_comet(counter_channel, messages_count: messages.unreads.length)
   end
 
   def read_all_messages!
@@ -229,7 +236,7 @@ class User
     c.destroy if c.length > 0
     comments_notices.first.delete if comments_notices.length > 99
     comments_notices << CommentsNotice.new(post: post)
-    push_to_comet comments_count: comments_notices.unreads.length
+    push_to_comet(counter_channel, comments_count: comments_notices.unreads.length)
   end
 
   def read_all_comments_notices!
@@ -241,7 +248,7 @@ class User
   def read_post(post)
     notice = comments_notices.get_by_post(post).first
     notice.read! unless notice.nil?
-    push_to_comet comments_count: comments_notices.unreads.length
+    push_to_comet(counter_channel, comments_count: comments_notices.unreads.length)
   end
 
   #mute/unmute operations
