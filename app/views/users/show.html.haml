@@ -29,7 +29,7 @@
           %a.cancel{onclick: "this.getParent('.dashboard_flash').destroy();return false;"}
             关闭
       .dashboard_news#dashboard_news
-        %a{onclick: "window.location.reload();return false"}
+        %a{onclick: "window.location='/home';return false"}
           有新内容啦，点击查看
       :javascript
         document.addEvent("domready", function() {
