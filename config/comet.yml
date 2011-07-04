@@ -1,0 +1,11 @@
+default: &defaults
+  server: 'localhost:8080'
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  server: 'www.kuandao.com:8080'

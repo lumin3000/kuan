@@ -7,6 +7,7 @@ javascripts:
     - public/javascripts/mootools-more.js
     - public/javascripts/rails.js
     - public/javascripts/application.js
+    - public/javascripts/juggernaut.js
   posts:
     - public/javascripts/textboxlist.js
     - public/javascripts/post_form.js
@@ -32,6 +33,8 @@ javascripts:
     - public/javascripts/sitemap.js
   category:
     - public/javascripts/category.js
+  juggernaut:
+    - public/javascripts/juggernaut.js
   demo:
     - public/javascripts/demo.js
 

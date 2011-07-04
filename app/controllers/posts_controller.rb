@@ -151,6 +151,7 @@ class PostsController < ApplicationController
 
   def news
     @posts = params[:all] ? Post.publics(params[:page]) : Post.news(params[:page])
+    @news_channel = Post.news_channel
     render :layout => "common"
   end
 

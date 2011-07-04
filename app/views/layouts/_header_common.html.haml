@@ -6,22 +6,28 @@
       %span><
         |    
     - if current_user
+      :javascript
+        document.addEvent("domready", function() {
+          K.header_counter({
+            comments_count: #{current_user.comments_notices.unreads.count},
+            messages_count: #{current_user.messages.unreads.count}
+          })
+          K.comet.subscribe('#{current_user.counter_channel}', function(data){
+            K.header_counter(data)
+          })
+        })
       %a.z_dashboard{href: fucking_root}><
         我的家
       %span><
         |    
       %a.z_buzz{ href: buzz_path, title: "回复"}><
         回复
-        %span><
-          - if current_user.comments_notices.unreads.count > 0
-            = "(#{current_user.comments_notices.unreads.count})"
+        %span#comments_count><
       %span><
         |    
       %a.z_messages{ href: messages_path, title: "消息"}><
         消息
-        %span><
-          - if not current_user.nil? and current_user.messages.unreads.count > 0
-            = "(#{current_user.messages.unreads.count})"
+        %span#messages_count><
       %span><
         |    
       .menu><

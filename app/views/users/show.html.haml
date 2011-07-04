@@ -28,7 +28,15 @@
               = v
           %a.cancel{onclick: "this.getParent('.dashboard_flash').destroy();return false;"}
             关闭
-          
+      .dashboard_news#dashboard_news
+        %a{onclick: "window.location.reload();return false"}
+          有新内容啦，点击查看
+      :javascript
+        document.addEvent("domready", function() {
+          K.comet.subscribe('#{current_user.home_channel}', function(data){
+            $('dashboard_news').setStyle('display', 'block');
+          })
+        })
       = render partial: "layouts/breadcrumbs"
   - if @at_dashboard
     = render partial: "layouts/dashboard_menu"

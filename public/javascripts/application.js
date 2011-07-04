@@ -1262,3 +1262,12 @@ K.widgets.autocpl = function(input) {
 }
 
 })(document.id)
+
+K.header_counter = function(data){
+  for (var k in data) {
+    if (data[k] > 0)
+      $(k).innerHTML = "(<em>"+data[k]+"</em>)"
+    else
+      $(k).innerHTML = ""
+  }
+}
