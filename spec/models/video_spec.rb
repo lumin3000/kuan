@@ -37,14 +37,14 @@ describe Video do
   end
 
   it "should accept the youku url" do
-    # @video.url = %(http://v.youku.com/v_show/id_XMjQ2MzMwMzE2.html)
-    # @video.content = nil
-    # @video.should be_valid
-    # @video.player.should == "http://player.youku.com/player.php/sid/XMjQ2MzMwMzE2/v.swf"
-    # @video.content.should == "【拍客】重庆建两艘过亿豪华游轮-可停靠直升机 - 视频 - 优酷视频 - 在线观看"
-    # @video.thumb.should == "http://g3.ykimg.com/0100641F464D669C0E9D55025646FE22F0A27C-5E6A-A637-8792-73F22049C63C"
-    # @video.url.should == %(http://v.youku.com/v_show/id_XMjQ2MzMwMzE2.html)
-    # @video.site.should_not be_blank
+    @video.url = %(http://v.youku.com/v_show/id_XMjQ2MzMwMzE2.html)
+    @video.content = nil
+    @video.should be_valid
+    @video.player.should == "http://player.youku.com/player.php/sid/XMjQ2MzMwMzE2/v.swf"
+    @video.content.should == "【拍客】重庆建两艘过亿豪华游轮-可停靠直升机 - 视频 - 优酷视频 - 在线观看"
+    @video.thumb.should == "http://g3.ykimg.com/0100641F464D669C0E9D55025646FE22F0A27C-5E6A-A637-8792-73F22049C63C"
+    @video.url.should == %(http://v.youku.com/v_show/id_XMjQ2MzMwMzE2.html)
+    @video.site.should_not be_blank
   end
 
   it "should accept the tudou url" do

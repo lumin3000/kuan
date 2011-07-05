@@ -72,7 +72,7 @@ class Video < Post
     return if id.blank?
     p = "http://player.youku.com/player.php/sid/#{id}/v.swf"
     doc = Nokogiri::HTML io, nil, io.charset
-    t = doc.css('a#download').first.attributes["href"].value.split('|').last
+    t = doc.css('a#download').first.attributes["_href"].value.split('|').last
     c = doc.xpath('//title').first.content
     yield p, t, c, "优酷"
   end
