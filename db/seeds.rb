@@ -72,6 +72,8 @@ pic_post = Pics.new({
 pic_post.photos = [photo]
 pic_post.save!
 
+
+=begin
 pics_multi = Pics.create!({
   :content => "Multiple pictures",
   :author => me.id,
@@ -92,3 +94,6 @@ T.create!({
   author: me,
   thumbnail: mxgs239,
 })
+=end
+
+
