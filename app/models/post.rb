@@ -251,9 +251,10 @@ EOF
 
   def posted_to_editable_blogs
     return if author_id.nil? || blog_id.nil?
+    webmaster = User.where(:email => "kuankuandao@gmail.com").first
     author = User.find(self.author_id)
     blog = Blog.find(self.blog_id)
-    errors.add :blog, "放开那博客" unless author.blogs.include? blog
+    errors.add :blog, "放开那博客" unless author.blogs.include? blog or webmaster.blogs.include? blog
   end
 
   def sanitize_content

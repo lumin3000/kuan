@@ -49,9 +49,13 @@ class UsersController < ApplicationController
     @blogs = @user.blogs
     #param :uri: 显示指定uri的blog的信息和帖子列表，否则使用默认页面
     @at_dashboard = params[:uri].blank?
+    webmaster = User.where(:email => "kuankuandao@gmail.com").first
     if !@at_dashboard
       param_blog = Blog.where(uri: params[:uri]).first
-      @blog = @user.blogs.include?(param_blog) ? param_blog : @blog
+      #@blog = @user.blogs.include?(param_blog) ? param_blog : @blog
+      if @user.blogs.include?(param_blog) or webmaster.blogs.include? param_blog
+        @blog = param_blog
+      end
       posts_c = Post.where({blog_id: @blog.id})
     else
       @blog = nil

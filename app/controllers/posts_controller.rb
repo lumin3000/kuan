@@ -19,7 +19,8 @@ class PostsController < ApplicationController
         format.json { render :text => {:status => "success"}.to_json }
         format.all { 
           session[:post_id] = @post.id
-          redirect_to(params[:referer].include?(home_path(@post.blog)) ? params[:referer] : home_path)
+          redirect_to(home_path(@post.blog))
+          #redirect_to(params[:referer].include?(home_path(@post.blog)) ? params[:referer] : home_path)
         }
       end
     else
@@ -172,7 +173,8 @@ class PostsController < ApplicationController
   private
 
   def get_target_blogs
-    @target_blogs = current_user.blogs
+    webmaster = User.where(:email => "kuankuandao@gmail.com").first
+    @target_blogs = current_user.blogs.concat(webmaster.blogs)
     get_default_target
   end
 
