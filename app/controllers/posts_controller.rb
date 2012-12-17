@@ -174,7 +174,13 @@ class PostsController < ApplicationController
 
   def get_target_blogs
     webmaster = User.where(:email => "kuankuandao@gmail.com").first
-    @target_blogs = current_user.blogs.concat(webmaster.blogs)
+
+    #@target_blogs = current_user.blogs.concat(webmaster.blogs)
+    temp_blogs = current_user.blogs
+    webmaster.blogs.each do |blog|
+      temp_blogs.push(blog) unless temp_blogs.include?(blog)
+    end
+    @target_blogs = temp_blogs
     get_default_target
   end
 
