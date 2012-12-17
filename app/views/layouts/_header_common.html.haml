@@ -1,5 +1,5 @@
 .header
-  %a.logo{href: fucking_root, title: "我的家, 一小步你看到了么"}
+  %a.logo{href: fucking_root, title: "我的家"}
   .navigator{data: {widget: "navigator", highlight: (@nav_now || "dashboard")}}<
     - if @has_mobile_view && is_mobile_device?
       %a{href: current_url(mobile: 1)} 手机版
