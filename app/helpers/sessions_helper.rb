@@ -63,10 +63,7 @@ module SessionsHelper
   CHIEF_ADMINS = [
     'sjerrys@gmail.com',
     'mrsun3000@gmail.com',
-    'blah@meh.org',
-    'ai_no_kakera_a@hotmail.com',
-    'lilu.life@gmail.com',
-    'siyang1982@msn.com',
+    'sunchen@usa.com',
   ]
   def chief_admin_auth
     if not current_user && CHIEF_ADMINS.include?(current_user.email)
@@ -76,9 +73,8 @@ module SessionsHelper
 
   CONTENT_ADMINS = [
     'sjerrys@gmail.com',
-    'lilu.life@gmail.com',
-    'siyang1982@msn.com',
-    'pinkskyanger@yahoo.com.cn',
+    'mrsun3000@gmail.com',
+    'sunchen@usa.com',
   ]
   def content_admin_auth
     if not current_user && CONTENT_ADMINS.include?(current_user.email)
