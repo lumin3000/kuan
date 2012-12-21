@@ -30,6 +30,6 @@ every 1.day, :at => '4:30am' do
   runner "Post.accumulate_for_tags"
 end
 
-every 6.hours do
-  runner "Feed.transfer_all"
-end
+#every 6.hours do
+#  runner "Feed.transfer_all"
+#end
