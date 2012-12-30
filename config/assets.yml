@@ -41,8 +41,6 @@ javascripts:
 stylesheets:
   base:
     - public/stylesheets/base.css
-    - public/stylesheets/kuanfont-embedded.css
-    - public/stylesheets/animation.css
   posts:
     - public/stylesheets/textboxlist.css
     - public/stylesheets/mooeditable.css
