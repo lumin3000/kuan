@@ -15,41 +15,30 @@
           K.comet.subscribe('#{current_user.counter_channel}', function(data){
             K.header_counter(data)
           })
-        })
-      %a.z_dashboard{href: fucking_root}><
-        我的家
-      %span><
-        |    
-      %a.z_wall{href: "/wall"}><
-        宽墙
-      %span><
-        | 
-      %a.z_buzz{ href: buzz_path, title: "回复"}><
-        回复
+        })  
+      %a.z_wall{href: "/wall",title:"宽墙",target:"_blank"}<
+        %i.icon-th-large
+
+      %a.z_buzz{ href: buzz_path, title: "回复"}<
+        %i.icon-comment
         %span#comments_count><
-      %span><
-        |    
-      %a.z_messages{ href: messages_path, title: "消息"}><
-        消息
+
+      %a.z_messages{ href: messages_path, title: "消息"}<
+        %i.icon-mail-1
         %span#messages_count><
-      %span><
-        |    
+  
       .menu><
         %div<
           %a{href: edit_user_path(current_user)}
-            我的帐户
-            %span.z_more<
-              &nbsp;
+            %i.icon-cog
         %div<
           %a{href: edit_user_path(current_user)} 帐户设置
         %div<
           %a{href: "#{fucking_root}signup/#{current_user.inv_code}", data: {widget: "invite"}} 邀请好友
         %div<
           %a{href: signout_path, :data => { :confirm => "确定登出?"}} 退出
-      %a.tar.z_account{href: "#"}><
-        我的帐户
-        %span.z_more<
-          &nbsp;
+      %a.tar.z_account{href: "#"}<
+        %i.icon-cog
     - else
       %span><
         &nbsp;

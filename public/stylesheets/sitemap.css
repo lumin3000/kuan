@@ -1,0 +1,137 @@
+.site .map_main {
+  width: 900px;
+  height: 600px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  position: relative;
+  background: url("/images/bg_map.jpg") no-repeat;
+  left: 40px;
+  top: 30px; }
+  .site .map_main a {
+    display: block;
+    text-decoration: none; }
+  .site .map_main .nav {
+    width: 900px;
+    height: 600px;
+    position: relative;
+    top: 0;
+    left: 0; }
+    .site .map_main .nav .construct {
+      width: 57px;
+      height: 24px;
+      position: absolute;
+      top: 55px;
+      left: 183px; }
+    .site .map_main .nav .bookmark {
+      width: 44px;
+      height: 44px;
+      position: absolute;
+      top: 25px;
+      left: 405px; }
+    .site .map_main .nav .wall {
+      width: 70px;
+      height: 50px;
+      position: absolute;
+      top: 126px;
+      left: 525px; }
+    .site .map_main .nav .group {
+      width: 130px;
+      height: 60px;
+      position: absolute;
+      top: 420px;
+      left: 320px; }
+    .site .map_main .nav .contact {
+      width: 100px;
+      height: 60px;
+      position: absolute;
+      top: 330px;
+      left: 650px; }
+    .site .map_main .nav .sub {
+      width: 80px;
+      height: 24px;
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      border: 1px solid lightgray;
+      position: absolute;
+      color: #8e8e8e;
+      font-size: 14px;
+      line-height: 20px;
+      text-align: center;
+      padding-top: 3px;
+      background-color: white; }
+    .site .map_main .nav .sub_construct {
+      top: 15px;
+      left: 200px; }
+    .site .map_main .nav .sub_bookmark {
+      top: -5px;
+      left: 420px; }
+    .site .map_main .nav .sub_wall {
+      top: 95px;
+      left: 510px; }
+    .site .map_main .nav .sub_group {
+      top: 400px;
+      left: 230px; }
+    .site .map_main .nav .sub_contact {
+      top: 350px;
+      left: 570px; }
+  .site .map_main .note {
+    width: 212px;
+    height: 60px;
+    position: absolute;
+    z-index: 99; }
+    .site .map_main .note .text {
+      width: 180px;
+      height: 40px;
+      background-color: white;
+      border: 1px solid #8e8e8e;
+      border-radius: 10px;
+      -moz-border-radius: 10px;
+      -webkit-border-radius: 10px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      padding: 10px;
+      color: #8e8e8e;
+      font-size: 18px;
+      line-height: 18px;
+      overflow: hidden; }
+    .site .map_main .note.note_construct {
+      top: -7px;
+      left: -20px; }
+    .site .map_main .note.note_bookmark {
+      top: -27px;
+      left: 507px; }
+    .site .map_main .note.note_wall {
+      top: 73px;
+      left: 595px; }
+    .site .map_main .note.note_group {
+      top: 380px;
+      left: 10px; }
+    .site .map_main .note.note_contact {
+      top: 340px;
+      left: 350px; }
+      .site .map_main .note.note_contact .text {
+        font-size: 12px; }
+    .site .map_main .note.right .text {
+      left: 12px; }
+    .site .map_main .note.right .arrow {
+      width: 12px;
+      height: 10px;
+      background: url("/images/embed/map_arrow_l.gif") no-repeat;
+      border: none;
+      position: absolute;
+      top: 25px;
+      left: 2px; }
+    .site .map_main .note.left .arrow {
+      width: 12px;
+      height: 10px;
+      background: url("/images/embed/map_arrow_r.gif") no-repeat;
+      border: none;
+      position: absolute;
+      top: 25px;
+      right: 0;
+      z-index: 1; }
+
+.js_enabled .note {
+  visibility: hidden; }

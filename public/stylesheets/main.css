@@ -1,0 +1,166 @@
+.nav_user {
+  height: 110px;
+  position: relative;
+  padding: 0;
+  color: white; }
+  .nav_user a {
+    cursor: pointer; }
+  .nav_user .z_header {
+    width: 900px;
+    height: 45px;
+    background-color: #548ff4;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    left: 0;
+    bottom: 0; }
+  .nav_user .z_icon {
+    width: 60px;
+    height: 60px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    position: absolute;
+    top: 15px;
+    left: 20px; }
+    .nav_user .z_icon a {
+      width: 60px;
+      height: 60px;
+      display: block;
+      text-decoration: none; }
+  .nav_user .z_icon_s {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #548ff4;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: url("/images/default_icon_30.jpg") no-repeat 0 0;
+    overflow: hidden;
+    position: absolute;
+    top: 42px;
+    left: 60px;
+    z-index: 1; }
+    .nav_user .z_icon_s a {
+      width: 30px;
+      height: 30px;
+      display: block;
+      text-decoration: none; }
+  .nav_user .z_name {
+    width: 60px;
+    position: absolute;
+    top: 80px;
+    text-align: center;
+    left: 20px; }
+    .nav_user .z_name a {
+      color: white; }
+  .nav_user .z_title {
+    position: absolute;
+    top: 0;
+    left: 100px;
+    height: 300px;
+    height: 50px;
+    z-index: 2; }
+    .nav_user .z_title h1 {
+      font-size: 30px;
+      color: black;
+      line-height: 40px;
+      float: left;
+      padding: -25px 10px 0 30px; }
+    .nav_user .z_title h2 {
+      float: left;
+      font-size: 12px;
+      padding: 0 10px;
+      position: relative;
+      bottom: -35px; }
+
+.list_box {
+  border: 1px solid #cadbea;
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 12px;
+  border-radius: 12px; }
+  .list_box h1 {
+    padding: 10px 0 10px 20px; }
+  .list_box ul {
+    margin-bottom: -1px; }
+    .list_box ul li {
+      width: 550px;
+      padding: 13px 0 7px 20px;
+      font-size: 14px;
+      border-bottom: 1px solid #cadbea;
+      *zoom: 1; }
+      .list_box ul li:after {
+        content: ".";
+        font-size: 0;
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden; }
+      .list_box ul li .z_name {
+        font-weight: bold;
+        line-height: 60px;
+        font-size: 18px;
+        width: 350px;
+        padding-left: 20px;
+        float: left;
+        height: 60px;
+        overflow: hidden; }
+        .list_box ul li .z_name a {
+          color: #3366cc; }
+
+.followers .btn_unfollow,
+.following .btn_unfollow {
+  margin-top: 20px;
+  width: 80px;
+  height: 20px;
+  background: url("/images/btn_unfollow.gif") no-repeat;
+  float: left;
+  cursor: pointer;
+  overflow: hidden; }
+.followers .btn_follow,
+.following .btn_follow {
+  margin-top: 20px;
+  width: 80px;
+  height: 20px;
+  background: url("/images/btn_follow.gif") no-repeat;
+  float: left;
+  cursor: pointer;
+  overflow: hidden; }
+
+.members .admin, .members .z_operation, .members .upgrade, .members .kick, .members .exit {
+  font-size: 14px;
+  color: #68879f;
+  text-align: center;
+  line-height: 70px; }
+.members .upgrade, .members .kick, .members .exit {
+  text-decoration: underline; }
+
+.messages {
+  float: right;
+  padding-bottom: 15px; }
+  .messages ul {
+    margin-bottom: 15px; }
+  .messages .avatar_name {
+    font-weight: bold; }
+    .messages .avatar_name a {
+      color: #ff9933; }
+  .messages .z_content {
+    margin: 0px 100px 10px 75px; }
+  .messages .z_operation {
+    color: #68879f;
+    float: right;
+    width: 80px;
+    text-align: right;
+    padding-right: 18px;
+    font-size: 14px; }
+    .messages .z_operation a {
+      color: #68879f;
+      text-decoration: underline; }
+  .messages .new {
+    font-weight: bold; }

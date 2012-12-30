@@ -1,0 +1,41 @@
+.the_kt_gear .weburl {
+  clear: both;
+  width: 500px;
+  padding: 5px 0 5px 20px;
+  font-size: 20px;
+  height: 45px;
+  line-height: 45px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  border: 1px solid #cadbea;
+  background: white; }
+  .the_kt_gear .weburl input {
+    border: 0;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    width: 360px; }
+.the_kt_gear .submiter {
+  text-align: center;
+  margin: 30px 0px; }
+  .the_kt_gear .submiter input {
+    text-indent: -9999px;
+    width: 130px;
+    height: 30px;
+    background: url("/images/post_image_url.gif") no-repeat;
+    cursor: pointer;
+    overflow: hidden;
+    border: 0; }
+.the_kt_gear .error {
+  line-height: 45px;
+  color: red; }
+  .the_kt_gear .error input {
+    border: 1px solid;
+    border-color: #c4c7bd #efefef #f2f2f2 #d2d5ca;
+    padding: 2px; }
+.the_kt_gear .success {
+  line-height: 45px;
+  color: #68879f;
+  font-size: 14px;
+  font-weight: bold; }

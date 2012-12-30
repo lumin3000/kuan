@@ -19,6 +19,5 @@ doc/app
 .watchr
 /public/assets/*
 
-/public/stylesheets/*.css
 .sass-cache
 /TAGS

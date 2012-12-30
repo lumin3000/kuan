@@ -1,0 +1,171 @@
+.start_page h1 {
+  width: 750px;
+  padding-top: 0px;
+  font-size: 30px;
+  line-height: 300%;
+  margin: auto;
+  color: #68aadb;
+  font-weight: normal;
+  _font-weight: bold; }
+.start_page h2 {
+  color: #68879f;
+  font-size: 20px;
+  font-weight: normal;
+  _font-weight: bold; }
+.start_page form.login {
+  width: 480px;
+  padding: 70px 140px;
+  background-color: #f2f6f9;
+  margin: 0 auto 30px auto;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+  border: 1px solid #cadbea; }
+.start_page .register_title {
+  padding-top: 0px; }
+.start_page label {
+  color: gray; }
+.start_page .nick_box,
+.start_page .email_box,
+.start_page .password_box {
+  width: 500px;
+  padding: 5px 0 5px 20px;
+  font-size: 20px;
+  height: 45px;
+  line-height: 45px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  border: 1px solid #cadbea;
+  background: white; }
+  .start_page .nick_box input,
+  .start_page .email_box input,
+  .start_page .password_box input {
+    border: 0;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    width: 360px; }
+.start_page .submit_box input {
+  display: block;
+  margin: auto;
+  width: 180px;
+  height: 44px;
+  border: 0px;
+  cursor: pointer; }
+.start_page .login .submit_box input {
+  text-indent: -9999px;
+  background: url("/images/login_submit.gif"); }
+.start_page .register .submit_box input {
+  text-indent: -9999px;
+  background: url("/images/register_submit.gif"); }
+.start_page .error {
+  line-height: 45px;
+  color: red;
+  padding-left: 8px; }
+
+.account .nick_box,
+.account .email_box,
+.account .password_box {
+  width: 500px;
+  padding: 5px 0 5px 20px;
+  font-size: 20px;
+  height: 45px;
+  line-height: 45px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  border: 1px solid #cadbea;
+  background: white; }
+  .account .nick_box input,
+  .account .email_box input,
+  .account .password_box input {
+    border: 0;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    width: 360px; }
+.account .error {
+  line-height: 45px;
+  color: red;
+  line-height: 45px; }
+.account label {
+  color: gray; }
+.account .submit_box input {
+  display: block;
+  margin: auto;
+  width: 150px;
+  height: 44px;
+  border: 0px;
+  cursor: pointer;
+  background: url("/images/post_save.gif"); }
+
+.registation_dom {
+  width: 960px;
+  margin: auto;
+  overflow: hidden; }
+  .registation_dom * {
+    font-family: "Hiragino Sans GB", hei, "microsoft yahei"; }
+  .registation_dom .registation_logo {
+    width: 960px;
+    height: 420px;
+    position: relative;
+    top: 0;
+    left: 0; }
+  .registation_dom .registation_bg {
+    width: 900px;
+    height: 400px;
+    background: url("/images/registation_bg.jpg") no-repeat top left;
+    position: absolute;
+    opacity: 0.9;
+    -moz-opacity: 0.9;
+    filter: alpha(opacity=90);
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
+    top: 20px;
+    left: 50px;
+    z-index: -1; }
+  .registation_dom .registation_animation {
+    width: 600px;
+    height: 270px;
+    background: url("/images/registation_animation.gif") no-repeat top left;
+    overflow: hidden;
+    position: absolute;
+    top: 150px;
+    left: 180px;
+    z-index: 1; }
+  .registation_dom .registation_title {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 5px; }
+    .registation_dom .registation_title .txt {
+      display: inline-block;
+      font-size: 18px;
+      padding: 10px;
+      color: #3366cc; }
+  .registation_dom .registation {
+    width: 960px;
+    margin: 0;
+    padding: 0; }
+    .registation_dom .registation .item {
+      width: 250px;
+      float: left;
+      overflow: hidden;
+      margin-left: 5px; }
+    .registation_dom .registation div.nick_box, .registation_dom .registation div.email_box, .registation_dom .registation div.password_box {
+      width: 225px;
+      height: 33px;
+      line-height: 33px;
+      overflow: hidden; }
+    .registation_dom .registation div.nick_box input, .registation_dom .registation div.email_box input, .registation_dom .registation div.password_box input {
+      width: 150px;
+      height: 28px;
+      line-height: 28px; }
+    .registation_dom .registation .submit_box input {
+      text-indent: -9999px;
+      background: url("/images/embed/register_submit.gif");
+      cursor: pointer; }
+  .registation_dom .registation_txt {
+    font-size: 14px;
+    text-align: center;
+    color: gray;
+    clear: both; }
