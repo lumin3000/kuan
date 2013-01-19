@@ -1,41 +1,48 @@
-- @sub_title = "#{@inv_user.name} 邀请你上岛测试，发现真实的自己"
-- content_for :site_layout, "start_page registation_dom"
+  - @sub_title = "宽岛是一个通过自荐与邀请方式开通的网站"
 
-- css "user"
+%a.text{href: "http://e.weibo.com/kuandao"} 立即通过微博推荐自己加入网站
 
-- content_for :content, do
-  .registation_logo
-    .registation_bg
-    .registation_animation
-    %img{src: "/images/logo.gif"}
-  .registation_title
-    %span.txt
-      = "#{@inv_user.name} 邀请你上岛，开始新的生活"
-   
-  = form_for(@user, :url => users_path, :html => {:class => 'registation'}) do |f|
-    .item
-      .nick_box
-        = f.label :name, '用户名'
-        = f.text_field :name
-      .error
-        &nbsp;
-        = @user.errors[:name].first
-    .item
-      .email_box
-        = f.label :email, '邮箱'
-        = f.text_field :email
-      .error
-        &nbsp;
-        = @user.errors[:email].first
-    .item
-      .password_box
-        = f.label :password, '密码'
-        = f.password_field :password
-      .error
-        &nbsp;
-        = @user.errors[:password].first
-    = hidden_field_tag 'code', @inv_user.inv_code
-    = hidden_field_tag 'rand', @rand
-    = hidden_field_tag 'refer', request.referer
-    .submit_box
-      = f.submit "注册"
+
+
+-#
+  - @sub_title = "#{@inv_user.name} 邀请你上岛测试，发现真实的自己"
+  - content_for :site_layout, "start_page registation_dom"
+
+  - css "user"
+
+  - content_for :content, do
+    .registation_logo
+      .registation_bg
+      .registation_animation
+      %img{src: "/images/logo.gif"}
+    .registation_title
+      %span.txt
+        = "#{@inv_user.name} 邀请你上岛，开始新的生活"
+     
+    = form_for(@user, :url => users_path, :html => {:class => 'registation'}) do |f|
+      .item
+        .nick_box
+          = f.label :name, '用户名'
+          = f.text_field :name
+        .error
+          &nbsp;
+          = @user.errors[:name].first
+      .item
+        .email_box
+          = f.label :email, '邮箱'
+          = f.text_field :email
+        .error
+          &nbsp;
+          = @user.errors[:email].first
+      .item
+        .password_box
+          = f.label :password, '密码'
+          = f.password_field :password
+        .error
+          &nbsp;
+          = @user.errors[:password].first
+      = hidden_field_tag 'code', @inv_user.inv_code
+      = hidden_field_tag 'rand', @rand
+      = hidden_field_tag 'refer', request.referer
+      .submit_box
+        = f.submit "注册"
