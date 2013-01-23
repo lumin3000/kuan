@@ -1,10 +1,5 @@
-- @sub_title = "宽岛是一个通过自荐与邀请方式开通的网站"
+- if Time.now.hour == 22 and Time.now.min > 30
 
-%a.text{href: "http://e.weibo.com/kuandao"} 立即通过微博推荐自己加入网站
-
-
-
--#
   - @sub_title = "#{@inv_user.name} 邀请你上岛测试，发现真实的自己"
   - content_for :site_layout, "start_page registation_dom"
 
@@ -46,3 +41,9 @@
       = hidden_field_tag 'refer', request.referer
       .submit_box
         = f.submit "注册"
+
+- else
+
+  - @sub_title = "宽岛是一个通过自荐与邀请方式开通的网站"
+  %h1{style:"position:fixed;top:40%;left:35%"}
+    %a.text{href: "http://e.weibo.com/kuandao"} 立即通过微博推荐自己加入网站

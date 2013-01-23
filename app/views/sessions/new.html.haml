@@ -20,6 +20,12 @@
     = f.submit "登录"
 
 %div{style: "width:756px;margin:auto;font-size:14px;color:#68AADB;text-align:center"}<
-  历史：宽岛于2012年12月14日凌晨发布1.0正式版。&nbsp;如何加入：
-  %a.z_discovery{href:"http://e.weibo.com/kuandao" }><
-    参见官方微博说明
+  历史：宽岛于2012年12月14日凌晨发布1.0正式版。
+  - if Time.now.hour == 22 and Time.now.min > 30
+    &nbsp;
+    %a.z_discovery{href:"/signup/jbbjg1joomhb3r0000a" }><
+      注册新帐户
+  - else
+    &nbsp;如何加入：
+    %a.z_discovery{href:"http://e.weibo.com/kuandao" }><
+      参见官方微博说明
