@@ -49,7 +49,8 @@ module SessionsHelper
 
   def signin_deny
     store_location
-    redirect_to signin_path, :notice => "请先登陆再进行后续操作"
+    redirect_to "/news"
+    #redirect_to signin_path, :notice => "请先登陆再进行后续操作"
   end
 
   def store_location
