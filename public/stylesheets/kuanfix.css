@@ -1,0 +1,18 @@
+.dashboard .main{
+  width:680px;
+}
+.dashboard .timeline {
+  margin:0px;
+}
+
+.dashboard .dashboard_menu{
+  width:200px;
+}
+
+.my_search{
+  padding-top:10px;
+}
+
+.page_control_ad{
+  margin:20px 0px 30px 0px;
+}

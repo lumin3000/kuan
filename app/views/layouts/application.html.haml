@@ -19,6 +19,7 @@
       K.comet = new Juggernaut({host: '#{@comet_config["host"]}', port: #{@comet_config["port"] || 8080}})
     = yield :head if content_for?(:head)
   %body
+    %link{ :rel => "stylesheet", :href => "/stylesheets/kuanfix.css", :media => "screen", :type=> "text/css" }
     #container{class: content_for?(:site_layout) ? yield(:site_layout) : "site"}
       = use_header(@header)
       = content_for?(:content) ? yield(:content) : yield

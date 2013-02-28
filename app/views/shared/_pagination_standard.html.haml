@@ -2,3 +2,10 @@
   - pages.each do |p|
     %a{href: p[:url], class: (p[:current?] ? "clicked" : "")}<
       = p[:num]
+
+.page_control_ad
+  %script
+    alimama_pid="mm_36046208_3482172_11359729"; 
+    alimama_width=728; 
+    alimama_height=90; 
+  %script{ src: "http://a.alimama.cn/inf.js" }<
