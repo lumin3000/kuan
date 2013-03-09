@@ -49,6 +49,7 @@ class RichFilter
       str_with_links
     end
 
+
     def has_parent?(node, parent_name)
       while node = node.parent
         return true if node.name == parent_name

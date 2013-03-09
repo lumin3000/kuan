@@ -12,7 +12,7 @@
             %a{ :href => blog_path(comment.author.primary_blog) }><
               = "#{comment.author.name}"
               ：
-          = auto_link h(comment.content)
+          = CGI.unescapeHTML auto_link h(comment.content)
           %span.c_date<
             = "(#{comment.created_at})"
         - if current_user and comment.manageable_by? current_user
