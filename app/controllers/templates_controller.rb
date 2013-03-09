@@ -30,7 +30,7 @@ class TemplatesController < ApplicationController
                 else
                   Template.find params[:id]
                 end
-    render :text => CGI.escapeHTML(@template.html, :content_type => 'text/plain'
+    render :text => CGI.escapeHTML(@template.html), :content_type => 'text/plain'
   end
 
   def new
