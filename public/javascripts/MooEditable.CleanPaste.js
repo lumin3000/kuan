@@ -105,10 +105,10 @@ if(!Browser.ie && !Browser.safari){
             html = html.replace(/\s*FONT-FAMILY:[^;"]*;?/gi, '');
             
             // remove class attributes
-            html = html.replace(/<(\w[^>]*) class=([^ |>]*)([^>]*)/gi, "<$1$3");
+            //html = html.replace(/<(\w[^>]*) class=([^ |>]*)([^>]*)/gi, "<$1$3");
             
             // remove styles.
-            html = html.replace(/<(\w[^>]*) style="([^\"]*)"([^>]*)/gi, "<$1$3");
+            //html = html.replace(/<(\w[^>]*) style="([^\"]*)"([^>]*)/gi, "<$1$3");
             
             // remove style, meta and link tags
             html = html.replace(/<STYLE[^>]*>[\s\S]*?<\/STYLE[^>]*>/gi, '');
@@ -140,7 +140,7 @@ if(!Browser.ie && !Browser.safari){
             // remove comments [SF BUG-1481861].
             html = html.replace(/<\!--[\s\S]*?-->/g, '');
             
-            html = html.replace(/<(U|I|STRIKE)>&nbsp;<\/\1>/g, '&nbsp;');
+            //html = html.replace(/<(U|I|STRIKE)>&nbsp;<\/\1>/g, '&nbsp;');
             
             html = html.replace(/<H\d>\s*<\/H\d>/gi, '');
             
