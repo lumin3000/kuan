@@ -19,6 +19,7 @@ gem 'curb'
 gem 'fast_xs'
 gem 'mongoid-sphinx-huacnlee', require: 'mongoid_sphinx'
 gem 'juggernaut'
+gem 'newrelic_rpm'
 
 group :development, :test do
   gem 'rspec'
