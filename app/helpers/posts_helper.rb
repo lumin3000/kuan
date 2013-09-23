@@ -8,6 +8,9 @@ module PostsHelper
         "pics_single"
       end
     end
+    if type == "post"
+      type = "text"
+    end
     template = "posts/#{type}"
     render partial: "posts/post", object: p,
       locals: { sub_template: template, type: type }
