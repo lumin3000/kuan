@@ -10,6 +10,7 @@ module PostsHelper
     end
     if type == "post"
       type = "text"
+      p.content = ""
     end
     template = "posts/#{type}"
     render partial: "posts/post", object: p,
