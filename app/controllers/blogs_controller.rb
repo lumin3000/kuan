@@ -92,7 +92,7 @@ PREVENT_CLICK
         render 'posts/show'
       else
         cur_page = params[:page].to_i
-        per_page = 10
+        per_page = 200
         pagination = {
           :page => cur_page > 1 ? cur_page : 1,
           :per_page => per_page,
